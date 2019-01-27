@@ -1,5 +1,5 @@
 var AM = new AssetManager();
-
+// lol
 class Animation {
   constructor(
     spriteSheet,
