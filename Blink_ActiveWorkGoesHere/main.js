@@ -1,5 +1,6 @@
 var AM = new AssetManager();
 
+// Maybe pull out this class
 class Animation {
   constructor(
     spriteSheet,
