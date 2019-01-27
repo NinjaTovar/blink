@@ -1,6 +1,7 @@
 var AM = new AssetManager();
 
 // Maybe pull out this class
+// The beer got me
 class Animation {
   constructor(
     spriteSheet,
