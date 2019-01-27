@@ -73,7 +73,7 @@ class Animation {
 // AM.queueDownload("./img/Crono_Jump_FaceRight.png");
 class MainGuy {
   constructor(game, spriteSheet) {
-    this.animation = new Animation(spriteSheet, 14, 34, 3, .8, 3, true, 1.8);
+    this.animation = new Animation(spriteSheet, 14, 34, 3, 0.8, 3, true, 1.8);
     this.runLeftAnimation = new Animation(
       AM.getAsset("./img/Crono_Run_FaceLeft.png"),
       22,
@@ -119,7 +119,7 @@ class MainGuy {
       31,
       48,
       3,
-      0.1,
+      0.2,
       5,
       true,
       1.8
@@ -144,7 +144,7 @@ class MainGuy {
     this.movingLeft = false;
     this.basicAttack = false;
     this.jumpRight = false;
-    this.jumpHeight = 400;
+    this.jumpHeight = 200;
   }
   draw(ctx) {
     if (
@@ -153,6 +153,7 @@ class MainGuy {
       !this.basicAttack &&
       !this.jumpRight
     ) {
+      this.y = 200;
       this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
     } else if (this.movingRight) {
       this.runRightAnimation.drawFrame(
@@ -164,7 +165,7 @@ class MainGuy {
     } else if (this.movingLeft) {
       this.runLeftAnimation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
     } else if (this.basicAttack) {
-      this.x -= 1;
+      this.y = 185;
       this.basicAttackAnimation.drawFrame(
         this.game.clockTick,
         ctx,
@@ -186,16 +187,19 @@ class MainGuy {
     this.movingLeft = this.game.leftArrow;
     this.basicAttack = this.game.basicAttack;
     this.jumpRight = this.game.jumpRight;
-    if (this.jumpRight)
-    {
-      if (this.jumpRightAnimation.elapsedTime > 1.5 || (this.movingLeft || this.movingRight))
-      {
+    console.log(this.jumpRightAnimation.elapsedTime);
+    if (this.jumpRight) {
+      if (
+        this.jumpRightAnimation.elapsedTime > 0.7 ||
+        (this.movingLeft || this.movingRight)
+      ) {
+        console.log("WHIP IT");
         this.game.jumpRight = false;
         this.jumpRight = false;
         this.jumpRightAnimation.elapsedTime = 0;
       }
     }
-    this.base = 190;
+    this.base = 185;
     if (this.movingRight) {
       // this.y = 425;
       this.x += this.game.clockTick * this.speed;
@@ -303,7 +307,6 @@ AM.queueDownload("./img/Crono_Jump_FaceRight.png");
 AM.queueDownload("./img/walkingEnemy.png");
 AM.queueDownload("./img/FlyGuy_Right.png");
 
-
 AM.downloadAll(function() {
   var canvas = document.getElementById("gameWorld");
   var ctx = canvas.getContext("2d");
@@ -315,7 +318,6 @@ AM.downloadAll(function() {
     new Background(gameEngine, AM.getAsset("./img/backgroundTest.png"))
   );
 
-  
   // gameEngine.addEntity(
   //   new MainGuy(gameEngine, AM.getAsset("./img/Crono_Stand_FaceLeft.png"))
   // );
@@ -324,9 +326,7 @@ AM.downloadAll(function() {
     new MainGuy(gameEngine, AM.getAsset("./img/Crono_Stand_FaceRight.png"))
   );
 
-  gameEngine.addEntity(
-    new Mummy(gameEngine)
-  );
+  gameEngine.addEntity(new Mummy(gameEngine));
 
   // gameEngine.addEntity(
   //   new MainGuy(gameEngine, AM.getAsset("./img/Crono_Run_FaceLeft.png"))
@@ -353,15 +353,32 @@ AM.downloadAll(function() {
   // );
 
   gameEngine.addEntity(
-    new FlyingBird(gameEngine, AM.getAsset("./img/FlyGuy_Right.png"), -5, 0, .75)
+    new FlyingBird(
+      gameEngine,
+      AM.getAsset("./img/FlyGuy_Right.png"),
+      -5,
+      0,
+      0.75
+    )
   );
   gameEngine.addEntity(
-    new FlyingBird(gameEngine, AM.getAsset("./img/FlyGuy_Right.png"), -1000, 50, 0.4)
+    new FlyingBird(
+      gameEngine,
+      AM.getAsset("./img/FlyGuy_Right.png"),
+      -1000,
+      50,
+      0.4
+    )
   );
   gameEngine.addEntity(
-    new FlyingBird(gameEngine, AM.getAsset("./img/FlyGuy_Right.png"), -200, 20, 0.3)
+    new FlyingBird(
+      gameEngine,
+      AM.getAsset("./img/FlyGuy_Right.png"),
+      -200,
+      20,
+      0.3
+    )
   );
-
 
   console.log("All Done!");
 });
