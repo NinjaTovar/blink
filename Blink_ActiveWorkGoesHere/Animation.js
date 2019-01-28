@@ -9,14 +9,16 @@ class Animation
     * well as allowing the caller to define if it loops, how fast the default framerate is,
     * and the scale of the output animation compaired to what is provided.
     * 
-     * @param {any} spriteSheet
-     * @param {any} frameWidth
-     * @param {any} frameHeight
-     * @param {any} sheetWidth
-     * @param {any} frameDuration
-     * @param {any} frames
-     * @param {any} loop
-     * @param {any} scale
+     * @param {any} spriteSheet The sprite sheet asset to load.
+     * @param {any} frameWidth The width of the animation frame. This is defined as
+     *                         image (pixel width) / (# of columns in sheet).
+     * @param {any} frameHeight The height of the animation frame. This is defined as
+     *                          image (pixel height) / (# of rows in sheet).
+     * @param {any} sheetWidth How many columns in the sprite sheet.
+     * @param {any} frameDuration How fast you want the frame rate.
+     * @param {any} frames Number of drawn cells in the sprite sheet.
+     * @param {any} loop Boolean for looping the animation or not.
+     * @param {any} scale How much to scale the final image compared to original size.
      */
     constructor(
         spriteSheet,
@@ -29,6 +31,8 @@ class Animation
         scale
     )
     {
+
+        // fields
         this.spriteSheet = spriteSheet;
         this.frameWidth = frameWidth;
         this.frameDuration = frameDuration;
@@ -42,11 +46,12 @@ class Animation
     }
 
     /**
+     * Handles drawing the animation with given animation fields as input.
      * 
-     * @param {any} tick
-     * @param {any} ctx
-     * @param {any} x
-     * @param {any} y
+     * @param {any} tick The game tick. Returned from the Timer class.
+     * @param {any} ctx A reference to the game context.
+     * @param {any} x The x coordinate in the game world to draw the animation.
+     * @param {any} y The y coordinate in the game world to draw the animation.
      */
     drawFrame(tick, ctx, x, y)
     {
@@ -79,13 +84,22 @@ class Animation
         );
     }
 
-    /** */
+    /** 
+     *  Returns a value representing the frame in the sheet to draw based on the 
+     *  constructors initialized values.
+     *  
+     *  @returns Which frame in the spritesheet the animation is on.
+     */
     currentFrame()
     {
         return Math.floor(this.elapsedTime / this.frameDuration);
     }
 
-    /** */
+    /** 
+     * Defines if the animation is done.
+     * 
+     * @returns Boolean based on if the spritesheet has played all frames it contains.
+     */
     isDone()
     {
         return this.elapsedTime >= this.totalTime;
