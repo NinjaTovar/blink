@@ -21,7 +21,7 @@ class Background
      */
     draw(ctx)
     {
-        this.ctx.drawImage(AM.getAsset("./img/backgroundTest.png"), this.x, this.y);
+        this.ctx.drawImage(AM.getAsset('./img/levels/backgroundTest.png'), this.x, this.y);
     }
 
     /**  */

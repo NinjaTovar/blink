@@ -15,33 +15,54 @@ class Mummy
      */
     constructor(game)
     {
-        this.walkRightAnimation = new Animation
-            (AM.getAsset('./img/Mummy_WalkRight.png'), 36, 45, 5, 0.2, 17, true, 1.5);
         this.walkLeftAnimation = new Animation
-            (AM.getAsset("./img/Mummy_WalkLeft.png"), 36, 45, 5, 0.2, 17, true, 1.5);
-        this.x = 400;
+            (
+            AM.getAsset('./img/enemies/mummy/Mummy_WalkLeft.png'), // load sprite asset
+            36,     // frame width
+            45,     // frame height
+            5,      // sheet width
+            0.2,    // frame duration
+            17,     // frames in animation
+            true,   // to loop or not to loop
+            1.5     // scale in relation to original image
+            );
+        this.walkRightAnimation = new Animation
+            (
+            AM.getAsset('./img/enemies/mummy/Mummy_WalkRight.png'),
+            36,      // frame width
+            45,      // frame height
+            5,       // sheet width
+            0.2,     // frame duration
+            17,      // frames in animation
+            true,    // to loop or not to loop
+            1.5      // scale in relation to original image
+        );
+
+        // Initial world states
+        this.x = 200;
         this.y = 185;
         this.speed = 30;
         this.game = game;
         this.ctx = game.ctx;
-        this.isLeft = true;
+        this.isHeadingRight = true;
     }
 
     // Methods
 
     /**
-     * Draw
-     * 
      * Draw takes in the game context and uses that to define what update does.
      * 
      * @param {any} ctx  A reference to the Game Context.
      */
     draw(ctx)
     {
-        if (!this.isLeft)
+        // If field "isHeadingRight" is true, play walk right animation
+        if (this.isHeadingRight)
         {
             this.walkRightAnimation.drawFrame(this.game.clockTick, ctx, this.x, this.y)
-        } else
+        }
+        // If field "isHeadingRight" is false, play fly right animation
+        else if (!this.isHeadingRight)
         {
             this.walkLeftAnimation.drawFrame(this.game.clockTick, ctx, this.x, this.y)
         }
@@ -50,16 +71,15 @@ class Mummy
     /** Update handles updating the objects world state. */
     update()
     {
-        if (this.isLeft)
-        {
-            this.x -= this.game.clockTick * this.speed;
-            if (this.x < 400) this.isLeft = false;
-        } else
+        if (this.isHeadingRight)
         {
             this.x += this.game.clockTick * this.speed;
-            if (this.x > 800) this.isLeft = true;
+            if (this.x > 470) this.isHeadingRight = false;
+        } else
+        {
+            this.x -= this.game.clockTick * this.speed;
+            if (this.x < 200) this.isHeadingRight = true;
         }
-
     }
 }
 

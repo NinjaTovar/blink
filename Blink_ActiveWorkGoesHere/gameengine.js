@@ -32,29 +32,31 @@ class GameEngine
         this.surfaceWidth = this.ctx.canvas.width;
         this.surfaceHeight = this.ctx.canvas.height;
         this.timer = new Timer();
-        console.log("game initialized");
+        console.log('game initialized');
         const that = this;
 
         // Event Listeners
         this.ctx.canvas.addEventListener(
-            "keydown",
+            'keydown',
             e =>
             {
                 console.log(e.key);
                 switch (e.key)
                 {
-                    case "ArrowRight":
-                        that.rightArrow = true;
+                    case 'ArrowRight':
+                        that.moving = true;
+                        that.facingRight = true;
                         break;
-                    case "ArrowLeft":
-                        that.leftArrow = true;
+                    case 'ArrowLeft':
+                        that.moving = true;
+                        that.facingRight = false;
                         break;
-                    case "a":
+                    case 'Alt':
                         that.basicAttack = true;
                         break;
-                    case "ArrowUp":
-                        that.jumpRight = true;
-                        console.log("JUMPPED");
+                    case ' ': // spacebar
+                        that.jumping = true;
+                        console.log('JUMPED');
                         break;
                     default:
                         break;
@@ -65,18 +67,18 @@ class GameEngine
         );
 
         this.ctx.canvas.addEventListener(
-            "keyup",
+            'keyup',
             e =>
             {
                 switch (e.key)
                 {
-                    case "ArrowRight":
-                        that.rightArrow = false;
+                    case 'ArrowRight':
+                        that.moving = false;
                         break;
-                    case "ArrowLeft":
-                        that.leftArrow = false;
+                    case 'ArrowLeft':
+                        that.moving = false;
                         break;
-                    case "a":
+                    case 'Alt':
                         that.basicAttack = false;
                         break;
                     default:
@@ -91,7 +93,7 @@ class GameEngine
     /** Starts the game world by getting the loop and callback circle started. */
     start()
     {
-        console.log("starting game");
+        console.log('starting game');
         let that = this;
         (function gameLoop()
         {
@@ -110,7 +112,7 @@ class GameEngine
      */
     addEntity(entity)
     {
-        console.log("added entity");
+        console.log('added entity');
         this.entities.push(entity);
     }
 

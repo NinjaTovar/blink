@@ -13,7 +13,7 @@ class Timer
     }
 
     /**
-     * Returns how long it has been since the last update "tick". Although time would seem
+     * Returns how long it has been since the last update 'tick'. Although time would seem
      * like a constant flow, the way the framerate is implemented, some actions occur off
      * tick which this function can help identify.
      */
