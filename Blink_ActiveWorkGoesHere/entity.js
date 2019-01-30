@@ -1,5 +1,5 @@
 /** 
- * Entity object. Handles adding "entities" to the game world, which usually represent
+ * Entity object. Handles adding 'entities' to the game world, which usually represent
  * a variety of in world objects such as characters, platforms, etc. that may be 
  * interacted with both directly and indirectly.
  * 
@@ -37,7 +37,7 @@ class Entity
         if (this.game.showOutlines && this.radius)
         {
             this.game.ctx.beginPath();
-            this.game.ctx.strokeStyle = "green";
+            this.game.ctx.strokeStyle = 'green';
             this.game.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
             this.game.ctx.stroke();
             this.game.ctx.closePath();
@@ -53,18 +53,18 @@ class Entity
      */
     rotateAndCache(image, angle)
     {
-        let offscreenCanvas = document.createElement("canvas");
+        let offscreenCanvas = document.createElement('canvas');
         let size = Math.max(image.width, image.height);
         offscreenCanvas.width = size;
         offscreenCanvas.height = size;
-        let offscreenCtx = offscreenCanvas.getContext("2d");
+        let offscreenCtx = offscreenCanvas.getContext('2d');
         offscreenCtx.save();
         offscreenCtx.translate(size / 2, size / 2);
         offscreenCtx.rotate(angle);
         offscreenCtx.translate(0, 0);
         offscreenCtx.drawImage(image, -(image.width / 2), -(image.height / 2));
         offscreenCtx.restore();
-        //offscreenCtx.strokeStyle = "red";
+        //offscreenCtx.strokeStyle = 'red';
         //offscreenCtx.strokeRect(0,0,size,size);
         return offscreenCanvas;
     }

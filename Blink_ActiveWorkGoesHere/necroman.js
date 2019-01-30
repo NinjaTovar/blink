@@ -1,10 +1,10 @@
 /*
- * FlyMutant object. This class handles loading the necessary assets as well as defines
+ * Necroman object. This class handles loading the necessary assets as well as defines
  * the update and draw function.
  *
  * Single constructor takes in the game context as its parameter. (There is no default) 
  */
-class FlyMutant
+class Necroman
 {
     /**
      * Single constructor for Fly. Loads assets and sets intial parameters including
@@ -18,25 +18,25 @@ class FlyMutant
      */
     constructor(game, startX, startY, size)
     {
-        this.flyLeftAnimation = new Animation
+        this.faceLeft = new Animation
             (
-            AM.getAsset('./img/enemies/fly/Fly_FaceLeft.png'),
-            111,    // frame width
-            90,     // frame height
+            AM.getAsset('./img/enemies/necroman/Necroman_FaceLeft.png'),
+            125,    // frame width
+            82,     // frame height
             2,      // sheet width
             0.1,    // frame duration
-            3,      // frames in animation
+            5,      // frames in animation
             true,   // to loop or not to loop
             size    // scale in relation to original image
             );
-        this.flyRightAnimation = new Animation
+        this.faceRight = new Animation
             (
-            AM.getAsset('./img/enemies/fly/Fly_FaceRight.png'),
-            111,    // frame width
-            90,     // frame height
+            AM.getAsset('./img/enemies/necroman/Necroman_FaceRight.png'),
+            125,    // frame width
+            82,     // frame height
             2,      // sheet width
             0.1,    // frame duration
-            3,      // frames in animation
+            5,      // frames in animation
             true,   // to loop or not to loop
             size    // scale in relation to original image
             );
@@ -46,7 +46,7 @@ class FlyMutant
         this.speed = 200;
         this.game = game;
         this.ctx = game.ctx;
-        this.isHeadingRight = true;
+        this.isHeadingRight = false;
     }
 
     // Methods
@@ -61,26 +61,18 @@ class FlyMutant
         // If field "isHeadingRight" is true, play fly right animation
         if (this.isHeadingRight)
         {
-            this.flyRightAnimation.drawFrame(this.game.clockTick, ctx, this.x, this.y)
+            this.faceRight.drawFrame(this.game.clockTick, ctx, this.x, this.y)
         }
         // If field "isHeadingRight" is false, play fly left animation
         else if (!this.isHeadingRight)
         {
-            this.flyLeftAnimation.drawFrame(this.game.clockTick, ctx, this.x, this.y)
+            this.faceLeft.drawFrame(this.game.clockTick, ctx, this.x, this.y)
         }
     }
 
     /** Update handles updating the objects world state. */
     update()
     {
-        if (this.isHeadingRight)
-        {
-            this.x += this.game.clockTick * this.speed;
-            if (this.x > 750) this.isHeadingRight = false;
-        } else
-        {
-            this.x -= this.game.clockTick * this.speed;
-            if (this.x < 5) this.isHeadingRight = true;
-        }
+
     }
 }
