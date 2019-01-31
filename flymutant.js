@@ -64,12 +64,12 @@ class FlyMutant
     draw(ctx)
     {
         // If field "isHeadingRight" is true, play fly right animation
-        if (this.isHeadingRight)
+        if (this.isHeadingRight && !this.shouldRewind)
         {
             this.flyRightAnimation.drawFrame(this.game.clockTick, ctx, this.x, this.y)
         }
         // If field "isHeadingRight" is false, play fly left animation
-        else if (!this.isHeadingRight)
+        else if (!this.isHeadingRight !this.shouldRewind)
         {
             this.flyLeftAnimation.drawFrame(this.game.clockTick, ctx, this.x, this.y)
         }
