@@ -12,6 +12,8 @@ AM.queueDownload('./img/blink/Crono_DoubleSlash_FaceLeft.png');
 AM.queueDownload('./img/blink/Crono_DoubleSlash_FaceRight.png');
 AM.queueDownload('./img/blink/Crono_Jump_FaceLeft.png');
 AM.queueDownload('./img/blink/Crono_Jump_FaceRight.png');
+AM.queueDownload('./img/blink/Crono_Spell_FaceLeft.png');
+AM.queueDownload('./img/blink/Crono_Spell_FaceRight.png');
 
 // Queue downloading FlyMutant
 AM.queueDownload('./img/enemies/fly/Fly_FaceLeft.png');

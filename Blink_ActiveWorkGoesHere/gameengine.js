@@ -51,10 +51,16 @@ class GameEngine
                         that.moving = true;
                         that.facingRight = false;
                         break;
-                    case 'Alt':
+                    case 'a':   // a is attack
                         that.basicAttack = true;
                         break;
-                    case ' ': // spacebar
+                    case 's':   // s is stop time spell
+                        that.stopTime = true;
+                        break;
+                    case 'd':   // s is rewind time spell
+                        that.rewindTime = true;
+                        break;
+                    case ' ':   // spacebar is jump
                         that.jumping = true;
                         console.log('JUMPED');
                         break;
@@ -78,8 +84,14 @@ class GameEngine
                     case 'ArrowLeft':
                         that.moving = false;
                         break;
-                    case 'Alt':
+                    case 'a':
                         that.basicAttack = false;
+                        break;
+                    case 's':  
+                        that.stopTime = false;
+                        break;
+                    case 'd':   
+                        that.rewindTime = false;
                         break;
                     default:
                         break;
@@ -150,6 +162,30 @@ class GameEngine
         this.clockTick = this.timer.tick();
         this.update();
         this.draw();
+
+        // If Blink cast a spell, slowly fade screen transparency back
+        if (this.ctx.globalAlpha < 1)
+        {
+            this.ctx.globalAlpha += .009;
+        }
+    }
+
+    // If Blink casts a spell, stop game tick for all.
+    stopTickLoop()
+    {
+        this.clockTick = 0;
+        this.ctx.globalAlpha = .3;
+        console.log(this.entities);
+    }
+
+    allShouldRewind(truthOfThisStatement)
+    {
+        let entitiesCount = this.entities.length;
+
+        for (let i = 0; i < entitiesCount; i++)
+        {
+            this.entities[i].shouldRewind = truthOfThisStatement;
+        }
     }
 }
 

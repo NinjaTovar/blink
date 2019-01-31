@@ -106,6 +106,28 @@ class Blink
             8,      // frames in animation
             true,   // to loop or not to loop
             1.8     // scale in relation to original image
+        );
+        this.spellFaceLeft = new Animation
+            (
+            AM.getAsset('./img/blink/Crono_Spell_FaceLeft.png'),
+            21,     // frame width
+            39,     // frame height
+            2,      // sheet width
+            0.4,    // frame duration
+            3,      // frames in animation
+            true,   // to loop or not to loop
+            1.8     // scale in relation to original image
+            );
+        this.spellFaceRight = new Animation
+            (
+            AM.getAsset('./img/blink/Crono_Spell_FaceRight.png'),
+            21,     // frame width
+            39,     // frame height
+            2,      // sheet width
+            0.4,    // frame duration
+            3,      // frames in animation
+            true,   // to loop or not to loop
+            1.8     // scale in relation to original image
             );
 
 
@@ -125,6 +147,8 @@ class Blink
         this.facingRight = true;
         this.running = false;
         this.jumping = false;
+        this.stopTime = false;
+        this.rewindTime = false;
     }
 
     // Methods
@@ -139,7 +163,7 @@ class Blink
     draw(ctx)
     {
         // if standing still
-        if (!this.moving && !this.basicAttack && !this.jumping)
+        if (this.isStandingStill())
         {
             // face right or left depending on last state
             if (this.facingRight)
@@ -155,64 +179,108 @@ class Blink
 
         }
 
-        // JUMPING
-        // if facing left and jumping, jump facing left animation
-        else if (!this.facingRight && this.jumping)
+        // JUMPING        
+        else if (this.jumping)
         {
-            this.jumpFaceLeftAnimation.drawFrame(
-                this.game.clockTick,
-                ctx,
-                this.x,
-                this.y
-            );
-        }
-        // if facing right and jumping, jump facing right animation
-        else if (this.facingRight && this.jumping)
-        {
-            this.jumpFaceRightAnimation.drawFrame(
-                this.game.clockTick,
-                ctx,
-                this.x,
-                this.y
-            );
+            // if facing left and jumping, jump facing left animation
+            if (!this.facingRight)
+            {
+                this.jumpFaceLeftAnimation.drawFrame(
+                    this.game.clockTick,
+                    ctx,
+                    this.x,
+                    this.y
+                );   
+            }
+            // if facing right and jumping, jump facing right animation
+            else if (this.facingRight)
+            {
+                this.jumpFaceRightAnimation.drawFrame(
+                    this.game.clockTick,
+                    ctx,
+                    this.x,
+                    this.y
+                );
+            }
         }
 
         // RUNNING
-        // if facing left and moving, run left animation
-        else if (!this.facingRight && this.moving && !this.jumping)
+        else if (this.isRunning())
         {
-            this.runFaceLeftAnimation.drawFrame(
-                this.game.clockTick, ctx, this.x, this.y);
-        }
-        // if facing right and moving, run right animation
-        else if (this.facingRight && this.moving && !this.jumping)
-        {
-            this.runFaceRightAnimation.drawFrame(
-                this.game.clockTick, ctx, this.x, this.y);
+            // if facing left and moving, run left animation
+            if (!this.facingRight)
+            {
+                this.runFaceLeftAnimation.drawFrame(
+                    this.game.clockTick, ctx, this.x, this.y);
+            }
+            // if facing right and moving, run right animation
+            else if (this.moving && !this.jumping)
+            {
+                this.runFaceRightAnimation.drawFrame(
+                    this.game.clockTick, ctx, this.x, this.y);
+            }
         }
 
         // ATTACKING
         // if facing left and basic attacking, attack left animation
-        else if (!this.facingRight && this.basicAttack)
+        else if (this.basicAttack)
         {
-            this.y = 185;
-            this.slashFaceLeft.drawFrame(
-                this.game.clockTick,
-                ctx,
-                this.x,
-                this.y
-            );
+            if (!this.facingRight)
+            {
+                this.y = 185;
+                this.slashFaceLeft.drawFrame(
+                    this.game.clockTick,
+                    ctx,
+                    this.x,
+                    this.y
+                );
+            }
+            // if facing right and moving, attack right animation
+            else if (this.facingRight && this.basicAttack)
+            {
+                this.y = 185;
+                this.slashFaceRight.drawFrame(
+                    this.game.clockTick,
+                    ctx,
+                    this.x,
+                    this.y
+                );
+            }
         }
-        // if facing right and moving, attack right animation
-        else if (this.facingRight && this.basicAttack)
+
+        // SPELLCASTING
+        if (this.isSpellcasting())
         {
-            this.y = 185;
-            this.slashFaceRight.drawFrame(
-                this.game.clockTick,
-                ctx,
-                this.x,
-                this.y
-            );
+            var raiseUpABit = 20;
+
+            if (this.rewindTime)
+            {
+                // If rewinding time
+                if (!this.facingRight)
+                {
+                    this.spellFaceLeft.drawFrame(this.game.clockTick, ctx,
+                        this.x, this.y - raiseUpABit);
+                }
+                else if (this.facingRight)
+                {
+                    this.spellFaceRight.drawFrame(this.game.clockTick, ctx,
+                        this.x, this.y - raiseUpABit);
+                }
+            }
+            // If stopping time
+            else if (this.stopTime)
+            {
+                if (!this.facingRight)
+                {
+                    this.spellFaceLeft.drawFrame(this.game.clockTick, ctx,
+                        this.x, this.y - raiseUpABit);
+                }
+                else if (this.facingRight)
+                {
+                    this.spellFaceRight.drawFrame(this.game.clockTick, ctx,
+                        this.x, this.y - raiseUpABit);
+                }
+            }
         }
 
         // If not jumping, make sure Blink is on the ground level
@@ -226,21 +294,37 @@ class Blink
     /** Update handles updating the objects world state. */
     update()
     {
-        // what is this?
-        this.base = 200;
-
         // update state based on gameengine key listener update
         this.moving = this.game.moving;
         this.basicAttack = this.game.basicAttack;
         this.jumping = this.game.jumping;
         this.facingRight = this.game.facingRight;
+        this.stopTime = this.game.stopTime;
+        this.rewindTime = this.game.rewindTime;
 
+        // For now just freeze the timer and call alpha.
+        // This will need work.
+        if (this.stopTime)
+        {
+            this.game.stopTickLoop();
+        }
+
+        if (this.rewindTime)
+        {
+            this.game.allShouldRewind(true);
+        }
+        if (!this.rewindTime)
+        {
+            this.game.allShouldRewind(false);
+        }
+
+        // If jumping, use animations elasped time for setting jump to false. This is
+        // currently the best way to keep the animation looking sexy.
         if (this.jumping)
         {
             if (this.jumpFaceRightAnimation.elapsedTime > 0.7 ||
                 this.jumpFaceLeftAnimation.elapsedTime > 0.7)
             {
-                console.log('WHIP IT');
                 this.game.jumping = false;
                 this.jumping = false;
                 this.jumpFaceRightAnimation.elapsedTime = 0;
@@ -269,7 +353,7 @@ class Blink
 
             // quadratic jump
             height = (2 * duration - 2 * duration * duration) * this.jumpHeight;
-            this.y = this.base - height;
+            this.y = this.groundLevel - height;
 
             if (this.moving)
             {
@@ -287,7 +371,7 @@ class Blink
 
             // quadratic jump
             height = (2 * duration - 2 * duration * duration) * this.jumpHeight;
-            this.y = this.base - height;
+            this.y = this.groundLevel - height;
 
             if (this.moving)
             {
@@ -307,5 +391,26 @@ class Blink
             this.x = 0;
             this.moving = false;
         }
+    }
+
+    /**
+     * A couple quick shortcuts on the boolean evaluations for making the code cleaner.
+     */
+
+    /** This is a quick check for casting either spell as it's the same animation */
+    isSpellcasting()
+    {
+        return ((this.rewindTime || this.stopTime) && !this.moving);
+    }
+
+    isStandingStill()
+    {
+        return (!this.moving && !this.basicAttack &&
+            !this.jumping && !this.isSpellcasting());
+    }
+
+    isRunning()
+    {
+        return (this.moving && !this.jumping);
     }
 }
