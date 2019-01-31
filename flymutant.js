@@ -47,6 +47,11 @@ class FlyMutant
         this.game = game;
         this.ctx = game.ctx;
         this.isHeadingRight = true;
+
+        // this will be used for rewind
+        this.myPath = [];
+        this.myPath.push(this.x);
+        this.shouldRewind = false;
     }
 
     // Methods
@@ -68,11 +73,52 @@ class FlyMutant
         {
             this.flyLeftAnimation.drawFrame(this.game.clockTick, ctx, this.x, this.y)
         }
+
+        // If affected by time spell
+        if (this.isHeadingRight && this.willRewind())
+        {
+            this.flyRightAnimation.drawFrame(this.game.clockTick, ctx, this.myPath.pop(),
+                this.y);
+
+            this.myPath.shift();
+
+            if (this.myPath.length == 1)
+            {
+                this.x = this.myPath.pop();
+                this.shouldRewind = false;
+            }
+        }
+        if (!this.isHeadingRight && this.willRewind())
+        {
+            this.flyLeftAnimation.drawFrame(this.game.clockTick, ctx, this.myPath.pop(),
+                this.y);
+
+            this.myPath.shift();
+
+            if (this.myPath.length == 1)
+            {
+                this.x = this.myPath.pop();
+                this.shouldRewind = false;
+            }
+        }   
     }
+
+
 
     /** Update handles updating the objects world state. */
     update()
     {
+        // If not under rewind spell
+        if (!this.shouldRewind)
+        {
+            // save current x coordinates if difference from previous coordinate is at 
+            // least one third pixel
+            if (Math.abs(((Math.abs(this.x) - (Math.abs(this.myPath[this.myPath.length - 1]))))) > .3)
+            {
+                this.myPath.push(this.x);
+            }
+        }
+
         if (this.isHeadingRight)
         {
             this.x += this.game.clockTick * this.speed;
@@ -82,5 +128,11 @@ class FlyMutant
             this.x -= this.game.clockTick * this.speed;
             if (this.x < 5) this.isHeadingRight = true;
         }
+    }
+
+    // Helper booleans for state
+    willRewind()
+    {
+        return ((this.myPath.length > 0) && this.shouldRewind);
     }
 }

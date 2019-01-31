@@ -24,7 +24,7 @@ class Necroman
             125,    // frame width
             82,     // frame height
             2,      // sheet width
-            0.1,    // frame duration
+            0.2,    // frame duration
             5,      // frames in animation
             true,   // to loop or not to loop
             size    // scale in relation to original image
@@ -35,7 +35,7 @@ class Necroman
             125,    // frame width
             82,     // frame height
             2,      // sheet width
-            0.1,    // frame duration
+            0.2,    // frame duration
             5,      // frames in animation
             true,   // to loop or not to loop
             size    // scale in relation to original image
@@ -47,6 +47,11 @@ class Necroman
         this.game = game;
         this.ctx = game.ctx;
         this.isHeadingRight = false;
+
+        // this will be used for rewind
+        this.myPath = [];
+        this.myPath.push(this.x);
+        this.shouldRewind = false;
     }
 
     // Methods
