@@ -29,11 +29,23 @@ AM.queueDownload('./img/enemies/necroman/Necroman_FaceRight.png');
 
 AM.downloadAll(function ()
 {
+    // Load game world. This is the top layer
     var canvas = document.getElementById('gameWorld');
-    var ctx = canvas.getContext('2d');
+    var gameCtx = canvas.getContext('2d');
+
+    // Load a special effects layer. This is on bottom.
+    var bottomCanvas = document.getElementById('projectionsLayerBottom');
+    var bottomProjectionContext = bottomCanvas.getContext('2d');
+
+    // Load a special effects layer. This is in the middle.
+    var middleCanvas = document.getElementById('projectionsLayerMiddle');
+    var middleProjectionContext = middleCanvas.getContext('2d');
+
 
     var gameEngine = new GameEngine();
-    gameEngine.init(ctx);
+
+    // Send canvas' to game engine
+    gameEngine.init(bottomProjectionContext, middleProjectionContext, gameCtx);
     gameEngine.start();
 
     gameEngine.addEntity(new Background(gameEngine));

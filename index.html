@@ -9,6 +9,7 @@
     <script type="text/javascript" src="./entity.js"></script>
     <script type="text/javascript" src="./timer.js"></script>
     <script type="text/javascript" src="./background.js"></script>
+    <script type="text/javascript" src="./specialeffects.js"></script>
     <script type="text/javascript" src="./mummy.js"></script>
     <script type="text/javascript" src="./main.js"></script>
     <script type="text/javascript" src="./animation.js"></script>
@@ -17,6 +18,11 @@
     <script type="text/javascript" src="./necroman.js"></script>
 </head>
 <body>
-    <canvas id="gameWorld" tabindex="1" width="800" height="300"></canvas>
+    <canvas id="projectionsLayerBottom" tabindex="0" width="800" height="300"
+            style="position:absolute;left:0;top:0;"></canvas>
+    <canvas id="projectionsLayerMiddle" tabindex="0" width="800" height="300"
+            style="position:absolute;left:0;top:0;"></canvas>
+    <canvas id="gameWorld" tabindex="1" width="800" height="300"
+            style="position:absolute;left:0;top:0;"></canvas>
 </body>
 </html>

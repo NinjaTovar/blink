@@ -52,6 +52,7 @@ class Mummy
         this.myPath = [];
         this.myPath.push(this.x);
         this.shouldRewind = false;
+        this.resetPath = false;
     }
 
     // Methods
@@ -64,48 +65,73 @@ class Mummy
     draw(ctx)
     {
         // If field "isHeadingRight" is true, play walk right animation
-        if (this.isHeadingRight && !this.willRewind())
+        if ((this.isHeadingRight && !this.willRewind()))
         {
             this.walkRightAnimation.drawFrame(this.game.clockTick, ctx, this.x, this.y)
         }
         // If field "isHeadingRight" is false, play fly right animation
-        else if (!this.isHeadingRight && !this.willRewind())
+        else if ((!this.isHeadingRight && !this.willRewind()))
         {
             this.walkLeftAnimation.drawFrame(this.game.clockTick, ctx, this.x, this.y)
         }
 
         // If affected by time spell
-        if (this.isHeadingRight && this.willRewind())
+        if (this.isHeadingRight && this.willRewind() && this.myPath.length > 1)
         {
-            this.walkRightAnimation.drawFrame(this.game.clockTick, ctx, this.myPath.pop(),
-                this.y);
-
-            this.myPath.shift();
-
-            if (this.myPath.length == 1)
-            {
-                this.x = this.myPath.pop();
-                this.shouldRewind = false;
-            }
-        }
-        if (!this.isHeadingRight && this.willRewind())
-        {
-            this.walkLeftAnimation.drawFrame(this.game.clockTick, ctx, this.myPath.pop(),
+            this.x = this.myPath.pop();
+            this.walkRightAnimation.drawFrame(this.game.clockTick, ctx, this.x,
                 this.y);      
 
-            this.myPath.shift();
 
             if (this.myPath.length == 1)
             {
-                this.x = this.myPath.pop();
                 this.shouldRewind = false;
+                this.game.shouldRewind = false;
+            }
+
+        }
+        if (!this.isHeadingRight && this.willRewind() && this.myPath.length > 1)
+        {
+            this.x = this.myPath.pop();
+            this.walkLeftAnimation.drawFrame(this.game.clockTick, ctx, this.x,
+                this.y);      
+
+
+            if (this.myPath.length == 1)
+            {
+                this.shouldRewind = false;
+                this.game.shouldRewind = false;
             }
         }        
     }
 
     /** Update handles updating the objects world state. */
     update()
-    {      
+    {
+        if (this.game.resetPaths != undefined)
+        {
+        this.resetPath = this.game.resetPaths;
+        }
+
+
+        // alert mummy to reset the array for path variables
+        if (this.resetPath)
+        {
+            this.x = this.myPath.pop();
+
+            console.log("path is reset");
+
+
+            this.resetPath = false;
+            this.game.resetPaths = false;
+        }
+
+        if (this.myPath.length == 1)
+        {
+            this.shouldRewind = false;
+            this.game.shouldRewind = false;
+        }
+
         // If not under rewind spell
         if (!this.shouldRewind)
         {
@@ -117,17 +143,24 @@ class Mummy
             }
         }
 
-        if (this.isHeadingRight)
+
+
+        if (this.isHeadingRight && !this.shouldRewind)
         {
             this.x += this.game.clockTick * this.speed;
-            if (this.x > 470) this.isHeadingRight = false;
-        } else
+            if (this.x > 470)
+            {
+                this.isHeadingRight = false;
+            }
+        }
+        else if (!this.isHeadingRight && !this.shouldRewind)
         {
             this.x -= this.game.clockTick * this.speed;
-            if (this.x < 200) this.isHeadingRight = true;
+            if (this.x < 200)
+            {
+                this.isHeadingRight = true;
+            }
         }
-
-
 
     }
 
