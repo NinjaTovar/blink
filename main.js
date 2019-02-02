@@ -55,7 +55,7 @@ AM.downloadAll(function ()
     gameEngine.addEntity(new FlyMutant(gameEngine, -200, 20, 0.3));
 
     // Adding Necroman
-    gameEngine.addEntity(new Necroman(gameEngine, 520, 55, 2.5));
+    gameEngine.addEntity(new Necroman(gameEngine, 800, 55, 2.5));
 
 
     console.log('All Done!');
