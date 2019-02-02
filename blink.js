@@ -149,6 +149,10 @@ class Blink
         this.jumping = false;
         this.stopTime = false;
         this.rewindTime = false;
+        this.slowTime = false;
+
+        console.log("hello im blink");
+        console.log(this.slowTime);
     }
 
     // Methods
@@ -168,15 +172,14 @@ class Blink
             // face right or left depending on last state
             if (this.facingRight)
             {
-                this.standRightAnimation.drawFrame(this.game.clockTick, ctx,
+                this.standRightAnimation.drawFrame(this.game.blinksClockTick, ctx,
                     this.x, this.y);
             }
             else if (!this.facingRight)
             {
-                this.standLeftAnimation.drawFrame(this.game.clockTick, ctx,
+                this.standLeftAnimation.drawFrame(this.game.blinksClockTick, ctx,
                     this.x, this.y);
             }
-
         }
 
         // JUMPING        
@@ -186,7 +189,7 @@ class Blink
             if (!this.facingRight)
             {
                 this.jumpFaceLeftAnimation.drawFrame(
-                    this.game.clockTick,
+                    this.game.blinksClockTick,
                     ctx,
                     this.x,
                     this.y
@@ -196,7 +199,7 @@ class Blink
             else if (this.facingRight)
             {
                 this.jumpFaceRightAnimation.drawFrame(
-                    this.game.clockTick,
+                    this.game.blinksClockTick,
                     ctx,
                     this.x,
                     this.y
@@ -211,13 +214,13 @@ class Blink
             if (!this.facingRight)
             {
                 this.runFaceLeftAnimation.drawFrame(
-                    this.game.clockTick, ctx, this.x, this.y);
+                    this.game.blinksClockTick, ctx, this.x, this.y);
             }
             // if facing right and moving, run right animation
             else if (this.moving && !this.jumping)
             {
                 this.runFaceRightAnimation.drawFrame(
-                    this.game.clockTick, ctx, this.x, this.y);
+                    this.game.blinksClockTick, ctx, this.x, this.y);
             }
         }
 
@@ -229,7 +232,7 @@ class Blink
             {
                 this.y = 185;
                 this.slashFaceLeft.drawFrame(
-                    this.game.clockTick,
+                    this.game.blinksClockTick,
                     ctx,
                     this.x,
                     this.y
@@ -240,7 +243,7 @@ class Blink
             {
                 this.y = 185;
                 this.slashFaceRight.drawFrame(
-                    this.game.clockTick,
+                    this.game.blinksClockTick,
                     ctx,
                     this.x,
                     this.y
@@ -258,12 +261,12 @@ class Blink
                 // If rewinding time
                 if (!this.facingRight)
                 {
-                    this.spellFaceLeft.drawFrame(this.game.clockTick, ctx,
+                    this.spellFaceLeft.drawFrame(this.game.blinksClockTick, ctx,
                         this.x, this.y - raiseUpABit);
                 }
                 else if (this.facingRight)
                 {
-                    this.spellFaceRight.drawFrame(this.game.clockTick, ctx,
+                    this.spellFaceRight.drawFrame(this.game.blinksClockTick, ctx,
                         this.x, this.y - raiseUpABit);
                 }
             }
@@ -272,12 +275,27 @@ class Blink
             {
                 if (!this.facingRight)
                 {
-                    this.spellFaceLeft.drawFrame(this.game.clockTick, ctx,
+                    this.spellFaceLeft.drawFrame(this.game.blinksClockTick, ctx,
                         this.x, this.y - raiseUpABit);
                 }
                 else if (this.facingRight)
                 {
-                    this.spellFaceRight.drawFrame(this.game.clockTick, ctx,
+                    this.spellFaceRight.drawFrame(this.game.blinksClockTick, ctx,
+                        this.x, this.y - raiseUpABit);
+                }
+            }
+            // If slowing time
+            else if (this.slowTime  == true)
+            {
+                console.log("SSSSSSS");
+                if (!this.facingRight)
+                {
+                    this.spellFaceLeft.drawFrame(this.game.blinksClockTick, ctx,
+                        this.x, this.y - raiseUpABit);
+                }
+                else if (this.facingRight)
+                {
+                    this.spellFaceRight.drawFrame(this.game.blinksClockTick, ctx,
                         this.x, this.y - raiseUpABit);
                 }
             }
@@ -295,20 +313,46 @@ class Blink
     update()
     {
         // update state based on gameengine key listener update
-        this.moving = this.game.moving;
-        this.basicAttack = this.game.basicAttack;
-        this.jumping = this.game.jumping;
-        this.facingRight = this.game.facingRight;
-        this.stopTime = this.game.stopTime;
-        this.rewindTime = this.game.rewindTime;
-
-        // For now just freeze the timer and call alpha.
-        // This will need work.
-        if (this.stopTime)
+        if (this.game.slowTime !== undefined)
         {
-            this.game.stopTickLoop();
+            this.slowTime = this.game.slowTime;
+        }
+        if (this.game.facingRight !== undefined)
+        {
+            this.facingRight = this.game.facingRight;
+        }
+        if (this.game.moving !== undefined)
+        {
+            this.moving = this.game.moving;
+        }
+        if (this.game.basicAttack !== undefined)
+        {
+            this.basicAttack = this.game.basicAttack;
+        }
+        if (this.game.jumping !== undefined)
+        {
+            this.jumping = this.game.jumping;
+        }
+        if (this.game.stopTime !== undefined)
+        {
+            this.stopTime = this.game.stopTime;
+        }
+        if (this.game.rewindTime !== undefined)
+        {
+            this.rewindTime = this.game.rewindTime;
         }
 
+        // Alert game engine to states
+        // stop state update for game engine
+        if (this.stopTime)
+        {
+            this.game.allShouldStop(true);
+        }
+        if (!this.stopTime)
+        {
+            this.game.allShouldStop(false);
+        }
+        // rewind state update for game engine
         if (this.rewindTime)
         {
             this.game.allShouldRewind(true);
@@ -316,6 +360,15 @@ class Blink
         if (!this.rewindTime)
         {
             this.game.allShouldRewind(false);
+        }
+        // rewind state update for game engine
+        if (this.slowTime)
+        {
+            this.game.allShouldSlow(true);
+        }
+        if (!this.slowTime)
+        {
+            this.game.allShouldSlow(false);
         }
 
         // If jumping, use animations elasped time for setting jump to false. This is
@@ -334,11 +387,11 @@ class Blink
 
         if (!this.facingRight && this.moving)
         {
-            this.x -= this.game.clockTick * this.speed;
+            this.x -= this.game.blinksClockTick * this.speed;
         }
         if (this.facingRight && this.moving)
         {
-            this.x += this.game.clockTick * this.speed;
+            this.x += this.game.blinksClockTick * this.speed;
         }
 
         // Manage jumps using the animation classes timer. Need both left/right animation.
@@ -346,7 +399,7 @@ class Blink
         if (this.jumping && this.facingRight)
         {
             var height = 0;
-            var duration = this.jumpFaceRightAnimation.elapsedTime + this.game.clockTick;
+            var duration = this.jumpFaceRightAnimation.elapsedTime + this.game.blinksClockTick;
             if (duration > this.jumpFaceRightAnimation.totalTime / 2)
                 duration = this.jumpFaceRightAnimation.totalTime - duration;
             duration = duration / this.jumpFaceRightAnimation.totalTime;
@@ -357,14 +410,14 @@ class Blink
 
             if (this.moving)
             {
-                this.x += this.game.clockTick * this.speed;
+                this.x += this.game.blinksClockTick * this.speed;
             }
         }
         // If facing left and jumping
         else if (this.jumping && !this.facingRight)
         {
             var height = 0;
-            var duration = this.jumpFaceLeftAnimation.elapsedTime + this.game.clockTick;
+            var duration = this.jumpFaceLeftAnimation.elapsedTime + this.game.blinksClockTick;
             if (duration > this.jumpFaceLeftAnimation.totalTime / 2)
                 duration = this.jumpFaceLeftAnimation.totalTime - duration;
             duration = duration / this.jumpFaceLeftAnimation.totalTime;
@@ -375,7 +428,7 @@ class Blink
 
             if (this.moving)
             {
-                this.x -= this.game.clockTick * this.speed;
+                this.x -= this.game.blinksClockTick * this.speed;
             }
         }
 
