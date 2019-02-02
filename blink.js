@@ -2,7 +2,7 @@
  * Blink object. This class handles loading the necessary assets as well as defines
  * the update and draw function.
  *
- * Single constructor takes in the game context as its parameter. (There is no default) 
+ * Single constructor takes in the game context as its parameter.
  * 
  */
 class Blink
@@ -230,6 +230,7 @@ class Blink
         {
             if (!this.facingRight)
             {
+                // fix his attack frames that jump a bit
                 this.y = this.y - 30;
                 this.slashFaceLeft.drawFrame(
                     this.game.blinksClockTick,
@@ -241,6 +242,7 @@ class Blink
             // if facing right and moving, attack right animation
             else if (this.facingRight && this.basicAttack)
             {
+                // fix his attack frames that jump a bit
                 this.y = this.y - 30;
                 this.slashFaceRight.drawFrame(
                     this.game.blinksClockTick,
