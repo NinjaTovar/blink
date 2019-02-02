@@ -35,7 +35,8 @@ AM.downloadAll(function ()
     var ctx = canvas.getContext('2d');
 
     var gameEngine = new GameEngine();
-    gameEngine.init(ctx);
+    var blink = new Blink(gameEngine);
+    gameEngine.init(ctx, blink);
     gameEngine.start();
 
     // Add background

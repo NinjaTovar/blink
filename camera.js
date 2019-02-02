@@ -8,7 +8,7 @@ class Camera {
     constructor(blink, ctx, viewWidth, viewHeight, worldWidth, worldHeight) {
         this.blink = blink;
         this.xPosition = blink.x;
-        this.yPosition = blink.y;
+        // this.yPosition = blink.y;
         this.ctx = ctx;
         this.viewWidth = viewWidth;
 		this.viewHeight = viewHeight;
@@ -22,12 +22,10 @@ class Camera {
 		// this.speedY = 10;
     }
     draw() {
-		this.ctx.translate(this.xPosition, this.yPosition);
+		this.ctx.translate(this.xPosition, 0);
     }
     update() {
-		// console.log('xPosition: ' + this.xPosition + ' yPosition: ' + this.yPosition);
-
         this.xPosition = -this.blink.x + this.offsetX;
-        this.yPosition = -this.blink.y + this.offsetY;
+        // this.yPosition = -this.blink.y + this.offsetY;
 	}
 }

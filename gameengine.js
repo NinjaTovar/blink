@@ -26,20 +26,18 @@ class GameEngine
      * @param {any} ctx A reference to the game context.
      * @param {any} blink A reference to blink
      */
-    init(ctx)
+    init(ctx, blink)
     {
         // initialize game world features. Context, timer, canvas width and height, etc.
         this.ctx = ctx;
         this.surfaceWidth = this.ctx.canvas.width;
         this.surfaceHeight = this.ctx.canvas.height;
         this.timer = new Timer();
+        this.blink = blink;
 
-        // Create and add blink and camera entities when the gameEngine gets initialized
-        // Not sure if this is the best way to go about it but it this for now.
-        this.blink = new Blink(this);
-        this.camera = new Camera(this.blink, ctx, 100, 400, 800, 800);
+        // Create and add camera entity when the gameEngine gets initialized
+        this.camera = new Camera(this.blink, ctx, 100, 400, 1600, 300);
         this.addEntity(this.camera);
-        this.addEntity(this.blink);
 
         console.log('game initialized');
         const that = this;
