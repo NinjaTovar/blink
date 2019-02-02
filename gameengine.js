@@ -47,7 +47,97 @@ class GameEngine
         // Set listeners
         this.initializeEventListeners();
 
+
+        this.declareAndAddAssetsToEntitiesArray();
+
         console.log('game initialized');
+    }
+
+    declareAndAddAssetsToEntitiesArray()
+    {
+        // Declare Blink
+        var blink = new Blink(this);
+
+        // Create and add camera entity when the gameEngine gets initialized
+        this.camera = new Camera(blink, this.ctx, 200, 400, this.surfaceWidth, this.surfaceHeight);
+        this.addEntity(this.camera);
+
+        // Add background
+        this.addEntity(new Background(this));
+
+
+        // Add Blink
+        this.addEntity(blink);
+
+        // Add enemies those little bastards
+        // Adding Mummy
+        this.addEntity(new Mummy(this, this.returnRandomInt(this.surfaceWidth), 
+            440, 2.5, this.returnRandomDirection()));
+        this.addEntity(new Mummy(this, this.returnRandomInt(this.surfaceWidth), 
+            440, 2.5, this.returnRandomDirection()));
+        this.addEntity(new Mummy(this, this.returnRandomInt(this.surfaceWidth),
+            440, 2.5, this.returnRandomDirection()));
+
+        // Adding various size flies
+        this.addEntity(new FlyMutant(this, this.returnRandomInt(this.surfaceWidth), 
+            this.returnRandomInt(400), this.returnRandomFloat(.1, 1), this.returnRandomDirection()));
+        this.addEntity(new FlyMutant(this, this.returnRandomInt(this.surfaceWidth), 
+            this.returnRandomInt(400), this.returnRandomFloat(.1, 1), this.returnRandomDirection()));
+        this.addEntity(new FlyMutant(this, this.returnRandomInt(this.surfaceWidth), 
+            this.returnRandomInt(400), this.returnRandomFloat(.1, 1), this.returnRandomDirection()));
+        this.addEntity(new FlyMutant(this, this.returnRandomInt(this.surfaceWidth), 
+            this.returnRandomInt(400), this.returnRandomFloat(.1, 1), this.returnRandomDirection()));
+        this.addEntity(new FlyMutant(this, this.returnRandomInt(this.surfaceWidth), 
+            this.returnRandomInt(400), this.returnRandomFloat(.1, 1), this.returnRandomDirection()));
+        this.addEntity(new FlyMutant(this, this.returnRandomInt(this.surfaceWidth), 
+            this.returnRandomInt(400), this.returnRandomFloat(.1, 1), this.returnRandomDirection()));
+        this.addEntity(new FlyMutant(this, this.returnRandomInt(this.surfaceWidth), 
+            this.returnRandomInt(400), this.returnRandomFloat(.1, 1), this.returnRandomDirection()));
+        this.addEntity(new FlyMutant(this, this.returnRandomInt(this.surfaceWidth), 
+            this.returnRandomInt(400), this.returnRandomFloat(.1, 1), this.returnRandomDirection()));
+        this.addEntity(new FlyMutant(this, this.returnRandomInt(this.surfaceWidth), 
+            this.returnRandomInt(400), this.returnRandomFloat(.1, 1), this.returnRandomDirection()));
+        this.addEntity(new FlyMutant(this, this.returnRandomInt(this.surfaceWidth), 
+            this.returnRandomInt(400), this.returnRandomFloat(.1, 1), this.returnRandomDirection()));
+        this.addEntity(new FlyMutant(this, this.returnRandomInt(this.surfaceWidth), 
+            this.returnRandomInt(400), this.returnRandomFloat(.1, 1), this.returnRandomDirection()));
+        this.addEntity(new FlyMutant(this, this.returnRandomInt(this.surfaceWidth),
+            this.returnRandomInt(400), this.returnRandomFloat(.1, 1), this.returnRandomDirection()));
+
+        // Adding Metroid
+        this.addEntity(new Metroid(this, this.returnRandomIntBetweenThese(500, 3000), 140, this.returnRandomFloat(2,4)));
+
+        // Adding Necroman
+        this.addEntity(new Necroman(this, 4200, 140, 5.5));
+    }
+
+    returnRandomDirection()
+    {
+        var randomDirection = [true, false];
+
+        function getRandomInt(max)
+        {
+            return Math.floor(Math.random() * Math.floor(max));
+        }
+
+        return randomDirection[getRandomInt(2)];
+    }
+
+    returnRandomInt(max)
+    {
+        return Math.floor(Math.random() * Math.floor(max));
+    }
+
+    returnRandomFloat(min, max)
+    {
+        return Math.random() * (max - min) + min;
+    }
+
+    returnRandomIntBetweenThese(min, max)
+    {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
     }
 
     /** Starts the game world by getting the loop and callback circle started. */

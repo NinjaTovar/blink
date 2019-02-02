@@ -7,13 +7,16 @@
 class Mummy
 {
     /**
-     * Single constructor for Mummy. Loads assets and sets intial parameters including
-     * the speed, starting x/y position, jump height, etc.
+     * Single constructor for Fly. Loads assets and sets intial parameters including
+     * the speed, starting x/y position, etc.
      * 
      * @constructor
      * @param {any} game A reference to the game engine.
+     * @param {any} startX Starting x position of the fly being constructed.
+     * @param {any} startY Starting x position of the fly being constructed.
+     * @param {any} size Size of scale for character.
      */
-    constructor(game)
+    constructor(game, startX, startY, size, isHeadingRight)
     {
         this.walkLeftAnimation = new Animation
             (
@@ -24,7 +27,7 @@ class Mummy
             0.2,    // frame duration
             17,     // frames in animation
             true,   // to loop or not to loop
-            1.5     // scale in relation to original image
+            size     // scale in relation to original image
             );
         this.walkRightAnimation = new Animation
             (
@@ -35,18 +38,18 @@ class Mummy
             0.2,     // frame duration
             17,      // frames in animation
             true,    // to loop or not to loop
-            1.5      // scale in relation to original image
+            size     // scale in relation to original image
         );
 
 
 
         // Initial world states
-        this.x = 200;
-        this.y = 185;
+        this.x = startX;
+        this.y = startY;
         this.speed = 30;
         this.game = game;
         this.ctx = game.ctx;
-        this.isHeadingRight = true;
+        this.isHeadingRight = isHeadingRight;
 
         // this will be used for rewind
         this.myPath = [];
@@ -148,7 +151,7 @@ class Mummy
         if (this.isHeadingRight && !this.shouldRewind)
         {
             this.x += this.game.clockTick * this.speed;
-            if (this.x > 470)
+            if (this.x > 3000)
             {
                 this.isHeadingRight = false;
             }
@@ -156,7 +159,7 @@ class Mummy
         else if (!this.isHeadingRight && !this.shouldRewind)
         {
             this.x -= this.game.clockTick * this.speed;
-            if (this.x < 200)
+            if (this.x < 800)
             {
                 this.isHeadingRight = true;
             }
