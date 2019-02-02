@@ -224,7 +224,6 @@ class GameEngine
         // Handle effects if Blink is casting a spell
         if (this.timeIsStopped)
         {
-            console.log("Stopping");
             this.specialEffects.performStopTimeSpecialEffects();
         }
     }
@@ -236,7 +235,6 @@ class GameEngine
 
         if (this.timeIsRewinding)
         {
-            console.log("Rewinding");
             this.specialEffects.performRewindTimeSpecialEffects();
         }
     }
@@ -248,7 +246,6 @@ class GameEngine
         if (this.timeIsSlowed)
         {
             this.specialEffects.prepareCanvasLayersForEffects();
-            console.log("Slowing");
             this.specialEffects.performSlowTimeSpecialEffects();
         }
     }
@@ -328,7 +325,6 @@ class GameEngine
             'keydown',
             e =>
             {
-                console.log(e.key);
                 switch (e.key)
                 {
                     case 'ArrowRight':
@@ -354,7 +350,6 @@ class GameEngine
                         break;
                     case ' ':   // spacebar is jump
                         that.jumping = true;
-                        console.log('JUMPED');
                         break;
                     default:
                         break;
@@ -386,7 +381,6 @@ class GameEngine
                     case 'd':
                         that.rewindTime = false;
                         that.resetPaths = true;
-                        console.log("keyup");
                         break;
                     case 'w':
                         that.slowTime = false;

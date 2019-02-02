@@ -150,9 +150,6 @@ class Blink
         this.stopTime = false;
         this.rewindTime = false;
         this.slowTime = false;
-
-        console.log("hello im blink");
-        console.log(this.slowTime);
     }
 
     // Methods
@@ -289,7 +286,6 @@ class Blink
             // If slowing time
             else if (this.slowTime  == true)
             {
-                console.log("SSSSSSS");
                 if (!this.facingRight)
                 {
                     this.spellFaceLeft.drawFrame(this.game.blinksClockTick, ctx,

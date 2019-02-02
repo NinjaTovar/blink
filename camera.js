@@ -43,7 +43,7 @@ class Camera
             this.ctx.strokeStyle = 'red';
             this.ctx.rect(this.offsetX, this.offsetY, this.viewWidth, this.viewHeight);
             this.ctx.stroke();
-            console.log(this.xPosition);
+            //console.log(this.xPosition);
             //console.log(this.yPosition);
         }
     }
