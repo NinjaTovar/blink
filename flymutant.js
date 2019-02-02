@@ -50,8 +50,9 @@ class FlyMutant
 
         // this will be used for rewind
         this.myPath = [];
-        this.myPath.push(this.x);
+        this.myPath.push(0);
         this.shouldRewind = false;
+        this.resetPath = false;
     }
 
     // Methods
@@ -64,23 +65,23 @@ class FlyMutant
     draw(ctx)
     {
         // If field "isHeadingRight" is true, play fly right animation
-        if (this.isHeadingRight)
+        if ((this.isHeadingRight && !this.willRewind()))
         {
             this.flyRightAnimation.drawFrame(this.game.clockTick, ctx, this.x, this.y)
         }
         // If field "isHeadingRight" is false, play fly left animation
-        else if (!this.isHeadingRight)
+        else if ((!this.isHeadingRight && !this.willRewind()))
         {
             this.flyLeftAnimation.drawFrame(this.game.clockTick, ctx, this.x, this.y)
         }
 
         // If affected by time spell
-        if (this.isHeadingRight && this.willRewind())
+        if (this.isHeadingRight && this.willRewind() && this.myPath.length > 1)
         {
-            this.flyRightAnimation.drawFrame(this.game.clockTick, ctx, this.myPath.pop(),
+            this.x = this.myPath.pop();
+            this.flyRightAnimation.drawFrame(this.game.clockTick, ctx, this.x,
                 this.y);
 
-            this.myPath.shift();
 
             if (this.myPath.length == 1)
             {
@@ -88,17 +89,16 @@ class FlyMutant
                 this.shouldRewind = false;
             }
         }
-        if (!this.isHeadingRight && this.willRewind())
+        if (!this.isHeadingRight && this.willRewind() && this.myPath.length > 1)
         {
-            this.flyLeftAnimation.drawFrame(this.game.clockTick, ctx, this.myPath.pop(),
+            this.x = this.myPath.pop();
+            this.flyLeftAnimation.drawFrame(this.game.clockTick, ctx, this.x,
                 this.y);
-
-            this.myPath.shift();
 
             if (this.myPath.length == 1)
             {
-                this.x = this.myPath.pop();
                 this.shouldRewind = false;
+                this.game.shouldRewind = false;
             }
         }   
     }
@@ -108,6 +108,29 @@ class FlyMutant
     /** Update handles updating the objects world state. */
     update()
     {
+        if (this.game.resetPaths != undefined)
+        {
+            this.resetPath = this.game.resetPaths;
+        }
+
+        // alert fly to reset the array for path variables
+        if (this.resetPath)
+        {
+            this.x = this.myPath.pop();
+
+            console.log("path is reset");
+
+
+            this.resetPath = false;
+            this.game.resetPaths = false;
+        }
+
+        if (this.myPath.length == 1)
+        {
+            this.shouldRewind = false;
+            this.game.shouldRewind = false;
+        }
+
         // If not under rewind spell
         if (!this.shouldRewind)
         {

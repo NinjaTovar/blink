@@ -31,12 +31,25 @@ AM.queueDownload('./img/enemies/necroman/Necroman_FaceRight.png');
 
 AM.downloadAll(function ()
 {
+    // Load game world. This is the top layer
     var canvas = document.getElementById('gameWorld');
-    var ctx = canvas.getContext('2d');
+    var gameCtx = canvas.getContext('2d');
+
+    // Load a special effects layer. This is on bottom.
+    var bottomCanvas = document.getElementById('projectionsLayerBottom');
+    var bottomProjectionContext = bottomCanvas.getContext('2d');
+
+    // Load a special effects layer. This is in the middle.
+    var middleCanvas = document.getElementById('projectionsLayerMiddle');
+    var middleProjectionContext = middleCanvas.getContext('2d');
+
 
     var gameEngine = new GameEngine();
     var blink = new Blink(gameEngine);
-    gameEngine.init(ctx, blink);
+
+
+    // Send canvas' to game engine
+    gameEngine.init(bottomProjectionContext, middleProjectionContext, gameCtx, blink);
     gameEngine.start();
 
     // Add background
@@ -56,7 +69,6 @@ AM.downloadAll(function ()
 
     // Adding Necroman
     gameEngine.addEntity(new Necroman(gameEngine, 800, 55, 2.5));
-
 
     console.log('All Done!');
 });
