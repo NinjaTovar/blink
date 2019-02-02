@@ -65,6 +65,5 @@ AM.downloadAll(function ()
     // Adding Necroman
     gameEngine.addEntity(new Necroman(gameEngine, 520, 55, 2.5));
 
-
     console.log('All Done!');
 });
