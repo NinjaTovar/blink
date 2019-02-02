@@ -4,7 +4,7 @@
  *
  * Single constructor takes in the game context as its parameter. (There is no default) 
  */
-class FlyMutant
+class Metroid
 {
     /**
      * Single constructor for Fly. Loads assets and sets intial parameters including
@@ -16,37 +16,26 @@ class FlyMutant
      * @param {any} startY Starting x position of the fly being constructed.
      * @param {any} size Size of scale for character.
      */
-    constructor(game, startX, startY, size, isHeadingRight)
+    constructor(game, startX, startY, size)
     {
-        this.flyLeftAnimation = new Animation
+        this.hover = new Animation
             (
-            AM.getAsset('./img/enemies/fly/Fly_FaceLeft.png'),
-            111,    // frame width
-            90,     // frame height
-            2,      // sheet width
+            AM.getAsset('./img/enemies/metroid/metroid.png'),
+            78,    // frame width
+            86,     // frame height
+            4,      // sheet width
             0.1,    // frame duration
-            3,      // frames in animation
-            true,   // to loop or not to loop
-            size    // scale in relation to original image
-            );
-        this.flyRightAnimation = new Animation
-            (
-            AM.getAsset('./img/enemies/fly/Fly_FaceRight.png'),
-            111,    // frame width
-            90,     // frame height
-            2,      // sheet width
-            0.1,    // frame duration
-            3,      // frames in animation
+            12,      // frames in animation
             true,   // to loop or not to loop
             size    // scale in relation to original image
             );
 
         this.x = startX;
         this.y = startY;
-        this.speed = 300;
+        this.speed = 20;
         this.game = game;
         this.ctx = game.ctx;
-        this.isHeadingRight = isHeadingRight;
+        this.isHeadingRight = false;
 
         // this will be used for rewind
         this.myPath = [];
@@ -64,22 +53,21 @@ class FlyMutant
      */
     draw(ctx)
     {
-        // If field "isHeadingRight" is true, play fly right animation
+        // If field "isHeadingRight" is false, play fly left animation
         if ((this.isHeadingRight && !this.willRewind()))
         {
-            this.flyRightAnimation.drawFrame(this.game.clockTick, ctx, this.x, this.y)
+            this.hover.drawFrame(this.game.clockTick, ctx, this.x, this.y)
         }
-        // If field "isHeadingRight" is false, play fly left animation
-        else if ((!this.isHeadingRight && !this.willRewind()))
+        if ((!this.isHeadingRight && !this.willRewind()))
         {
-            this.flyLeftAnimation.drawFrame(this.game.clockTick, ctx, this.x, this.y)
+            this.hover.drawFrame(this.game.clockTick, ctx, this.x, this.y)
         }
 
         // If affected by time spell
         if (this.isHeadingRight && this.willRewind() && this.myPath.length > 1)
         {
             this.x = this.myPath.pop();
-            this.flyRightAnimation.drawFrame(this.game.clockTick, ctx, this.x,
+            this.hover.drawFrame(this.game.clockTick, ctx, this.x,
                 this.y);
 
 
@@ -92,7 +80,7 @@ class FlyMutant
         if (!this.isHeadingRight && this.willRewind() && this.myPath.length > 1)
         {
             this.x = this.myPath.pop();
-            this.flyLeftAnimation.drawFrame(this.game.clockTick, ctx, this.x,
+            this.hover.drawFrame(this.game.clockTick, ctx, this.x,
                 this.y);
 
             if (this.myPath.length == 1)
@@ -145,11 +133,11 @@ class FlyMutant
         if (this.isHeadingRight)
         {
             this.x += this.game.clockTick * this.speed;
-            if (this.x > 4500) this.isHeadingRight = false;
+            if (this.x > 400) this.isHeadingRight = false;
         } else
         {
             this.x -= this.game.clockTick * this.speed;
-            if (this.x < 5) this.isHeadingRight = true;
+            if (this.x < 130) this.isHeadingRight = true;
         }
     }
 

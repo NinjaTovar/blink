@@ -27,7 +27,7 @@ class Blink
             0.8,     // frame duration
             3,       // frames in animation
             true,    // to loop or not to loop
-            1.8      // scale in relation to original image
+            3      // scale in relation to original image
             );
         this.standRightAnimation = new Animation
             (
@@ -38,7 +38,7 @@ class Blink
             0.8,    // frame duration
             3,      // frames in animation
             true,   // to loop or not to loop
-            1.8     // scale in relation to original image
+            3    // scale in relation to original image
         );
         this.runFaceLeftAnimation = new Animation
             (
@@ -49,7 +49,7 @@ class Blink
             0.1,    // frame duration
             6,      // frames in animation
             true,   // to loop or not to loop
-            1.8     // scale in relation to original image
+            3     // scale in relation to original image
             );
         this.runFaceRightAnimation = new Animation
             (
@@ -60,7 +60,7 @@ class Blink
             0.1,    // frame duration
             6,      // frames in animation
             true,   // to loop or not to loop
-            1.8     // scale in relation to original image
+            3     // scale in relation to original image
             );
 
         this.slashFaceLeft = new Animation
@@ -72,7 +72,7 @@ class Blink
             0.13,   // frame duration
             5,      // frames in animation
             true,   // to loop or not to loop
-            1.8     // scale in relation to original image
+            3     // scale in relation to original image
             );
         this.slashFaceRight = new Animation
             (
@@ -83,7 +83,7 @@ class Blink
             0.13,   // frame duration
             5,      // frames in animation
             true,   // to loop or not to loop
-            1.8     // scale in relation to original image
+            3     // scale in relation to original image
         );
         this.jumpFaceLeftAnimation = new Animation
             (
@@ -94,7 +94,7 @@ class Blink
             0.1,    // frame duration
             8,      // frames in animation
             true,   // to loop or not to loop
-            1.8     // scale in relation to original image
+            3     // scale in relation to original image
             );
         this.jumpFaceRightAnimation = new Animation
             (
@@ -105,7 +105,7 @@ class Blink
             0.1,    // frame duration
             8,      // frames in animation
             true,   // to loop or not to loop
-            1.8     // scale in relation to original image
+            3     // scale in relation to original image
         );
         this.spellFaceLeft = new Animation
             (
@@ -116,7 +116,7 @@ class Blink
             0.4,    // frame duration
             3,      // frames in animation
             true,   // to loop or not to loop
-            1.8     // scale in relation to original image
+            3     // scale in relation to original image
             );
         this.spellFaceRight = new Animation
             (
@@ -127,19 +127,19 @@ class Blink
             0.4,    // frame duration
             3,      // frames in animation
             true,   // to loop or not to loop
-            1.8     // scale in relation to original image
+            3    // scale in relation to original image
             );
 
 
         // Set initial values for Blinks world state
         this.x = 50;
-        this.y = 200;
+        this.y = 450;
         this.lastY = this.y;
         this.groundLevel = this.y;
-        this.speed = 150;
+        this.speed = 275;
         this.game = game;
         this.ctx = game.ctx;
-        this.jumpHeight = 200;
+        this.jumpHeight = 250;
 
         // key listener states
         this.moving = false;
@@ -254,7 +254,7 @@ class Blink
         // SPELLCASTING
         if (this.isSpellcasting())
         {
-            var raiseUpABit = 20;
+            var raiseUpABit = 50;
 
             if (this.rewindTime)
             {
@@ -434,9 +434,9 @@ class Blink
 
         // TODO - on finish of camera rework this
         // keep in bounds of canvas until camera class is functional
-        if (this.x > 770)
+        if (this.x > this.ctx.canvas.width - 20)
         {
-            this.x = 770;
+            this.x = this.ctx.canvas.width - 20;
             this.moving = false;
         }
         else if (this.x < 0)

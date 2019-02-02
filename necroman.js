@@ -43,7 +43,7 @@ class Necroman
 
         this.x = startX;
         this.y = startY;
-        this.speed = 200;
+        this.speed = 250;
         this.game = game;
         this.ctx = game.ctx;
         this.isHeadingRight = false;

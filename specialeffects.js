@@ -38,7 +38,7 @@ class SpecialEffects
             // Draw mini circles everywhere on stop time spell
             for (var i = 0; i < 30; i++)
             {
-                for (var j = 0; j < 35; j++)
+                for (var j = 0; j < 100; j++)
                 {
                     // randomize the circle color
                     this.bottomProjectionCtx.strokeStyle = 'hsl(' + 360 * Math.random() + ', 50%, 50%)';
@@ -50,7 +50,7 @@ class SpecialEffects
             }
 
             // Draw semi large transparent circles
-            for (var k = 0; k < 14; k++)
+            for (var k = 0; k < 50; k++)
             {
                 this.middleProjectionCtx.fillStyle = 'hsl(' + 360 * Math.random() + ', 50%, 50%)';
                 this.middleProjectionCtx.beginPath();
@@ -86,14 +86,13 @@ class SpecialEffects
 
                 this.middleProjectionCtx.fillStyle = colors[getRandomInt(3)];
 
-
-                this.middleProjectionCtx.fillRect(0, 0, 800, 300);
+                this.middleProjectionCtx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
             }
 
             if (this.ctx.globalAlpha > .96)
             {
-                this.bottomProjectionCtx.clearRect(0, 0, 50000, 50000);
-                this.middleProjectionCtx.clearRect(0, 0, 50000, 50000);
+                this.bottomProjectionCtx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+                this.middleProjectionCtx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
             }
         }
     }
@@ -118,14 +117,13 @@ class SpecialEffects
 
                 this.middleProjectionCtx.fillStyle = colors[getRandomInt(3)];
 
-
-                this.middleProjectionCtx.fillRect(0, 0, 800, 300);
+                this.middleProjectionCtx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
             }
 
             if (this.ctx.globalAlpha > .96)
             {
-                this.bottomProjectionCtx.clearRect(0, 0, 50000, 50000);
-                this.middleProjectionCtx.clearRect(0, 0, 50000, 50000);
+                this.bottomProjectionCtx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+                this.middleProjectionCtx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
             }
         }
     }
