@@ -60,8 +60,8 @@ class SpecialEffects
 
             if (this.ctx.globalAlpha > .96)
             {
-                this.bottomProjectionCtx.clearRect(0, 0, 50000, 50000);
-                this.middleProjectionCtx.clearRect(0, 0, 50000, 50000);
+                this.bottomProjectionCtx.clearRect(0, 0, this.game.surfaceWidth, this.game.surfaceHeight);
+                this.middleProjectionCtx.clearRect(0, 0, this.game.surfaceWidth, this.game.surfaceHeight);
             }
         }
     }
@@ -80,7 +80,7 @@ class SpecialEffects
                 return Math.floor(Math.random() * Math.floor(max));
             }
 
-            for (var k = 0; k < 20; k++)
+            for (var k = 0; k < 5; k++)
             {
                 var colors = ['black', 'yellow'];
 
@@ -91,8 +91,8 @@ class SpecialEffects
 
             if (this.ctx.globalAlpha > .96)
             {
-                this.bottomProjectionCtx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-                this.middleProjectionCtx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+                this.bottomProjectionCtx.clearRect(0, 0, this.game.surfaceWidth, this.game.surfaceHeight);
+                this.middleProjectionCtx.clearRect(0, 0, this.game.surfaceWidth, this.game.surfaceHeight);
             }
         }
     }
@@ -111,7 +111,7 @@ class SpecialEffects
                 return Math.floor(Math.random() * Math.floor(max));
             }
 
-            for (var k = 0; k < 20; k++)
+            for (var k = 0; k < 5; k++)
             {
                 var colors = ['blue', 'black'];
 
@@ -122,8 +122,8 @@ class SpecialEffects
 
             if (this.ctx.globalAlpha > .96)
             {
-                this.bottomProjectionCtx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-                this.middleProjectionCtx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+                this.bottomProjectionCtx.clearRect(0, 0, this.game.surfaceWidth, this.game.surfaceHeight);
+                this.middleProjectionCtx.clearRect(0, 0, this.game.surfaceWidth, this.game.surfaceHeight);
             }
         }
     }
