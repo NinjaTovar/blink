@@ -230,7 +230,7 @@ class Blink
         {
             if (!this.facingRight)
             {
-                this.y = 185;
+                this.y = this.y - 30;
                 this.slashFaceLeft.drawFrame(
                     this.game.blinksClockTick,
                     ctx,
@@ -241,7 +241,7 @@ class Blink
             // if facing right and moving, attack right animation
             else if (this.facingRight && this.basicAttack)
             {
-                this.y = 185;
+                this.y = this.y - 30;
                 this.slashFaceRight.drawFrame(
                     this.game.blinksClockTick,
                     ctx,
