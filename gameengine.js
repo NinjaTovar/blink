@@ -26,7 +26,7 @@ class GameEngine
      * @param {any} ctx A reference to the game context.
      * @param {any} blink A reference to blink
      */
-    init(ctx, blink)
+    init(ctx)
     {
         // initialize game world features. Context, timer, canvas width and height, etc.
         this.ctx = ctx;
