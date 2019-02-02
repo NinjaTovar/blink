@@ -28,7 +28,7 @@ class Camera
         // this.speedY = 10;
 
         // debug camera tool
-        this.shouldOutlineCamera = true;
+        this.shouldOutlineCamera = false;
     }
     draw()
     {
