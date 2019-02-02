@@ -80,7 +80,7 @@ class SpecialEffects
                 return Math.floor(Math.random() * Math.floor(max));
             }
 
-            for (var k = 0; k < 100; k++)
+            for (var k = 0; k < 20; k++)
             {
                 var colors = ['black', 'yellow'];
 
@@ -111,7 +111,7 @@ class SpecialEffects
                 return Math.floor(Math.random() * Math.floor(max));
             }
 
-            for (var k = 0; k < 100; k++)
+            for (var k = 0; k < 20; k++)
             {
                 var colors = ['blue', 'black'];
 
