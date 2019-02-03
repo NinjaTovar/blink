@@ -55,7 +55,7 @@ class Blink
      */
     draw(ctx)
     {
-        // Only occurs on level start
+        // Unsheath your sword!
         if (this.unsheathSword)
         {
             if (this.facingRight)
@@ -82,7 +82,6 @@ class Blink
                 this.atTheReady_FaceLeft.drawFrame(this.game.blinksClockTick, ctx,
                     this.x, this.y);
             }
-
         }
 
 
@@ -233,16 +232,17 @@ class Blink
         // Only happens at the beginning of the levl
         if (this.unsheathSword)
         {
-            if (this.swordUnsheath_FaceRight.elapsedTime > 0.7)
+            if (this.swordUnsheath_FaceRight.elapsedTime > 0.7 ||
+                this.swordUnsheath_FaceLeft.elapsedTime > 0.7)
             {
                 this.unsheathSword = false;
                 this.unsheathSwordStandStill = true;
             }
         }
 
+        // If standing still too long, pull out your sword!
         if (this.isStandingStill())
         {
-            console.log(this.standLeftAnimation.elapsedTime);
             if (this.standLeftAnimation.elapsedTime > 2 ||
                 this.standRightAnimation.elapsedTime > 2)
             {
@@ -254,6 +254,7 @@ class Blink
             }
         }
 
+        // if Blink starts moving, stop holding the sword
         if (this.isRunning())
         {
             this.unsheathSwordStandStill = false;
@@ -301,6 +302,8 @@ class Blink
         // currently the best way to keep the animation looking sexy.
         if (this.jumping)
         {
+            this.unsheathSword = false;
+
             if (this.jumpFaceRightAnimation.elapsedTime > 0.7 ||
                 this.jumpFaceLeftAnimation.elapsedTime > 0.7)
             {
