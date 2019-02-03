@@ -32,7 +32,7 @@ class Camera
     }
     draw()
     {
-        if (this.blink.x > 100 )
+        if (this.blink.x > 100)
         {
             this.ctx.translate(this.xPosition / 1.15, 0);
         }

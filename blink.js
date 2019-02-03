@@ -224,7 +224,8 @@ class Blink
         }
     }
 
-    /** Update handles updating the objects world state. */
+    /** All changes to blinks state happen here. Draw should not handle those changes
+     *  as it could potentially be a hard bug to find. */
     update()
     {
         this.updateBlinksStateFromKeyListeners();
