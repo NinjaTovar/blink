@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Animation Assignment 1</title>
+    <title>Blink</title>
     <link rel="stylesheet" href="./main.css" />
     <script type="text/javascript" src="./gameengine.js"></script>
     <script type="text/javascript" src="./assetmanager.js"></script>
@@ -20,18 +20,25 @@
     <script type="text/javascript" src="./camera.js"></script>
 </head>
 <body>
-    <iframe src="./audio/levels/levelOne.mp3"
+    <!--
+    <iframe
+            id="levelOneMusic"
+            name="levelOneMusic"
+            src="./audio/levels/levelOne.mp3"
             allow="autoplay"
-            id="audio/mp3"
             style="display:none">
     </iframe>
+     -->
 
+    <!-- Load the game world layers -->
     <canvas id="projectionsLayerBottom" tabindex="0" width="5000" height="586"
             style="position:absolute;left:0;top:0;"></canvas>
     <canvas id="projectionsLayerMiddle" tabindex="0" width="5000" height="586"
             style="position:absolute;left:0;top:0;"></canvas>
     <canvas id="gameWorld" tabindex="1" width="5000" height="586"
             style="position:absolute;left:0;top:0;"></canvas>
+
+    <!-- Formatting for text instructions on-screen. Audio tags are below this.-->
     <p>
         <br />
         <br />
@@ -85,5 +92,38 @@
             <tt>Protip: Hold a time power and act, while your foes watch in horror as you slip outside the fabric of time.</tt>
         </center>
     </p>
+
+    <!-- Handle audio here -->
+    <audio id="levelOneMusic"
+           controls
+           loop
+           autoplay
+           hidden
+           preload="auto"
+           src="./audio/levels/levelOne.mp3" />
+
+    <audio id="slowTime"
+           controls
+           hidden
+           preload="metadata"
+           src="./audio/effects/SlowTime.wav" />
+
+    <audio id="stopTime"
+           controls
+           hidden
+           preload="metadata"
+           src="./audio/effects/StopTime.wav" />
+
+    <audio id="rewindTime"
+           controls
+           hidden
+           preload="metadata"
+           src="./audio/effects/RewindTime.wav" />
+
+    <audio id="slash"
+           controls
+           hidden
+           preload="metadata"
+           src="./audio/effects/SwordSlash.wav" />
 </body>
 </html>

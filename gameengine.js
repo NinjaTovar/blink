@@ -308,7 +308,24 @@ class GameEngine
         // use that to refer to other classes use of these listeners
         const that = this;
 
+        // Event Listeners
+        this.ctx.canvas.addEventListener(
+            'mousedown',
+            e =>
+            {
+                console.log("Nouse button: " + e.button);
+                switch (e.button)
+                {
 
+                    case 0:
+                        that.startLevel = true;
+                        break;
+                    default:
+                        break;
+                }
+            },
+            false
+        );
 
         // Event Listeners
         this.ctx.canvas.addEventListener(

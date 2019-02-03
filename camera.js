@@ -37,11 +37,6 @@ class Camera
             this.ctx.translate(this.xPosition / 1.15, 0);
         }
 
-
-        
-
-
-
         if (this.shouldOutlineCamera)
         {
             this.ctx.beginPath();
