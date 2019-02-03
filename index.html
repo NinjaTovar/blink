@@ -29,7 +29,6 @@
             style="display:none">
     </iframe>
      -->
-
     <!-- Load the game world layers -->
     <canvas id="projectionsLayerBottom" tabindex="0" width="5000" height="586"
             style="position:absolute;left:0;top:0;"></canvas>
@@ -72,7 +71,6 @@
         <br />
         <br />
 
-
         <div class="row">
 
             <div class="column">
@@ -101,6 +99,7 @@
                 <center>
                     <h2><mark>Controls</mark></h2>
                     <h4><Font color='White' />W (Hold): <Font color='3498DB' />Slow Time!</h4>
+                    <h4><Font color='White' />F (Hold): <Font color='3498DB' />Speed Time!</h4>
                     <h4><Font color='White' />S (Hold): <Font color='3498DB' />Stop Time!</h4>
                     <h4><Font color='White' />D (Hold): <Font color='3498DB' />Rewind Time!</h4>
                     <h4><Font color='White' />A (Hold): <Font color='3498DB' />Attack! </h4>
@@ -138,6 +137,12 @@
            hidden
            preload="metadata"
            src="./audio/effects/RewindTime.wav" />
+
+    <audio id="speedTime"
+           controls
+           hidden
+           preload="metadata"
+           src="./audio/effects/HighPitch.wav" />
 
     <audio id="slash"
            controls

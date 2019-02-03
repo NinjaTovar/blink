@@ -57,12 +57,6 @@ class SpecialEffects
                 this.middleProjectionCtx.arc(75 * k, 75 * k / 5, 10 + 10 * k, 0, Math.PI * 2, true);
                 this.middleProjectionCtx.fill();
             }
-
-            if (this.ctx.globalAlpha > .96)
-            {
-                this.bottomProjectionCtx.clearRect(0, 0, this.game.surfaceWidth, this.game.surfaceHeight);
-                this.middleProjectionCtx.clearRect(0, 0, this.game.surfaceWidth, this.game.surfaceHeight);
-            }
         }
     }
 
@@ -80,19 +74,13 @@ class SpecialEffects
                 return Math.floor(Math.random() * Math.floor(max));
             }
 
+            // flash middle canvas purple and yellow
             for (var k = 0; k < 3; k++)
             {
-                var colors = ['black', 'yellow'];
+                var colors = ['#9B59B6', 'yellow'];
 
                 this.middleProjectionCtx.fillStyle = colors[getRandomInt(3)];
-
                 this.middleProjectionCtx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-            }
-
-            if (this.ctx.globalAlpha > .96)
-            {
-                this.bottomProjectionCtx.clearRect(0, 0, this.game.surfaceWidth, this.game.surfaceHeight);
-                this.middleProjectionCtx.clearRect(0, 0, this.game.surfaceWidth, this.game.surfaceHeight);
             }
         }
     }
@@ -113,18 +101,59 @@ class SpecialEffects
 
             for (var k = 0; k < 3; k++)
             {
-                var colors = ['blue', 'black'];
+                // bottom canvas flashes blue grey
+                var colors = ['blue', 'grey'];
 
-                this.middleProjectionCtx.fillStyle = colors[getRandomInt(3)];
+                this.bottomProjectionCtx.fillStyle = colors[getRandomInt(3)];
+                this.bottomProjectionCtx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
-                this.middleProjectionCtx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+                // middle canvas draws streaks width of canvas white, light blue
+                var colors = ['white', '#85C1E9'];
+
+                this.middleProjectionCtx.fillRect(
+                    getRandomInt(getRandomInt(this.middleProjectionCtx.canvas.width)),
+                    getRandomInt(getRandomInt(this.middleProjectionCtx.canvas.height)),
+                    getRandomInt(this.middleProjectionCtx.canvas.width),
+                    getRandomInt(10));
             }
+        }
+    }
 
-            if (this.ctx.globalAlpha > .96)
+    performSpeedTimeSpecialEffects()
+    {
+        // If Blink cast a spell, slowly fade screen transparency back
+        if (this.ctx.globalAlpha < 1)
+        {
+            this.ctx.globalAlpha += .1;
+            this.middleProjectionCtx.globalAlpha += .4;
+            this.bottomProjectionCtx.globalAlpha += .009;
+
+            function getRandomInt(max)
             {
-                this.bottomProjectionCtx.clearRect(0, 0, this.game.surfaceWidth, this.game.surfaceHeight);
-                this.middleProjectionCtx.clearRect(0, 0, this.game.surfaceWidth, this.game.surfaceHeight);
+                return Math.floor(Math.random() * Math.floor(max));
             }
+
+            // draw random squares over canvas
+            for (var k = 0; k < 3; k++)
+            {
+                this.middleProjectionCtx.fillStyle = 'hsl(' + 360 * Math.random() + ', 50%, 50%)';
+
+                this.middleProjectionCtx.fillRect(
+                    getRandomInt(getRandomInt(this.middleProjectionCtx.canvas.width)), 
+                    getRandomInt(getRandomInt(this.middleProjectionCtx.canvas.height)),
+                            getRandomInt(100),
+                            getRandomInt(100));
+            }
+
+
+            // Removed flashiness but may want to put it back
+            //for (var k = 0; k < 3; k++)
+            //{
+            //    var colors = ['#28B463', '#F5EEF8'];
+
+            //    this.middleProjectionCtx.fillStyle = colors[getRandomInt(3)];
+            //    this.middleProjectionCtx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+            //}
         }
     }
 
@@ -137,10 +166,10 @@ class SpecialEffects
             this.middleProjectionCtx.globalAlpha += .4;
             this.bottomProjectionCtx.globalAlpha += .009;
 
-            if (this.ctx.globalAlpha > .98)
+            if (this.ctx.globalAlpha > .94)
             {
-                this.bottomProjectionCtx.clearRect(0, 0, 50000, 50000);
-                this.middleProjectionCtx.clearRect(0, 0, 50000, 50000);
+                this.bottomProjectionCtx.clearRect(0, 0, this.bottomProjectionCtx.canvas.width, this.bottomProjectionCtx.canvas.height);
+                this.middleProjectionCtx.clearRect(0, 0, this.middleProjectionCtx.canvas.width, this.middleProjectionCtx.canvas.height);
             }
         }
     }

@@ -42,12 +42,14 @@ class Blink
         this.stopTime = false;
         this.rewindTime = false;
         this.slowTime = false;
+        this.speedTime = false;
         this.startLevel = false;
         this.dontRestartLevel = false;
 
         // Music and Sounds
         this.levelMusic = document.getElementById('levelOneMusic');
         this.slowSoundEffect = document.getElementById('slowTime');
+        this.speedSoundEffect = document.getElementById('speedTime');
         this.rewindSoundEffect = document.getElementById('rewindTime');
         this.stopSoundEffect = document.getElementById('stopTime');
         this.slashSoundEffect = document.getElementById('slash');
@@ -61,6 +63,8 @@ class Blink
         this.speedUpMovement = false;
         this.outlineHitBox = false;
         this.stopEnemies = false;
+
+
     }
 
     // Methods ---------------------------------------------------------------------------
@@ -449,7 +453,7 @@ class Blink
             this.rewindSoundEffect.currentTime = 0;
 
         }
-        // rewind state update for game engine
+        // slow state update for game engine
         if (this.slowTime)
         {
             this.game.allShouldSlow(true);
@@ -467,6 +471,25 @@ class Blink
             this.slowSoundEffect.pause();
             this.slowSoundEffect.currentTime = 0;
             this.levelMusic.playbackRate = 1;
+        }
+        // speed state update for game engine
+        if (this.speedTime)
+        {
+            this.game.allShouldSpeed(true);
+
+            this.unsheathSword = false;
+            this.unsheathSwordStandStill = false;
+
+            this.speedSoundEffect.play();
+            //this.levelMusic.playbackRate = 1;
+        }
+        if (!this.speedTime)
+        {
+            this.game.allShouldSpeed(false);
+
+            this.speedSoundEffect.pause();
+            this.speedSoundEffect.currentTime = 0;
+            //this.levelMusic.playbackRate = 1;
         }
     }
 
@@ -558,6 +581,10 @@ class Blink
         if (this.game.rewindTime !== undefined)
         {
             this.rewindTime = this.game.rewindTime;
+        }
+        if (this.game.speedTime !== undefined)
+        {
+            this.speedTime = this.game.speedTime;
         }
         if (this.game.startLevel !== undefined)
         {

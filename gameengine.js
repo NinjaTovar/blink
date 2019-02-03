@@ -43,6 +43,7 @@ class GameEngine
         this.timeIsRewinding = false;
         this.timeIsStopped = false;
         this.timeIsSlowed = false;
+        this.timeIsSped = false;
 
         // Set listeners
         this.initializeEventListeners();
@@ -240,6 +241,17 @@ class GameEngine
         }
     }
 
+    /** If Blink casts a spell, stop game tick for all and handle visuals. */
+    speedGameTime()
+    {
+        this.clockTick = this.clockTick * 6;
+        if (this.timeIsSped)
+        {
+            this.specialEffects.prepareCanvasLayersForEffects();
+            this.specialEffects.performSpeedTimeSpecialEffects();
+        }
+    }
+
 
     /**
      * Manages calling all entities rewind functions
@@ -293,6 +305,22 @@ class GameEngine
         if (this.timeIsSlowed)
         {
             this.slowGameTime();
+        }
+    }
+
+    /**
+    * Manages calling all entities slow functions
+    * 
+    * @param {any} truthOfThisStatement Alerts game Blink is trying to stop time.
+    */
+    allShouldSpeed(truthOfThisStatement)
+    {
+        // let game engine keep track of this too
+        this.timeIsSped = truthOfThisStatement;
+
+        if (this.timeIsSped)
+        {
+            this.speedGameTime();
         }
     }
 
@@ -359,6 +387,10 @@ class GameEngine
                     case 'w':   // w is slow time spell
                         that.slowTime = true;
                         break;
+                    case 'F':   // F is speed time spell
+                    case 'f':   // f is speed time spell
+                        that.speedTime = true;
+                        break;
                     case ' ':   // spacebar is jump
                         that.jumping = true;
                         break;
@@ -399,6 +431,10 @@ class GameEngine
                     case 'W':
                     case 'w':
                         that.slowTime = false;
+                        break;
+                    case 'F':
+                    case 'f':
+                        that.speedTime = false;
                         break;
                     default:
                         break;
