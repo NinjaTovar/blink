@@ -43,6 +43,7 @@ class Animation
         this.elapsedTime = 0;
         this.loop = loop;
         this.scale = scale;
+        this.isDonePlaying = false;
     }
 
     /**
@@ -59,6 +60,8 @@ class Animation
 
         if (this.isDone())
         {
+            this.isDonePlaying = true;
+
             if (this.loop)
             {
                 this.elapsedTime = 0;

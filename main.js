@@ -4,17 +4,23 @@ var AM = new AssetManager();
 AM.queueDownload('./img/levels/trainTunnel.png');
 
 // Queue downloading main character
+AM.queueDownload('./img/blink/Crono_PullSwordOut_FaceLeft.png');
 AM.queueDownload('./img/blink/Crono_PullSwordOut_FaceRight.png');
+AM.queueDownload('./img/blink/Crono_PullSwordOut_FaceLeft_Still.png');
+AM.queueDownload('./img/blink/Crono_PullSwordOut_FaceRight_Still.png');
 AM.queueDownload('./img/blink/Crono_Stand_FaceLeft.png');
 AM.queueDownload('./img/blink/Crono_Stand_FaceRight.png');
 AM.queueDownload('./img/blink/Crono_Run_FaceLeft.png');
 AM.queueDownload('./img/blink/Crono_Run_FaceRight.png');
+AM.queueDownload('./img/blink/Crono_JumpSlash_FaceLeft.png');
+AM.queueDownload('./img/blink/Crono_JumpSlash_FaceRight.png');
 AM.queueDownload('./img/blink/Crono_Slash_FaceLeft.png');
 AM.queueDownload('./img/blink/Crono_Slash_FaceRight.png');
 AM.queueDownload('./img/blink/Crono_Jump_FaceLeft.png');
 AM.queueDownload('./img/blink/Crono_Jump_FaceRight.png');
 AM.queueDownload('./img/blink/Crono_Spell_FaceLeft.png');
 AM.queueDownload('./img/blink/Crono_Spell_FaceRight.png');
+
 
 // Queue downloading FlyMutant
 AM.queueDownload('./img/enemies/fly/Fly_FaceLeft.png');

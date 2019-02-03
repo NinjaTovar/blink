@@ -38,7 +38,7 @@ class SpecialEffects
             // Draw mini circles everywhere on stop time spell
             for (var i = 0; i < 30; i++)
             {
-                for (var j = 0; j < 100; j++)
+                for (var j = 0; j < 80; j++)
                 {
                     // randomize the circle color
                     this.bottomProjectionCtx.strokeStyle = 'hsl(' + 360 * Math.random() + ', 50%, 50%)';
@@ -50,7 +50,7 @@ class SpecialEffects
             }
 
             // Draw semi large transparent circles
-            for (var k = 0; k < 50; k++)
+            for (var k = 0; k < 30; k++)
             {
                 this.middleProjectionCtx.fillStyle = 'hsl(' + 360 * Math.random() + ', 50%, 50%)';
                 this.middleProjectionCtx.beginPath();
@@ -80,7 +80,7 @@ class SpecialEffects
                 return Math.floor(Math.random() * Math.floor(max));
             }
 
-            for (var k = 0; k < 5; k++)
+            for (var k = 0; k < 3; k++)
             {
                 var colors = ['black', 'yellow'];
 
@@ -111,7 +111,7 @@ class SpecialEffects
                 return Math.floor(Math.random() * Math.floor(max));
             }
 
-            for (var k = 0; k < 5; k++)
+            for (var k = 0; k < 3; k++)
             {
                 var colors = ['blue', 'black'];
 

@@ -16,132 +16,12 @@ class Blink
      */
     constructor(game)
     {
-        // Load all assets for character first. There's quite a few.
-        this.swordUnsheath = new Animation
-            (
-            AM.getAsset('./img/blink/Crono_PullSwordOut_FaceRight.png'),
-            30,      // frame width
-            32,      // frame height
-            3,       // sheet width
-            0.8,     // frame duration
-            6,       // frames in animation
-            false,    // to loop or not to loop
-            3      // scale in relation to original image
-            );
-        this.standLeftAnimation = new Animation
-            (
-            AM.getAsset('./img/blink/Crono_Stand_FaceLeft.png'),
-            14,      // frame width
-            34,      // frame height
-            3,       // sheet width
-            0.8,     // frame duration
-            3,       // frames in animation
-            true,    // to loop or not to loop
-            3      // scale in relation to original image
-            );
-        this.standRightAnimation = new Animation
-            (
-            AM.getAsset('./img/blink/Crono_Stand_FaceRight.png'),
-            14,     // frame width
-            34,     // frame height
-            3,      // sheet width
-            0.8,    // frame duration
-            3,      // frames in animation
-            true,   // to loop or not to loop
-            3    // scale in relation to original image
-        );
-        this.runFaceLeftAnimation = new Animation
-            (
-            AM.getAsset('./img/blink/Crono_Run_FaceLeft.png'),
-            22,     // frame width
-            34,     // frame height
-            3,      // sheet width
-            0.1,    // frame duration
-            6,      // frames in animation
-            true,   // to loop or not to loop
-            3     // scale in relation to original image
-            );
-        this.runFaceRightAnimation = new Animation
-            (
-            AM.getAsset('./img/blink/Crono_Run_FaceRight.png'),
-            22,     // frame width
-            34,     // frame height
-            3,      // sheet width
-            0.1,    // frame duration
-            6,      // frames in animation
-            true,   // to loop or not to loop
-            3     // scale in relation to original image
-            );
-
-        this.slashFaceLeft = new Animation
-            (
-            AM.getAsset('./img/blink/Crono_Slash_FaceLeft.png'),
-            31,     // frame width
-            48.3,     // frame height
-            2,      // sheet width
-            0.13,   // frame duration
-            3,      // frames in animation
-            true,   // to loop or not to loop
-            3     // scale in relation to original image
-            );
-        this.slashFaceRight = new Animation
-            (
-            AM.getAsset('./img/blink/Crono_Slash_FaceRight.png'),
-            31,     // frame width
-            48.3,     // frame height
-            2,      // sheet width
-            0.13,   // frame duration
-            3,      // frames in animation
-            true,   // to loop or not to loop
-            3     // scale in relation to original image
-        );
-        this.jumpFaceLeftAnimation = new Animation
-            (
-            AM.getAsset('./img/blink/Crono_Jump_FaceLeft.png'),
-            39.2,     // frame width
-            34,     // frame height
-            3,      // sheet width
-            0.1,    // frame duration
-            8,      // frames in animation
-            true,   // to loop or not to loop
-            3     // scale in relation to original image
-            );
-        this.jumpFaceRightAnimation = new Animation
-            (
-            AM.getAsset('./img/blink/Crono_Jump_FaceRight.png'),
-            38.78,     // frame width
-            34,     // frame height
-            3,      // sheet width
-            0.1,    // frame duration
-            8,      // frames in animation
-            true,   // to loop or not to loop
-            3     // scale in relation to original image
-        );
-        this.spellFaceLeft = new Animation
-            (
-            AM.getAsset('./img/blink/Crono_Spell_FaceLeft.png'),
-            21,     // frame width
-            39,     // frame height
-            2,      // sheet width
-            0.4,    // frame duration
-            3,      // frames in animation
-            true,   // to loop or not to loop
-            3     // scale in relation to original image
-            );
-        this.spellFaceRight = new Animation
-            (
-            AM.getAsset('./img/blink/Crono_Spell_FaceRight.png'),
-            21,     // frame width
-            39,     // frame height
-            2,      // sheet width
-            0.4,    // frame duration
-            3,      // frames in animation
-            true,   // to loop or not to loop
-            3    // scale in relation to original image
-            );
+        // Way at bottom to clean up class constructor. There 's a ton!
+        this.loadAllBlinksAssets();
 
         // Play unsheath sword animation to start
         this.unsheathSword = true;
+        this.unsheathSwordStandStill = false;
 
         // Set initial values for Blinks world state
         this.x = 50;
@@ -176,12 +56,33 @@ class Blink
     draw(ctx)
     {
         // Only occurs on level start
-        if (this.unsheathSword && this.swordUnsheath.elapsedTime < .7)
+        if (this.unsheathSword)
         {
-            console.log("Unsheath is happening");
+            if (this.facingRight)
+            {
+                this.swordUnsheath_FaceRight.drawFrame(this.game.blinksClockTick, ctx,
+                    this.x, this.y);
+            }
+            else
+            {
+                this.swordUnsheath_FaceLeft.drawFrame(this.game.blinksClockTick, ctx,
+                    this.x, this.y);
+            }
 
-            this.swordUnsheath.drawFrame(this.game.blinksClockTick, ctx,
-                this.x, this.y);
+        }
+        if (this.unsheathSwordStandStill)
+        {
+            if (this.facingRight)
+            {
+                this.atTheReady_FaceRight.drawFrame(this.game.blinksClockTick, ctx,
+                    this.x, this.y);
+            }
+            else
+            {
+                this.atTheReady_FaceLeft.drawFrame(this.game.blinksClockTick, ctx,
+                    this.x, this.y);
+            }
+
         }
 
 
@@ -204,25 +105,51 @@ class Blink
         // JUMPING        
         else if (this.jumping)
         {
-            // if facing left and jumping, jump facing left animation
-            if (!this.facingRight)
+            if (!this.basicAttack)
             {
-                this.jumpFaceLeftAnimation.drawFrame(
-                    this.game.blinksClockTick,
-                    ctx,
-                    this.x,
-                    this.y
-                );   
+                // if facing left and jumping, jump facing left animation
+                if (!this.facingRight)
+                {
+                    this.jumpFaceLeftAnimation.drawFrame(
+                        this.game.blinksClockTick,
+                        ctx,
+                        this.x,
+                        this.y
+                    );
+                }
+                // if facing right and jumping, jump facing right animation
+                else if (this.facingRight)
+                {
+                    this.jumpFaceRightAnimation.drawFrame(
+                        this.game.blinksClockTick,
+                        ctx,
+                        this.x,
+                        this.y
+                    );
+                }
             }
-            // if facing right and jumping, jump facing right animation
-            else if (this.facingRight)
+            else
             {
-                this.jumpFaceRightAnimation.drawFrame(
-                    this.game.blinksClockTick,
-                    ctx,
-                    this.x,
-                    this.y
-                );
+                // if facing left and jumping, jump facing left animation
+                if (!this.facingRight)
+                {
+                    this.jumpAttackFaceLeft.drawFrame(
+                        this.game.blinksClockTick,
+                        ctx,
+                        this.x,
+                        this.y
+                    );
+                }
+                // if facing right and jumping, jump facing right animation
+                else if (this.facingRight)
+                {
+                    this.jumpAttackFaceRight.drawFrame(
+                        this.game.blinksClockTick,
+                        ctx,
+                        this.x,
+                        this.y
+                    );
+                }
             }
         }
 
@@ -288,51 +215,6 @@ class Blink
                 this.spellFaceRight.drawFrame(this.game.blinksClockTick, ctx,
                     this.x, this.y - raiseUpABit);
             }
-
-            //if (this.rewindTime)
-            //{
-            //    // If rewinding time
-            //    if (!this.facingRight)
-            //    {
-            //        this.spellFaceLeft.drawFrame(this.game.blinksClockTick, ctx,
-            //            this.x, this.y - raiseUpABit);
-            //    }
-            //    else if (this.facingRight)
-            //    {
-            //        this.spellFaceRight.drawFrame(this.game.blinksClockTick, ctx,
-            //            this.x, this.y - raiseUpABit);
-            //    }
-            //}
-            //// If stopping time
-            //else if (this.stopTime)
-            //{
-            //    if (!this.facingRight)
-            //    {
-            //        this.spellFaceLeft.drawFrame(this.game.blinksClockTick, ctx,
-            //            this.x, this.y - raiseUpABit);
-            //    }
-            //    else if (this.facingRight)
-            //    {
-            //        this.spellFaceRight.drawFrame(this.game.blinksClockTick, ctx,
-            //            this.x, this.y - raiseUpABit);
-            //    }
-            //}
-            //// If slowing time
-            //else if (this.slowTime)
-            //{
-
-            //    if (!this.facingRight)
-            //    {
-            //        this.spellFaceLeft.drawFrame(this.game.blinksClockTick, ctx,
-            //            this.x, this.y - raiseUpABit);
-            //    }
-            //    else if (this.facingRight)
-            //    {
-            //        this.spellFaceRight.drawFrame(this.game.blinksClockTick, ctx,
-            //            this.x, this.y - raiseUpABit);
-            //    }
-            //}
-
         }
 
         // If not jumping, make sure Blink is on the ground level
@@ -346,40 +228,35 @@ class Blink
     /** Update handles updating the objects world state. */
     update()
     {
-        if (this.swordUnsheath.elapsedTime > 0.7)
+        this.updateBlinksStateFromKeyListeners();
+
+        // Only happens at the beginning of the levl
+        if (this.unsheathSword)
         {
-            this.unsheathSword = false;
-            console.log("Unsheath is done");
+            if (this.swordUnsheath_FaceRight.elapsedTime > 0.7)
+            {
+                this.unsheathSword = false;
+                this.unsheathSwordStandStill = true;
+            }
         }
 
-        // update state based on gameengine key listener update
-        if (this.game.slowTime !== undefined)
+        if (this.isStandingStill())
         {
-            this.slowTime = this.game.slowTime;
+            console.log(this.standLeftAnimation.elapsedTime);
+            if (this.standLeftAnimation.elapsedTime > 2 ||
+                this.standRightAnimation.elapsedTime > 2)
+            {
+                this.swordUnsheath_FaceLeft.elapsedTime = 0;
+                this.swordUnsheath_FaceRight.elapsedTime = 0;
+                this.standLeftAnimation.elapsedTime = 0;
+                this.standRightAnimation.elapsedTime = 0;
+                this.unsheathSword = true;
+            }
         }
-        if (this.game.facingRight !== undefined)
+
+        if (this.isRunning())
         {
-            this.facingRight = this.game.facingRight;
-        }
-        if (this.game.moving !== undefined)
-        {
-            this.moving = this.game.moving;
-        }
-        if (this.game.basicAttack !== undefined)
-        {
-            this.basicAttack = this.game.basicAttack;
-        }
-        if (this.game.jumping !== undefined)
-        {
-            this.jumping = this.game.jumping;
-        }
-        if (this.game.stopTime !== undefined)
-        {
-            this.stopTime = this.game.stopTime;
-        }
-        if (this.game.rewindTime !== undefined)
-        {
-            this.rewindTime = this.game.rewindTime;
+            this.unsheathSwordStandStill = false;
         }
 
         // Alert game engine to states
@@ -387,6 +264,9 @@ class Blink
         if (this.stopTime)
         {
             this.game.allShouldStop(true);
+
+            this.unsheathSword = false;
+            this.unsheathSwordStandStill = false;
         }
         if (!this.stopTime)
         {
@@ -396,6 +276,9 @@ class Blink
         if (this.rewindTime)
         {
             this.game.allShouldRewind(true);
+
+            this.unsheathSword = false;
+            this.unsheathSwordStandStill = false;
         }
         if (!this.rewindTime)
         {
@@ -405,6 +288,9 @@ class Blink
         if (this.slowTime)
         {
             this.game.allShouldSlow(true);
+
+            this.unsheathSword = false;
+            this.unsheathSwordStandStill = false;
         }
         if (!this.slowTime)
         {
@@ -495,17 +381,234 @@ class Blink
     /** This is a quick check for casting either spell as it's the same animation */
     isSpellcasting()
     {
-        return ((this.rewindTime || this.stopTime || this.slowTime) && !this.moving);
+        return ((this.rewindTime || this.stopTime || this.slowTime) && !this.moving &&
+            !this.jumping && !this.basicAttack && !this.unsheathSword && !this.unsheathSwordStandStill);
     }
 
     isStandingStill()
     {
         return (!this.moving && !this.basicAttack &&
-            !this.jumping && !this.isSpellcasting() && !this.unsheathSword);
+            !this.jumping && !this.isSpellcasting() && !this.unsheathSword && !this.unsheathSwordStandStill);
     }
 
     isRunning()
     {
         return (this.moving && !this.jumping);
+    }
+
+    /** Updates the state booleans for Blinks actions. */
+    updateBlinksStateFromKeyListeners()
+    {
+        // update state based on gameengine key listener update
+        if (this.game.slowTime !== undefined)
+        {
+            this.slowTime = this.game.slowTime;
+        }
+        if (this.game.facingRight !== undefined)
+        {
+            this.facingRight = this.game.facingRight;
+        }
+        if (this.game.moving !== undefined)
+        {
+            this.moving = this.game.moving;
+        }
+        if (this.game.basicAttack !== undefined)
+        {
+            this.basicAttack = this.game.basicAttack;
+        }
+        if (this.game.jumping !== undefined)
+        {
+            this.jumping = this.game.jumping;
+        }
+        if (this.game.stopTime !== undefined)
+        {
+            this.stopTime = this.game.stopTime;
+        }
+        if (this.game.rewindTime !== undefined)
+        {
+            this.rewindTime = this.game.rewindTime;
+        }
+    }
+
+    /** Load all animations. */
+    loadAllBlinksAssets()
+    {
+        // Load all assets for character first. There's quite a few.
+        this.swordUnsheath_FaceLeft = new Animation
+            (
+            AM.getAsset('./img/blink/Crono_PullSwordOut_FaceLeft.png'),
+            30,      // frame width
+            32,      // frame height
+            3,       // sheet width
+            0.2,     // frame duration
+            6,       // frames in animation
+            true,    // to loop or not to loop
+            3      // scale in relation to original image
+            );
+        this.swordUnsheath_FaceRight = new Animation
+            (
+            AM.getAsset('./img/blink/Crono_PullSwordOut_FaceRight.png'),
+            30,      // frame width
+            32,      // frame height
+            3,       // sheet width
+            0.2,     // frame duration
+            6,       // frames in animation
+            true,    // to loop or not to loop
+            3      // scale in relation to original image
+        );
+        this.atTheReady_FaceLeft = new Animation
+            (
+            AM.getAsset('./img/blink/Crono_PullSwordOut_FaceLeft_Still.png'),
+            30,      // frame width
+            32,      // frame height
+            1,       // sheet width
+            0.2,     // frame duration
+            1,       // frames in animation
+            true,    // to loop or not to loop
+            3      // scale in relation to original image
+            );
+        this.atTheReady_FaceRight = new Animation
+            (
+            AM.getAsset('./img/blink/Crono_PullSwordOut_FaceRight_Still.png'),
+            30,      // frame width
+            32,      // frame height
+            1,       // sheet width
+            0.2,     // frame duration
+            1,       // frames in animation
+            true,    // to loop or not to loop
+            3      // scale in relation to original image
+            );
+        this.standLeftAnimation = new Animation
+            (
+            AM.getAsset('./img/blink/Crono_Stand_FaceLeft.png'),
+            14,      // frame width
+            34,      // frame height
+            3,       // sheet width
+            0.8,     // frame duration
+            3,       // frames in animation
+            true,    // to loop or not to loop
+            3      // scale in relation to original image
+            );
+        this.standRightAnimation = new Animation
+            (
+            AM.getAsset('./img/blink/Crono_Stand_FaceRight.png'),
+            14,     // frame width
+            34,     // frame height
+            3,      // sheet width
+            0.8,    // frame duration
+            3,      // frames in animation
+            true,   // to loop or not to loop
+            3    // scale in relation to original image
+            );
+        this.runFaceLeftAnimation = new Animation
+            (
+            AM.getAsset('./img/blink/Crono_Run_FaceLeft.png'),
+            22,     // frame width
+            34,     // frame height
+            3,      // sheet width
+            0.1,    // frame duration
+            6,      // frames in animation
+            true,   // to loop or not to loop
+            3     // scale in relation to original image
+            );
+        this.runFaceRightAnimation = new Animation
+            (
+            AM.getAsset('./img/blink/Crono_Run_FaceRight.png'),
+            22,     // frame width
+            34,     // frame height
+            3,      // sheet width
+            0.1,    // frame duration
+            6,      // frames in animation
+            true,   // to loop or not to loop
+            3     // scale in relation to original image
+        );
+        this.jumpAttackFaceLeft = new Animation
+            (
+            AM.getAsset('./img/blink/Crono_JumpSlash_FaceLeft.png'),
+            24,     // frame width
+            39,     // frame height
+            1,      // sheet width
+            0.5,   // frame duration
+            1,      // frames in animation
+            true,   // to loop or not to loop
+            3     // scale in relation to original image
+            );
+        this.jumpAttackFaceRight = new Animation
+            (
+            AM.getAsset('./img/blink/Crono_JumpSlash_FaceRight.png'),
+            24,     // frame width
+            39,     // frame height
+            1,      // sheet width
+            0.5,   // frame duration
+            1,      // frames in animation
+            true,   // to loop or not to loop
+            3     // scale in relation to original image
+            );
+        this.slashFaceLeft = new Animation
+            (
+            AM.getAsset('./img/blink/Crono_Slash_FaceLeft.png'),
+            31,     // frame width
+            48.3,     // frame height
+            2,      // sheet width
+            0.13,   // frame duration
+            3,      // frames in animation
+            true,   // to loop or not to loop
+            3     // scale in relation to original image
+            );
+        this.slashFaceRight = new Animation
+            (
+            AM.getAsset('./img/blink/Crono_Slash_FaceRight.png'),
+            31,     // frame width
+            48.3,     // frame height
+            2,      // sheet width
+            0.13,   // frame duration
+            3,      // frames in animation
+            true,   // to loop or not to loop
+            3     // scale in relation to original image
+            );
+        this.jumpFaceLeftAnimation = new Animation
+            (
+            AM.getAsset('./img/blink/Crono_Jump_FaceLeft.png'),
+            39.2,     // frame width
+            34,     // frame height
+            3,      // sheet width
+            0.1,    // frame duration
+            8,      // frames in animation
+            true,   // to loop or not to loop
+            3     // scale in relation to original image
+            );
+        this.jumpFaceRightAnimation = new Animation
+            (
+            AM.getAsset('./img/blink/Crono_Jump_FaceRight.png'),
+            38.78,     // frame width
+            34,     // frame height
+            3,      // sheet width
+            0.1,    // frame duration
+            8,      // frames in animation
+            true,   // to loop or not to loop
+            3     // scale in relation to original image
+            );
+        this.spellFaceLeft = new Animation
+            (
+            AM.getAsset('./img/blink/Crono_Spell_FaceLeft.png'),
+            21,     // frame width
+            39,     // frame height
+            2,      // sheet width
+            0.4,    // frame duration
+            3,      // frames in animation
+            true,   // to loop or not to loop
+            3     // scale in relation to original image
+            );
+        this.spellFaceRight = new Animation
+            (
+            AM.getAsset('./img/blink/Crono_Spell_FaceRight.png'),
+            21,     // frame width
+            39,     // frame height
+            2,      // sheet width
+            0.4,    // frame duration
+            3,      // frames in animation
+            true,   // to loop or not to loop
+            3    // scale in relation to original image
+            );
     }
 }

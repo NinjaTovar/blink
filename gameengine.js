@@ -93,16 +93,6 @@ class GameEngine
             this.returnRandomInt(400), this.returnRandomFloat(.1, 1), this.returnRandomDirection()));
         this.addEntity(new FlyMutant(this, this.returnRandomInt(this.surfaceWidth), 
             this.returnRandomInt(400), this.returnRandomFloat(.1, 1), this.returnRandomDirection()));
-        this.addEntity(new FlyMutant(this, this.returnRandomInt(this.surfaceWidth), 
-            this.returnRandomInt(400), this.returnRandomFloat(.1, 1), this.returnRandomDirection()));
-        this.addEntity(new FlyMutant(this, this.returnRandomInt(this.surfaceWidth), 
-            this.returnRandomInt(400), this.returnRandomFloat(.1, 1), this.returnRandomDirection()));
-        this.addEntity(new FlyMutant(this, this.returnRandomInt(this.surfaceWidth), 
-            this.returnRandomInt(400), this.returnRandomFloat(.1, 1), this.returnRandomDirection()));
-        this.addEntity(new FlyMutant(this, this.returnRandomInt(this.surfaceWidth), 
-            this.returnRandomInt(400), this.returnRandomFloat(.1, 1), this.returnRandomDirection()));
-        this.addEntity(new FlyMutant(this, this.returnRandomInt(this.surfaceWidth),
-            this.returnRandomInt(400), this.returnRandomFloat(.1, 1), this.returnRandomDirection()));
 
         // Adding Metroid
         this.addEntity(new Metroid(this, this.returnRandomIntBetweenThese(500, 3000), 140, this.returnRandomFloat(2,4)));
