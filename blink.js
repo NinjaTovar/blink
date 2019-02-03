@@ -52,6 +52,9 @@ class Blink
         this.stopSoundEffect = document.getElementById('stopTime');
         this.slashSoundEffect = document.getElementById('slash');
 
+        // turn it down man
+        this.levelMusic.volume = .2;
+
         // Developer debug tools
         this.godMode = false;
         this.speedUpMovement = false;
@@ -434,7 +437,7 @@ class Blink
             this.unsheathSword = false;
             this.unsheathSwordStandStill = false;
 
-            this.levelMusic.playbackRate = 4;
+            this.levelMusic.playbackRate = 2;
             this.rewindSoundEffect.play();
         }
         if (!this.rewindTime)
@@ -454,7 +457,7 @@ class Blink
             this.unsheathSwordStandStill = false;
 
             this.slowSoundEffect.play();
-            this.levelMusic.playbackRate = .4;
+            this.levelMusic.playbackRate = .5;
         }
         if (!this.slowTime)
         {
