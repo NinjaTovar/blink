@@ -17,7 +17,17 @@ class Blink
     constructor(game)
     {
         // Load all assets for character first. There's quite a few.
-
+        this.swordUnsheath = new Animation
+            (
+            AM.getAsset('./img/blink/Crono_PullSwordOut_FaceRight.png'),
+            30,      // frame width
+            32,      // frame height
+            3,       // sheet width
+            0.8,     // frame duration
+            6,       // frames in animation
+            false,    // to loop or not to loop
+            3      // scale in relation to original image
+            );
         this.standLeftAnimation = new Animation
             (
             AM.getAsset('./img/blink/Crono_Stand_FaceLeft.png'),
@@ -130,6 +140,8 @@ class Blink
             3    // scale in relation to original image
             );
 
+        // Play unsheath sword animation to start
+        this.unsheathSword = true;
 
         // Set initial values for Blinks world state
         this.x = 50;
@@ -163,6 +175,16 @@ class Blink
      */
     draw(ctx)
     {
+        // Only occurs on level start
+        if (this.unsheathSword && this.swordUnsheath.elapsedTime < .7)
+        {
+            console.log("Unsheath is happening");
+
+            this.swordUnsheath.drawFrame(this.game.blinksClockTick, ctx,
+                this.x, this.y);
+        }
+
+
         // if standing still
         if (this.isStandingStill())
         {
@@ -255,48 +277,62 @@ class Blink
         {
             var raiseUpABit = 50;
 
-            if (this.rewindTime)
+            // If rewinding time
+            if (!this.facingRight)
             {
-                // If rewinding time
-                if (!this.facingRight)
-                {
-                    this.spellFaceLeft.drawFrame(this.game.blinksClockTick, ctx,
-                        this.x, this.y - raiseUpABit);
-                }
-                else if (this.facingRight)
-                {
-                    this.spellFaceRight.drawFrame(this.game.blinksClockTick, ctx,
-                        this.x, this.y - raiseUpABit);
-                }
+                this.spellFaceLeft.drawFrame(this.game.blinksClockTick, ctx,
+                    this.x, this.y - raiseUpABit);
             }
-            // If stopping time
-            else if (this.stopTime)
+            else if (this.facingRight)
             {
-                if (!this.facingRight)
-                {
-                    this.spellFaceLeft.drawFrame(this.game.blinksClockTick, ctx,
-                        this.x, this.y - raiseUpABit);
-                }
-                else if (this.facingRight)
-                {
-                    this.spellFaceRight.drawFrame(this.game.blinksClockTick, ctx,
-                        this.x, this.y - raiseUpABit);
-                }
+                this.spellFaceRight.drawFrame(this.game.blinksClockTick, ctx,
+                    this.x, this.y - raiseUpABit);
             }
-            // If slowing time
-            else if (this.slowTime  == true)
-            {
-                if (!this.facingRight)
-                {
-                    this.spellFaceLeft.drawFrame(this.game.blinksClockTick, ctx,
-                        this.x, this.y - raiseUpABit);
-                }
-                else if (this.facingRight)
-                {
-                    this.spellFaceRight.drawFrame(this.game.blinksClockTick, ctx,
-                        this.x, this.y - raiseUpABit);
-                }
-            }
+
+            //if (this.rewindTime)
+            //{
+            //    // If rewinding time
+            //    if (!this.facingRight)
+            //    {
+            //        this.spellFaceLeft.drawFrame(this.game.blinksClockTick, ctx,
+            //            this.x, this.y - raiseUpABit);
+            //    }
+            //    else if (this.facingRight)
+            //    {
+            //        this.spellFaceRight.drawFrame(this.game.blinksClockTick, ctx,
+            //            this.x, this.y - raiseUpABit);
+            //    }
+            //}
+            //// If stopping time
+            //else if (this.stopTime)
+            //{
+            //    if (!this.facingRight)
+            //    {
+            //        this.spellFaceLeft.drawFrame(this.game.blinksClockTick, ctx,
+            //            this.x, this.y - raiseUpABit);
+            //    }
+            //    else if (this.facingRight)
+            //    {
+            //        this.spellFaceRight.drawFrame(this.game.blinksClockTick, ctx,
+            //            this.x, this.y - raiseUpABit);
+            //    }
+            //}
+            //// If slowing time
+            //else if (this.slowTime)
+            //{
+
+            //    if (!this.facingRight)
+            //    {
+            //        this.spellFaceLeft.drawFrame(this.game.blinksClockTick, ctx,
+            //            this.x, this.y - raiseUpABit);
+            //    }
+            //    else if (this.facingRight)
+            //    {
+            //        this.spellFaceRight.drawFrame(this.game.blinksClockTick, ctx,
+            //            this.x, this.y - raiseUpABit);
+            //    }
+            //}
+
         }
 
         // If not jumping, make sure Blink is on the ground level
@@ -310,6 +346,12 @@ class Blink
     /** Update handles updating the objects world state. */
     update()
     {
+        if (this.swordUnsheath.elapsedTime > 0.7)
+        {
+            this.unsheathSword = false;
+            console.log("Unsheath is done");
+        }
+
         // update state based on gameengine key listener update
         if (this.game.slowTime !== undefined)
         {
@@ -417,7 +459,9 @@ class Blink
             var height = 0;
             var duration = this.jumpFaceLeftAnimation.elapsedTime + this.game.blinksClockTick;
             if (duration > this.jumpFaceLeftAnimation.totalTime / 2)
+            {
                 duration = this.jumpFaceLeftAnimation.totalTime - duration;
+            }
             duration = duration / this.jumpFaceLeftAnimation.totalTime;
 
             // quadratic jump
@@ -451,13 +495,13 @@ class Blink
     /** This is a quick check for casting either spell as it's the same animation */
     isSpellcasting()
     {
-        return ((this.rewindTime || this.stopTime) && !this.moving);
+        return ((this.rewindTime || this.stopTime || this.slowTime) && !this.moving);
     }
 
     isStandingStill()
     {
         return (!this.moving && !this.basicAttack &&
-            !this.jumping && !this.isSpellcasting());
+            !this.jumping && !this.isSpellcasting() && !this.unsheathSword);
     }
 
     isRunning()
