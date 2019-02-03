@@ -54,6 +54,7 @@ class Blink
 
         // turn it down man
         this.levelMusic.volume = .2;
+        this.slashSoundEffect.volume = .35;
 
         // Developer debug tools
         this.godMode = false;
