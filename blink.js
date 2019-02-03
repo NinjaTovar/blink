@@ -65,30 +65,30 @@ class Blink
 
         this.slashFaceLeft = new Animation
             (
-            AM.getAsset('./img/blink/Crono_DoubleSlash_FaceLeft.png'),
+            AM.getAsset('./img/blink/Crono_Slash_FaceLeft.png'),
             31,     // frame width
-            48,     // frame height
-            3,      // sheet width
+            48.3,     // frame height
+            2,      // sheet width
             0.13,   // frame duration
-            5,      // frames in animation
+            3,      // frames in animation
             true,   // to loop or not to loop
             3     // scale in relation to original image
             );
         this.slashFaceRight = new Animation
             (
-            AM.getAsset('./img/blink/Crono_DoubleSlash_FaceRight.png'),
+            AM.getAsset('./img/blink/Crono_Slash_FaceRight.png'),
             31,     // frame width
-            48,     // frame height
-            3,      // sheet width
+            48.3,     // frame height
+            2,      // sheet width
             0.13,   // frame duration
-            5,      // frames in animation
+            3,      // frames in animation
             true,   // to loop or not to loop
             3     // scale in relation to original image
         );
         this.jumpFaceLeftAnimation = new Animation
             (
             AM.getAsset('./img/blink/Crono_Jump_FaceLeft.png'),
-            39,     // frame width
+            39.2,     // frame width
             34,     // frame height
             3,      // sheet width
             0.1,    // frame duration
@@ -99,7 +99,7 @@ class Blink
         this.jumpFaceRightAnimation = new Animation
             (
             AM.getAsset('./img/blink/Crono_Jump_FaceRight.png'),
-            39,     // frame width
+            38.78,     // frame width
             34,     // frame height
             3,      // sheet width
             0.1,    // frame duration
@@ -139,7 +139,7 @@ class Blink
         this.speed = 275;
         this.game = game;
         this.ctx = game.ctx;
-        this.jumpHeight = 250;
+        this.jumpHeight = 420;
 
         // key listener states
         this.moving = false;
