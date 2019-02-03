@@ -342,16 +342,20 @@ class GameEngine
                         that.moving = true;
                         that.facingRight = false;
                         break;
+                    case 'A':   // a is attack
                     case 'a':   // a is attack
                         that.basicAttack = true;
                         break;
+                    case 'S':   // s is stop time spell
                     case 's':   // s is stop time spell
                         that.stopTime = true;
                         break;
+                    case 'D':   // d is rewind time spell
                     case 'd':   // d is rewind time spell
                         that.rewindTime = true;
                         this.resetPaths = false;
                         break;
+                    case 'W':   // w is slow time spell
                     case 'w':   // w is slow time spell
                         that.slowTime = true;
                         break;
@@ -379,16 +383,20 @@ class GameEngine
                     case 'ArrowLeft':
                         that.moving = false;
                         break;
+                    case 'A':
                     case 'a':
                         that.basicAttack = false;
                         break;
+                    case 'S':
                     case 's':
                         that.stopTime = false;
                         break;
+                    case 'D':
                     case 'd':
                         that.rewindTime = false;
                         that.resetPaths = true;
                         break;
+                    case 'W':
                     case 'w':
                         that.slowTime = false;
                         break;
