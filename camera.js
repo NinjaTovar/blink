@@ -20,6 +20,7 @@ class Camera
         this.viewHeight = viewHeight;
         this.worldWidth = worldWidth;
         this.worldHeight = worldHeight;
+        this.endOfLevel;
 
         // Offset is the x and y coordinates of the center of the camera
         this.offsetX = this.viewWidth / 2;
@@ -32,9 +33,17 @@ class Camera
     }
     draw()
     {
-        if (this.blink.x > 100)
+        // If blink is just barely into the start of the level or
+        // right before the end, translate the canvas to emulate a camera
+        if (this.blink.x > 100 && this.blink.x < 3680)
         {
+            this.endOfLevel = this.xPosition / 1.15;
             this.ctx.translate(this.xPosition / 1.15, 0);
+        }
+        // otherwise stay stationary
+        else
+        {
+            this.ctx.translate(this.endOfLevel, 0);
         }
 
         if (this.shouldOutlineCamera)
