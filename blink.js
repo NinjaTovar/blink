@@ -318,7 +318,12 @@ class Blink
         }
         if (this.stopEnemies)
         {
+            this.game.devModeStopTime = true;
             this.game.allShouldStop(true);
+        }
+        if (!this.stopEnemies)
+        {
+            this.game.devModeStopTime = false;
         }
         if (this.outlineHitBox)
         {
@@ -458,7 +463,6 @@ class Blink
             this.game.allShouldStop(false);
 
             this.stopSoundEffect.pause();
-            this.lastSongPlayed.Play();
 
             if (this.lastSongPlayed != undefined && !this.userWantsNoMusic)
             {

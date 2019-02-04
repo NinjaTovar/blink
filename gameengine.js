@@ -18,6 +18,7 @@ class GameEngine
         this.surfaceWidth = null;
         this.surfaceHeight = null;
         this.drawAroundHitBox = false;
+        this.devModeStopTime = false;
     }
 
     /**
@@ -226,7 +227,7 @@ class GameEngine
         this.specialEffects.prepareCanvasLayersForEffects();
 
         // Handle effects if Blink is casting a spell
-        if (this.timeIsStopped)
+        if (this.timeIsStopped && !this.devModeStopTime)
         {
             this.specialEffects.performStopTimeSpecialEffects();
         }
