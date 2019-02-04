@@ -542,7 +542,7 @@ class Blink
      */
     isSpellcasting()
     {
-        return ((this.rewindTime || this.stopTime || this.slowTime) && !this.moving &&
+        return ((this.rewindTime || this.stopTime || this.slowTime || this.speedTime) && !this.moving &&
             !this.jumping && !this.basicAttack && !this.unsheathSword && !this.unsheathSwordStandStill);
     }
     isStandingStill()
