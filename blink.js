@@ -50,6 +50,7 @@ class Blink
         this.adventureTimeTrack = document.getElementById('adventureTimeTrack');
         this.sandsOfTimeTrack = document.getElementById('sandsOfTimeTrack');
         this.heroOfTimeTrack = document.getElementById('heroOfTimeTrack');
+        this.mysteriousTrack = document.getElementById('mysteriousTrack');
         this.slowSoundEffect = document.getElementById('slowTime');
         this.speedSoundEffect = document.getElementById('speedTime');
         this.rewindSoundEffect = document.getElementById('rewindTime');
@@ -456,6 +457,7 @@ class Blink
             this.adventureTimeTrack.pause();
             this.sandsOfTimeTrack.pause();
             this.heroOfTimeTrack.pause();
+            this.mysteriousTrack.pause();
             this.stopSoundEffect.play();
         }
         if (!this.stopTime)
@@ -598,16 +600,24 @@ class Blink
                 self.heroOfTimeTrack.play();
                 self.sandsOfTimeTrack.pause();
 
-                self.sandsOfTimeTrack.currentTime = 0;
+                self.adventureTimeTrack.currentTime = 0;
             }
             else if ((self.lastSongPlayed == self.heroOfTimeTrack))
             {
-                self.lastSongPlayed = self.adventureTimeTrack;
-                self.adventureTimeTrack.play();
+                self.lastSongPlayed = self.mysteriousTrack;
+                self.mysteriousTrack.play();
                 self.heroOfTimeTrack.pause();
 
                 self.heroOfTimeTrack.currentTime = 0;
 
+            }
+            else if ((self.lastSongPlayed == self.mysteriousTrack))
+            {
+                self.lastSongPlayed = self.adventureTimeTrack;
+                self.adventureTimeTrack.play();
+                self.mysteriousTrack.pause();
+
+                self.mysteriousTrack.currentTime = 0;
             }
             else if ((self.lastSongPlayed == self.adventureTimeTrack))
             {
