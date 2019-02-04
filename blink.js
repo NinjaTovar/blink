@@ -290,8 +290,6 @@ class Blink
 
         // Check if it should be in developer mode
         this.handleDeveloperTools();
-
-
     }
 
 
@@ -460,6 +458,7 @@ class Blink
             this.game.allShouldStop(false);
 
             this.stopSoundEffect.pause();
+            this.lastSongPlayed.Play();
 
             if (this.lastSongPlayed != undefined && !this.userWantsNoMusic)
             {
