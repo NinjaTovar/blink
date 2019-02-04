@@ -48,6 +48,7 @@ class Blink
 
         // Music and Sounds
         this.levelMusic = document.getElementById('levelOneMusic');
+        this.levelTwoMusic = document.getElementById('levelTwoMusic');
         this.slowSoundEffect = document.getElementById('slowTime');
         this.speedSoundEffect = document.getElementById('speedTime');
         this.rewindSoundEffect = document.getElementById('rewindTime');
@@ -55,6 +56,29 @@ class Blink
         this.slashSoundEffect = document.getElementById('slash');
         this.jumpSoundEffect = document.getElementById('jump');
         this.jumpLandingSoundEffect = document.getElementById('jumpLanding');
+        this.changeMusic = document.getElementById('changeMusic');
+        this.lastSongPlayed;
+
+        // used to pass in 'this' reference to anonymous function
+        var self = this;
+        this.changeMusic.onclick = function ()
+        {
+            if (self.levelMusic.currentTime)
+            {
+                self.lastSongPlayed = self.levelTwoMusic;
+                self.levelMusic.pause();
+                self.levelTwoMusic.play();
+
+                self.levelMusic.currentTime = 0;
+            }
+            else
+            {
+                self.lastSongPlayed = self.levelMusic;
+                self.levelMusic.play();
+                self.levelTwoMusic.pause();
+                self.levelTwoMusic.currentTime = 0;
+            }
+        };
 
         // turn it down man
         this.levelMusic.volume = .2;
@@ -278,12 +302,14 @@ class Blink
 
     }
 
+
+
     handleStartLevel()
     {
         if (this.startLevel && !this.dontRestartLevel)
         {
-            this.levelMusic.volume = .2;
-            this.levelMusic.play();
+            this.changeMusic.click();
+
             this.startLevel = false;
             this.dontRestartLevel = true;
         }
@@ -301,11 +327,6 @@ class Blink
         {
             this.game.allShouldStop(true);
         }
-
-        // start testing music
-        //var levelOneMusic = document.getElementById('levelOneMusic');
-        //tag.play();
-        //tag.pause();
     }
 
     /** Update helper method for keeping Blink in bounds. */
@@ -426,6 +447,7 @@ class Blink
             this.unsheathSwordStandStill = false;
 
             this.levelMusic.pause();
+            this.levelTwoMusic.pause();
             this.stopSoundEffect.play();
         }
         if (!this.stopTime)
@@ -434,10 +456,9 @@ class Blink
 
             this.stopSoundEffect.pause();
 
-            // keeps away DOM errors from autoplay feature restriction
-            if (this.startLevel && this.dontRestartLevel)
+            if (this.lastSongPlayed != undefined)
             {
-                this.levelMusic.play();
+                this.lastSongPlayed.play();
             }
 
             this.stopSoundEffect.currentTime = 0;

@@ -70,9 +70,9 @@
         <br />
         <br />
         <br />
-
         <div class="row">
 
+            <!-- Meet Blink -->
             <div class="column">
                 <center>
                     <Font color='White' face="consolas" />
@@ -95,6 +95,7 @@
                 </center>
             </div>
 
+            <!-- Control Scheme -->
             <div class="column">
                 <center>
                     <h2><mark>Controls</mark></h2>
@@ -108,6 +109,17 @@
                 </center>
             </div>
 
+            <!-- Change Music -->
+            <div class="column">
+                <center>
+                    <h2><Font color='2090C8' />Change Level Music<Font color='White' /></h2>
+                    <button class="button" id="changeMusic" type="button"> Switch Tracks!</button>
+                    <h4><Font color='White' />Track One (Hold): <Font color='3498DB' />Adventure Time!</h4>
+                    <h4><Font color='White' />Track Two (Hold): <Font color='3498DB' />The Sands of Time!</h4>
+                </center>
+            </div>
+
+
         </div>
     </p>
 
@@ -115,10 +127,16 @@
     <audio id="levelOneMusic"
            controls
            loop
-           autoplay
            hidden
            preload="auto"
            src="./audio/levels/levelOne.mp3" />
+
+    <audio id="levelTwoMusic"
+           controls
+           loop
+           hidden
+           preload="auto"
+           src="./audio/levels/levelTwo.mp3" />
 
     <audio id="slowTime"
            controls
