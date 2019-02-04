@@ -43,7 +43,7 @@ class Blink
         this.rewindTime = false;
         this.slowTime = false;
         this.speedTime = false;
-        this.startLevel = false;
+        this.levelStarted = false;
         this.dontRestartLevel = false;
 
         // Music and Sounds
@@ -51,6 +51,7 @@ class Blink
         this.sandsOfTimeTrack = document.getElementById('sandsOfTimeTrack');
         this.heroOfTimeTrack = document.getElementById('heroOfTimeTrack');
         this.mysteriousTrack = document.getElementById('mysteriousTrack');
+        this.questionsTrack = document.getElementById('questionsTrack');
         this.slowSoundEffect = document.getElementById('slowTime');
         this.speedSoundEffect = document.getElementById('speedTime');
         this.rewindSoundEffect = document.getElementById('rewindTime');
@@ -61,11 +62,16 @@ class Blink
         this.changeMusic = document.getElementById('changeMusic');
         this.stopMusic = document.getElementById('stopMusic');
         this.lastSongPlayed;
+        this.beginMusic = true;
         this.userWantsNoMusic = false;
 
 
         // turn it down man that stuff is aggressive
-        this.adventureTimeTrack.volume = .2;
+        this.adventureTimeTrack.volume = .3;
+        this.sandsOfTimeTrack.volume = .8;
+        this.heroOfTimeTrack.volume = .4;
+        this.mysteriousTrack.volume = .4;
+        this.questionsTrack.volume = .4;
         this.slashSoundEffect.volume = .35;
         this.jumpSoundEffect.volume = .5;
         this.jumpLandingSoundEffect.volume = .3;
@@ -77,6 +83,10 @@ class Blink
         this.stopEnemies = false;
 
         // debug tool
+        // debug tool
+        this.frameWidth = 14;
+        this.frameHeight = 34;
+        this.size = 3;
         this.drawAroundHitBox = false;
         this.originalSpeed = this.speed;
 
@@ -102,6 +112,16 @@ class Blink
      */
     draw(ctx)
     {
+        // debug tool
+        if (this.drawAroundHitBox)
+        {
+            this.ctx.beginPath();
+            this.ctx.strokeStyle = 'white';
+            this.ctx.rect(this.x, this.y, this.frameWidth * this.size, this.frameHeight * this.size);
+            this.ctx.stroke();
+            //this.ctx.clearRect(this.x, this.y, this.frameWidth * this.size, this.frameHeight * this.size);
+        }
+
         // Unsheath your sword!
         if (this.unsheathSword)
         {
@@ -296,12 +316,12 @@ class Blink
 
     handleStartLevel()
     {
-        if (this.startLevel && !this.dontRestartLevel)
+        if (this.levelStarted && this.beginMusic)
         {
             this.changeMusic.click();
 
-            this.startLevel = false;
-            this.dontRestartLevel = true;
+            this.levelStarted = false;
+            this.beginMusic = false;
         }
     }
 
@@ -458,6 +478,7 @@ class Blink
             this.sandsOfTimeTrack.pause();
             this.heroOfTimeTrack.pause();
             this.mysteriousTrack.pause();
+            this.questionsTrack.pause();
             this.stopSoundEffect.play();
         }
         if (!this.stopTime)
@@ -566,24 +587,6 @@ class Blink
         }
     }
 
-    /**
-     * A couple quick shortcuts on the boolean evaluations for making the code cleaner.
-     */
-    isSpellcasting()
-    {
-        return ((this.rewindTime || this.stopTime || this.slowTime || this.speedTime) && !this.moving &&
-            !this.jumping && !this.basicAttack && !this.unsheathSword && !this.unsheathSwordStandStill);
-    }
-    isStandingStill()
-    {
-        return (!this.moving && !this.basicAttack &&
-            !this.jumping && !this.isSpellcasting() && !this.unsheathSword && !this.unsheathSwordStandStill);
-    }
-    isRunning()
-    {
-        return (this.moving && !this.jumping && !this.isSpellcasting());
-    }
-
     /** Set up listeners and actions for HTML buttons. */
     handleButtonListeners()
     {
@@ -594,7 +597,20 @@ class Blink
         // Change Tracks
         this.changeMusic.onclick = function ()
         {
-            if ((self.lastSongPlayed == self.sandsOfTimeTrack))
+            // Set this to let level know music has been started somewhere
+            self.beginMusic = false;
+            self.userWantsNoMusic = false;
+
+            // This begins at 
+            if ((self.lastSongPlayed == self.adventureTimeTrack))
+            {
+                self.lastSongPlayed = self.sandsOfTimeTrack;
+                self.sandsOfTimeTrack.play();
+                self.adventureTimeTrack.pause();
+
+                self.sandsOfTimeTrack.currentTime = 0;
+            }
+            else if ((self.lastSongPlayed == self.sandsOfTimeTrack))
             {
                 self.lastSongPlayed = self.heroOfTimeTrack;
                 self.heroOfTimeTrack.play();
@@ -613,19 +629,19 @@ class Blink
             }
             else if ((self.lastSongPlayed == self.mysteriousTrack))
             {
-                self.lastSongPlayed = self.adventureTimeTrack;
-                self.adventureTimeTrack.play();
+                self.lastSongPlayed = self.questionsTrack;
+                self.questionsTrack.play();
                 self.mysteriousTrack.pause();
 
                 self.mysteriousTrack.currentTime = 0;
             }
-            else if ((self.lastSongPlayed == self.adventureTimeTrack))
+            else if ((self.lastSongPlayed == self.questionsTrack))
             {
-                self.lastSongPlayed = self.sandsOfTimeTrack;
-                self.sandsOfTimeTrack.play();
-                self.adventureTimeTrack.pause();
+                self.lastSongPlayed = self.adventureTimeTrack;
+                self.adventureTimeTrack.play();
+                self.questionsTrack.pause();
 
-                self.sandsOfTimeTrack.currentTime = 0;
+                self.questionsTrack.currentTime = 0;
             }
             else
             {
@@ -641,10 +657,15 @@ class Blink
             self.adventureTimeTrack.pause();
             self.sandsOfTimeTrack.pause();
             self.heroOfTimeTrack.pause();
+            self.heroOfTimeTrack.pause();
+            self.mysteriousTrack.pause();
+            self.questionsTrack.pause();
 
             self.adventureTimeTrack.currentTime = 0;
             self.sandsOfTimeTrack.currentTime = 0;
             self.heroOfTimeTrack.currentTime = 0;
+            self.mysteriousTrack.currentTime = 0;
+            self.questionsTrack.currentTime = 0;
         };
 
         // Handle Developerset buttons
@@ -667,6 +688,23 @@ class Blink
 
     }
 
+    /**
+    * A couple quick shortcuts on the boolean evaluations for making the code cleaner.
+    */
+    isSpellcasting()
+    {
+        return ((this.rewindTime || this.stopTime || this.slowTime || this.speedTime) && !this.moving &&
+            !this.jumping && !this.basicAttack && !this.unsheathSword && !this.unsheathSwordStandStill);
+    }
+    isStandingStill()
+    {
+        return (!this.moving && !this.basicAttack &&
+            !this.jumping && !this.isSpellcasting() && !this.unsheathSword && !this.unsheathSwordStandStill);
+    }
+    isRunning()
+    {
+        return (this.moving && !this.jumping && !this.isSpellcasting());
+    }
 
     /** Updates the state booleans for Blinks actions. */
     updateBlinksStateFromKeyListeners()
@@ -707,9 +745,9 @@ class Blink
         {
             this.speedTime = this.game.speedTime;
         }
-        if (this.game.startLevel !== undefined)
+        if (this.game.levelStarted !== undefined)
         {
-            this.startLevel = this.game.startLevel;
+            this.levelStarted = this.game.levelStarted;
         }
     }
 

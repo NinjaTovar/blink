@@ -21,6 +21,9 @@ AM.queueDownload('./img/blink/Crono_Jump_FaceRight.png');
 AM.queueDownload('./img/blink/Crono_Spell_FaceLeft.png');
 AM.queueDownload('./img/blink/Crono_Spell_FaceRight.png');
 
+// Queue downloading Bug
+AM.queueDownload('./img/enemies/bug/BugRun_FaceLeft.png');
+AM.queueDownload('./img/enemies/bug/BugRun_FaceRight.png');
 
 // Queue downloading FlyMutant
 AM.queueDownload('./img/enemies/fly/Fly_FaceLeft.png');
@@ -32,6 +35,10 @@ AM.queueDownload('./img/enemies/mummy/Mummy_WalkRight.png');
 
 // Queue downloading FlyMutant
 AM.queueDownload('./img/enemies/metroid/metroid.png');
+
+// Queue downloading Violator
+AM.queueDownload('./img/enemies/violator/ViolatorSwing_FaceRight.png');
+AM.queueDownload('./img/enemies/violator/ViolatorSwing_FaceLeft.png');
 
 // Queue downloading Necroman
 AM.queueDownload('./img/enemies/necroman/Necroman_FaceLeft.png');

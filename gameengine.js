@@ -73,65 +73,40 @@ class GameEngine
         // Add Blink
         this.addEntity(blink);
 
-        // Add enemies those little bastards
-        // Adding Mummy
-        this.addEntity(new Mummy(this, this.returnRandomInt(this.surfaceWidth), 
-            440, 2.5, this.returnRandomDirection()));
-        this.addEntity(new Mummy(this, this.returnRandomInt(this.surfaceWidth), 
-            440, 2.5, this.returnRandomDirection()));
-        this.addEntity(new Mummy(this, this.returnRandomInt(this.surfaceWidth),
-            440, 2.5, this.returnRandomDirection()));
+        // Add enemies those little bastards----------------------------------------------
 
-        // Adding various size flies
-        this.addEntity(new FlyMutant(this, this.returnRandomInt(this.surfaceWidth), 
-            this.returnRandomInt(400), this.returnRandomFloat(.1, 1), this.returnRandomDirection()));
-        this.addEntity(new FlyMutant(this, this.returnRandomInt(this.surfaceWidth), 
-            this.returnRandomInt(400), this.returnRandomFloat(.1, 1), this.returnRandomDirection()));
-        this.addEntity(new FlyMutant(this, this.returnRandomInt(this.surfaceWidth), 
-            this.returnRandomInt(400), this.returnRandomFloat(.1, 1), this.returnRandomDirection()));
-        this.addEntity(new FlyMutant(this, this.returnRandomInt(this.surfaceWidth), 
-            this.returnRandomInt(400), this.returnRandomFloat(.1, 1), this.returnRandomDirection()));
-        this.addEntity(new FlyMutant(this, this.returnRandomInt(this.surfaceWidth), 
-            this.returnRandomInt(400), this.returnRandomFloat(.1, 1), this.returnRandomDirection()));
-        this.addEntity(new FlyMutant(this, this.returnRandomInt(this.surfaceWidth), 
-            this.returnRandomInt(400), this.returnRandomFloat(.1, 1), this.returnRandomDirection()));
-        this.addEntity(new FlyMutant(this, this.returnRandomInt(this.surfaceWidth), 
-            this.returnRandomInt(400), this.returnRandomFloat(.1, 1), this.returnRandomDirection()));
-
-        // Adding Metroid
-        this.addEntity(new Metroid(this, this.returnRandomIntBetweenThese(500, 3000), 140, this.returnRandomFloat(2,4)));
-
+        // Add random number of violator up to 2
+        for (var i = 0; i < Randomizer.returnRandomIntBetweenThese(1, 2); i++)
+        {
+            this.addEntity(new Violator(this, Randomizer.returnRandomIntBetweenThese(500, 3000),
+                300, 2.5, Randomizer.returnRandomDirection()));
+        }
+        // Add random number of mummies up to 4
+        for (var i = 0; i < Randomizer.returnRandomIntBetweenThese(1, 5); i++)
+        {
+            this.addEntity(new Mummy(this, Randomizer.returnRandomInt(this.surfaceWidth),
+                440, 2.5, Randomizer.returnRandomDirection()));
+        }
+        // Add random number of bugs up to 2
+        for (var i = 0; i < Randomizer.returnRandomIntBetweenThese(1, 3); i++)
+        {
+            this.addEntity(new Bug(this, Randomizer.returnRandomInt(this.surfaceWidth),
+                440, 2.5, Randomizer.returnRandomDirection()));
+        }
+        // Add random number of flies up to 5
+        for (var i = 0; i < Randomizer.returnRandomIntBetweenThese(2, 5); i++)
+        {
+            this.addEntity(new FlyMutant(this, Randomizer.returnRandomInt(this.surfaceWidth),
+                Randomizer.returnRandomInt(400), Randomizer.returnRandomFloat(.4, 1), Randomizer.returnRandomDirection()));
+        }
+        // Add random number of metroid up to 3
+        for (var i = 0; i < Randomizer.returnRandomIntBetweenThese(1, 4); i++)
+        {
+            this.addEntity(new Metroid(this, Randomizer.returnRandomIntBetweenThese(500, 3000),
+                140, Randomizer.returnRandomFloat(2, 4), Randomizer.returnRandomDirection()));
+        }
         // Adding Necroman
         this.addEntity(new Necroman(this, 4200, 140, 5.5));
-    }
-
-    returnRandomDirection()
-    {
-        var randomDirection = [true, false];
-
-        function getRandomInt(max)
-        {
-            return Math.floor(Math.random() * Math.floor(max));
-        }
-
-        return randomDirection[getRandomInt(2)];
-    }
-
-    returnRandomInt(max)
-    {
-        return Math.floor(Math.random() * Math.floor(max));
-    }
-
-    returnRandomFloat(min, max)
-    {
-        return Math.random() * (max - min) + min;
-    }
-
-    returnRandomIntBetweenThese(min, max)
-    {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
     }
 
     /** Starts the game world by getting the loop and callback circle started. */
@@ -361,12 +336,10 @@ class GameEngine
             'mousedown',
             e =>
             {
-                console.log("Nouse button: " + e.button);
                 switch (e.button)
                 {
-
                     case 0:
-                        that.startLevel = true;
+                        that.levelStarted = true;
                         break;
                     default:
                         break;

@@ -51,6 +51,18 @@ class Mummy
         this.ctx = game.ctx;
         this.isHeadingRight = isHeadingRight;
 
+        // set invisible boundaries for enemies path
+        this.randomMinBoundary = Randomizer.returnRandomInt(this.ctx.canvas.width) / 2;
+        this.randomMaxBoundary = Randomizer.returnRandomIntBetweenThese(this.randomMinBoundary,
+            Randomizer.returnRandomInt(this.ctx.canvas.width));
+
+        // Ensure the enemies boundaries aren't too small
+        while ((this.randomMaxBoundary - this.randomMinBoundary) < 500)
+        {
+            this.randomMaxBoundary = Randomizer.returnRandomIntBetweenThese(this.randomMinBoundary,
+                Randomizer.returnRandomInt(this.ctx.canvas.width));
+        }
+
         // this will be used for rewind
         this.myPath = [];
         this.myPath.push(this.x);
@@ -167,18 +179,18 @@ class Mummy
 
 
 
-        if (this.isHeadingRight && !this.shouldRewind)
+        if (this.isHeadingRight)
         {
             this.x += this.game.clockTick * this.speed;
-            if (this.x > 3000)
+            if (this.x > this.randomMaxBoundary)
             {
                 this.isHeadingRight = false;
             }
         }
-        else if (!this.isHeadingRight && !this.shouldRewind)
+        else if (!this.isHeadingRight)
         {
             this.x -= this.game.clockTick * this.speed;
-            if (this.x < 800)
+            if (this.x < this.randomMinBoundary)
             {
                 this.isHeadingRight = true;
             }

@@ -16,7 +16,7 @@ class Metroid
      * @param {any} startY Starting x position of the fly being constructed.
      * @param {any} size Size of scale for character.
      */
-    constructor(game, startX, startY, size)
+    constructor(game, startX, startY, size, isHeadingRight)
     {
         this.hover = new Animation
             (
@@ -35,7 +35,19 @@ class Metroid
         this.speed = 20;
         this.game = game;
         this.ctx = game.ctx;
-        this.isHeadingRight = false;
+        this.isHeadingRight = isHeadingRight;
+
+        // set invisible boundaries for enemies path
+        this.randomMinBoundary = Randomizer.returnRandomInt(this.ctx.canvas.width) / 2;
+        this.randomMaxBoundary = Randomizer.returnRandomIntBetweenThese(this.randomMinBoundary,
+            Randomizer.returnRandomInt(this.ctx.canvas.width));
+
+        // Ensure the enemies boundaries aren't too small
+        while ((this.randomMaxBoundary - this.randomMinBoundary) < 500)
+        {
+            this.randomMaxBoundary = Randomizer.returnRandomIntBetweenThese(this.randomMinBoundary,
+                Randomizer.returnRandomInt(this.ctx.canvas.width));
+        }
 
         // this will be used for rewind
         this.myPath = [];
@@ -149,11 +161,18 @@ class Metroid
         if (this.isHeadingRight)
         {
             this.x += this.game.clockTick * this.speed;
-            if (this.x > 400) this.isHeadingRight = false;
-        } else
+            if (this.x > this.randomMaxBoundary)
+            {
+                this.isHeadingRight = false;
+            }
+        }
+        else if (!this.isHeadingRight)
         {
             this.x -= this.game.clockTick * this.speed;
-            if (this.x < 130) this.isHeadingRight = true;
+            if (this.x < this.randomMinBoundary)
+            {
+                this.isHeadingRight = true;
+            }
         }
     }
 

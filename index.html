@@ -16,8 +16,11 @@
     <script type="text/javascript" src="./blink.js"></script>
     <script type="text/javascript" src="./flymutant.js"></script>
     <script type="text/javascript" src="./metroid.js"></script>
+    <script type="text/javascript" src="./bug.js"></script>
+    <script type="text/javascript" src="./violator.js"></script>
     <script type="text/javascript" src="./necroman.js"></script>
     <script type="text/javascript" src="./camera.js"></script>
+    <script type="text/javascript" src="./randomizer.js"></script>
 </head>
 <body>
     <!--
@@ -118,10 +121,11 @@
                     <h2><Font color='2090C8' />Change Level Music<Font color='White' /></h2>
                     <button class="buttonPlay" id="changeMusic" type="button"> Switch Tracks!</button>
                     <button class="buttonStop" id="stopMusic" type="button"> Stop Music! </button>
-                    <h4><Font color='White' />Track One: <Font color='3498DB' />Adventure Time!</h4>
-                    <h4><Font color='White' />Track Two: <Font color='3498DB' />The Sands of Time!</h4>
-                    <h4><Font color='White' />Track Three: <Font color='3498DB' />The Hero of Time!</h4>
-                    <h4><Font color='White' />Track Four: <Font color='3498DB' />Mysterious!</h4>
+                    <h4><Font color='White' />Track One: <Font color='3498DB' />Adventure Time</h4>
+                    <h4><Font color='White' />Track Two: <Font color='3498DB' />The Sands of Time</h4>
+                    <h4><Font color='White' />Track Three: <Font color='3498DB' />The Hero of Time</h4>
+                    <h4><Font color='White' />Track Four: <Font color='3498DB' />Mysterious...</h4>
+                    <h4><Font color='White' />Track Five: <Font color='3498DB' />Questions</h4>
 
                 </center>
             </div>
@@ -130,7 +134,7 @@
             <div class="column">
                 <center>
                     <h2><Font color='2090C8' />Developer Tools<Font color='White' /></h2>
-                    <button class="buttonGodMode" id="godMode" type="button">Enable God Mode (Not Active)</button>
+                    <button class="buttonGodMode" id="godMode" type="button">God Mode (Not Active)</button>
                     <button class="buttonSpeedUp" id="speedUp" type="button">Speed Up Blink</button>
                     <br />
                     <br />
@@ -172,6 +176,13 @@
            hidden
            preload="auto"
            src="./audio/levels/Mysterious.mp3" />
+
+    <audio id="questionsTrack"
+           controls
+           loop
+           hidden
+           preload="auto"
+           src="./audio/levels/Questions.mp3" />
 
     <audio id="slowTime"
            controls
