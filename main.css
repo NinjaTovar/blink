@@ -14,8 +14,19 @@ html {
     clear: both;
 }
 
-.button {
+.buttonPlay {
     background-color: #C226A5; /* Hot Pink */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.buttonStop {
+    background-color: #2A3A3D; /* Hot Pink */
     border: none;
     color: white;
     padding: 15px 32px;

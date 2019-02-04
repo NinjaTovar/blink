@@ -47,8 +47,8 @@ class Blink
         this.dontRestartLevel = false;
 
         // Music and Sounds
-        this.levelMusic = document.getElementById('levelOneMusic');
-        this.levelTwoMusic = document.getElementById('levelTwoMusic');
+        this.adventureTimeTrack = document.getElementById('adventureTimeTrack');
+        this.sandsOfTimeTrack = document.getElementById('sandsOfTimeTrack');
         this.slowSoundEffect = document.getElementById('slowTime');
         this.speedSoundEffect = document.getElementById('speedTime');
         this.rewindSoundEffect = document.getElementById('rewindTime');
@@ -57,31 +57,43 @@ class Blink
         this.jumpSoundEffect = document.getElementById('jump');
         this.jumpLandingSoundEffect = document.getElementById('jumpLanding');
         this.changeMusic = document.getElementById('changeMusic');
+        this.stopMusic = document.getElementById('stopMusic');
         this.lastSongPlayed;
+        this.userWantsNoMusic = false;
 
         // used to pass in 'this' reference to anonymous function
         var self = this;
         this.changeMusic.onclick = function ()
         {
-            if (self.levelMusic.currentTime)
+            if (self.adventureTimeTrack.currentTime)
             {
-                self.lastSongPlayed = self.levelTwoMusic;
-                self.levelMusic.pause();
-                self.levelTwoMusic.play();
+                self.lastSongPlayed = self.sandsOfTimeTrack;
+                self.adventureTimeTrack.pause();
+                self.sandsOfTimeTrack.play();
 
-                self.levelMusic.currentTime = 0;
+                self.adventureTimeTrack.currentTime = 0;
             }
             else
             {
-                self.lastSongPlayed = self.levelMusic;
-                self.levelMusic.play();
-                self.levelTwoMusic.pause();
-                self.levelTwoMusic.currentTime = 0;
+                self.lastSongPlayed = self.adventureTimeTrack;
+                self.adventureTimeTrack.play();
+                self.sandsOfTimeTrack.pause();
+                self.sandsOfTimeTrack.currentTime = 0;
             }
         };
 
+        this.stopMusic.onclick = function ()
+        {
+            self.userWantsNoMusic = true;
+            self.adventureTimeTrack.pause();
+            self.sandsOfTimeTrack.pause();
+
+            self.adventureTimeTrack.currentTime = 0;
+            self.sandsOfTimeTrack.currentTime = 0;
+        };
+
         // turn it down man
-        this.levelMusic.volume = .2;
+        this.adventureTimeTrack.volume = .2;
         this.slashSoundEffect.volume = .35;
         this.jumpSoundEffect.volume = .5;
         this.jumpLandingSoundEffect.volume = .3;
@@ -446,8 +458,8 @@ class Blink
             this.unsheathSword = false;
             this.unsheathSwordStandStill = false;
 
-            this.levelMusic.pause();
-            this.levelTwoMusic.pause();
+            this.adventureTimeTrack.pause();
+            this.sandsOfTimeTrack.pause();
             this.stopSoundEffect.play();
         }
         if (!this.stopTime)
@@ -456,7 +468,7 @@ class Blink
 
             this.stopSoundEffect.pause();
 
-            if (this.lastSongPlayed != undefined)
+            if (this.lastSongPlayed != undefined && !this.userWantsNoMusic)
             {
                 this.lastSongPlayed.play();
             }
@@ -471,7 +483,7 @@ class Blink
             this.unsheathSword = false;
             this.unsheathSwordStandStill = false;
 
-            this.levelMusic.playbackRate = 2;
+            this.adventureTimeTrack.playbackRate = 2;
             this.rewindSoundEffect.play();
         }
         if (!this.rewindTime)
@@ -491,7 +503,7 @@ class Blink
             this.unsheathSwordStandStill = false;
 
             this.slowSoundEffect.play();
-            this.levelMusic.playbackRate = .5;
+            this.adventureTimeTrack.playbackRate = .5;
         }
         if (!this.slowTime)
         {
@@ -499,7 +511,7 @@ class Blink
 
             this.slowSoundEffect.pause();
             this.slowSoundEffect.currentTime = 0;
-            this.levelMusic.playbackRate = 1;
+            this.adventureTimeTrack.playbackRate = 1;
         }
         // speed state update for game engine
         if (this.speedTime)

@@ -113,9 +113,10 @@
             <div class="column">
                 <center>
                     <h2><Font color='2090C8' />Change Level Music<Font color='White' /></h2>
-                    <button class="button" id="changeMusic" type="button"> Switch Tracks!</button>
-                    <h4><Font color='White' />Track One (Hold): <Font color='3498DB' />Adventure Time!</h4>
-                    <h4><Font color='White' />Track Two (Hold): <Font color='3498DB' />The Sands of Time!</h4>
+                    <button class="buttonPlay" id="changeMusic" type="button"> Switch Tracks!</button>
+                    <button class="buttonStop" id="stopMusic" type="button"> Stop Music! </button>
+                    <h4><Font color='White' />Track One: <Font color='3498DB' />Adventure Time!</h4>
+                    <h4><Font color='White' />Track Two: <Font color='3498DB' />The Sands of Time!</h4>
                 </center>
             </div>
 
@@ -124,19 +125,19 @@
     </p>
 
     <!-- Handle audio here -->
-    <audio id="levelOneMusic"
+    <audio id="adventureTimeTrack"
            controls
            loop
            hidden
            preload="auto"
-           src="./audio/levels/levelOne.mp3" />
+           src="./audio/levels/AdventureTimeTrack.mp3" />
 
-    <audio id="levelTwoMusic"
+    <audio id="sandsOfTimeTrack"
            controls
            loop
            hidden
            preload="auto"
-           src="./audio/levels/levelTwo.mp3" />
+           src="./audio/levels/SandsOfTimeTrack.mp3" />
 
     <audio id="slowTime"
            controls
