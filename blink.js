@@ -520,7 +520,7 @@ class Blink
             this.unsheathSwordStandStill = false;
 
             this.slowSoundEffect.play();
-            this.adventureTimeTrack.playbackRate = .5;
+            this.lastSongPlayed.playbackRate = .5;
         }
         if (!this.slowTime)
         {
@@ -528,7 +528,12 @@ class Blink
 
             this.slowSoundEffect.pause();
             this.slowSoundEffect.currentTime = 0;
-            this.adventureTimeTrack.playbackRate = 1;
+
+            if (this.lastSongPlayed !== undefined)
+            {
+                this.lastSongPlayed.playbackRate = 1;
+            }
+
         }
         // speed state update for game engine
         if (this.speedTime)
