@@ -361,8 +361,8 @@ class Blink
             // handle sounds
             this.jumpSoundEffect.play();
 
-            if (this.jumpFaceRightAnimation.elapsedTime > 1.1 ||
-                this.jumpFaceLeftAnimation.elapsedTime > 1.1)
+            if (this.jumpFaceRightAnimation.elapsedTime > .9 ||
+                this.jumpFaceLeftAnimation.elapsedTime > .9)
             {
                 this.jumpLandingSoundEffect.play();
                 this.game.jumping = false;
@@ -742,7 +742,7 @@ class Blink
             39.2,     // frame width
             34,     // frame height
             3,      // sheet width
-            0.15,    // frame duration
+            0.12,    // frame duration
             8,      // frames in animation
             true,   // to loop or not to loop
             3     // scale in relation to original image
@@ -753,7 +753,7 @@ class Blink
             38.78,     // frame width
             34,     // frame height
             3,      // sheet width
-            0.15,    // frame duration
+            0.12,    // frame duration
             8,      // frames in animation
             true,   // to loop or not to loop
             3     // scale in relation to original image
