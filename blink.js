@@ -49,6 +49,7 @@ class Blink
         // Music and Sounds
         this.adventureTimeTrack = document.getElementById('adventureTimeTrack');
         this.sandsOfTimeTrack = document.getElementById('sandsOfTimeTrack');
+        this.heroOfTimeTrack = document.getElementById('heroOfTimeTrack');
         this.slowSoundEffect = document.getElementById('slowTime');
         this.speedSoundEffect = document.getElementById('speedTime');
         this.rewindSoundEffect = document.getElementById('rewindTime');
@@ -292,8 +293,6 @@ class Blink
         this.handleDeveloperTools();
     }
 
-
-
     handleStartLevel()
     {
         if (this.startLevel && !this.dontRestartLevel)
@@ -456,6 +455,7 @@ class Blink
 
             this.adventureTimeTrack.pause();
             this.sandsOfTimeTrack.pause();
+            this.heroOfTimeTrack.pause();
             this.stopSoundEffect.play();
         }
         if (!this.stopTime)
@@ -464,7 +464,7 @@ class Blink
 
             this.stopSoundEffect.pause();
 
-            if (this.lastSongPlayed != undefined && !this.userWantsNoMusic)
+            if ((this.lastSongPlayed != undefined) && !this.userWantsNoMusic)
             {
                 this.lastSongPlayed.play();
             }
@@ -479,7 +479,6 @@ class Blink
             this.unsheathSword = false;
             this.unsheathSwordStandStill = false;
 
-            this.adventureTimeTrack.playbackRate = 2;
             this.rewindSoundEffect.play();
         }
         if (!this.rewindTime)
@@ -488,7 +487,6 @@ class Blink
 
             this.rewindSoundEffect.pause();
             this.rewindSoundEffect.currentTime = 0;
-
         }
         // slow state update for game engine
         if (this.slowTime)
@@ -594,20 +592,36 @@ class Blink
         // Change Tracks
         this.changeMusic.onclick = function ()
         {
-            if (self.adventureTimeTrack.currentTime)
+            if ((self.lastSongPlayed == self.sandsOfTimeTrack))
+            {
+                self.lastSongPlayed = self.heroOfTimeTrack;
+                self.heroOfTimeTrack.play();
+                self.sandsOfTimeTrack.pause();
+
+                self.sandsOfTimeTrack.currentTime = 0;
+            }
+            else if ((self.lastSongPlayed == self.heroOfTimeTrack))
+            {
+                self.lastSongPlayed = self.adventureTimeTrack;
+                self.adventureTimeTrack.play();
+                self.heroOfTimeTrack.pause();
+
+                self.heroOfTimeTrack.currentTime = 0;
+
+            }
+            else if ((self.lastSongPlayed == self.adventureTimeTrack))
             {
                 self.lastSongPlayed = self.sandsOfTimeTrack;
-                self.adventureTimeTrack.pause();
                 self.sandsOfTimeTrack.play();
+                self.adventureTimeTrack.pause();
 
-                self.adventureTimeTrack.currentTime = 0;
+                self.sandsOfTimeTrack.currentTime = 0;
             }
             else
             {
                 self.lastSongPlayed = self.adventureTimeTrack;
+
                 self.adventureTimeTrack.play();
-                self.sandsOfTimeTrack.pause();
-                self.sandsOfTimeTrack.currentTime = 0;
             }
         };
         // Stop music
@@ -616,9 +630,11 @@ class Blink
             self.userWantsNoMusic = true;
             self.adventureTimeTrack.pause();
             self.sandsOfTimeTrack.pause();
+            self.heroOfTimeTrack.pause();
 
             self.adventureTimeTrack.currentTime = 0;
             self.sandsOfTimeTrack.currentTime = 0;
+            self.heroOfTimeTrack.currentTime = 0;
         };
 
         // Handle Developerset buttons

@@ -141,7 +141,7 @@ class Mummy
         {
             this.x = this.myPath.pop();
 
-            console.log("path is reset");
+            console.log("Rewind path is reset");
 
 
             this.resetPath = false;
