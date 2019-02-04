@@ -36,6 +36,10 @@
             style="position:absolute;left:0;top:0;"></canvas>
     <canvas id="gameWorld" tabindex="1" width="5000" height="586"
             style="position:absolute;left:0;top:0;"></canvas>
+    <!-- This is breaking the game world as it loses focus to the overlay
+            <canvas id="projectionsLayerOverlayAll" tabindex="0" width="5000" height="586"
+            style="position:absolute;left:0;top:0;"></canvas>
+    -->
 
     <!-- Formatting for text instructions on-screen. Audio tags are below this.-->
     <p>
@@ -117,6 +121,20 @@
                     <button class="buttonStop" id="stopMusic" type="button"> Stop Music! </button>
                     <h4><Font color='White' />Track One: <Font color='3498DB' />Adventure Time!</h4>
                     <h4><Font color='White' />Track Two: <Font color='3498DB' />The Sands of Time!</h4>
+                </center>
+            </div>
+
+            <!-- Developer Toolset -->
+            <div class="column">
+                <center>
+                    <h2><Font color='2090C8' />Developer Tools<Font color='White' /></h2>
+                    <button class="buttonGodMode" id="godMode" type="button">Enable God Mode</button>
+                    <button class="buttonSpeedUp" id="speedUp" type="button">Speed Up Blink</button>
+                    <br />
+                    <br />
+                    <br />
+                    <button class="buttonHitBox" id="outlineHitBox" type="button">Outline Hit Boxes</button>
+                    <button class="buttonStopEnemies" id="stopEnemies" type="button">Stop All Enemies</button>
                 </center>
             </div>
 

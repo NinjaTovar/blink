@@ -42,6 +42,12 @@ class Metroid
         this.myPath.push(0);
         this.shouldRewind = false;
         this.resetPath = false;
+
+        // debug tool
+        this.drawAroundHitBox = false;
+        this.frameWidth = 78;
+        this.frameHeight = 86;
+        this.size = size;
     }
 
     // Methods
@@ -53,6 +59,16 @@ class Metroid
      */
     draw(ctx)
     {
+        // debug tool
+        if (this.drawAroundHitBox)
+        {
+            this.ctx.beginPath();
+            this.ctx.strokeStyle = 'white';
+            this.ctx.rect(this.x, this.y, this.frameWidth * this.size, this.frameHeight * this.size);
+            this.ctx.stroke();
+            //this.ctx.clearRect(this.x, this.y, this.frameWidth * this.size, this.frameHeight * this.size);
+        }
+
         // If field "isHeadingRight" is false, play fly left animation
         if ((this.isHeadingRight && !this.willRewind()))
         {

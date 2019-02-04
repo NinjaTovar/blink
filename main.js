@@ -52,7 +52,13 @@ AM.downloadAll(function ()
     var middleCanvas = document.getElementById('projectionsLayerMiddle');
     var middleProjectionContext = middleCanvas.getContext('2d');
 
+    //// Load a special effects layer. This is in the middle.
+    //var overlayCanvas = document.getElementById('projectionsLayerOverlayAll');
+    //var overlayProjectionContext = overlayCanvas.getContext('2d');
+
     var gameEngine = new GameEngine();
+
+    gameCtx.canvas.focus();
 
     // Send canvas' to game engine
     gameEngine.init(bottomProjectionContext, middleProjectionContext, gameCtx);

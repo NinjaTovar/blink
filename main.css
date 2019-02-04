@@ -4,7 +4,7 @@ html {
 
 .column {
     float: left;
-    width: 30%;
+    width: 25%;
 }
 
 /* Clear floats after the columns */
@@ -27,6 +27,49 @@ html {
 
 .buttonStop {
     background-color: #2A3A3D; /* Hot Pink */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.buttonGodMode {
+    background-color: #1065C4; /* Cool Blue */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.buttonSpeedUp {
+    background-color: #4CA628; /* Moss Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+.buttonHitBox {
+    background-color: #C226A5; /* Hot Pink */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.buttonStopEnemies {
+    background-color: #F40303; /* Very Red */
     border: none;
     color: white;
     padding: 15px 32px;

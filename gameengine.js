@@ -17,6 +17,7 @@ class GameEngine
         this.ctx = null;
         this.surfaceWidth = null;
         this.surfaceHeight = null;
+        this.drawAroundHitBox = false;
     }
 
     /**
@@ -28,6 +29,7 @@ class GameEngine
     init(bottomProjectionContext, middleProjectionContext, gameCtx)
     {
         // initialize game world features. Context, timer, canvas width and height, etc.
+        //this.overlayCtx = overlayProjectionContext;
         this.ctx = gameCtx;
         this.middleProjectionCtx = middleProjectionContext;
         this.bottomProjectionCtx = bottomProjectionContext;
@@ -163,6 +165,7 @@ class GameEngine
      */
     draw()
     {
+        // normal draw function for each entity. We didn't make this.
         this.ctx.clearRect(0, 0, this.surfaceWidth, this.surfaceHeight);
         this.ctx.save();
         for (let i = 0; i < this.entities.length; i++)
@@ -170,6 +173,16 @@ class GameEngine
             this.entities[i].draw(this.ctx);
         }
         this.ctx.restore();
+
+        // Trying to make a debug tool for hit boxes. In Work.
+        for (let i = 0; i < this.entities.length; i++)
+        {
+            if (this.drawAroundHitBox)
+            {
+                this.entities[i].drawAroundHitBox = !this.entities[i].drawAroundHitBox;
+            }
+        }
+
     }
 
     /** Handles updating the entities world state. */
@@ -322,6 +335,12 @@ class GameEngine
         {
             this.speedGameTime();
         }
+    }
+
+    /** Developer mode tool for debugging. */
+    drawAroundSpriteSheet(truthOfThisStatement)
+    {
+        this.drawAroundHitBox = truthOfThisStatement;
     }
 
     /** Boolean helper for evaluating game state. */

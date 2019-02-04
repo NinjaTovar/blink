@@ -56,6 +56,12 @@ class Mummy
         this.myPath.push(this.x);
         this.shouldRewind = false;
         this.resetPath = false;
+
+        // debug tool
+        this.drawAroundHitBox = false;
+        this.frameWidth = 36;
+        this.frameHeight = 45;
+        this.size = size;
     }
 
     // Methods
@@ -67,6 +73,17 @@ class Mummy
      */
     draw(ctx)
     {
+
+        // debug tool
+        if (this.drawAroundHitBox)
+        {
+            this.ctx.beginPath();
+            this.ctx.strokeStyle = 'white';
+            this.ctx.rect(this.x, this.y, this.frameWidth * this.size, this.frameHeight * this.size);
+            this.ctx.stroke();
+            //this.ctx.clearRect(this.x, this.y, this.frameWidth * this.size, this.frameHeight * this.size);
+        }
+
         // If field "isHeadingRight" is true, play walk right animation
         if ((this.isHeadingRight && !this.willRewind()))
         {
@@ -106,6 +123,8 @@ class Mummy
                 this.game.shouldRewind = false;
             }
         }        
+
+
     }
 
     /** Update handles updating the objects world state. */

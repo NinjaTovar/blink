@@ -61,38 +61,8 @@ class Blink
         this.lastSongPlayed;
         this.userWantsNoMusic = false;
 
-        // used to pass in 'this' reference to anonymous function
-        var self = this;
-        this.changeMusic.onclick = function ()
-        {
-            if (self.adventureTimeTrack.currentTime)
-            {
-                self.lastSongPlayed = self.sandsOfTimeTrack;
-                self.adventureTimeTrack.pause();
-                self.sandsOfTimeTrack.play();
 
-                self.adventureTimeTrack.currentTime = 0;
-            }
-            else
-            {
-                self.lastSongPlayed = self.adventureTimeTrack;
-                self.adventureTimeTrack.play();
-                self.sandsOfTimeTrack.pause();
-                self.sandsOfTimeTrack.currentTime = 0;
-            }
-        };
-
-        this.stopMusic.onclick = function ()
-        {
-            self.userWantsNoMusic = true;
-            self.adventureTimeTrack.pause();
-            self.sandsOfTimeTrack.pause();
-
-            self.adventureTimeTrack.currentTime = 0;
-            self.sandsOfTimeTrack.currentTime = 0;
-        };
-
-        // turn it down man
+        // turn it down man that stuff is aggressive
         this.adventureTimeTrack.volume = .2;
         this.slashSoundEffect.volume = .35;
         this.jumpSoundEffect.volume = .5;
@@ -104,7 +74,17 @@ class Blink
         this.outlineHitBox = false;
         this.stopEnemies = false;
 
+        // debug tool
+        this.drawAroundHitBox = false;
+        this.originalSpeed = this.speed;
 
+        this.godModeButton = document.getElementById('godMode');
+        this.speedUpButton = document.getElementById('speedUp');
+        this.outlineHitBoxButton = document.getElementById('outlineHitBox');
+        this.stopEnemiesButton = document.getElementById('stopEnemies');
+
+        // Set up all html elements to listeners with actions
+        this.handleButtonListeners();
     }
 
     // Methods ---------------------------------------------------------------------------
@@ -332,12 +312,25 @@ class Blink
     {
         if (this.speedUpMovement)
         {
-            this.speed = this.speed * 5;
-            this.speedUpMovement = false;
+            this.speed = this.originalSpeed * 5;
+        }
+        if (!this.speedUpMovement)
+        {
+            this.speed = this.originalSpeed;
         }
         if (this.stopEnemies)
         {
             this.game.allShouldStop(true);
+        }
+        if (this.outlineHitBox)
+        {
+            // this needs updating when collision detecting is in
+            this.game.drawAroundSpriteSheet(true);
+        }
+        if (!this.outlineHitBox)
+        {
+            // this needs updating when collision detecting is in
+            this.game.drawAroundSpriteSheet(false);
         }
     }
 
@@ -587,6 +580,64 @@ class Blink
     {
         return (this.moving && !this.jumping && !this.isSpellcasting());
     }
+
+    /** Set up listeners and actions for HTML buttons. */
+    handleButtonListeners()
+    {
+        // used to pass in 'this' reference to anonymous function
+        var self = this;
+
+        // Handle music buttons
+        // Change Tracks
+        this.changeMusic.onclick = function ()
+        {
+            if (self.adventureTimeTrack.currentTime)
+            {
+                self.lastSongPlayed = self.sandsOfTimeTrack;
+                self.adventureTimeTrack.pause();
+                self.sandsOfTimeTrack.play();
+
+                self.adventureTimeTrack.currentTime = 0;
+            }
+            else
+            {
+                self.lastSongPlayed = self.adventureTimeTrack;
+                self.adventureTimeTrack.play();
+                self.sandsOfTimeTrack.pause();
+                self.sandsOfTimeTrack.currentTime = 0;
+            }
+        };
+        // Stop music
+        this.stopMusic.onclick = function ()
+        {
+            self.userWantsNoMusic = true;
+            self.adventureTimeTrack.pause();
+            self.sandsOfTimeTrack.pause();
+
+            self.adventureTimeTrack.currentTime = 0;
+            self.sandsOfTimeTrack.currentTime = 0;
+        };
+
+        // Handle Developerset buttons
+        this.godModeButton.onclick = function ()
+        {
+            self.godMode = !self.godMode;
+        };
+        this.speedUpButton.onclick = function ()
+        {
+            self.speedUpMovement = !self.speedUpMovement;
+        };
+        this.outlineHitBoxButton.onclick = function ()
+        {
+            self.outlineHitBox = !self.outlineHitBox;
+        };
+        this.stopEnemiesButton.onclick = function ()
+        {
+            self.stopEnemies = !self.stopEnemies;
+        };
+
+    }
+
 
     /** Updates the state booleans for Blinks actions. */
     updateBlinksStateFromKeyListeners()
