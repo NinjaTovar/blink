@@ -2,6 +2,7 @@ var AM = new AssetManager();
 
 // Queue downloading background
 AM.queueDownload('./img/levels/trainTunnel.png');
+AM.queueDownload('./img/levels/extendedBackground.png');
 
 // Queue downloading main character
 AM.queueDownload('./img/blink/Crono_PullSwordOut_FaceLeft.png');

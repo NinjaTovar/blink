@@ -1,11 +1,12 @@
 class LevelOne {
-	constructor(gameEngine, assetManager, context) {
+	constructor(gameEngine) {
 		this.game = gameEngine;
-		this.AM = assetManager;
-		this.ctx = context;
 
 	}
 	loadLevel() {
+		/**
+		 * These three entities must be added in this order 
+		 */
 		this.game.addEntity(this.game.camera);
 		this.game.addEntity(new Background(this.game));
 		this.game.addEntity(this.game.blink);
@@ -40,5 +41,8 @@ class LevelOne {
 		}
 		// Adding Necroman
 		this.game.addEntity(new Necroman(this.game, 4200, 140, 5.5));
+
+		console.log(this.game.entities);
+
 	}
 }

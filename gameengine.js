@@ -52,15 +52,12 @@ class GameEngine {
         this.camera = new Camera(this.ctx, 200, 400, this.surfaceWidth, this.surfaceHeight);
         // Create blink as an instance field
         this.blink = new Blink(this);
-
+        // Have to follow after the camera has been created first
         this.camera.follow(this.blink);
 
         // Initialize and add the level manager entity, all entities besides itself is added by the levelManager
         this.levelManager = new LevelManager(this, this.ctx, this.AM);
         this.addEntity(this.levelManager);
-
-
-
 
 
         console.log('game initialized');
