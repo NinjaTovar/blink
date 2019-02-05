@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <title>Blink</title>
@@ -21,7 +22,10 @@
     <script type="text/javascript" src="./necroman.js"></script>
     <script type="text/javascript" src="./camera.js"></script>
     <script type="text/javascript" src="./randomizer.js"></script>
+    <script type="text/javascript" src="./levelmanager.js"></script>
+    <script type="text/javascript" src="./levels/levelone.js"></script>
 </head>
+
 <body>
     <!--
     <iframe
@@ -33,12 +37,9 @@
     </iframe>
      -->
     <!-- Load the game world layers -->
-    <canvas id="projectionsLayerBottom" tabindex="0" width="5000" height="586"
-            style="position:absolute;left:0;top:0;"></canvas>
-    <canvas id="projectionsLayerMiddle" tabindex="0" width="5000" height="586"
-            style="position:absolute;left:0;top:0;"></canvas>
-    <canvas id="gameWorld" tabindex="1" width="5000" height="586"
-            style="position:absolute;left:0;top:0;"></canvas>
+    <canvas id="projectionsLayerBottom" tabindex="0" width="5000" height="586" style="position:absolute;left:0;top:0;"></canvas>
+    <canvas id="projectionsLayerMiddle" tabindex="0" width="5000" height="586" style="position:absolute;left:0;top:0;"></canvas>
+    <canvas id="gameWorld" tabindex="1" width="5000" height="586" style="position:absolute;left:0;top:0;"></canvas>
     <!-- This is breaking the game world as it loses focus to the overlay
             <canvas id="projectionsLayerOverlayAll" tabindex="0" width="5000" height="586"
             style="position:absolute;left:0;top:0;"></canvas>
@@ -82,22 +83,31 @@
             <div class="column">
                 <center>
                     <Font color='White' face="consolas" />
-                    <h1>~<Font color='3498DB' /> *Blink* <Font color='White' />Prototype ~</h1>
+                    <h1>~
+                        <Font color='3498DB' /> *Blink*
+                        <Font color='White' />Prototype ~</h1>
 
                     <Font color='E59866' />
-                    <tt>Meet <Font color='3498DB' />Blink<Font color='E59866' />. Who is he and where does he come from? No one knows, not even him.</tt>
+                    <tt>Meet
+                        <Font color='3498DB' />Blink
+                        <Font color='E59866' />. Who is he and where does he come from? No one knows, not even him.</tt>
                     <br />
-                    <tt><Font color='3498DB' />Blink<Font color='E59866' /> has no memory of his past. But he does know one thing... time bends to his will. He sets out to find answers. And he will. Because time is his.</tt>
+                    <tt>
+                        <Font color='3498DB' />Blink
+                        <Font color='E59866' /> has no memory of his past. But he does know one thing... time bends to
+                        his will. He sets out to find answers. And he will. Because time is his.</tt>
                     <br />
 
                     <Font color='Chartreuse' />
                     <tt>Warning: It is dangerous to go alone, there are 'features' everywhere.</tt>
                     <br />
-                    <tt>Ok so they are bugs. But listen. It's gonna be sweet. You'll use your time powers to make it through obstacles and bosses.</tt>
+                    <tt>Ok so they are bugs. But listen. It's gonna be sweet. You'll use your time powers to make it
+                        through obstacles and bosses.</tt>
                     <br />
 
                     <Font color='DeepPink' />
-                    <tt>PROTIP: Hold a time power and act, while your foes watch in horror as you slip outside the fabric of time.</tt>
+                    <tt>PROTIP: Hold a time power and act, while your foes watch in horror as you slip outside the
+                        fabric of time.</tt>
                 </center>
             </div>
 
@@ -105,27 +115,54 @@
             <div class="column">
                 <center>
                     <h2><mark>Controls</mark></h2>
-                    <h4><Font color='White' />W (Hold): <Font color='3498DB' />Slow Time!</h4>
-                    <h4><Font color='White' />F (Hold): <Font color='3498DB' />Speed Time!</h4>
-                    <h4><Font color='White' />S (Hold): <Font color='3498DB' />Stop Time!</h4>
-                    <h4><Font color='White' />D (Hold): <Font color='3498DB' />Rewind Time!</h4>
-                    <h4><Font color='White' />A (Hold): <Font color='3498DB' />Attack! </h4>
-                    <h4><Font color='White' />Spacebar: <Font color='3498DB' />Jump</h4>
-                    <h4><Font color='White' />Left/Right Arrows: <Font color='3498DB' />Movement</h4>
+                    <h4>
+                        <Font color='White' />W (Hold):
+                        <Font color='3498DB' />Slow Time!</h4>
+                    <h4>
+                        <Font color='White' />F (Hold):
+                        <Font color='3498DB' />Speed Time!</h4>
+                    <h4>
+                        <Font color='White' />S (Hold):
+                        <Font color='3498DB' />Stop Time!</h4>
+                    <h4>
+                        <Font color='White' />D (Hold):
+                        <Font color='3498DB' />Rewind Time!</h4>
+                    <h4>
+                        <Font color='White' />A (Hold):
+                        <Font color='3498DB' />Attack! </h4>
+                    <h4>
+                        <Font color='White' />Spacebar:
+                        <Font color='3498DB' />Jump</h4>
+                    <h4>
+                        <Font color='White' />Left/Right Arrows:
+                        <Font color='3498DB' />Movement</h4>
                 </center>
             </div>
 
             <!-- Change Music -->
             <div class="column">
                 <center>
-                    <h2><Font color='2090C8' />Change Level Music<Font color='White' /></h2>
+                    <h2>
+                        <Font color='2090C8' />Change Level Music
+                        <Font color='White' />
+                    </h2>
                     <button class="buttonPlay" id="changeMusic" type="button"> Switch Tracks!</button>
                     <button class="buttonStop" id="stopMusic" type="button"> Stop Music! </button>
-                    <h4><Font color='White' />Track One: <Font color='3498DB' />Adventure</h4>
-                    <h4><Font color='White' />Track Two: <Font color='3498DB' />The Sands of Time</h4>
-                    <h4><Font color='White' />Track Three: <Font color='3498DB' />The Hero of Time</h4>
-                    <h4><Font color='White' />Track Four: <Font color='3498DB' />Mysterious...</h4>
-                    <h4><Font color='White' />Track Five: <Font color='3498DB' />Questions</h4>
+                    <h4>
+                        <Font color='White' />Track One:
+                        <Font color='3498DB' />Adventure</h4>
+                    <h4>
+                        <Font color='White' />Track Two:
+                        <Font color='3498DB' />The Sands of Time</h4>
+                    <h4>
+                        <Font color='White' />Track Three:
+                        <Font color='3498DB' />The Hero of Time</h4>
+                    <h4>
+                        <Font color='White' />Track Four:
+                        <Font color='3498DB' />Mysterious...</h4>
+                    <h4>
+                        <Font color='White' />Track Five:
+                        <Font color='3498DB' />Questions</h4>
 
                 </center>
             </div>
@@ -133,7 +170,10 @@
             <!-- Developer Toolset -->
             <div class="column">
                 <center>
-                    <h2><Font color='2090C8' />Developer Tools<Font color='White' /></h2>
+                    <h2>
+                        <Font color='2090C8' />Developer Tools
+                        <Font color='White' />
+                    </h2>
                     <button class="buttonGodMode" id="godMode" type="button">God Mode (Not Active)</button>
                     <button class="buttonSpeedUp" id="speedUp" type="button">Speed Up Blink</button>
                     <br />
@@ -149,81 +189,29 @@
     </p>
 
     <!-- Handle audio here -->
-    <audio id="adventureTimeTrack"
-           controls
-           loop
-           hidden
-           preload="auto"
-           src="./audio/levels/AdventureTimeTrack.mp3" />
+    <audio id="adventureTimeTrack" controls loop hidden preload="auto" src="./audio/levels/AdventureTimeTrack.mp3" />
 
-    <audio id="sandsOfTimeTrack"
-           controls
-           loop
-           hidden
-           preload="auto"
-           src="./audio/levels/SandsOfTimeTrack.mp3" />
+    <audio id="sandsOfTimeTrack" controls loop hidden preload="auto" src="./audio/levels/SandsOfTimeTrack.mp3" />
 
-    <audio id="heroOfTimeTrack"
-           controls
-           loop
-           hidden
-           preload="auto"
-           src="./audio/levels/HeroOfTimeTrack.mp3" />
+    <audio id="heroOfTimeTrack" controls loop hidden preload="auto" src="./audio/levels/HeroOfTimeTrack.mp3" />
 
-    <audio id="mysteriousTrack"
-           controls
-           loop
-           hidden
-           preload="auto"
-           src="./audio/levels/Mysterious.mp3" />
+    <audio id="mysteriousTrack" controls loop hidden preload="auto" src="./audio/levels/Mysterious.mp3" />
 
-    <audio id="questionsTrack"
-           controls
-           loop
-           hidden
-           preload="auto"
-           src="./audio/levels/Questions.mp3" />
+    <audio id="questionsTrack" controls loop hidden preload="auto" src="./audio/levels/Questions.mp3" />
 
-    <audio id="slowTime"
-           controls
-           hidden
-           preload="metadata"
-           src="./audio/effects/SlowTime.wav" />
+    <audio id="slowTime" controls hidden preload="metadata" src="./audio/effects/SlowTime.wav" />
 
-    <audio id="stopTime"
-           controls
-           hidden
-           preload="metadata"
-           src="./audio/effects/StopTime.wav" />
+    <audio id="stopTime" controls hidden preload="metadata" src="./audio/effects/StopTime.wav" />
 
-    <audio id="rewindTime"
-           controls
-           hidden
-           preload="metadata"
-           src="./audio/effects/RewindTime.wav" />
+    <audio id="rewindTime" controls hidden preload="metadata" src="./audio/effects/RewindTime.wav" />
 
-    <audio id="speedTime"
-           controls
-           hidden
-           preload="metadata"
-           src="./audio/effects/HighPitch.wav" />
+    <audio id="speedTime" controls hidden preload="metadata" src="./audio/effects/HighPitch.wav" />
 
-    <audio id="slash"
-           controls
-           hidden
-           preload="metadata"
-           src="./audio/effects/SwordSlash.wav" />
+    <audio id="slash" controls hidden preload="metadata" src="./audio/effects/SwordSlash.wav" />
 
-    <audio id="jump"
-           controls
-           hidden
-           preload="metadata"
-           src="./audio/effects/Jump.wav" />
+    <audio id="jump" controls hidden preload="metadata" src="./audio/effects/Jump.wav" />
 
-    <audio id="jumpLanding"
-           controls
-           hidden
-           preload="metadata"
-           src="./audio/effects/JumpLanding.wav" />
+    <audio id="jumpLanding" controls hidden preload="metadata" src="./audio/effects/JumpLanding.wav" />
 </body>
+
 </html>

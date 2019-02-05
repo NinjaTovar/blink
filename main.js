@@ -45,8 +45,7 @@ AM.queueDownload('./img/enemies/necroman/Necroman_FaceLeft.png');
 AM.queueDownload('./img/enemies/necroman/Necroman_FaceRight.png');
 
 
-AM.downloadAll(function ()
-{
+AM.downloadAll(function () {
     // Load game world. This is the top layer
     var canvas = document.getElementById('gameWorld');
     var gameCtx = canvas.getContext('2d');
@@ -68,7 +67,7 @@ AM.downloadAll(function ()
     gameCtx.canvas.focus();
 
     // Send canvas' to game engine
-    gameEngine.init(bottomProjectionContext, middleProjectionContext, gameCtx);
+    gameEngine.init(bottomProjectionContext, middleProjectionContext, gameCtx, AM);
     gameEngine.start();
 
     console.log('All Done!');
