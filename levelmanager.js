@@ -14,15 +14,21 @@ class LevelManager {
 		// States for loading
 		this.states = {
 			'loadNextLevel': true,
+			'levelLoaded': false
 		}
 	}
 
 	update() {
-		console.log('hello');
 		// checks game state to see if it will load.
 		if (this.states.loadNextLevel) {
 			// Empty entities array to prepare for new level
-			this.game.entities = [];
+			// this.game.entities = [];
+			// this.game.entities[0] = this.game.levelManager;
+			var input = this.game.entities;
+			// input.length = 2;
+			console.log(input);
+
+			while(input.length > 1) input.pop();
 
 			if (this.level == 1) {
 				console.log('loading level One!');

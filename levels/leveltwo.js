@@ -7,6 +7,5 @@ class LevelTwo {
 		this.game.addEntity(new Background2(this.game));
 		this.game.addEntity(this.game.blink);
 
-
 	}
 }
