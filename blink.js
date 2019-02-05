@@ -314,6 +314,9 @@ class Blink
         this.handleDeveloperTools();
     }
 
+    /** Handles starting music. Can't autoplay without level interaction due to Chrome's
+     * aggressive rules.
+    */
     handleStartLevel()
     {
         if (this.levelStarted && this.beginMusic)
@@ -398,7 +401,7 @@ class Blink
         }
     }
 
-    /** Update helper method for what to do when moving. */
+    /** Update helper method for what to do when jumping. */
     handleWhatToDoWhenJumping()
     {
         // If jumping, use animations elasped time for setting jump to false. This is
@@ -717,7 +720,7 @@ class Blink
         // update state based on gameengine key listener update
         // have to check for undefined because the gameengine initially
         // tries to pass in an unitialized value, but we want Blink's constructor 
-        // assigns instead.
+        // assignments instead.
         if (this.game.slowTime !== undefined)
         {
             this.slowTime = this.game.slowTime;
