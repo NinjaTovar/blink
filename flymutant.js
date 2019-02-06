@@ -4,7 +4,7 @@
  *
  * Single constructor takes in the game context as its parameter. (There is no default) 
  */
-class FlyMutant extends Entity
+class FlyMutant
 {
     /**
      * Single constructor for Fly. Loads assets and sets intial parameters including
@@ -18,7 +18,6 @@ class FlyMutant extends Entity
      */
     constructor(game, startX, startY, size, isHeadingRight)
     {
-        super(game, startX, startY);
         this.flyLeftAnimation = new Animation
             (
             AM.getAsset('./img/enemies/fly/Fly_FaceLeft.png'),

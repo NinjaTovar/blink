@@ -696,6 +696,8 @@ class Blink
         this.levelOneButton.onclick = function ()
         {
             console.log('buttonone clicked');
+            self.game.levelManager.level = 1;
+            self.game.levelManager.states.loadNextLevel = true;
         };
         this.levelTwoButton.onclick = function ()
         {

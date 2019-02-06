@@ -24,7 +24,6 @@ class Entity
         this.game = game;
         this.x = x;
         this.y = y;
-        this.removed= false;
     }
 
     /** Update handles updating the objects world state. */
