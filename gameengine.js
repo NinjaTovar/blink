@@ -119,7 +119,8 @@ class GameEngine {
         for (let i = 0; i < entitiesCount; i++) {
             let entity = this.entities[i];
 
-            entity.update();
+            if (this.levelManager.states.levelLoaded) 
+                entity.update();
         }
     }
 

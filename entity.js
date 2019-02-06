@@ -15,13 +15,16 @@ class Entity
      *                game world.  
      * @param {any} y The y coordinate for the entity to be loaded in reference to the
      *                game world.
+     * 
+     * @param {any} removed Indicates whether the entity has been removed from world and 
+     *                      should be updated
      */
     constructor(game, x, y)
     {
         this.game = game;
         this.x = x;
         this.y = y;
-        this.removeFromWorld = false;
+        this.removed= false;
     }
 
     /** Update handles updating the objects world state. */
