@@ -45,6 +45,10 @@ AM.queueDownload('./img/enemies/violator/ViolatorSwing_FaceLeft.png');
 AM.queueDownload('./img/enemies/necroman/Necroman_FaceLeft.png');
 AM.queueDownload('./img/enemies/necroman/Necroman_FaceRight.png');
 
+// Queue downlaoding Jason
+AM.queueDownload('./img/enemies/jason.png');
+
+
 
 AM.downloadAll(function () {
     // Load game world. This is the top layer

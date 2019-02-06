@@ -10,5 +10,8 @@ class LevelTwo {
 		this.game.blink.lastY = 360;
 		this.game.blink.groundLevel = 360;
 
+		this.game.addEntity(new Jason(this.game));
+
+
 	}
 }
