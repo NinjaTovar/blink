@@ -94,6 +94,9 @@ class Blink
         this.speedUpButton = document.getElementById('speedUp');
         this.outlineHitBoxButton = document.getElementById('outlineHitBox');
         this.stopEnemiesButton = document.getElementById('stopEnemies');
+        this.levelOneButton = document.getElementById('levelOne');
+        this.levelTwoButton = document.getElementById('levelTwo');
+
 
         // Set up all html elements to listeners with actions
         this.handleButtonListeners();
@@ -692,6 +695,18 @@ class Blink
         this.stopEnemiesButton.onclick = function ()
         {
             self.stopEnemies = !self.stopEnemies;
+        };
+        this.levelOneButton.onclick = function ()
+        {
+            console.log('buttonone clicked');
+            self.game.levelManager.level = 1;
+            self.game.levelManager.states.loadNextLevel = true;
+        };
+        this.levelTwoButton.onclick = function ()
+        {
+            console.log('buttontwo clicked');
+            self.game.levelManager.level = 2;
+            self.game.levelManager.states.loadNextLevel = true;
         };
 
     }

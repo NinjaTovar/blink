@@ -2,6 +2,7 @@ var AM = new AssetManager();
 
 // Queue downloading background
 AM.queueDownload('./img/levels/trainTunnel.png');
+AM.queueDownload('./img/levels/extendedBackground.png');
 
 // Queue downloading main character
 AM.queueDownload('./img/blink/Crono_PullSwordOut_FaceLeft.png');
@@ -44,9 +45,12 @@ AM.queueDownload('./img/enemies/violator/ViolatorSwing_FaceLeft.png');
 AM.queueDownload('./img/enemies/necroman/Necroman_FaceLeft.png');
 AM.queueDownload('./img/enemies/necroman/Necroman_FaceRight.png');
 
+// Queue downlaoding Jason
+AM.queueDownload('./img/enemies/jason.png');
 
-AM.downloadAll(function ()
-{
+
+
+AM.downloadAll(function () {
     // Load game world. This is the top layer
     var canvas = document.getElementById('gameWorld');
     var gameCtx = canvas.getContext('2d');
@@ -68,7 +72,7 @@ AM.downloadAll(function ()
     gameCtx.canvas.focus();
 
     // Send canvas' to game engine
-    gameEngine.init(bottomProjectionContext, middleProjectionContext, gameCtx);
+    gameEngine.init(bottomProjectionContext, middleProjectionContext, gameCtx, AM);
     gameEngine.start();
 
     console.log('All Done!');
