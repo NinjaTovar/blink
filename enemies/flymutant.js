@@ -128,7 +128,7 @@ class FlyMutant
                 this.shouldRewind = false;
                 this.game.shouldRewind = false;
             }
-        }   
+        }
     }
 
 

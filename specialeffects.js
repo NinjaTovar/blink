@@ -139,10 +139,10 @@ class SpecialEffects
                 this.middleProjectionCtx.fillStyle = 'hsl(' + 360 * Math.random() + ', 50%, 50%)';
 
                 this.middleProjectionCtx.fillRect(
-                    getRandomInt(getRandomInt(this.middleProjectionCtx.canvas.width)), 
+                    getRandomInt(getRandomInt(this.middleProjectionCtx.canvas.width)),
                     getRandomInt(getRandomInt(this.middleProjectionCtx.canvas.height)),
-                            getRandomInt(100),
-                            getRandomInt(100));
+                    getRandomInt(100),
+                    getRandomInt(100));
             }
 
 

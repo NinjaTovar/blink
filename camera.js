@@ -1,4 +1,5 @@
-class Camera {
+class Camera
+{
     /**
      * Camera handles managing the view position of the world in relation to Blink
      * 
@@ -9,7 +10,8 @@ class Camera {
      * @param {any} worldWidth width dimensions of the entire level
      * @param {any} worldHeight height dimensions of the entire level
      */
-    constructor(ctx, viewWidth, viewHeight, worldWidth, worldHeight) {
+    constructor(ctx, viewWidth, viewHeight, worldWidth, worldHeight)
+    {
         this.ctx = ctx;
         this.viewWidth = viewWidth;
         this.viewHeight = viewHeight;
@@ -26,24 +28,29 @@ class Camera {
         // debug camera tool
         this.shouldOutlineCamera = false;
     }
-    follow(him) {
+    follow(him)
+    {
         this.blink = him;
         this.xPosition = this.blink.x;
         this.yPosition = this.blink.y;
     }
-    draw() {
+    draw()
+    {
         // If blink is just barely into the start of the level or
         // right before the end, translate the canvas to emulate a camera
-        if (this.blink.x > 100 && this.blink.x < 3680) {
+        if (this.blink.x > 100 && this.blink.x < 3680)
+        {
             this.endOfLevel = this.xPosition / 1.15;
             this.ctx.translate(this.xPosition / 1.15, 0);
         }
         // otherwise stay stationary
-        else {
+        else
+        {
             this.ctx.translate(this.endOfLevel, 0);
         }
 
-        if (this.shouldOutlineCamera) {
+        if (this.shouldOutlineCamera)
+        {
             this.ctx.beginPath();
             this.ctx.strokeStyle = 'red';
             this.ctx.rect(this.offsetX, this.offsetY, this.viewWidth, this.viewHeight);
@@ -52,7 +59,8 @@ class Camera {
             //console.log(this.yPosition);
         }
     }
-    update() {
+    update()
+    {
         this.xPosition = this.offsetX - this.blink.x;
         this.yPosition = this.offsetY - this.blink.y;
     }
