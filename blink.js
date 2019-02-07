@@ -31,7 +31,14 @@ class Blink
         this.speed = 275;
         this.game = game;
         this.ctx = game.ctx;
+
+        // Initialize a jump timer. These fields are mostly if not all used in the
+        // "handleWhatToDoWhenJumping()" function
         this.jumpHeight = 420;
+        this.totalTimeForJump = .96;
+        this.jumpTimer = new Timer();
+        this.elapsedJumpTime = 0;
+        this.jumpSlashSoundPlayed = false;
 
         // key listener states
         this.moving = false;
@@ -105,11 +112,8 @@ class Blink
         this.handleButtonListeners();
     }
 
-    // Methods ---------------------------------------------------------------------------
-
+    // DRAW-------------------------------------------------------------------------------
     /**
-     * Draw
-     * 
      * Draw takes in the game context and uses that to define what update does. Be careful
      * not to put code in draw that should go in update. They are hell of bugs to figure
      * out.
@@ -118,7 +122,7 @@ class Blink
      */
     draw(ctx)
     {
-        // debug tool
+        // DEBUG TOOL
         if (this.drawAroundHitBox)
         {
             this.ctx.beginPath();
@@ -128,9 +132,11 @@ class Blink
             //this.ctx.clearRect(this.x, this.y, this.frameWidth * this.size, this.frameHeight * this.size);
         }
 
-        // Unsheath your sword!
+
+        // UNSHEATH SWORD-----------------------------------------------------------------
         if (this.unsheathSword)
         {
+            // Unsheath your sword animation facing left or right
             if (this.facingRight)
             {
                 this.swordUnsheath_FaceRight.drawFrame(this.game.blinksClockTick, ctx,
@@ -143,6 +149,7 @@ class Blink
             }
 
         }
+        // Once unsheath animation is done, play a still of last frame. 
         if (this.unsheathSwordStandStill)
         {
             if (this.facingRight)
@@ -157,11 +164,10 @@ class Blink
             }
         }
 
-
-        // if standing still
+        // STANDING-----------------------------------------------------------------------
         if (this.isStandingStill())
         {
-            // face right or left depending on last state
+            // if standing still face right or left depending on last state
             if (this.facingRight)
             {
                 this.standRightAnimation.drawFrame(this.game.blinksClockTick, ctx,
@@ -173,13 +179,12 @@ class Blink
                     this.x, this.y);
             }
         }
-
-        // JUMPING        
-        else if (this.jumping)
+        // JUMPING------------------------------------------------------------------------  
+        if (this.jumping)
         {
             if (!this.basicAttack)
             {
-                // if facing left and jumping, jump facing left animation
+                // If jumping and attacking, jump attack animation left or right
                 if (!this.facingRight)
                 {
                     this.jumpFaceLeftAnimation.drawFrame(
@@ -189,7 +194,6 @@ class Blink
                         this.y
                     );
                 }
-                // if facing right and jumping, jump facing right animation
                 else if (this.facingRight)
                 {
                     this.jumpFaceRightAnimation.drawFrame(
@@ -200,9 +204,10 @@ class Blink
                     );
                 }
             }
+            // JUMP ATTACK----------------------------------------------------------------
             else
             {
-                // if facing left and jumping, jump facing left animation
+                // if NOT attacking but jumping, play jump animation facing left/right
                 if (!this.facingRight)
                 {
                     this.jumpAttackFaceLeft.drawFrame(
@@ -212,7 +217,6 @@ class Blink
                         this.y
                     );
                 }
-                // if facing right and jumping, jump facing right animation
                 else if (this.facingRight)
                 {
                     this.jumpAttackFaceRight.drawFrame(
@@ -224,9 +228,8 @@ class Blink
                 }
             }
         }
-
-        // RUNNING
-        else if (this.isRunning())
+        // RUNNING------------------------------------------------------------------------
+        if (this.isRunning())
         {
             // if facing left and moving, run left animation
             if (!this.facingRight)
@@ -241,11 +244,10 @@ class Blink
                     this.game.blinksClockTick, ctx, this.x, this.y);
             }
         }
-
-        // ATTACKING
-        // if facing left and basic attacking, attack left animation
-        else if (this.basicAttack)
+        // ATTACKING----------------------------------------------------------------------
+        if (this.basicAttack && !this.jumping)
         {
+            // basic attack left or right depending on direction
             if (!this.facingRight)
             {
                 // fix his attack frames that jump a bit
@@ -257,7 +259,6 @@ class Blink
                     this.y
                 );
             }
-            // if facing right and moving, attack right animation
             else if (this.facingRight && this.basicAttack)
             {
                 // fix his attack frames that jump a bit
@@ -270,8 +271,7 @@ class Blink
                 );
             }
         }
-
-        // SPELLCASTING
+        // SPELLCASTING-------------------------------------------------------------------
         if (this.isSpellcasting())
         {
             var raiseUpABit = 100;
@@ -297,6 +297,7 @@ class Blink
         }
     }
 
+    // UPDATE-----------------------------------------------------------------------------
     /** All changes to blinks state happen here. Draw should not handle those changes
      *  as it could potentially be a hard bug to find. */
     update()
@@ -320,6 +321,7 @@ class Blink
         this.handleDeveloperTools();
     }
 
+    // HANDLE LEVEL MUSIC ON START--------------------------------------------------------
     /** Handles starting music. Can't autoplay without level interaction due to Chrome's
      * aggressive rules.
     */
@@ -334,6 +336,7 @@ class Blink
         }
     }
 
+    // HANDLE DEV TOOLS-------------------------------------------------------------------
     /** Update method helper to update developer modes when needed. */
     handleDeveloperTools()
     {
@@ -366,6 +369,7 @@ class Blink
         }
     }
 
+    // HANDLE UPDATE ON CANVAS BOUNDARIES-------------------------------------------------
     /** Update helper method for keeping Blink in bounds. */
     handleKeepingBlinkInCanvas()
     {
@@ -383,99 +387,116 @@ class Blink
         }
     }
 
+    // HANDLE UPDATE WHEN ATTACKING-------------------------------------------------------
     /** Update method helper for when attacking. */
     handleWhatToDoWhenAttacking()
     {
-        if (this.basicAttack)
+        // If attack (but not jump attacking)
+        if (this.basicAttack && !this.isJumpAttacking())
         {
+            // play slash sounds and reset sword unsheathing animation booleans
             this.slashSoundEffect.play();
             this.unsheathSword = false;
             this.unsheathSwordStandStill = false;
         }
+        if (!this.basicAttack)
+        {
+            // if not attacking, mak sure to reset the slash sound so it sounds right
+            // on next attack
+            this.jumpSlashSoundPlayed = false;
+            this.slashSoundEffect.pause();
+            this.slashSoundEffect.currentTime = 0;
+        }
     }
 
+    // HANDLE UPDATE ON MOVING------------------------------------------------------------
     /** Update method helper for what to do when moving. */
     handleWhatToDoWhenMoving()
     {
-        if (!this.facingRight && this.moving)
+        if (!this.facingRight && this.isRunning())
         {
             this.x -= this.game.blinksClockTick * this.speed;
         }
-        if (this.facingRight && this.moving)
+        if (this.facingRight && this.isRunning())
         {
             this.x += this.game.blinksClockTick * this.speed;
         }
     }
 
+    // HANDLE UPDATE ON JUMPING-----------------------------------------------------------
     /** Update helper method for what to do when jumping. */
     handleWhatToDoWhenJumping()
     {
         // If jumping, use animations elasped time for setting jump to false. This is
         // currently the best way to keep the animation looking sexy.
-        if (this.jumping)
+        if (this.jumping || this.isJumpAttacking())
         {
+            // put that sword away boi
             this.unsheathSword = false;
 
-            // handle sounds
+            // play jump sound
             this.jumpSoundEffect.play();
 
-            if (this.jumpFaceRightAnimation.elapsedTime > .9 ||
-                this.jumpFaceLeftAnimation.elapsedTime > .9)
+
+            if (this.elapsedJumpTime < 0.9)
             {
+                this.elapsedJumpTime += this.jumpTimer.tick();
+
+                if (!this.jumpSlashSoundPlayed && this.isJumpAttacking())
+                {
+                    this.slashSoundEffect.play();
+                    this.jumpSlashSoundPlayed = true;
+                }
+            }
+            else
+            {
+                // play landing sound
                 this.jumpLandingSoundEffect.play();
+                this.jumpSlashSoundPlayed = false; // reset so jump attack sound can play
                 this.game.jumping = false;
                 this.jumping = false;
+                this.elapsedJumpTime = 0;
                 this.jumpFaceRightAnimation.elapsedTime = 0;
                 this.jumpFaceLeftAnimation.elapsedTime = 0;
             }
 
-            // Manage jumps using the animation classes timer. Need both left/right animation.
-            // If facing right and jumping
-            if (this.facingRight)
+            var height = 0;
+            var duration = this.elapsedJumpTime + this.game.blinksClockTick;
+            if (duration > this.totalTimeForJump / 2)
+                duration = this.totalTimeForJump - duration;
+            duration = duration / this.totalTimeForJump;
+
+
+            // quadratic jump
+            height = (2 * duration - 2 * duration * duration) * this.jumpHeight;
+            this.y = this.groundLevel - height;
+
+            // Manage both left/right jumps movement acceleration
+            if (this.moving)
             {
-                var height = 0;
-                var duration = this.jumpFaceRightAnimation.elapsedTime + this.game.blinksClockTick;
-                if (duration > this.jumpFaceRightAnimation.totalTime / 2)
-                    duration = this.jumpFaceRightAnimation.totalTime - duration;
-                duration = duration / this.jumpFaceRightAnimation.totalTime;
-
-                // quadratic jump
-                height = (2 * duration - 2 * duration * duration) * this.jumpHeight;
-                this.y = this.groundLevel - height;
-
-                if (this.moving)
+                // double x speed during jump if moving
+                if (this.facingRight)
                 {
-                    this.x += this.game.blinksClockTick * this.speed;
+                    this.x += 2 * this.game.blinksClockTick * this.speed;
+
                 }
-            }
-            // If facing left and jumping
-            else if (!this.facingRight)
-            {
-                var height = 0;
-                var duration = this.jumpFaceLeftAnimation.elapsedTime + this.game.blinksClockTick;
-                if (duration > this.jumpFaceLeftAnimation.totalTime / 2)
+                else if (!this.facingRight)
                 {
-                    duration = this.jumpFaceLeftAnimation.totalTime - duration;
-                }
-                duration = duration / this.jumpFaceLeftAnimation.totalTime;
-
-                // quadratic jump
-                height = (2 * duration - 2 * duration * duration) * this.jumpHeight;
-                this.y = this.groundLevel - height;
-
-                if (this.moving)
-                {
-                    this.x -= this.game.blinksClockTick * this.speed;
+                    this.x -= 2 * this.game.blinksClockTick * this.speed;
                 }
             }
         }
     }
 
-    /** Update method helper for what to do when spellcasting. */
+    // HANDLE UPDATE ON SPELLCASTING------------------------------------------------------
+    /** 
+     *  Update method helper for what to do when spellcasting. Handles all music
+     *  as well as alerting the gameengine, which in turn alerts all entities to call
+     *  their individual responses to Blink's spell casting.
+     */
     handleWhatToDoWhenSpellcasting()
     {
-        // Alert game engine to states
-        // stop state update for game engine
+        // STOP TIME**********************************************************************
         if (this.stopTime)
         {
             this.game.allShouldStop(true);
@@ -503,7 +524,7 @@ class Blink
 
             this.stopSoundEffect.currentTime = 0;
         }
-        // rewind state update for game engine
+        // REWIND TIME********************************************************************
         if (this.rewindTime)
         {
             this.game.allShouldRewind(true);
@@ -520,7 +541,7 @@ class Blink
             this.rewindSoundEffect.pause();
             this.rewindSoundEffect.currentTime = 0;
         }
-        // slow state update for game engine
+        // SLOW TIME**********************************************************************
         if (this.slowTime)
         {
             this.game.allShouldSlow(true);
@@ -544,7 +565,7 @@ class Blink
             }
 
         }
-        // speed state update for game engine
+        // SPEED TIME*********************************************************************
         if (this.speedTime)
         {
             this.game.allShouldSpeed(true);
@@ -565,10 +586,15 @@ class Blink
         }
     }
 
-    /** Update method helper for holding sword when stationary. */
+    // HANDLE UPDATE ON SWORD HANDLING----------------------------------------------------
+    /** 
+     *  Update method helper for holding sword when stationary. Generally acts as a 
+     *  timeout function.
+     */
     handleWhenToHoldSword()
     {
-        // Whip it out
+        // After the animation of unsheathing sword is done playing in ~.7 seconds, 
+        // switch state to false so the animation freezes on the last frame.
         if (this.unsheathSword)
         {
             if (this.swordUnsheath_FaceRight.elapsedTime > 0.7 ||
@@ -579,9 +605,10 @@ class Blink
             }
         }
 
-        // If standing still too long, pull out your sword!
+        // If idle for too long, take sword back out and look super badass
         if (this.isStandingStill())
         {
+            // If longer than two seconds, do it
             if (this.standLeftAnimation.elapsedTime > 2 ||
                 this.standRightAnimation.elapsedTime > 2)
             {
@@ -601,70 +628,78 @@ class Blink
         }
     }
 
-    /** Set up listeners and actions for HTML buttons. */
+    // HANDLE SETTING UP HTML BUTTON REFERENCES AND ACTIONS-------------------------------
+    /** 
+     *  Set up listeners and actions for HTML buttons. 
+     */
     handleButtonListeners()
     {
         // used to pass in 'this' reference to anonymous function
         var self = this;
 
-        // Handle music buttons
-        // Change Tracks
+        // HANDLE MUSIC TRACKS************************************************************
         this.changeMusic.onclick = function ()
         {
             // Set this to let level know music has been started somewhere
             self.beginMusic = false;
             self.userWantsNoMusic = false;
 
-            // This begins at 
+            /** 
+             *  Adventure song is first, but it is actually the last 'else' in this 
+             *  conditional list. Try and add songs to the end as you go for consistency.
+             *  
+             *  Procedure is: Was this song played? If so, pause it, reset it's current
+             *  timer so it replays from beginning next time, play the next song in the
+             *  list and set it as the last song played (used during stop time power).
+            */
             if ((self.lastSongPlayed == self.adventureTimeTrack))
             {
-                self.lastSongPlayed = self.sandsOfTimeTrack;
-                self.sandsOfTimeTrack.play();
                 self.adventureTimeTrack.pause();
+                self.adventureTimeTrack.currentTime = 0;
 
-                self.sandsOfTimeTrack.currentTime = 0;
+                self.sandsOfTimeTrack.play();
+                self.lastSongPlayed = self.sandsOfTimeTrack;
             }
             else if ((self.lastSongPlayed == self.sandsOfTimeTrack))
             {
-                self.lastSongPlayed = self.heroOfTimeTrack;
-                self.heroOfTimeTrack.play();
                 self.sandsOfTimeTrack.pause();
+                self.sandsOfTimeTrack.currentTime = 0;
 
-                self.adventureTimeTrack.currentTime = 0;
+                self.heroOfTimeTrack.play();
+                self.lastSongPlayed = self.heroOfTimeTrack;
             }
             else if ((self.lastSongPlayed == self.heroOfTimeTrack))
             {
-                self.lastSongPlayed = self.mysteriousTrack;
-                self.mysteriousTrack.play();
                 self.heroOfTimeTrack.pause();
-
                 self.heroOfTimeTrack.currentTime = 0;
 
+
+                self.mysteriousTrack.play();
+                self.lastSongPlayed = self.mysteriousTrack;
             }
             else if ((self.lastSongPlayed == self.mysteriousTrack))
             {
-                self.lastSongPlayed = self.questionsTrack;
-                self.questionsTrack.play();
                 self.mysteriousTrack.pause();
-
                 self.mysteriousTrack.currentTime = 0;
+
+                self.questionsTrack.play();
+                self.lastSongPlayed = self.questionsTrack;
             }
             else if ((self.lastSongPlayed == self.questionsTrack))
             {
-                self.lastSongPlayed = self.adventureTimeTrack;
-                self.adventureTimeTrack.play();
                 self.questionsTrack.pause();
-
                 self.questionsTrack.currentTime = 0;
+
+                self.adventureTimeTrack.play();
+                self.lastSongPlayed = self.adventureTimeTrack;
             }
             else
             {
-                self.lastSongPlayed = self.adventureTimeTrack;
-
                 self.adventureTimeTrack.play();
+                self.lastSongPlayed = self.adventureTimeTrack;
             }
         };
-        // Stop music
+        // STOP MUSIC*********************************************************************
         this.stopMusic.onclick = function ()
         {
             self.userWantsNoMusic = true;
@@ -682,7 +717,7 @@ class Blink
             self.questionsTrack.currentTime = 0;
         };
 
-        // Handle Developerset buttons
+        // HANDLE DEV BUTTONS*************************************************************
         this.godModeButton.onclick = function ()
         {
             self.godMode = !self.godMode;
@@ -700,7 +735,7 @@ class Blink
             self.stopEnemies = !self.stopEnemies;
         };
 
-        // Level Manager Buttons
+        // HANDLE LEVEL MANAGER BUTTONS***************************************************
         this.levelOneButton.onclick = function ()
         {
             console.log('Level One clicked');
@@ -713,25 +748,40 @@ class Blink
             self.game.levelManager.level = 2;
             self.game.levelManager.states.loadNextLevel = true;
         };
-
     }
 
     /**
-    * A couple quick shortcuts on the boolean evaluations for making the code cleaner.
+    * Boolean evaluations for Blink's state. Necessary shortcuts as these get out of 
+    * control somewhat.
     */
     isSpellcasting()
     {
-        return ((this.rewindTime || this.stopTime || this.slowTime || this.speedTime) && !this.moving &&
-            !this.jumping && !this.basicAttack && !this.unsheathSword && !this.unsheathSwordStandStill);
+        return ((this.rewindTime || this.stopTime || this.slowTime || this.speedTime) &&
+            !this.moving && !this.jumping && !this.basicAttack &&
+            !this.unsheathSword && !this.unsheathSwordStandStill);
     }
     isStandingStill()
     {
-        return (!this.moving && !this.basicAttack &&
-            !this.jumping && !this.isSpellcasting() && !this.unsheathSword && !this.unsheathSwordStandStill);
+        return (!this.moving && !this.basicAttack && !this.jumping &&
+            !this.isSpellcasting() && !this.unsheathSword &&
+            !this.unsheathSwordStandStill);
     }
     isRunning()
     {
-        return (this.moving && !this.jumping && !this.isSpellcasting());
+        return (this.moving && !this.jumping && !this.basicAttack && !this.isSpellcasting());
+    }
+    isJumpAttacking()
+    {
+        return (this.jumping && this.basicAttack);
+    }
+
+    /**
+     * Handle some random jump math.
+     * 
+     */
+    returnTheJumpTime()
+    {
+        return;
     }
 
     /** Updates the state booleans for Blinks actions. */
@@ -877,7 +927,7 @@ class Blink
             24,     // frame width
             39,     // frame height
             1,      // sheet width
-            0.5,   // frame duration
+            0.9,   // frame duration
             1,      // frames in animation
             true,   // to loop or not to loop
             3     // scale in relation to original image
@@ -888,7 +938,7 @@ class Blink
             24,     // frame width
             39,     // frame height
             1,      // sheet width
-            0.5,   // frame duration
+            0.9,   // frame duration
             1,      // frames in animation
             true,   // to loop or not to loop
             3     // scale in relation to original image
@@ -896,8 +946,8 @@ class Blink
         this.slashFaceLeft = new Animation
             (
             AM.getAsset('./img/blink/Crono_Slash_FaceLeft.png'),
-            31,     // frame width
-            48.3,     // frame height
+            30.7,     // frame width
+            48.2,     // frame height
             2,      // sheet width
             0.13,   // frame duration
             3,      // frames in animation
@@ -908,7 +958,7 @@ class Blink
             (
             AM.getAsset('./img/blink/Crono_Slash_FaceRight.png'),
             31,     // frame width
-            48.3,     // frame height
+            48.2,     // frame height
             2,      // sheet width
             0.13,   // frame duration
             3,      // frames in animation
@@ -918,8 +968,8 @@ class Blink
         this.jumpFaceLeftAnimation = new Animation
             (
             AM.getAsset('./img/blink/Crono_Jump_FaceLeft.png'),
-            39.2,     // frame width
-            34,     // frame height
+            39,     // frame width
+            42,     // frame height
             3,      // sheet width
             0.12,    // frame duration
             8,      // frames in animation
@@ -929,8 +979,8 @@ class Blink
         this.jumpFaceRightAnimation = new Animation
             (
             AM.getAsset('./img/blink/Crono_Jump_FaceRight.png'),
-            38.78,     // frame width
-            34,     // frame height
+            39,     // frame width
+            42,     // frame height
             3,      // sheet width
             0.12,    // frame duration
             8,      // frames in animation
