@@ -2,7 +2,8 @@
  * GameEngine is the... game engine of the game world. Acts as the interface between
  * a user and the game world.
  */
-class GameEngine {
+class GameEngine
+{
     /** 
      *  Initializes fields for the GameEngine. This includes creating an array for the
      *  potential entities that will get loaded into the world, and declaring a game 
@@ -10,7 +11,8 @@ class GameEngine {
      *  
      *  @constructor
      */
-    constructor() {
+    constructor()
+    {
         this.entities = [];
         this.ctx = null;
         this.surfaceWidth = null;
@@ -25,19 +27,21 @@ class GameEngine {
      * 
      * @param {any} ctx A reference to the game context.
      */
-    init(bottomProjectionContext, middleProjectionContext, gameCtx, assetManager) {
+    init(bottomProjectionContext, middleProjectionContext, gameCtx, assetManager)
+    {
         // initialize game world features. Context, timer, canvas width and height, etc.
         //this.overlayCtx = overlayProjectionContext;
         this.ctx = gameCtx;
-        this.AM = assetManager;
         this.middleProjectionCtx = middleProjectionContext;
         this.bottomProjectionCtx = bottomProjectionContext;
+        this.AM = assetManager;
         this.surfaceWidth = this.ctx.canvas.width;
         this.surfaceHeight = this.ctx.canvas.height;
         this.timer = new Timer();
 
-        // create a special effects handler
-        this.specialEffects = new SpecialEffects(this.bottomProjectionCtx, this.middleProjectionCtx, this.ctx);
+        // create a special effects handler, passing in multiple canvas' for effects
+        this.specialEffects = new SpecialEffects(this.bottomProjectionCtx,
+            this.middleProjectionCtx, this.ctx);
 
         // fields related to Blinks interaction with the game
         this.blinkTimer = new Timer();
@@ -55,23 +59,27 @@ class GameEngine {
         // Have to follow after the camera has been created first
         this.camera.follow(this.blink);
 
-        // Initialize and add the level manager entity, all entities besides itself is added by the levelManager
+        // Initialize and add the level manager entity, all entities besides 
+        // itself are added by the levelManager
         this.levelManager = new LevelManager(this, this.ctx, this.AM);
         this.addEntity(this.levelManager);
-
 
         console.log('game initialized');
     }
 
-    declareAndAddAssetsToEntitiesArray() {
-
+    // Placeholder
+    declareAndAddAssetsToEntitiesArray()
+    {
+        // may need this
     }
 
     /** Starts the game world by getting the loop and callback circle started. */
-    start() {
+    start()
+    {
         console.log('starting game');
         let that = this;
-        (function gameLoop() {
+        (function gameLoop()
+        {
             that.loop();
             requestAnimationFrame(gameLoop, that.ctx.canvas);
         })();
@@ -85,7 +93,8 @@ class GameEngine {
      *                     be continually referenced, as all entities have a reference
      *                     to the game.
      */
-    addEntity(entity) {
+    addEntity(entity)
+    {
         console.log('added entity');
         this.entities.push(entity);
     }
@@ -94,18 +103,22 @@ class GameEngine {
      *  Calls all of the entities draw function that have been added to the engines
      *  entity[] array.
      */
-    draw() {
+    draw()
+    {
         // normal draw function for each entity. We didn't make this.
         this.ctx.clearRect(0, 0, this.surfaceWidth, this.surfaceHeight);
         this.ctx.save();
-        for (let i = 0; i < this.entities.length; i++) {
+        for (let i = 0; i < this.entities.length; i++)
+        {
             this.entities[i].draw(this.ctx);
         }
         this.ctx.restore();
 
         // Trying to make a debug tool for hit boxes. In Work.
-        for (let i = 0; i < this.entities.length; i++) {
-            if (this.drawAroundHitBox) {
+        for (let i = 0; i < this.entities.length; i++)
+        {
+            if (this.drawAroundHitBox)
+            {
                 this.entities[i].drawAroundHitBox = !this.entities[i].drawAroundHitBox;
             }
         }
@@ -113,19 +126,22 @@ class GameEngine {
     }
 
     /** Handles updating the entities world state. */
-    update() {
+    update()
+    {
         let entitiesCount = this.entities.length;
 
-        for (let i = 0; i < entitiesCount; i++) {
+        for (let i = 0; i < entitiesCount; i++)
+        {
             let entity = this.entities[i];
 
-            if (this.levelManager.states.levelLoaded && entity) 
+            if (this.levelManager.states.levelLoaded && entity)
                 entity.update();
         }
     }
 
     /** Keeps the world ticking. */
-    loop() {
+    loop()
+    {
         // everyone's clock tick besides blink
         this.clockTick = this.timer.tick();
 
@@ -137,67 +153,83 @@ class GameEngine {
         this.draw();
 
         // Cleanup the canvas after spells
-        if (this.noSpellsAreActive() && (this.ctx.globalAlpha < 9.8)) {
+        if (this.noSpellsAreActive() && (this.ctx.globalAlpha < 9.8))
+        {
             this.specialEffects.cleanupEffects();
         }
     }
 
+    // BLINKS SPELLS ARE BEING CAST ------------------------------------------------------
     /** Stop game tick for all but Blink. */
-    stopGameTime() {
+    stopGameTime()
+    {
         this.clockTick = 0;
 
         this.specialEffects.prepareCanvasLayersForEffects();
 
         // Handle effects if Blink is casting a spell
-        if (this.timeIsStopped && !this.devModeStopTime) {
+        if (this.timeIsStopped && !this.devModeStopTime)
+        {
             this.specialEffects.performStopTimeSpecialEffects();
         }
     }
 
     /** If Blink casts a spell, stop game tick for all and handle visuals. */
-    rewindGameTime() {
+    rewindGameTime()
+    {
         this.specialEffects.prepareCanvasLayersForEffects();
 
-        if (this.timeIsRewinding) {
+        if (this.timeIsRewinding)
+        {
             this.specialEffects.performRewindTimeSpecialEffects();
         }
     }
 
     /** If Blink casts a spell, stop game tick for all and handle visuals. */
-    slowGameTime() {
+    slowGameTime()
+    {
         this.clockTick = this.clockTick / 6;
-        if (this.timeIsSlowed) {
+        if (this.timeIsSlowed)
+        {
             this.specialEffects.prepareCanvasLayersForEffects();
             this.specialEffects.performSlowTimeSpecialEffects();
         }
     }
 
     /** If Blink casts a spell, stop game tick for all and handle visuals. */
-    speedGameTime() {
+    speedGameTime()
+    {
         this.clockTick = this.clockTick * 6;
-        if (this.timeIsSped) {
+        if (this.timeIsSped)
+        {
             this.specialEffects.prepareCanvasLayersForEffects();
             this.specialEffects.performSpeedTimeSpecialEffects();
         }
     }
+    // END BLINK CASTING SPELLS-----------------------------------------------------------
 
 
+
+    // BLINK UPDATING THE GAME ENGINE THAT HE IS/ISN'T CASTING A SPELL--------------------
     /**
      * Manages calling all entities rewind functions
      * 
      * @param {any} truthOfThisStatement Alerts game Blink is trying to rewind time.
      */
-    allShouldRewind(truthOfThisStatement) {
+    allShouldRewind(truthOfThisStatement)
+    {
         // let game engine keep track of this too
         this.timeIsRewinding = truthOfThisStatement;
 
-        if (this.timeIsRewinding) {
+        if (this.timeIsRewinding)
+        {
             this.rewindGameTime();
         }
 
         // call all entities that have a rewind capacity to do so
         let entitiesCount = this.entities.length;
-        for (let i = 0; i < entitiesCount; i++) {
+        for (let i = 0; i < entitiesCount; i++)
+        {
             this.entities[i].shouldRewind = truthOfThisStatement;
         }
     }
@@ -207,11 +239,13 @@ class GameEngine {
      * 
      * @param {any} truthOfThisStatement Alerts game Blink is trying to stop time.
      */
-    allShouldStop(truthOfThisStatement) {
+    allShouldStop(truthOfThisStatement)
+    {
         // let game engine keep track of this too
         this.timeIsStopped = truthOfThisStatement;
 
-        if (this.timeIsStopped) {
+        if (this.timeIsStopped)
+        {
             this.stopGameTime();
         }
     }
@@ -221,11 +255,13 @@ class GameEngine {
      * 
      * @param {any} truthOfThisStatement Alerts game Blink is trying to stop time.
      */
-    allShouldSlow(truthOfThisStatement) {
+    allShouldSlow(truthOfThisStatement)
+    {
         // let game engine keep track of this too
         this.timeIsSlowed = truthOfThisStatement;
 
-        if (this.timeIsSlowed) {
+        if (this.timeIsSlowed)
+        {
             this.slowGameTime();
         }
     }
@@ -235,35 +271,44 @@ class GameEngine {
      * 
      * @param {any} truthOfThisStatement Alerts game Blink is trying to stop time.
      */
-    allShouldSpeed(truthOfThisStatement) {
+    allShouldSpeed(truthOfThisStatement)
+    {
         // let game engine keep track of this too
         this.timeIsSped = truthOfThisStatement;
 
-        if (this.timeIsSped) {
+        if (this.timeIsSped)
+        {
             this.speedGameTime();
         }
     }
+    // END OF BLINK GAME UPDATES----------------------------------------------------------
+
 
     /** Developer mode tool for debugging. */
-    drawAroundSpriteSheet(truthOfThisStatement) {
+    drawAroundSpriteSheet(truthOfThisStatement)
+    {
         this.drawAroundHitBox = truthOfThisStatement;
     }
 
     /** Boolean helper for evaluating game state. */
-    noSpellsAreActive() {
+    noSpellsAreActive()
+    {
         return !this.timeIsRewinding && !this.timeIsSlowed && !this.timeIsStopped;
     }
 
     /** Initializes event listeners for game. */
-    initializeEventListeners() {
+    initializeEventListeners()
+    {
         // use that to refer to other classes use of these listeners
         const that = this;
 
         // Event Listeners
         this.ctx.canvas.addEventListener(
             'mousedown',
-            e => {
-                switch (e.button) {
+            e =>
+            {
+                switch (e.button)
+                {
                     case 0:
                         that.levelStarted = true;
                         break;
@@ -277,8 +322,10 @@ class GameEngine {
         // Event Listeners
         this.ctx.canvas.addEventListener(
             'keydown',
-            e => {
-                switch (e.key) {
+            e =>
+            {
+                switch (e.key)
+                {
                     case 'ArrowRight':
                         that.moving = true;
                         that.facingRight = true;
@@ -322,8 +369,10 @@ class GameEngine {
 
         this.ctx.canvas.addEventListener(
             'keyup',
-            e => {
-                switch (e.key) {
+            e =>
+            {
+                switch (e.key)
+                {
                     case 'ArrowRight':
                         that.moving = false;
                         break;
@@ -363,14 +412,16 @@ class GameEngine {
 }
 
 // This helps discover what type of browser it will be communicating with
-window.requestAnimFrame = (function () {
+window.requestAnimFrame = (function ()
+{
     return (
         window.requestAnimationFrame ||
         window.webkitRequestAnimationFrame ||
         window.mozRequestAnimationFrame ||
         window.oRequestAnimationFrame ||
         window.msRequestAnimationFrame ||
-        function (callback, element) {
+        function (callback, element)
+        {
             window.setTimeout(callback, 1000 / 60);
         }
     );

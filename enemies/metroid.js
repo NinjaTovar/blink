@@ -1,10 +1,10 @@
 /*
- * Mummy object. This class handles loading the necessary assets as well as defines
+ * FlyMutant object. This class handles loading the necessary assets as well as defines
  * the update and draw function.
  *
  * Single constructor takes in the game context as its parameter. (There is no default) 
  */
-class Mummy
+class Metroid
 {
     /**
      * Single constructor for Fly. Loads assets and sets intial parameters including
@@ -18,35 +18,21 @@ class Mummy
      */
     constructor(game, startX, startY, size, isHeadingRight)
     {
-        this.walkLeftAnimation = new Animation
+        this.hover = new Animation
             (
-            AM.getAsset('./img/enemies/mummy/Mummy_WalkLeft.png'), // load sprite asset
-            36,     // frame width
-            45,     // frame height
-            5,      // sheet width
-            0.2,    // frame duration
-            17,     // frames in animation
+            AM.getAsset('./img/enemies/metroid/metroid.png'),
+            78,    // frame width
+            86,     // frame height
+            4,      // sheet width
+            0.1,    // frame duration
+            12,      // frames in animation
             true,   // to loop or not to loop
-            size     // scale in relation to original image
+            size    // scale in relation to original image
             );
-        this.walkRightAnimation = new Animation
-            (
-            AM.getAsset('./img/enemies/mummy/Mummy_WalkRight.png'),
-            36,      // frame width
-            45,      // frame height
-            5,       // sheet width
-            0.2,     // frame duration
-            17,      // frames in animation
-            true,    // to loop or not to loop
-            size     // scale in relation to original image
-        );
 
-
-
-        // Initial world states
         this.x = startX;
         this.y = startY;
-        this.speed = 30;
+        this.speed = 20;
         this.game = game;
         this.ctx = game.ctx;
         this.isHeadingRight = isHeadingRight;
@@ -65,14 +51,14 @@ class Mummy
 
         // this will be used for rewind
         this.myPath = [];
-        this.myPath.push(this.x);
+        this.myPath.push(0);
         this.shouldRewind = false;
         this.resetPath = false;
 
         // debug tool
         this.drawAroundHitBox = false;
-        this.frameWidth = 36;
-        this.frameHeight = 45;
+        this.frameWidth = 78;
+        this.frameHeight = 86;
         this.size = size;
     }
 
@@ -85,7 +71,6 @@ class Mummy
      */
     draw(ctx)
     {
-
         // debug tool
         if (this.drawAroundHitBox)
         {
@@ -96,59 +81,55 @@ class Mummy
             //this.ctx.clearRect(this.x, this.y, this.frameWidth * this.size, this.frameHeight * this.size);
         }
 
-        // If field "isHeadingRight" is true, play walk right animation
+        // If field "isHeadingRight" is false, play fly left animation
         if ((this.isHeadingRight && !this.willRewind()))
         {
-            this.walkRightAnimation.drawFrame(this.game.clockTick, ctx, this.x, this.y)
+            this.hover.drawFrame(this.game.clockTick, ctx, this.x, this.y)
         }
-        // If field "isHeadingRight" is false, play fly right animation
-        else if ((!this.isHeadingRight && !this.willRewind()))
+        if ((!this.isHeadingRight && !this.willRewind()))
         {
-            this.walkLeftAnimation.drawFrame(this.game.clockTick, ctx, this.x, this.y)
+            this.hover.drawFrame(this.game.clockTick, ctx, this.x, this.y)
         }
 
         // If affected by time spell
         if (this.isHeadingRight && this.willRewind() && this.myPath.length > 1)
         {
             this.x = this.myPath.pop();
-            this.walkRightAnimation.drawFrame(this.game.clockTick, ctx, this.x,
-                this.y);      
+            this.hover.drawFrame(this.game.clockTick, ctx, this.x,
+                this.y);
 
 
             if (this.myPath.length == 1)
             {
+                this.x = this.myPath.pop();
                 this.shouldRewind = false;
-                this.game.shouldRewind = false;
             }
-
         }
         if (!this.isHeadingRight && this.willRewind() && this.myPath.length > 1)
         {
             this.x = this.myPath.pop();
-            this.walkLeftAnimation.drawFrame(this.game.clockTick, ctx, this.x,
-                this.y);      
-
+            this.hover.drawFrame(this.game.clockTick, ctx, this.x,
+                this.y);
 
             if (this.myPath.length == 1)
             {
                 this.shouldRewind = false;
                 this.game.shouldRewind = false;
             }
-        }        
-
-
+        }
     }
+
+
 
     /** Update handles updating the objects world state. */
     update()
     {
         if (this.game.resetPaths != undefined)
         {
-        this.resetPath = this.game.resetPaths;
+            this.resetPath = this.game.resetPaths;
         }
 
-
-        // alert mummy to reset the array for path variables
+        // alert fly to reset the array for path variables
         if (this.resetPath)
         {
             this.x = this.myPath.pop();
@@ -177,8 +158,6 @@ class Mummy
             }
         }
 
-
-
         if (this.isHeadingRight)
         {
             this.x += this.game.clockTick * this.speed;
@@ -195,7 +174,6 @@ class Mummy
                 this.isHeadingRight = true;
             }
         }
-
     }
 
     // Helper booleans for state
@@ -204,4 +182,3 @@ class Mummy
         return ((this.myPath.length > 0) && this.shouldRewind);
     }
 }
-

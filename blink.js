@@ -82,18 +82,21 @@ class Blink
         this.outlineHitBox = false;
         this.stopEnemies = false;
 
-        // debug tool
-        // debug tool
+        // DEBUG TOOLS
+        // Draw around hit box debug stuff
         this.frameWidth = 14;
         this.frameHeight = 34;
         this.size = 3;
         this.drawAroundHitBox = false;
         this.originalSpeed = this.speed;
 
+        // Load states of HTML page debug buttons
         this.godModeButton = document.getElementById('godMode');
         this.speedUpButton = document.getElementById('speedUp');
         this.outlineHitBoxButton = document.getElementById('outlineHitBox');
         this.stopEnemiesButton = document.getElementById('stopEnemies');
+
+        // LEVEL MANAGER 
         this.levelOneButton = document.getElementById('levelOne');
         this.levelTwoButton = document.getElementById('levelTwo');
 
@@ -696,15 +699,17 @@ class Blink
         {
             self.stopEnemies = !self.stopEnemies;
         };
+
+        // Level Manager Buttons
         this.levelOneButton.onclick = function ()
         {
-            console.log('buttonone clicked');
+            console.log('Level One clicked');
             self.game.levelManager.level = 1;
             self.game.levelManager.states.loadNextLevel = true;
         };
         this.levelTwoButton.onclick = function ()
         {
-            console.log('buttontwo clicked');
+            console.log('Level Two clicked');
             self.game.levelManager.level = 2;
             self.game.levelManager.states.loadNextLevel = true;
         };
@@ -799,7 +804,7 @@ class Blink
             6,       // frames in animation
             true,    // to loop or not to loop
             3      // scale in relation to original image
-        );
+            );
         this.atTheReady_FaceLeft = new Animation
             (
             AM.getAsset('./img/blink/Crono_PullSwordOut_FaceLeft_Still.png'),
@@ -865,7 +870,7 @@ class Blink
             6,      // frames in animation
             true,   // to loop or not to loop
             3     // scale in relation to original image
-        );
+            );
         this.jumpAttackFaceLeft = new Animation
             (
             AM.getAsset('./img/blink/Crono_JumpSlash_FaceLeft.png'),

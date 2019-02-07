@@ -50,7 +50,8 @@ AM.queueDownload('./img/enemies/jason.png');
 
 
 
-AM.downloadAll(function () {
+AM.downloadAll(function ()
+{
     // Load game world. This is the top layer
     var canvas = document.getElementById('gameWorld');
     var gameCtx = canvas.getContext('2d');
