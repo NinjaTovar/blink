@@ -89,7 +89,7 @@ class Blink extends Entity {
 
     // DEBUG TOOLS
     // Draw around hit box debug stuff
-    this.frameWidth = 14;
+    this.frameWidth = 20;
     this.frameHeight = 34;
     this.size = 3;
     this.drawAroundHitBox = false;
@@ -315,6 +315,9 @@ class Blink extends Entity {
 
     // Check if it should be in developer mode
     this.handleDeveloperTools();
+
+    this.boundX = this.x;
+    this.boundY = this.y;
   }
 
   // HANDLE LEVEL MUSIC ON START--------------------------------------------------------

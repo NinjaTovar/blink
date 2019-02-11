@@ -22,6 +22,8 @@ class Entity {
     this.game = game;
     this.x = x;
     this.y = y;
+    this.boundX = this.x;
+    this.boundY = this.y;
   }
 
   /** Update handles updating the objects world state. */
@@ -68,12 +70,43 @@ class Entity {
     return offscreenCanvas;
   }
 
+  // Basic collision detection to see if two entites are touching
+  // using rectangles
+  collision(other) {
+    let rect1 = {
+      x: this.boundX,
+      y: this.boundY,
+      width: this.frameWidth,
+      height: this.frameHeight
+    };
+
+    let rect2 = {
+      x: other.boundX,
+      y: other.boundY,
+      width: other.frameWidth,
+      height: other.frameHeight
+    };
+    // console.log(rect1);
+    // console.log(rect2);
+
+    if (
+      rect1.x < rect2.x + rect2.width &&
+      rect1.x + rect1.width > rect2.x &&
+      rect1.y < rect2.y + rect2.height &&
+      rect1.height + rect1.y > rect2.y
+    ) {
+      console.log("in");
+      debugger;
+    }
+  }
+
+  // debug tool, draws rectangle around entity on screen
   drawAroundBox() {
     this.ctx.beginPath();
     this.ctx.strokeStyle = "white";
     this.ctx.rect(
-      this.x,
-      this.y,
+      this.boundX,
+      this.boundY,
       this.frameWidth * this.size,
       this.frameHeight * this.size
     );

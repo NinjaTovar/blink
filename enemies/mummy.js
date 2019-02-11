@@ -184,6 +184,8 @@ class Mummy extends Entity {
         this.isHeadingRight = true;
       }
     }
+    this.boundX = this.x;
+    this.boundY = this.y;
   }
 
   // Helper booleans for state
