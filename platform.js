@@ -1,3 +1,10 @@
+/*
+ * Platform object, basically how this works:
+ * Once blink is on top of a platform, he gets added
+ * to that instance of the platform, and stays added, until
+ * he jumps/falls off.
+ * this would work simillary for other entites.
+ */
 class Platform extends Entity {
   constructor(game, x, y, width, height) {
     super(game, x, y);
@@ -30,7 +37,7 @@ class Platform extends Entity {
     this.boundX = this.x;
     this.boundY = this.y;
 
-    // check to see if any entitis are off the platform
+    // check to see if any entites are off the platform
     for (let i = 0; i < this.myEntites.length; i++) {
       if (
         this.myEntites[i].x > this.x + this.width ||
