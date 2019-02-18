@@ -40,12 +40,18 @@ class LevelOne {
         )
       );
     }
-    // // Add random number of bugs up to 2
-    // for (var i = 0; i < Randomizer.returnRandomIntBetweenThese(1, 3); i++)
-    // {
-    //     this.game.addEntity(new Bug(this.game, Randomizer.returnRandomInt(this.game.surfaceWidth),
-    //         440, 2.5, Randomizer.returnRandomDirection()));
-    // }
+    // Add random number of bugs up to 2
+    for (var i = 0; i < Randomizer.returnRandomIntBetweenThese(1, 3); i++) {
+      this.game.addEntity(
+        new Bug(
+          this.game,
+          Randomizer.returnRandomInt(this.game.surfaceWidth),
+          440,
+          2.5,
+          Randomizer.returnRandomDirection()
+        )
+      );
+    }
     // // Add random number of flies up to 5
     // for (var i = 0; i < Randomizer.returnRandomIntBetweenThese(2, 5); i++)
     // {
@@ -58,7 +64,7 @@ class LevelOne {
     //     this.game.addEntity(new Metroid(this.game, Randomizer.returnRandomIntBetweenThese(500, 3000),
     //         140, Randomizer.returnRandomFloat(2, 4), Randomizer.returnRandomDirection()));
     // }
-    // // Adding Necroman
-    // this.game.addEntity(new Necroman(this.game, 4200, 140, 5.5));
+    // Adding Necroman
+    this.game.addEntity(new Necroman(this.game, 4200, 140, 5.5));
   }
 }

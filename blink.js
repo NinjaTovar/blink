@@ -87,7 +87,7 @@ class Blink extends Entity {
     this.outlineHitBox = false;
     this.stopEnemies = false;
 
-    // DEBUG TOOLS
+    // DEBUG TOOLS Also used for collison detection
     // Draw around hit box debug stuff
     this.frameWidth = 20;
     this.frameHeight = 34;
@@ -330,6 +330,14 @@ class Blink extends Entity {
 
       this.levelStarted = false;
       this.beginMusic = false;
+    }
+  }
+
+  //Handle collisons
+  handleCollison(other) {
+    console.log("Blink has collided with a " + other.constructor.name);
+    if (this.basicAttack) {
+      other.health -= 5;
     }
   }
 

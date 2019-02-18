@@ -24,6 +24,7 @@ class Entity {
     this.y = y;
     this.boundX = this.x;
     this.boundY = this.y;
+    this.health = 100;
   }
 
   /** Update handles updating the objects world state. */
@@ -95,8 +96,7 @@ class Entity {
       rect1.y < rect2.y + rect2.height &&
       rect1.height + rect1.y > rect2.y
     ) {
-      console.log("in");
-      debugger;
+      return true;
     }
   }
 
@@ -112,4 +112,7 @@ class Entity {
     );
     this.ctx.stroke();
   }
+
+  // Implement this method when Enity is inherited
+  handleCollison(other) {}
 }

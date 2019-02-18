@@ -69,7 +69,7 @@ class Bug extends Entity {
 
     // debug tool
     this.drawAroundHitBox = false;
-    this.frameWidth = 53;
+    this.frameWidth = 50;
     this.frameHeight = 54;
     this.size = size;
   }
@@ -173,6 +173,9 @@ class Bug extends Entity {
         this.isHeadingRight = true;
       }
     }
+
+    this.boundX = this.x + 40;
+    this.boundY = this.y;
   }
 
   // Helper booleans for state

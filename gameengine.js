@@ -137,8 +137,13 @@ class GameEngine {
 
     for (let i = 0; i < entitiesCount; i++) {
       let entity = this.entities[i];
-
-      if (this.levelManager.states.levelLoaded && entity) entity.update();
+      if (entity) {
+        if (entity.health <= 0) {
+          this.entities.splice(i, 1);
+        } else if (this.levelManager.states.levelLoaded) {
+          entity.update();
+        }
+      }
     }
 
     this.checkBlinksCollisons();
@@ -269,11 +274,13 @@ class GameEngine {
   checkBlinksCollisons() {
     for (let j = 0; j < this.entities.length; j++) {
       let other = this.entities[j];
-      //   if (!(other instanceof Mummy)) {
-      //     break;
-      //   }
-      if (other instanceof Entity && !(other instanceof Blink)) {
-        this.blink.collision(other);
+
+      if (
+        other instanceof Entity &&
+        !(other instanceof Blink) &&
+        this.blink.collision(other)
+      ) {
+        this.blink.handleCollison(other);
       }
     }
   }

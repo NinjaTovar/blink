@@ -69,8 +69,8 @@ class Violator extends Entity {
 
     // debug tool
     this.drawAroundHitBox = false;
-    this.frameWidth = 122;
-    this.frameHeight = 103;
+    this.frameWidth = 36;
+    this.frameHeight = 45;
     this.size = size;
   }
 
@@ -171,6 +171,9 @@ class Violator extends Entity {
         this.myPath.push(this.x);
       }
     }
+
+    this.boundX = this.x + 40;
+    this.boundY = this.y + 135;
 
     // FOR NOW LET"S LEAVE THIS GUY STATIONARY
     //if (this.isHeadingRight)
