@@ -3,124 +3,157 @@ html {
 }
 
 .column {
-    float: left;
-    width: 25%;
+  float: left;
+  width: 25%;
 }
 
 /* Clear floats after the columns */
 .row:after {
-    content: "";
-    display: table;
-    clear: both;
+  content: "";
+  display: table;
+  clear: both;
 }
 
 .buttonPlay {
-    background-color: #C226A5; /* Hot Pink */
-    border: inset;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    font-weight: bold;
-    font-family: Consolas;
-    box-shadow: inset;
+  background-color: #c226a5; /* Hot Pink */
+  border: inset;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: Consolas;
+  box-shadow: inset;
 }
 
 .buttonStop {
-    background-color: #2A3A3D; /* Grey-Blue */
-    border: inset;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    font-weight: bold;
-    font-family: Consolas;
-    box-shadow: inset;
+  background-color: #2a3a3d; /* Grey-Blue */
+  border: inset;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: Consolas;
+  box-shadow: inset;
 }
 
 .buttonGodMode {
-    background-color: #1065C4; /* Cool Blue */
-    border: inset;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    font-weight: bold;
-    font-family: Consolas;
-    box-shadow: inset;
+  background-color: #1065c4; /* Cool Blue */
+  border: inset;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: Consolas;
+  box-shadow: inset;
 }
 
 .buttonSpeedUp {
-    background-color: #4CA628; /* Moss Green */
-    border: inset;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    font-weight: bold;
-    font-family: Consolas;
-    box-shadow: inset;
+  background-color: #4ca628; /* Moss Green */
+  border: inset;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: Consolas;
+  box-shadow: inset;
 }
 .buttonHitBox {
-    background-color: #FFAB00; /* Orange */
-    border: inset;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    font-weight: bold;
-    font-family: Consolas;
-    box-shadow: inset;
+  background-color: #ffab00; /* Orange */
+  border: inset;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: Consolas;
+  box-shadow: inset;
 }
 
 .buttonStopEnemies {
-    background-color: #F40303; /* Very Red */
-    border: inset;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    font-weight: bold;
-    font-family: Consolas;
-    box-shadow: inset;
+  background-color: #f40303; /* Very Red */
+  border: inset;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: Consolas;
+  box-shadow: inset;
 }
 
 .buttonLevelOne {
-    background-color: #9B59B6; /* Purple */
-    border: inset;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    font-weight: bold;
-    font-family: Consolas;
-    box-shadow: inset;
+  background-color: #9b59b6; /* Purple */
+  border: inset;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: Consolas;
+  box-shadow: inset;
 }
 
 .buttonLevelTwo {
-    background-color: #85C1E9; /* Light Blue */
-    border: inset;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    font-weight: bold;
-    font-family: Consolas;
-    box-shadow: inset;
+  background-color: #85c1e9; /* Light Blue */
+  border: inset;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: Consolas;
+  box-shadow: inset;
+}
+
+health-bar {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 200px;
+  height: 20px;
+  padding: 5px;
+  background: #ddd;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  position: relative;
+}
+.bar {
+  background: #c54;
+  width: 100%;
+  height: 10px;
+  position: relative;
+
+  transition: width 0.5s linear;
+}
+
+.hit {
+  background: rgba(255, 255, 255, 0.6);
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 0px;
+
+  transition: width 0.5s linear;
 }
