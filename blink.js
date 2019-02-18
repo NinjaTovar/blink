@@ -14,7 +14,7 @@ class Blink extends Entity {
    * @param {any} game A reference to the game engine.
    */
   constructor(game) {
-    super(game, game, 50, 450);
+    super(game, 50, 450);
     // Way at bottom to clean up class constructor. There 's a ton!
     this.loadAllBlinksAssets();
 
@@ -23,8 +23,9 @@ class Blink extends Entity {
     this.unsheathSwordStandStill = false;
 
     // Set initial values for Blinks world state
-    this.x = 50;
-    this.y = 450;
+    this.x = 500;
+    this.y = 350;
+    this.platformY = null;
     this.lastY = this.y;
     this.groundLevel = this.y;
     this.speed = 275;
@@ -289,8 +290,12 @@ class Blink extends Entity {
 
     // If not jumping, make sure Blink is on the ground level
     if (!this.jumping) {
-      // bring him down to earth if neccessary
-      this.y = this.groundLevel;
+      if (this.currentPlatform != null) {
+        this.y = this.platformY;
+      } else {
+        // bring him down to earth if neccessary
+        this.y = this.groundLevel;
+      }
     }
   }
 
@@ -298,6 +303,9 @@ class Blink extends Entity {
   /** All changes to blinks state happen here. Draw should not handle those changes
    *  as it could potentially be a hard bug to find. */
   update() {
+    if (this.currentPlatform != null && !this.currentPlatform.hasMe(this)) {
+      this.currentPlatform = null;
+    }
     this.updateBlinksStateFromKeyListeners();
 
     // Now that the listeners have updated Blinks states, handle those them by
@@ -336,6 +344,17 @@ class Blink extends Entity {
   //Handle collisons
   handleCollison(other) {
     console.log("Blink has collided with a " + other.constructor.name);
+    if (other instanceof Platform) {
+      // If blink is on top of the platform, make him land on it
+      if (this.y <= other.y) {
+        other.addEntity(this); // Blink to that Platform
+        this.currentPlatform = other;
+        if (this.currentPlatform != null) {
+          this.platformY = other.y - other.height + 8;
+        }
+      }
+    }
+
     if (this.basicAttack) {
       other.health -= 5;
     }

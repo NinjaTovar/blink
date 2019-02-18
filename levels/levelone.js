@@ -9,6 +9,7 @@ class LevelOne {
     this.game.addEntity(this.game.camera);
     this.game.addEntity(new Background(this.game));
     this.game.addEntity(this.game.blink);
+    this.game.addEntity(new Platform(this.game, 1185, 400, 400, 100));
 
     // Manually set blinks coordinates here for now
     this.game.blink.lastY = 50;
@@ -41,17 +42,17 @@ class LevelOne {
       );
     }
     // Add random number of bugs up to 2
-    for (var i = 0; i < Randomizer.returnRandomIntBetweenThese(1, 3); i++) {
-      this.game.addEntity(
-        new Bug(
-          this.game,
-          Randomizer.returnRandomInt(this.game.surfaceWidth),
-          440,
-          2.5,
-          Randomizer.returnRandomDirection()
-        )
-      );
-    }
+    // for (var i = 0; i < Randomizer.returnRandomIntBetweenThese(1, 3); i++) {
+    //   this.game.addEntity(
+    //     new Bug(
+    //       this.game,
+    //       Randomizer.returnRandomInt(this.game.surfaceWidth),
+    //       440,
+    //       2.5,
+    //       Randomizer.returnRandomDirection()
+    //     )
+    //   );
+    // }
     // // Add random number of flies up to 5
     // for (var i = 0; i < Randomizer.returnRandomIntBetweenThese(2, 5); i++)
     // {

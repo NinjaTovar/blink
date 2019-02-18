@@ -69,7 +69,7 @@ class Bug extends Entity {
 
     // debug tool
     this.drawAroundHitBox = false;
-    this.frameWidth = 50;
+    this.frameWidth = 55;
     this.frameHeight = 54;
     this.size = size;
   }
@@ -174,7 +174,7 @@ class Bug extends Entity {
       }
     }
 
-    this.boundX = this.x + 40;
+    this.boundX = this.x;
     this.boundY = this.y;
   }
 
