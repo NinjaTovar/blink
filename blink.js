@@ -67,6 +67,12 @@ class Blink extends Entity {
     this.slashSoundEffect = document.getElementById("slash");
     this.jumpSoundEffect = document.getElementById("jump");
     this.jumpLandingSoundEffect = document.getElementById("jumpLanding");
+    this.damageSoundEffects = [
+      document.getElementById("damage1"),
+      document.getElementById("damage2"),
+      document.getElementById("damage3")
+    ];
+    this.damageSoundEffect = null;
     this.changeMusic = document.getElementById("changeMusic");
     this.stopMusic = document.getElementById("stopMusic");
     this.lastSongPlayed;
@@ -378,8 +384,14 @@ class Blink extends Entity {
       }
       // If Blink is not attacking, it means he just got hit by an Enemy .. atleast for now
       // TODO: Come back and make this cleaner so that Blink gets hit based on collison distance
-    } else if (!this.basicAttack) {
+    } else if (
+      !this.basicAttack &&
+      (this.isStandingStill() ||
+        this.unsheathSword ||
+        this.unsheathSwordStandStill)
+    ) {
       this.gotHit = true;
+
       if (other.x > this.x) {
         console.log("hit from the right");
         this.hitFromRight = true;
@@ -389,12 +401,17 @@ class Blink extends Entity {
       }
     }
 
-    if (this.basicAttack) {
+    if (this.basicAttack && !this.gotHit) {
       other.health -= 5;
     }
   }
 
   handleBlinkGettingHit() {
+    if (this.damageSoundEffect == null || this.isStandingStill()) {
+      this.damageSoundEffect = this.damageSoundEffects[
+        Math.floor(Math.random() * this.damageSoundEffects.length)
+      ];
+    }
     console.log;
     if (
       this.hitFacingLeft.elapsedTime > 1 ||
@@ -405,6 +422,8 @@ class Blink extends Entity {
       this.gotHit = false;
       this.hitFromLeft = false;
       this.hitFromRight = false;
+    } else {
+      this.damageSoundEffect.play();
     }
     if (this.hitFromRight) {
       this.x -= 1;
@@ -488,6 +507,7 @@ class Blink extends Entity {
   handleWhatToDoWhenJumping() {
     // If jumping, use animations elasped time for setting jump to false. This is
     // currently the best way to keep the animation looking sexy.
+    if (this.gotHit) return;
     if (this.jumping || this.isJumpAttacking()) {
       // put that sword away boi
       this.unsheathSword = false;
