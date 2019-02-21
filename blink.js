@@ -31,6 +31,7 @@ class Blink extends Entity {
     this.speed = 275;
     this.game = game;
     this.ctx = game.ctx;
+    this.gotHit = false;
 
     // Initialize a jump timer. These fields are mostly if not all used in the
     // "handleWhatToDoWhenJumping()" function
@@ -123,6 +124,25 @@ class Blink extends Entity {
     if (this.drawAroundHitBox) {
       this.drawAroundBox();
       //this.ctx.clearRect(this.x, this.y, this.frameWidth * this.size, this.frameHeight * this.size);
+    }
+
+    if (this.gotHit) {
+      if (this.facingRight) {
+        this.hitFacingRight.drawFrame(
+          this.game.blinksClockTick,
+          ctx,
+          this.x,
+          this.y
+        );
+      } else {
+        this.hitFacingLeft.drawFrame(
+          this.game.blinksClockTick,
+          ctx,
+          this.x,
+          this.y
+        );
+      }
+      return;
     }
 
     // UNSHEATH SWORD-----------------------------------------------------------------
@@ -288,7 +308,7 @@ class Blink extends Entity {
       }
     }
 
-    // If not jumping, make sure Blink is on the ground level
+    // If not jumping, make sure Blink is on the ground level/And Or on his platform
     if (!this.jumping) {
       if (this.currentPlatform != null) {
         this.y = this.platformY;
@@ -308,6 +328,9 @@ class Blink extends Entity {
     }
     this.updateBlinksStateFromKeyListeners();
 
+    if (this.gotHit) {
+      this.handleBlinkGettingHit();
+    }
     // Now that the listeners have updated Blinks states, handle those them by
     // appropriating them to the right method calls
     this.handleWhenToHoldSword();
@@ -353,10 +376,40 @@ class Blink extends Entity {
           this.platformY = other.y - other.height + 8;
         }
       }
+      // If Blink is not attacking, it means he just got hit by an Enemy .. atleast for now
+      // TODO: Come back and make this cleaner so that Blink gets hit based on collison distance
+    } else if (!this.basicAttack) {
+      this.gotHit = true;
+      if (other.x > this.x) {
+        console.log("hit from the right");
+        this.hitFromRight = true;
+      } else {
+        console.log("hit from the Left");
+        this.hitFromLeft = true;
+      }
     }
 
     if (this.basicAttack) {
       other.health -= 5;
+    }
+  }
+
+  handleBlinkGettingHit() {
+    console.log;
+    if (
+      this.hitFacingLeft.elapsedTime > 1 ||
+      this.hitFacingRight.elapsedTime > 1
+    ) {
+      this.hitFacingLeft.elapsedTime = 0;
+      this.hitFacingRight.elapsedTime = 0;
+      this.gotHit = false;
+      this.hitFromLeft = false;
+      this.hitFromRight = false;
+    }
+    if (this.hitFromRight) {
+      this.x -= 1;
+    } else {
+      this.x += 1;
     }
   }
 
@@ -730,7 +783,8 @@ class Blink extends Entity {
       !this.jumping &&
       !this.isSpellcasting() &&
       !this.unsheathSword &&
-      !this.unsheathSwordStandStill
+      !this.unsheathSwordStandStill &&
+      !this.gotHit
     );
   }
   isRunning() {
@@ -738,7 +792,8 @@ class Blink extends Entity {
       this.moving &&
       !this.jumping &&
       !this.basicAttack &&
-      !this.isSpellcasting()
+      !this.isSpellcasting() &&
+      !this.gotHit
     );
   }
   isJumpAttacking() {
@@ -948,6 +1003,27 @@ class Blink extends Entity {
       2, // sheet width
       0.4, // frame duration
       3, // frames in animation
+      true, // to loop or not to loop
+      3 // scale in relation to original image
+    );
+
+    this.hitFacingLeft = new Animation(
+      AM.getAsset("./img/blink/Crono_Damage_FaceLeft.png"),
+      30, // frame width
+      39, // frame height
+      6, // sheet width
+      0.2, // frame duration
+      6, // frames in animation
+      true, // to loop or not to loop
+      3 // scale in relation to original image
+    );
+    this.hitFacingRight = new Animation(
+      AM.getAsset("./img/blink/Crono_Damage_FaceRight.png"),
+      30, // frame width
+      39, // frame height
+      6, // sheet width
+      0.2, // frame duration
+      6, // frames in animation
       true, // to loop or not to loop
       3 // scale in relation to original image
     );

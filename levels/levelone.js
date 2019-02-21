@@ -9,7 +9,7 @@ class LevelOne {
     this.game.addEntity(this.game.camera);
     this.game.addEntity(new Background(this.game));
     this.game.addEntity(this.game.blink);
-    this.game.addEntity(new Platform(this.game, 1185, 400, 400, 100));
+    // this.game.addEntity(new Platform(this.game, 1185, 400, 400, 100));
 
     // Manually set blinks coordinates here for now
     this.game.blink.lastY = 50;
