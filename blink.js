@@ -386,6 +386,7 @@ class Blink extends Entity {
       // TODO: Come back and make this cleaner so that Blink gets hit based on collison distance
     } else if (
       !this.basicAttack &&
+      other.health > 0 &&
       (this.isStandingStill() ||
         this.unsheathSword ||
         this.unsheathSwordStandStill)
@@ -403,6 +404,13 @@ class Blink extends Entity {
 
     if (this.basicAttack && !this.gotHit) {
       other.health -= 5;
+      if (other.health > 0) {
+        if (other.x > this.x) {
+          other.x += 2;
+        } else {
+          other.x -= 2;
+        }
+      }
     }
   }
 

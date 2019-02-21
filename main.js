@@ -35,6 +35,7 @@ AM.queueDownload("./img/enemies/fly/Fly_FaceRight.png");
 // Queue downloading Mummy
 AM.queueDownload("./img/enemies/mummy/Mummy_WalkLeft.png");
 AM.queueDownload("./img/enemies/mummy/Mummy_WalkRight.png");
+AM.queueDownload("./img/enemies/mummy/mummyDying.png");
 
 // Queue downloading FlyMutant
 AM.queueDownload("./img/enemies/metroid/metroid.png");
