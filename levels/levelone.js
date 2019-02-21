@@ -78,6 +78,6 @@ class LevelOne {
       );
     }
     // Adding Necroman
-    this.game.addEntity(new Necroman(this.game, 4200, 140, 5.5));
+    // this.game.addEntity(new Necroman(this.game, 4200, 140, 5.5));
   }
 }
