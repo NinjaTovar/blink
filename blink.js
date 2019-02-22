@@ -329,7 +329,12 @@ class Blink extends Entity {
   /** All changes to blinks state happen here. Draw should not handle those changes
    *  as it could potentially be a hard bug to find. */
   update() {
-    if (this.currentPlatform != null && !this.currentPlatform.hasMe(this)) {
+    // If Blink is not on his platform anymore, get rid of that refference
+    if (
+      this.currentPlatform != null &&
+      !this.currentPlatform.hasMe(this) &&
+      !this.jumping
+    ) {
       this.currentPlatform = null;
     }
     this.updateBlinksStateFromKeyListeners();
@@ -374,6 +379,7 @@ class Blink extends Entity {
   handleCollison(other) {
     console.log("Blink has collided with a " + other.constructor.name);
     if (other instanceof Platform) {
+      this.jumping = false;
       // If blink is on top of the platform, make him land on it
       if (this.y <= other.y) {
         other.addEntity(this); // Blink to that Platform
@@ -549,7 +555,11 @@ class Blink extends Entity {
 
       // quadratic jump
       height = (2 * duration - 2 * duration * duration) * this.jumpHeight;
-      this.y = this.groundLevel - height;
+      if (this.currentPlatform != null) {
+        this.y = this.platformY - height;
+      } else {
+        this.y = this.groundLevel - height;
+      }
 
       // Manage both left/right jumps movement acceleration
       if (this.moving) {
@@ -770,9 +780,9 @@ class Blink extends Entity {
     this.speedUpButton.onclick = function() {
       self.speedUpMovement = !self.speedUpMovement;
     };
-    this.outlineHitBoxButton.onclick = function() {
-      self.outlineHitBox = !self.outlineHitBox;
-    };
+    // this.outlineHitBoxButton.onclick = function() {
+    //   self.outlineHitBox = !self.outlineHitBox;
+    // };
     this.stopEnemiesButton.onclick = function() {
       self.stopEnemies = !self.stopEnemies;
     };
