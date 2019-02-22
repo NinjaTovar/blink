@@ -25,6 +25,7 @@ class Entity {
     this.boundX = this.x;
     this.boundY = this.y;
     this.health = 100;
+    this.isDead = false;
   }
 
   /** Update handles updating the objects world state. */

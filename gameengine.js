@@ -138,7 +138,10 @@ class GameEngine {
     for (let i = 0; i < entitiesCount; i++) {
       let entity = this.entities[i];
       if (entity) {
-        if (entity.health <= 0) {
+        if (
+          entity.isDead ||
+          (!(entity instanceof Mummy) && entity.health < 0)
+        ) {
           this.entities.splice(i, 1);
         } else if (this.levelManager.states.levelLoaded) {
           entity.update();

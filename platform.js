@@ -4,8 +4,20 @@
  * to that instance of the platform, and stays added, until
  * he jumps/falls off.
  * this would work simillary for other entites.
+ *
  */
+
 class Platform extends Entity {
+  /**
+   * Single constructor for Platform.
+   *
+   * @constructor
+   * @param {any} game A reference to the game engine.
+   * @param {any} x Starting x position of the Platform being constructed.
+   * @param {any} y Starting y position of the Platform being constructed.
+   * @param {any} width width of the Platform.
+   * @param {any} height height of the Platform.
+   */
   constructor(game, x, y, width, height) {
     super(game, x, y);
     this.x = x;
@@ -28,7 +40,7 @@ class Platform extends Entity {
   draw(ctx) {
     this.ctx.beginPath();
     this.ctx.strokeStyle = "black";
-    this.ctx.rect(this.x, this.y, this.width, this.height);
+    this.ctx.rect(this.x + 20, this.y, this.width - 20, this.height);
     this.ctx.stroke();
     this.ctx.fill();
   }

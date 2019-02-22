@@ -37,6 +37,16 @@ class Mummy extends Entity {
       true, // to loop or not to loop
       size // scale in relation to original image
     );
+    this.deathAnimation = new Animation(
+      AM.getAsset("./img/enemies/mummy/mummyDying.png"),
+      40, // frame width
+      55, // frame height
+      9, // sheet width
+      0.4, // frame duration
+      9, // frames in animation
+      false, // to loop or not to loop
+      size // scale in relation to original image
+    );
 
     // Initial world states
     this.x = startX;
@@ -70,7 +80,7 @@ class Mummy extends Entity {
 
     // debug tool
     this.drawAroundHitBox = false;
-    this.frameWidth = 40;
+    this.frameWidth = 37;
     this.frameHeight = 45;
     this.size = size;
   }
@@ -89,6 +99,10 @@ class Mummy extends Entity {
       //this.ctx.clearRect(this.x, this.y, this.frameWidth * this.size, this.frameHeight * this.size);
     }
 
+    if (this.health <= 0) {
+      this.deathAnimation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+      return;
+    }
     // If field "isHeadingRight" is true, play walk right animation
     if (this.isHeadingRight && !this.willRewind()) {
       this.walkRightAnimation.drawFrame(
@@ -143,6 +157,13 @@ class Mummy extends Entity {
   update() {
     if (this.game.resetPaths != undefined) {
       this.resetPath = this.game.resetPaths;
+    }
+
+    if (this.health <= 0) {
+      if (this.deathAnimation.elapsedTime > 5) {
+        this.isDead = true;
+      }
+      return;
     }
 
     // alert mummy to reset the array for path variables
