@@ -64,7 +64,7 @@ class LevelTwo {
         let image = AM.getAsset('./img/tiles/terrainsprite.png');
         for (let j = 0; j < data.length; j++) {
             if (data[j] > 0)
-                this.game.addEntity(new Terrain(this.game, dx * 16, dy * 16, 7, 6, data[j] - 1, image));
+                this.game.addEntity(new Platform(this.game, dx * 16, dy * 16, 7, 6, data[j] - 1, image));
 
             if (j % 200 == 0) {
                 dx = 0;

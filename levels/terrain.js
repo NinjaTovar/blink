@@ -1,5 +1,16 @@
-class Terrain {
-	constructor(game, dx, dy, tileRows, tileColumns, data, img, bounds = [0, 0, 0, 0]) {
+class Platform extends Entity {
+	constructor(game, dx, dy, tileRows, tileColumns, data, img) {
+		super(game, dx, dy);
+		this.x = dx;
+		this.y = dy;
+		this.width = 16;
+		this.height = 16;
+		this.frameWidth = 16;
+		this.frameHeight = 16;
+		this.speed = 0;
+		this.myEntites = [];
+		this.ctx = game.ctx;
+
 		this.game = game;
 		this.dx = dx;
 		this.dy = dy;
@@ -9,10 +20,7 @@ class Terrain {
 		this.tile_width = 16;
 		this.tile_height = 16;
 		this.img = img;
-		this.boundX = this.dx + bounds[2];
-		this.boundY = this.dy + bounds[3];
-		this.boundWidth = this.scale * bounds[0];
-		this.boundHeight = this.scale * bounds[1];
+
 
 		this.sy = 0;
 		this.sx = 0;
@@ -24,14 +32,6 @@ class Terrain {
 
 	}
 
-	drawOutline(ctx) {
-		ctx.beginPath();
-		ctx.strokeStyle = "green";
-		ctx.rect(this.boundX, this.boundY,
-			this.boundWidth, this.boundHeight);
-		ctx.stroke();
-		ctx.closePath();
-	}
 
 	draw(ctx) {
 		ctx.drawImage(this.img,
@@ -44,12 +44,34 @@ class Terrain {
 			this.tile_height
 		);
 
-
-
-		// this.drawOutline(ctx);
 	}
 
 	update() {
+		this.updateMyHitBoxes();
+		this.boundX = this.x;
+		this.boundY = this.y;
 
+		// check to see if any entites are off the platform
+		for (let i = 0; i < this.myEntites.length; i++) {
+			if (
+				this.myEntites[i].x > this.x + this.width ||
+				this.myEntites[i].x < this.x
+			) {
+				this.myEntites[i].y = 450;
+				this.myEntites.splice(i, 1);
+			}
+		}
+	}
+	// add an entity to the platform
+
+	addEntity(theEntity) {
+		if (!this.myEntites.includes(theEntity)) {
+			this.myEntites.push(theEntity);
+		}
+	}
+
+	// Returns if the given entity is on this platform
+	hasMe(entity) {
+		return this.myEntites.includes(entity);
 	}
 }

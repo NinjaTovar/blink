@@ -427,6 +427,8 @@ class Blink extends Entity {
       return;
     }
     if (other instanceof Platform) {
+      console.log(other.hitB);
+      console.log(other.y);
       // If blink is on top of the platform, make him land on it
       if (this.y <= other.y && this.currentPlatform == null) {
         this.jumping = false;
@@ -753,7 +755,7 @@ class Blink extends Entity {
     var self = this;
 
     // HANDLE MUSIC TRACKS************************************************************
-    this.changeMusic.onclick = function() {
+    this.changeMusic.onclick = function () {
       // Set this to let level know music has been started somewhere
       self.beginMusic = false;
       self.userWantsNoMusic = false;
@@ -802,7 +804,7 @@ class Blink extends Entity {
       }
     };
     // STOP MUSIC*********************************************************************
-    this.stopMusic.onclick = function() {
+    this.stopMusic.onclick = function () {
       self.userWantsNoMusic = true;
       self.adventureTimeTrack.pause();
       self.sandsOfTimeTrack.pause();
@@ -819,26 +821,26 @@ class Blink extends Entity {
     };
 
     // HANDLE DEV BUTTONS*************************************************************
-    this.godModeButton.onclick = function() {
+    this.godModeButton.onclick = function () {
       self.godMode = !self.godMode;
     };
-    this.speedUpButton.onclick = function() {
+    this.speedUpButton.onclick = function () {
       self.speedUpMovement = !self.speedUpMovement;
     };
-    this.outlineHitBoxButton.onclick = function() {
+    this.outlineHitBoxButton.onclick = function () {
       self.outlineHitBox = !self.outlineHitBox;
     };
-    this.stopEnemiesButton.onclick = function() {
+    this.stopEnemiesButton.onclick = function () {
       self.stopEnemies = !self.stopEnemies;
     };
 
     // HANDLE LEVEL MANAGER BUTTONS***************************************************
-    this.levelOneButton.onclick = function() {
+    this.levelOneButton.onclick = function () {
       console.log("Level One clicked");
       self.game.levelManager.level = 1;
       self.game.levelManager.states.loadNextLevel = true;
     };
-    this.levelTwoButton.onclick = function() {
+    this.levelTwoButton.onclick = function () {
       console.log("Level Two clicked");
       self.game.levelManager.level = 2;
       self.game.levelManager.states.loadNextLevel = true;
