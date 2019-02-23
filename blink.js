@@ -16,6 +16,7 @@ class Blink extends Entity {
   constructor(game) {
     super(game, 50, 450);
 
+    this.canBeatBoss = false;
     // Way at bottom to clean up class constructor. There 's a ton!
     this.loadAllBlinksAssets();
 
@@ -106,7 +107,7 @@ class Blink extends Entity {
 
     // DEBUG TOOLS Also used for collison detection
     // Draw around hit box debug stuff
-    this.frameWidth = 60;
+    this.frameWidth = 50;
     this.frameHeight = 80;
     this.size = 3;
     this.drawAroundHitBox = false;
@@ -339,6 +340,11 @@ class Blink extends Entity {
   /** All changes to blinks state happen here. Draw should not handle those changes
    *  as it could potentially be a hard bug to find. */
   update() {
+    if (this.damageSoundEffect == null || this.isStandingStill()) {
+      this.damageSoundEffect = this.damageSoundEffects[
+        Math.floor(Math.random() * this.damageSoundEffects.length)
+      ];
+    }
     // If Blink is not on his platform anymore, get rid of that refference
     if (
       this.currentPlatform != null &&
@@ -391,13 +397,18 @@ class Blink extends Entity {
     console.log("Blink has collided with a " + other.constructor.name);
     if (type === "attack" && this.basicAttack && !this.gotHit) {
       other.health -= 5;
-      if (other.health > 0) {
-        if (other.x > this.x) {
-          other.x += 2;
-        } else {
-          other.x -= 2;
-        }
+      if (Math.random() >= 0.7 && Math.random() > 0.9) {
+        this.game.addEntity(
+          new Coin(this.game, other.x + Math.floor(Math.random() * 44), other.y)
+        );
       }
+    }
+    if (other instanceof Coin && type === "damage") {
+      console.log(other);
+      this.coinCount += 1;
+      other.health = -1;
+      other.isDead = true;
+      return;
     }
     if (other instanceof Platform) {
       // If blink is on top of the platform, make him land on it
@@ -427,12 +438,6 @@ class Blink extends Entity {
   }
 
   handleBlinkGettingHit() {
-    if (this.damageSoundEffect == null || this.isStandingStill()) {
-      this.damageSoundEffect = this.damageSoundEffects[
-        Math.floor(Math.random() * this.damageSoundEffects.length)
-      ];
-    }
-    console.log;
     if (
       this.hitFacingLeft.elapsedTime > 1 ||
       this.hitFacingRight.elapsedTime > 1
@@ -592,7 +597,7 @@ class Blink extends Entity {
     } else {
       this.attackBox.width = 40;
       this.attackBox.height = 90;
-      this.attackBox.boundX = this.boundX - 15;
+      this.attackBox.boundX = this.boundX - 20;
       this.attackBox.boundY = this.boundY + 10;
     }
   }

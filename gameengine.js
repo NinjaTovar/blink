@@ -280,10 +280,8 @@ class GameEngine {
 
       if (other instanceof Entity && !(other instanceof Blink)) {
         if (this.blink.hitB.collision(other.hitB)) {
-          console.log("INNFIENIFNEINEFINFINEININIIIYOOOOOO");
           this.blink.handleCollison(other, "damage");
-        }
-        if (this.blink.attackBox.collision(other.hitB)) {
+        } else if (this.blink.attackBox.collision(other.hitB)) {
           this.blink.handleCollison(other, "attack");
         }
       }

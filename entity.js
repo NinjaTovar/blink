@@ -32,7 +32,7 @@ class Entity {
       this.boundY,
       this.frameWidth,
       this.frameHeight,
-      "normal"
+      "damage"
     );
   }
 

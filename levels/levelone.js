@@ -18,17 +18,17 @@ class LevelOne {
     // Add enemies those little bastards----------------------------------------------
 
     // Add random number of violator up to 2
-    // for (var i = 0; i < Randomizer.returnRandomIntBetweenThese(1, 2); i++) {
-    //   this.game.addEntity(
-    //     new Violator(
-    //       this.game,
-    //       Randomizer.returnRandomIntBetweenThese(500, 3000),
-    //       300,
-    //       2.5,
-    //       Randomizer.returnRandomDirection()
-    //     )
-    //   );
-    // }
+    for (var i = 0; i < Randomizer.returnRandomIntBetweenThese(1, 2); i++) {
+      this.game.addEntity(
+        new Violator(
+          this.game,
+          Randomizer.returnRandomIntBetweenThese(500, 3000),
+          300,
+          2.5,
+          Randomizer.returnRandomDirection()
+        )
+      );
+    }
     // // Add random number of mummies up to 4
     for (var i = 0; i < Randomizer.returnRandomIntBetweenThese(1, 8); i++) {
       this.game.addEntity(
@@ -42,29 +42,29 @@ class LevelOne {
       );
     }
     // Add random number of bugs up to 2
-    // for (var i = 0; i < Randomizer.returnRandomIntBetweenThese(1, 3); i++) {
-    //   this.game.addEntity(
-    //     new Bug(
-    //       this.game,
-    //       Randomizer.returnRandomInt(this.game.surfaceWidth),
-    //       440,
-    //       2.5,
-    //       Randomizer.returnRandomDirection()
-    //     )
-    //   );
-    // }
+    for (var i = 0; i < Randomizer.returnRandomIntBetweenThese(1, 3); i++) {
+      this.game.addEntity(
+        new Bug(
+          this.game,
+          Randomizer.returnRandomInt(this.game.surfaceWidth),
+          440,
+          2.5,
+          Randomizer.returnRandomDirection()
+        )
+      );
+    }
     // Add random number of flies up to 5
-    // for (var i = 0; i < Randomizer.returnRandomIntBetweenThese(2, 5); i++) {
-    //   this.game.addEntity(
-    //     new FlyMutant(
-    //       this.game,
-    //       Randomizer.returnRandomInt(this.game.surfaceWidth),
-    //       Randomizer.returnRandomInt(400),
-    //       Randomizer.returnRandomFloat(0.4, 1),
-    //       Randomizer.returnRandomDirection()
-    //     )
-    //   );
-    // }
+    for (var i = 0; i < Randomizer.returnRandomIntBetweenThese(2, 5); i++) {
+      this.game.addEntity(
+        new FlyMutant(
+          this.game,
+          Randomizer.returnRandomInt(this.game.surfaceWidth),
+          Randomizer.returnRandomInt(400),
+          Randomizer.returnRandomFloat(0.4, 1),
+          Randomizer.returnRandomDirection()
+        )
+      );
+    }
     // Add random number of metroid up to 3
     // for (var i = 0; i < Randomizer.returnRandomIntBetweenThese(1, 4); i++) {
     //   this.game.addEntity(
@@ -78,6 +78,6 @@ class LevelOne {
     //   );
     // }
     // Adding Necroman
-    // this.game.addEntity(new Necroman(this.game, 4200, 140, 5.5));
+    this.game.addEntity(new Necroman(this.game, 4200, 140, 5.5));
   }
 }

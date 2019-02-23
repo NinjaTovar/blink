@@ -23,6 +23,7 @@ AM.queueDownload("./img/blink/Crono_Spell_FaceLeft.png");
 AM.queueDownload("./img/blink/Crono_Spell_FaceRight.png");
 AM.queueDownload("./img/blink/Crono_Damage_FaceLeft.png");
 AM.queueDownload("./img/blink/Crono_Damage_FaceRight.png");
+AM.queueDownload("./img/blink/Coin.png");
 
 // Queue downloading Bug
 AM.queueDownload("./img/enemies/bug/BugRun_FaceLeft.png");

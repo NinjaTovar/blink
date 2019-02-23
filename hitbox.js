@@ -29,7 +29,6 @@ class Hitbox {
       width: other.width,
       height: other.height
     };
-
     if (
       rect1.x < rect2.x + rect2.width &&
       rect1.x + rect1.width > rect2.x &&
