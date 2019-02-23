@@ -278,12 +278,12 @@ class GameEngine {
     for (let j = 0; j < this.entities.length; j++) {
       let other = this.entities[j];
 
-      if (
-        other instanceof Entity &&
-        !(other instanceof Blink) &&
-        this.blink.collision(other)
-      ) {
-        this.blink.handleCollison(other);
+      if (other instanceof Entity && !(other instanceof Blink)) {
+        if (this.blink.hitB.collision(other.hitB)) {
+          this.blink.handleCollison(other, "damage");
+        } else if (this.blink.attackBox.collision(other.hitB)) {
+          this.blink.handleCollison(other, "attack");
+        }
       }
     }
   }

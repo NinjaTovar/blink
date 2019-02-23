@@ -69,8 +69,8 @@ class Bug extends Entity {
 
     // debug tool
     this.drawAroundHitBox = false;
-    this.frameWidth = 55;
-    this.frameHeight = 54;
+    this.frameWidth = 45;
+    this.frameHeight = 100;
     this.size = size;
   }
 
@@ -130,6 +130,7 @@ class Bug extends Entity {
 
   /** Update handles updating the objects world state. */
   update() {
+    this.updateMyHitBoxes();
     if (this.game.resetPaths != undefined) {
       this.resetPath = this.game.resetPaths;
     }
@@ -181,5 +182,19 @@ class Bug extends Entity {
   // Helper booleans for state
   willRewind() {
     return this.myPath.length > 0 && this.shouldRewind;
+  }
+
+  updateMyHitBoxes() {
+    if (this.isHeadingRight) {
+      this.hitB.width = this.frameWidth;
+      this.hitB.height = this.frameHeight;
+      this.hitB.boundX = this.boundX + 40;
+      this.hitB.boundY = this.boundY;
+    } else {
+      this.hitB.width = this.frameWidth;
+      this.hitB.height = this.frameHeight;
+      this.hitB.boundX = this.boundX + 24;
+      this.hitB.boundY = this.boundY;
+    }
   }
 }

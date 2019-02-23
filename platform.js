@@ -42,10 +42,11 @@ class Platform extends Entity {
     this.ctx.strokeStyle = "black";
     this.ctx.rect(this.x + 20, this.y, this.width - 20, this.height);
     this.ctx.stroke();
-    this.ctx.fill();
+    // this.ctx.fill();
   }
 
   update() {
+    this.updateMyHitBoxes();
     this.boundX = this.x;
     this.boundY = this.y;
 

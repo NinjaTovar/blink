@@ -52,8 +52,8 @@ class Necroman extends Entity {
 
     // debug tool
     this.drawAroundHitBox = false;
-    this.frameWidth = 125;
-    this.frameHeight = 82;
+    this.frameWidth = 500;
+    this.frameHeight = 400;
     this.size = size;
   }
 
@@ -82,5 +82,7 @@ class Necroman extends Entity {
   }
 
   /** Update handles updating the objects world state. */
-  update() {}
+  update() {
+    this.updateMyHitBoxes();
+  }
 }
