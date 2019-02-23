@@ -12,6 +12,17 @@ class Terrain {
 		this.boundY = this.dy + bounds[3];
 		this.boundWidth = this.scale * bounds[0];
 		this.boundHeight = this.scale * bounds[1];
+
+		this.sy = 0;
+		this.sx = 0;
+		while (this.data >= this.tileColumns && this.data / this.tileColumns > 0) {
+			this.sy++;
+			this.data -= this.tileColumns;
+		}
+		this.sx = this.data;
+		console.log('sx' + this.dx);
+		console.log('sy' + this.dy);
+
 	}
 
 	drawOutline(ctx) {
@@ -24,28 +35,23 @@ class Terrain {
 	}
 
 	draw(ctx) {
-		let sx = 0;
-		let sy = 0;
-		while (this.data / this.tileRows > 0) {
-			sy++;
-			this.data /= this.tileRows;
-		}
-		sx = this.data;
-		this.game.ctx.drawImage(AM.getAsset('../img/tiles/bg3_stars.png),
-				(sx * this.tile_width),
-				(sy * this.tile_height),
-				this.tile_width,
-				this.tile_height,
-				this.dx, this.dy,
-				this.tile_width,
-				this.tile_height
-			);
+		let image = AM.getAsset('./img/tiles/platform.png');
+		ctx.drawImage(image,
+			(this.sx * this.tile_width),
+			(this.sy * this.tile_height),
+			this.tile_width,
+			this.tile_height,
+			this.dx, this.dy,
+			this.tile_width,
+			this.tile_height
+		);
 
 
-			// this.drawOutline(ctx);
-		}
 
-		update() {
-
-		}
+		// this.drawOutline(ctx);
 	}
+
+	update() {
+
+	}
+}
