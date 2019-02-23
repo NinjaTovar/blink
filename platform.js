@@ -40,9 +40,9 @@ class Platform extends Entity {
   draw(ctx) {
     this.ctx.beginPath();
     this.ctx.strokeStyle = "black";
-    this.ctx.rect(this.x + 20, this.y, this.width - 20, this.height);
+    this.ctx.rect(this.x, this.y, this.width, this.height);
     this.ctx.stroke();
-    // this.ctx.fill();
+    this.ctx.fill();
   }
 
   update() {
@@ -68,7 +68,6 @@ class Platform extends Entity {
     if (!this.myEntites.includes(theEntity)) {
       this.myEntites.push(theEntity);
     }
-    console.log(this.myEntites);
   }
 
   // Returns if the given entity is on this platform
