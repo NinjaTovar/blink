@@ -80,8 +80,8 @@ class Mummy extends Entity {
 
     // debug tool
     this.drawAroundHitBox = false;
-    this.frameWidth = 37;
-    this.frameHeight = 45;
+    this.frameWidth = 30;
+    this.frameHeight = 100;
     this.size = size;
   }
 
@@ -207,10 +207,25 @@ class Mummy extends Entity {
     }
     this.boundX = this.x;
     this.boundY = this.y;
+    this.updateMyHitBoxes();
   }
 
   // Helper booleans for state
   willRewind() {
     return this.myPath.length > 0 && this.shouldRewind;
+  }
+
+  updateMyHitBoxes() {
+    if (this.isHeadingRight) {
+      this.hitB.width = this.frameWidth;
+      this.hitB.height = this.frameHeight;
+      this.hitB.boundX = this.boundX + 40;
+      this.hitB.boundY = this.boundY;
+    } else {
+      this.hitB.width = this.frameWidth;
+      this.hitB.height = this.frameHeight;
+      this.hitB.boundX = this.boundX + 24;
+      this.hitB.boundY = this.boundY;
+    }
   }
 }

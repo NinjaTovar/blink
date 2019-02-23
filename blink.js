@@ -15,6 +15,7 @@ class Blink extends Entity {
    */
   constructor(game) {
     super(game, 50, 450);
+
     // Way at bottom to clean up class constructor. There 's a ton!
     this.loadAllBlinksAssets();
 
@@ -32,6 +33,14 @@ class Blink extends Entity {
     this.game = game;
     this.ctx = game.ctx;
     this.gotHit = false;
+    this.attackBox = new Hitbox(
+      game,
+      this.boundX + 10,
+      this.boundY + 10,
+      20,
+      20,
+      "attack"
+    );
 
     // Initialize a jump timer. These fields are mostly if not all used in the
     // "handleWhatToDoWhenJumping()" function
@@ -97,8 +106,8 @@ class Blink extends Entity {
 
     // DEBUG TOOLS Also used for collison detection
     // Draw around hit box debug stuff
-    this.frameWidth = 20;
-    this.frameHeight = 34;
+    this.frameWidth = 60;
+    this.frameHeight = 80;
     this.size = 3;
     this.drawAroundHitBox = false;
     this.originalSpeed = this.speed;
@@ -128,7 +137,8 @@ class Blink extends Entity {
   draw(ctx) {
     // DEBUG TOOL
     if (this.drawAroundHitBox) {
-      this.drawAroundBox();
+      this.attackBox.drawHitBox();
+      this.hitB.drawHitBox();
       //this.ctx.clearRect(this.x, this.y, this.frameWidth * this.size, this.frameHeight * this.size);
     }
 
@@ -344,6 +354,7 @@ class Blink extends Entity {
     }
     // Now that the listeners have updated Blinks states, handle those them by
     // appropriating them to the right method calls
+    this.updateMyHitBoxes();
     this.handleWhenToHoldSword();
     this.handleWhatToDoWhenSpellcasting();
     this.handleWhatToDoWhenJumping();
@@ -358,8 +369,8 @@ class Blink extends Entity {
     // Check if it should be in developer mode
     this.handleDeveloperTools();
 
-    this.boundX = this.x;
-    this.boundY = this.y;
+    this.boundX = this.x + -5;
+    this.boundY = this.y + 0;
   }
 
   // HANDLE LEVEL MUSIC ON START--------------------------------------------------------
@@ -376,12 +387,23 @@ class Blink extends Entity {
   }
 
   //Handle collisons
-  handleCollison(other) {
+  handleCollison(other, type) {
     console.log("Blink has collided with a " + other.constructor.name);
+    if (type === "attack" && this.basicAttack && !this.gotHit) {
+      other.health -= 5;
+      if (other.health > 0) {
+        if (other.x > this.x) {
+          other.x += 2;
+        } else {
+          other.x -= 2;
+        }
+      }
+    }
     if (other instanceof Platform) {
-      this.jumping = false;
       // If blink is on top of the platform, make him land on it
       if (this.y <= other.y) {
+        this.jumping = false;
+        this.elapsedJumpTime = 1;
         other.addEntity(this); // Blink to that Platform
         this.currentPlatform = other;
         if (this.currentPlatform != null) {
@@ -390,13 +412,8 @@ class Blink extends Entity {
       }
       // If Blink is not attacking, it means he just got hit by an Enemy .. atleast for now
       // TODO: Come back and make this cleaner so that Blink gets hit based on collison distance
-    } else if (
-      !this.basicAttack &&
-      other.health > 0 &&
-      (this.isStandingStill() ||
-        this.unsheathSword ||
-        this.unsheathSwordStandStill)
-    ) {
+    }
+    if (type === "damage" && other.health > 0) {
       this.gotHit = true;
 
       if (other.x > this.x) {
@@ -405,17 +422,6 @@ class Blink extends Entity {
       } else {
         console.log("hit from the Left");
         this.hitFromLeft = true;
-      }
-    }
-
-    if (this.basicAttack && !this.gotHit) {
-      other.health -= 5;
-      if (other.health > 0) {
-        if (other.x > this.x) {
-          other.x += 2;
-        } else {
-          other.x -= 2;
-        }
       }
     }
   }
@@ -570,6 +576,24 @@ class Blink extends Entity {
           this.x -= 2 * this.game.blinksClockTick * this.speed;
         }
       }
+    }
+  }
+
+  updateMyHitBoxes() {
+    this.hitB.width = this.frameWidth;
+    this.hitB.height = this.frameHeight;
+    this.hitB.boundX = this.boundX;
+    this.hitB.boundY = this.boundY;
+    if (this.facingRight) {
+      this.attackBox.width = 40;
+      this.attackBox.height = 90;
+      this.attackBox.boundX = this.boundX + 60;
+      this.attackBox.boundY = this.boundY + 10;
+    } else {
+      this.attackBox.width = 40;
+      this.attackBox.height = 90;
+      this.attackBox.boundX = this.boundX - 15;
+      this.attackBox.boundY = this.boundY + 10;
     }
   }
 
@@ -780,9 +804,9 @@ class Blink extends Entity {
     this.speedUpButton.onclick = function() {
       self.speedUpMovement = !self.speedUpMovement;
     };
-    // this.outlineHitBoxButton.onclick = function() {
-    //   self.outlineHitBox = !self.outlineHitBox;
-    // };
+    this.outlineHitBoxButton.onclick = function() {
+      self.outlineHitBox = !self.outlineHitBox;
+    };
     this.stopEnemiesButton.onclick = function() {
       self.stopEnemies = !self.stopEnemies;
     };
