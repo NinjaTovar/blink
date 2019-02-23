@@ -38,7 +38,7 @@ class Background2 {
      */
     constructor(game) {
         this.x = 0;
-        this.y = 150;
+        this.y = 0;
         this.game = game;
         this.ctx = game.ctx;
     }
@@ -48,7 +48,7 @@ class Background2 {
      * @param {any} ctx A reference to the game context.
      */
     draw(ctx) {
-        this.ctx.drawImage(AM.getAsset('./img/levels/extendedBackground.png'), this.x, this.y);
+        this.ctx.drawImage(AM.getAsset('./img/levels/level1background.png'), this.x, this.y);
     }
 
     /**  */

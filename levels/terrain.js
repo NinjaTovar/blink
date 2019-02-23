@@ -1,5 +1,5 @@
 class Terrain {
-	constructor(game, dx, dy, tileRows, tileColumns, data, bounds = [0, 0, 0, 0]) {
+	constructor(game, dx, dy, tileRows, tileColumns, data, img, bounds = [0, 0, 0, 0]) {
 		this.game = game;
 		this.dx = dx;
 		this.dy = dy;
@@ -8,6 +8,7 @@ class Terrain {
 		this.data = data;
 		this.tile_width = 16;
 		this.tile_height = 16;
+		this.img = img;
 		this.boundX = this.dx + bounds[2];
 		this.boundY = this.dy + bounds[3];
 		this.boundWidth = this.scale * bounds[0];
@@ -20,8 +21,6 @@ class Terrain {
 			this.data -= this.tileColumns;
 		}
 		this.sx = this.data;
-		console.log('sx' + this.dx);
-		console.log('sy' + this.dy);
 
 	}
 
@@ -35,8 +34,7 @@ class Terrain {
 	}
 
 	draw(ctx) {
-		let image = AM.getAsset('./img/tiles/platform.png');
-		ctx.drawImage(image,
+		ctx.drawImage(this.img,
 			(this.sx * this.tile_width),
 			(this.sy * this.tile_height),
 			this.tile_width,
