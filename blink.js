@@ -427,8 +427,7 @@ class Blink extends Entity {
       return;
     }
     if (other instanceof Platform) {
-      console.log(other.hitB);
-      console.log(other.y);
+
       // If blink is on top of the platform, make him land on it
       if (this.y <= other.y && this.currentPlatform == null) {
         this.jumping = false;
