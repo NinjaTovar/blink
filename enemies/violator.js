@@ -69,8 +69,8 @@ class Violator extends Entity {
 
     // debug tool
     this.drawAroundHitBox = false;
-    this.frameWidth = 20;
-    this.frameHeight = 45;
+    this.frameWidth = 150;
+    this.frameHeight = 150;
     this.size = size;
   }
 
@@ -140,6 +140,7 @@ class Violator extends Entity {
 
   /** Update handles updating the objects world state. */
   update() {
+    this.updateMyHitBoxes();
     if (this.game.resetPaths != undefined) {
       this.resetPath = this.game.resetPaths;
     }
@@ -172,7 +173,7 @@ class Violator extends Entity {
       }
     }
 
-    this.boundX = this.x + 40;
+    this.boundX = this.x + 70;
     this.boundY = this.y + 135;
 
     // FOR NOW LET"S LEAVE THIS GUY STATIONARY
