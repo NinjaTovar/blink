@@ -30,7 +30,7 @@ class LevelOne {
       );
     }
     // // Add random number of mummies up to 4
-    for (var i = 0; i < Randomizer.returnRandomIntBetweenThese(1, 9); i++) {
+    for (var i = 0; i < Randomizer.returnRandomIntBetweenThese(3, 8); i++) {
       this.game.addEntity(
         new Mummy(
           this.game,

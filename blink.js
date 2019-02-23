@@ -15,6 +15,7 @@ class Blink extends Entity {
    */
   constructor(game) {
     super(game, 50, 450);
+    var modal = document.getElementById("myModal");
 
     this.canBeatBoss = false;
     // Way at bottom to clean up class constructor. There 's a ton!
@@ -25,7 +26,7 @@ class Blink extends Entity {
     this.unsheathSwordStandStill = false;
 
     // Set initial values for Blinks world state
-    this.x = 500;
+    this.x = 0;
     this.y = 350;
     this.platformY = null;
     this.lastY = this.y;
@@ -34,6 +35,7 @@ class Blink extends Entity {
     this.game = game;
     this.ctx = game.ctx;
     this.gotHit = false;
+    this.health = 1000;
     this.attackBox = new Hitbox(
       game,
       this.boundX + 10,
@@ -141,6 +143,11 @@ class Blink extends Entity {
       this.attackBox.drawHitBox();
       this.hitB.drawHitBox();
       //this.ctx.clearRect(this.x, this.y, this.frameWidth * this.size, this.frameHeight * this.size);
+    }
+
+    if (this.health <= 0) {
+      this.dead.drawFrame(this.game.blinksClockTick, ctx, this.x, this.y);
+      return;
     }
 
     if (this.gotHit) {
@@ -340,6 +347,12 @@ class Blink extends Entity {
   /** All changes to blinks state happen here. Draw should not handle those changes
    *  as it could potentially be a hard bug to find. */
   update() {
+    if (this.health <= 0) {
+      if (this.dead.elapsedTime > 0.7) {
+        modal.style.display = "block";
+      }
+      return;
+    }
     if (this.damageSoundEffect == null || this.isStandingStill()) {
       this.damageSoundEffect = this.damageSoundEffects[
         Math.floor(Math.random() * this.damageSoundEffects.length)
@@ -394,9 +407,13 @@ class Blink extends Entity {
 
   //Handle collisons
   handleCollison(other, type) {
+    console.log(this.health);
     console.log("Blink has collided with a " + other.constructor.name);
     if (type === "attack" && this.basicAttack && !this.gotHit) {
       other.health -= 5;
+      if (other.health <= 0) {
+        other.isDead = true;
+      }
       if (Math.random() >= 0.7 && Math.random() > 0.9) {
         this.game.addEntity(
           new Coin(this.game, other.x + Math.floor(Math.random() * 44), other.y)
@@ -404,7 +421,6 @@ class Blink extends Entity {
       }
     }
     if (other instanceof Coin && type === "damage") {
-      console.log(other);
       this.coinCount += 1;
       other.health = -1;
       other.isDead = true;
@@ -412,7 +428,7 @@ class Blink extends Entity {
     }
     if (other instanceof Platform) {
       // If blink is on top of the platform, make him land on it
-      if (this.y <= other.y) {
+      if (this.y <= other.y && this.currentPlatform == null) {
         this.jumping = false;
         this.elapsedJumpTime = 1;
         other.addEntity(this); // Blink to that Platform
@@ -422,11 +438,11 @@ class Blink extends Entity {
         }
       }
       // If Blink is not attacking, it means he just got hit by an Enemy .. atleast for now
-      // TODO: Come back and make this cleaner so that Blink gets hit based on collison distance
+      // TODO: Maybe Come back and make this cleaner so that Blink gets hit based on collison distance
     }
-    if (type === "damage" && other.health > 0) {
+    if (type === "damage" && other.health > 0 && !(other instanceof Platform)) {
       this.gotHit = true;
-
+      this.health -= 2;
       if (other.x > this.x) {
         console.log("hit from the right");
         this.hitFromRight = true;
@@ -1091,6 +1107,17 @@ class Blink extends Entity {
       6, // sheet width
       0.2, // frame duration
       6, // frames in animation
+      true, // to loop or not to loop
+      3 // scale in relation to original image
+    );
+
+    this.dead = new Animation(
+      AM.getAsset("./img/blink/Crono_dead.png"),
+      35, // frame width
+      35, // frame height
+      1, // sheet width
+      0.8, // frame duration
+      1, // frames in animation
       true, // to loop or not to loop
       3 // scale in relation to original image
     );
