@@ -278,7 +278,10 @@ class GameEngine {
       if (other instanceof Entity && !(other instanceof Blink)) {
         if (this.blink.hitB.collision(other.hitB)) {
           this.blink.handleCollison(other, "damage");
-        } else if (this.blink.attackBox.collision(other.hitB)) {
+        } else if (
+          this.blink.attackBox.collision(other.hitB) &&
+          !(other instanceof Platform)
+        ) {
           this.blink.handleCollison(other, "attack");
         }
       }
