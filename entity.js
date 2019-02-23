@@ -26,6 +26,14 @@ class Entity {
     this.boundY = this.y;
     this.health = 100;
     this.isDead = false;
+    this.hitB = new Hitbox(
+      this.game,
+      this.boundX,
+      this.boundY,
+      this.frameWidth,
+      this.frameHeight,
+      "damage"
+    );
   }
 
   /** Update handles updating the objects world state. */
@@ -74,52 +82,27 @@ class Entity {
 
   // Basic collision detection to see if two entites are touching
   // using rectangles
-  collision(other) {
-    let rect1 = {
-      x: this.boundX,
-      y: this.boundY,
-      width: this.frameWidth,
-      height: this.frameHeight
-    };
-
-    let rect2 = {
-      x: other.boundX,
-      y: other.boundY,
-      width: other.frameWidth,
-      height: other.frameHeight
-    };
-    if (other instanceof Platform) {
-      if (
-        rect1.x < rect2.x + rect2.width &&
-        rect1.x + rect1.width > rect2.x &&
-        rect1.y < rect2.y + rect2.height &&
-        rect1.height + rect1.y > rect2.y
-      ) {
-        return true;
-      }
-    } else if (
-      rect1.x < rect2.x + rect2.width &&
-      rect1.x + rect1.width > rect2.x - rect2.width &&
-      rect1.y < rect2.y + rect2.height &&
-      rect1.height + rect1.y > rect2.y
-    ) {
-      return true;
-    }
-  }
 
   // debug tool, draws rectangle around entity on screen
   drawAroundBox() {
     this.ctx.beginPath();
     this.ctx.strokeStyle = "white";
     this.ctx.rect(
-      this.boundX,
-      this.boundY,
-      this.frameWidth * this.size,
-      this.frameHeight * this.size
+      this.hitB.boundX,
+      this.hitB.boundY,
+      this.hitB.width,
+      this.hitB.height
     );
     this.ctx.stroke();
   }
 
   // Implement this method when Enity is inherited
-  handleCollison(other) {}
+  handleCollison(other, type) {}
+
+  updateMyHitBoxes() {
+    this.hitB.width = this.frameWidth;
+    this.hitB.height = this.frameHeight;
+    this.hitB.boundX = this.boundX;
+    this.hitB.boundY = this.boundY;
+  }
 }
