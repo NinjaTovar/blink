@@ -107,7 +107,7 @@ class Blink extends Entity {
 
     // DEBUG TOOLS Also used for collison detection
     // Draw around hit box debug stuff
-    this.frameWidth = 50;
+    this.frameWidth = 35;
     this.frameHeight = 80;
     this.size = 3;
     this.drawAroundHitBox = false;
@@ -587,7 +587,7 @@ class Blink extends Entity {
   updateMyHitBoxes() {
     this.hitB.width = this.frameWidth;
     this.hitB.height = this.frameHeight;
-    this.hitB.boundX = this.boundX;
+    this.hitB.boundX = this.boundX + 10;
     this.hitB.boundY = this.boundY;
     if (this.facingRight) {
       this.attackBox.width = 40;
