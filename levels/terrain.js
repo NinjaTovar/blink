@@ -1,4 +1,26 @@
+// /*
+//  * Platform object, basically how this works:
+//  * Once blink is on top of a platform, he gets added
+//  * to that instance of the platform, and stays added, until
+//  * he jumps/falls off.
+//  * this would work simillary for other entites.
+//  * Each tile is a platform entity, and every tile will always 
+//  * 16pixels wide and tall.
+//  *
+//  */
 class Platform extends Entity {
+	// 	/**
+	// 	 * Single constructor for Platform.
+	// 	 *
+	// 	 * @constructor
+	// 	 * @param {any} game A reference to the game engine.
+	// 	 * @param {any} dx Starting x position of the Platform being constructed.
+	// 	 * @param {any} dy Starting y position of the Platform being constructed.
+	// 	 * @param {any} tileRows the total rows that make up the tile sprite
+	// 	 * @param {any} tileColumns the total columns that make up the tile sprite
+	// 	 * @param {any} data index/ID of the specific tile im tryna draw
+	// 	 * @param {any} img tile sprite
+	// 	 */
 	constructor(game, dx, dy, tileRows, tileColumns, data, img) {
 		super(game, dx, dy);
 		this.x = dx;
@@ -22,6 +44,9 @@ class Platform extends Entity {
 		this.img = img;
 
 
+		// sy and sx is the sourcex and sourcey of the tile sprite
+		// while loop is to calculate the x and y since the data/index is passed
+		// in as a 1D array
 		this.sy = 0;
 		this.sx = 0;
 		while (this.data >= this.tileColumns && this.data / this.tileColumns > 0) {
@@ -43,7 +68,6 @@ class Platform extends Entity {
 			this.tile_width,
 			this.tile_height
 		);
-		this.hitB.drawHitBox();
 
 	}
 
