@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <title>Blink</title>
@@ -28,7 +29,10 @@
     <script type="text/javascript" src="./levels/levelone.js"></script>
     <script type="text/javascript" src="./levels/leveltwo.js"></script>
     <script type="text/javascript" src="./enemies/jason.js"></script>
+    <script type="text/javascript" src="./levels/terrain.js"></script>
+    <script type="text/javascript" src="./json/level1.json"></script>
 </head>
+
 <body>
     <!--
     <iframe
@@ -40,12 +44,9 @@
     </iframe>
      -->
     <!-- Load the game world layers -->
-    <canvas id="projectionsLayerBottom" tabindex="0" width="5000" height="586"
-            style="position:absolute;left:0;top:0;"></canvas>
-    <canvas id="projectionsLayerMiddle" tabindex="0" width="5000" height="586"
-            style="position:absolute;left:0;top:0;"></canvas>
-    <canvas id="gameWorld" tabindex="1" width="5000" height="586"
-            style="position:absolute;left:0;top:0;"></canvas>
+    <canvas id="projectionsLayerBottom" tabindex="0" width="5000" height="600" style="position:absolute;left:0;top:0;"></canvas>
+    <canvas id="projectionsLayerMiddle" tabindex="0" width="5000" height="600" style="position:absolute;left:0;top:0;"></canvas>
+    <canvas id="gameWorld" tabindex="1" width="5000" height="600" style="position:absolute;left:0;top:0;"></canvas>
     <!-- This is breaking the game world as it loses focus to the overlay
             <canvas id="projectionsLayerOverlayAll" tabindex="0" width="5000" height="586"
             style="position:absolute;left:0;top:0;"></canvas>
@@ -85,9 +86,9 @@
         <br />
         <button id="myBtn" style="display: none;"></button>
 
-<!-- The Modal -->
-<style>
-        body {font-family: Arial, Helvetica, sans-serif;}
+        <!-- The Modal -->
+        <style>
+            body {font-family: Arial, Helvetica, sans-serif;}
         
         /* The Modal (background) */
         .modal {
@@ -103,7 +104,7 @@
           background-color: rgb(0,0,0); /* Fallback color */
           background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
         }
-        
+
         /* Modal Content */
         .modal-content {
           position: relative;
@@ -118,18 +119,18 @@
           animation-name: animatetop;
           animation-duration: 0.4s
         }
-        
+
         /* Add Animation */
         @-webkit-keyframes animatetop {
-          from {top:-300px; opacity:0} 
+          from {top:-300px; opacity:0}
           to {top:0; opacity:1}
         }
-        
+
         @keyframes animatetop {
           from {top:-300px; opacity:0}
           to {top:0; opacity:1}
         }
-        
+
         /* The Close Button */
         .close {
           color: white;
@@ -137,22 +138,22 @@
           font-size: 28px;
           font-weight: bold;
         }
-        
+
         .close:hover,
         .close:focus {
           color: #000;
           text-decoration: none;
           cursor: pointer;
         }
-        
+
         .modal-header {
           padding: 2px 16px;
           background-color: red;
           color: white;
         }
-        
+
         .modal-body {padding: 2px 16px;}
-        
+
         .modal-footer {
           padding: 2px 16px;
           background-color: red;
@@ -160,229 +161,210 @@
         }
         </style>
         </head>
+
         <body>
-        
-        
-        
-        <!-- Trigger/Open The Modal -->
-        <button id="myBtn" style="display: none;"></button>
-        
-        <!-- The Modal -->
-        <div id="myModal" class="modal">
-        
-          <!-- Modal content -->
-          <div class="modal-content">
-            <div class="modal-header">
-              <span class="close">&times;</span>
-              <h2>Blink Ran out of health..</h2>
-            </div>
-            <div class="modal-body">
-              <p>Reload the page and try again!!!</p>
-            </div>
-            <div class="modal-footer">
-            </div>
-          </div>
-        
-        </div>
-        
-        <div class="row">
-    
 
-            <!-- Meet Blink -->
-            <div class="column">
-                <center>
-                    <Font color='White' face="consolas" />
-                    <h1>~<Font color='3498DB' /> *Blink* <Font color='White' />Prototype ~</h1>
 
-                    <Font color='E59866' />
-                    <tt>Meet <Font color='3498DB' />Blink<Font color='E59866' />. Who is he and where does he come from? No one knows, not even him.</tt>
-                    <br />
-                    <tt><Font color='3498DB' />Blink<Font color='E59866' /> has no memory of his past. But he does know one thing... time bends to his will. He sets out to find answers. And he will. Because time is his.</tt>
-                    <br />
 
-                    <Font color='Chartreuse' />
-                    <tt>Warning: It is dangerous to go alone, there are 'features' everywhere.</tt>
-                    <br />
-                    <tt>Ok so they are bugs. But listen. It's gonna be sweet. You'll use your time powers to make it through obstacles and bosses.</tt>
-                    <br />
+            <!-- Trigger/Open The Modal -->
+            <button id="myBtn" style="display: none;"></button>
 
-                    <Font color='DeepPink' />
-                    <tt>PROTIP: Hold a time power and act, while your foes watch in horror as you slip outside the fabric of time.</tt>
-                </center>
+            <!-- The Modal -->
+            <div id="myModal" class="modal">
+
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span class="close">&times;</span>
+                        <h2>Blink Ran out of health..</h2>
+                    </div>
+                    <div class="modal-body">
+                        <p>Reload the page and try again!!!</p>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+
             </div>
 
-            <!-- Control Scheme -->
-            <div class="column">
-                <center>
-                    <h2><mark>Controls</mark></h2>
-                    <h4><Font color='White' />W (Hold): <Font color='3498DB' />Slow Time!</h4>
-                    <h4><Font color='White' />F (Hold): <Font color='3498DB' />Speed Time!</h4>
-                    <h4><Font color='White' />S (Hold): <Font color='3498DB' />Stop Time!</h4>
-                    <h4><Font color='White' />D (Hold): <Font color='3498DB' />Rewind Time!</h4>
-                    <h4><Font color='White' />A (Hold): <Font color='3498DB' />Attack! </h4>
-                    <h4><Font color='White' />Spacebar: <Font color='3498DB' />Jump</h4>
-                    <h4><Font color='White' />Left/Right Arrows: <Font color='3498DB' />Movement</h4>
-                </center>
+            <div class="row">
+
+
+                <!-- Meet Blink -->
+                <div class="column">
+                    <center>
+                        <Font color='White' face="consolas" />
+                        <h1>~
+                            <Font color='3498DB' /> *Blink*
+                            <Font color='White' />Prototype ~</h1>
+
+                        <Font color='E59866' />
+                        <tt>Meet
+                            <Font color='3498DB' />Blink
+                            <Font color='E59866' />. Who is he and where does he come from? No one knows, not even him.</tt>
+                        <br />
+                        <tt>
+                            <Font color='3498DB' />Blink
+                            <Font color='E59866' /> has no memory of his past. But he does know one thing... time bends
+                            to
+                            his will. He sets out to find answers. And he will. Because time is his.</tt>
+                        <br />
+
+                        <Font color='Chartreuse' />
+                        <tt>Warning: It is dangerous to go alone, there are 'features' everywhere.</tt>
+                        <br />
+                        <tt>Ok so they are bugs. But listen. It's gonna be sweet. You'll use your time powers to make
+                            it
+                            through obstacles and bosses.</tt>
+                        <br />
+
+                        <Font color='DeepPink' />
+                        <tt>PROTIP: Hold a time power and act, while your foes watch in horror as you slip outside the
+                            fabric of time.</tt>
+                    </center>
+                </div>
+
+                <!-- Control Scheme -->
+                <div class="column">
+                    <center>
+                        <h2><mark>Controls</mark></h2>
+                        <h4>
+                            <Font color='White' />W (Hold):
+                            <Font color='3498DB' />Slow Time!</h4>
+                        <h4>
+                            <Font color='White' />F (Hold):
+                            <Font color='3498DB' />Speed Time!</h4>
+                        <h4>
+                            <Font color='White' />S (Hold):
+                            <Font color='3498DB' />Stop Time!</h4>
+                        <h4>
+                            <Font color='White' />D (Hold):
+                            <Font color='3498DB' />Rewind Time!</h4>
+                        <h4>
+                            <Font color='White' />A (Hold):
+                            <Font color='3498DB' />Attack! </h4>
+                        <h4>
+                            <Font color='White' />Spacebar:
+                            <Font color='3498DB' />Jump</h4>
+                        <h4>
+                            <Font color='White' />Left/Right Arrows:
+                            <Font color='3498DB' />Movement</h4>
+                    </center>
+                </div>
+
+                <!-- Change Music -->
+                <div class="column">
+                    <center>
+                        <h2>
+                            <Font color='2090C8' />Change Level Music
+                            <Font color='White' />
+                        </h2>
+                        <button class="buttonPlay" id="changeMusic" type="button"> Switch Tracks!</button>
+                        <button class="buttonStop" id="stopMusic" type="button"> Stop Music! </button>
+                        <h4>
+                            <Font color='White' />Track One:
+                            <Font color='3498DB' />Adventure</h4>
+                        <h4>
+                            <Font color='White' />Track Two:
+                            <Font color='3498DB' />The Sands of Time</h4>
+                        <h4>
+                            <Font color='White' />Track Three:
+                            <Font color='3498DB' />The Hero of Time</h4>
+                        <h4>
+                            <Font color='White' />Track Four:
+                            <Font color='3498DB' />Mysterious...</h4>
+                        <h4>
+                            <Font color='White' />Track Five:
+                            <Font color='3498DB' />Questions</h4>
+
+                    </center>
+                </div>
+
+                <!-- Developer Toolset -->
+                <div class="column">
+                    <center>
+                        <h2>
+                            <Font color='2090C8' />Developer Tools
+                            <Font color='White' />
+                        </h2>
+                        <button class="buttonGodMode" id="godMode" type="button">God Mode (Not Active)</button>
+                        <button class="buttonSpeedUp" id="speedUp" type="button">Speed Up Blink</button>
+                        <br />
+                        <br />
+                        <br />
+                        <button class="buttonHitBox" id="outlineHitBox" type="button">Outline Hit Boxes</button>
+                        <button class="buttonStopEnemies" id="stopEnemies" type="button">Stop All Enemies</button>
+
+                        <!-- Level Manager-->
+                        <h2>
+                            <Font color='2090C8' />Level Manager
+                            <Font color='White' />
+                        </h2>
+                        <button class="buttonLevelOne" id="levelOne" type="button">Switch to Level One</button>
+                        <button class="buttonLevelTwo" id="levelTwo" type="button">Switch to Level Two</button>
+                    </center>
+                </div>
+
             </div>
-
-            <!-- Change Music -->
-            <div class="column">
-                <center>
-                    <h2><Font color='2090C8' />Change Level Music<Font color='White' /></h2>
-                    <button class="buttonPlay" id="changeMusic" type="button"> Switch Tracks!</button>
-                    <button class="buttonStop" id="stopMusic" type="button"> Stop Music! </button>
-                    <h4><Font color='White' />Track One: <Font color='3498DB' />Adventure</h4>
-                    <h4><Font color='White' />Track Two: <Font color='3498DB' />The Sands of Time</h4>
-                    <h4><Font color='White' />Track Three: <Font color='3498DB' />The Hero of Time</h4>
-                    <h4><Font color='White' />Track Four: <Font color='3498DB' />Mysterious...</h4>
-                    <h4><Font color='White' />Track Five: <Font color='3498DB' />Questions</h4>
-
-                </center>
-            </div>
-
-            <!-- Developer Toolset -->
-            <div class="column">
-                <center>
-                    <h2><Font color='2090C8' />Developer Tools<Font color='White' /></h2>
-                    <button class="buttonGodMode" id="godMode" type="button">God Mode (Not Active)</button>
-                    <button class="buttonSpeedUp" id="speedUp" type="button">Speed Up Blink</button>
-                    <br />
-                    <br />
-                    <br />
-                    <button class="buttonHitBox" id="outlineHitBox" type="button">Outline Hit Boxes</button>
-                    <button class="buttonStopEnemies" id="stopEnemies" type="button">Stop All Enemies</button>
-                    
-                    <!-- Level Manager-->
-                    <h2><Font color='2090C8' />Level Manager<Font color='White' /></h2>
-                    <button class="buttonLevelOne" id="levelOne" type="button">Switch to Level One</button>
-                    <button class="buttonLevelTwo" id="levelTwo" type="button">Switch to Level Two</button>
-                </center>
-            </div>
-
-        </div>
     </p>
 
     <!-- Handle audio here -->
-    <audio id="adventureTimeTrack"
-           controls
-           loop
-           hidden
-           preload="auto"
-           src="./audio/levels/AdventureTimeTrack.mp3" />
+    <audio id="adventureTimeTrack" controls loop hidden preload="auto" src="./audio/levels/AdventureTimeTrack.mp3" />
 
-    <audio id="sandsOfTimeTrack"
-           controls
-           loop
-           hidden
-           preload="auto"
-           src="./audio/levels/SandsOfTimeTrack.mp3" />
+    <audio id="sandsOfTimeTrack" controls loop hidden preload="auto" src="./audio/levels/SandsOfTimeTrack.mp3" />
 
-    <audio id="heroOfTimeTrack"
-           controls
-           loop
-           hidden
-           preload="auto"
-           src="./audio/levels/HeroOfTimeTrack.mp3" />
+    <audio id="heroOfTimeTrack" controls loop hidden preload="auto" src="./audio/levels/HeroOfTimeTrack.mp3" />
 
-    <audio id="mysteriousTrack"
-           controls
-           loop
-           hidden
-           preload="auto"
-           src="./audio/levels/Mysterious.mp3" />
+    <audio id="mysteriousTrack" controls loop hidden preload="auto" src="./audio/levels/Mysterious.mp3" />
 
-    <audio id="questionsTrack"
-           controls
-           loop
-           hidden
-           preload="auto"
-           src="./audio/levels/Questions.mp3" />
+    <audio id="questionsTrack" controls loop hidden preload="auto" src="./audio/levels/Questions.mp3" />
 
-    <audio id="slowTime"
-           controls
-           hidden
-           preload="metadata"
-           src="./audio/effects/SlowTime.wav" />
+    <audio id="slowTime" controls hidden preload="metadata" src="./audio/effects/SlowTime.wav" />
 
-    <audio id="stopTime"
-           controls
-           hidden
-           preload="metadata"
-           src="./audio/effects/StopTime.wav" />
+    <audio id="stopTime" controls hidden preload="metadata" src="./audio/effects/StopTime.wav" />
 
-    <audio id="rewindTime"
-           controls
-           hidden
-           preload="metadata"
-           src="./audio/effects/RewindTime.wav" />
+    <audio id="rewindTime" controls hidden preload="metadata" src="./audio/effects/RewindTime.wav" />
 
-    <audio id="speedTime"
-           controls
-           hidden
-           preload="metadata"
-           src="./audio/effects/HighPitch.wav" />
+    <audio id="speedTime" controls hidden preload="metadata" src="./audio/effects/HighPitch.wav" />
 
-    <audio id="slash"
-           controls
-           hidden
-           preload="metadata"
-           src="./audio/effects/SwordSlash.wav" />
+    <audio id="slash" controls hidden preload="metadata" src="./audio/effects/SwordSlash.wav" />
 
-    <audio id="jump"
-           controls
-           hidden
-           preload="metadata"
-           src="./audio/effects/Jump.wav" />
+    <audio id="jump" controls hidden preload="metadata" src="./audio/effects/Jump.wav" />
 
-    <audio id="jumpLanding"
-           controls
-           hidden
-           preload="metadata"
-           src="./audio/effects/JumpLanding.wav" />
+    <audio id="jumpLanding" controls hidden preload="metadata" src="./audio/effects/JumpLanding.wav" />
 
-           <audio id="damage1"
-           controls
-           hidden
-           preload="metadata"
-           src="./audio/effects/Damage.m4a" />
+    <audio id="damage1" controls hidden preload="metadata" src="./audio/effects/Damage.m4a" />
 
-           <audio id="damage2"
-           controls
-           hidden
-           preload="metadata"
-           src="./audio/effects/Damage2.m4a" />
-           <audio id="damage3"
-           controls
-           hidden
-           preload="metadata"
-           src="./audio/effects/Damage3.m4a" />
-           
+    <audio id="damage2" controls hidden preload="metadata" src="./audio/effects/Damage2.m4a" />
+    <audio id="damage3" controls hidden preload="metadata" src="./audio/effects/Damage3.m4a" />
+
 </body>
 <script>
     // Get the modal
-var modal = document.getElementById('myModal');
+    var modal = document.getElementById('myModal');
 
-// Get the button that opens the modal
-var btn = document.getElementById("myBtn");
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
 
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
 
-// When the user clicks on the button, open the modal 
-btn.onclick = function() {
-  modal.style.display = "block";
-}
+    // When the user clicks on the button, open the modal 
+    btn.onclick = function () {
+        modal.style.display = "block";
+    }
 
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-  modal.style.display = "none";
-}
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
 
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-}
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
 </script>
+
 </html>
