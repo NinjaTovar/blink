@@ -26,7 +26,7 @@ class Blink extends Entity {
     this.unsheathSwordStandStill = false;
 
     // Set initial values for Blinks world state
-    this.x = 0;
+    this.x = 100;
     this.y = 350;
     this.platformY = null;
     this.lastY = this.y;
@@ -409,6 +409,7 @@ class Blink extends Entity {
   handleCollison(other, type) {
     console.log(this.health);
     console.log("Blink has collided with a " + other.constructor.name);
+    this.jumping = false;
     if (type === "attack" && this.basicAttack && !this.gotHit) {
       other.health -= 5;
       if (other.health <= 0 && !(other instanceof Mummy)) {
@@ -429,13 +430,14 @@ class Blink extends Entity {
     if (other instanceof Platform && type !== "attack") {
       // If blink is on top of the platform, make him land on it
       if (this.y <= other.y && this.currentPlatform == null) {
+        console.log('othery: ' + other.y);
+        console.log('this.y : ' + this.y);
         this.jumping = false;
         this.elapsedJumpTime = 1;
         other.addEntity(this); // Blink to that Platform
         this.currentPlatform = other;
-        console.log("HEightt" + other.height);
         if (this.currentPlatform != null) {
-          this.platformY = other.y - other.height + 8;
+          this.platformY = other.y - other.height - 8;
         }
       }
       // If Blink is not attacking, it means he just got hit by an Enemy .. atleast for now

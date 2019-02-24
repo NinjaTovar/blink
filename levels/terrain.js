@@ -68,6 +68,7 @@ class Platform extends Entity {
 			this.tile_width,
 			this.tile_height
 		);
+		this.hitB.drawHitBox();
 
 	}
 
@@ -82,7 +83,7 @@ class Platform extends Entity {
 				this.myEntites[i].x > this.x + this.width ||
 				this.myEntites[i].x < this.x
 			) {
-				this.myEntites[i].y = 500;
+				// this.myEntites[i].y = 500;
 				this.myEntites.splice(i, 1);
 			}
 		}

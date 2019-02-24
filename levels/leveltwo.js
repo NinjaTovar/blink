@@ -11,6 +11,7 @@ class LevelTwo {
         this.game.addEntity(this.game.camera);
         this.game.addEntity(new Background2(this.game));
         this.game.addEntity(this.game.blink);
+        this.game.addEntity(this.game.hud);
         this.loadPlatforms();
 
 

@@ -70,6 +70,9 @@ class GameEngine {
     // Have to follow after the camera has been created first
     this.camera.follow(this.blink);
 
+    // Game Hud
+    this.hud = new Hud(this);
+
     // Initialize and add the level manager entity, all entities besides
     // itself are added by the levelManager
     this.levelManager = new LevelManager(this, this.ctx, this.AM);
@@ -406,14 +409,14 @@ class GameEngine {
 }
 
 // This helps discover what type of browser it will be communicating with
-window.requestAnimFrame = (function() {
+window.requestAnimFrame = (function () {
   return (
     window.requestAnimationFrame ||
     window.webkitRequestAnimationFrame ||
     window.mozRequestAnimationFrame ||
     window.oRequestAnimationFrame ||
     window.msRequestAnimationFrame ||
-    function(callback, element) {
+    function (callback, element) {
       window.setTimeout(callback, 1000 / 60);
     }
   );
