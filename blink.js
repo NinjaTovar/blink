@@ -36,6 +36,7 @@ class Blink extends Entity {
     this.ctx = game.ctx;
     this.gotHit = false;
     this.health = 1000;
+    this.myPlatforms = [];
     this.attackBox = new Hitbox(
       game,
       this.boundX + 10,
@@ -45,9 +46,18 @@ class Blink extends Entity {
       "attack"
     );
 
+    this.platformBox = new Hitbox(
+      game,
+      this.boundX + 10,
+      this.boundY + 10,
+      60,
+      60,
+      "platform"
+    );
+
     // Initialize a jump timer. These fields are mostly if not all used in the
     // "handleWhatToDoWhenJumping()" function
-    this.jumpHeight = 420;
+    this.jumpHeight = 700;
     this.totalTimeForJump = 0.96;
     this.jumpTimer = new Timer();
     this.elapsedJumpTime = 0;
@@ -140,8 +150,9 @@ class Blink extends Entity {
   draw(ctx) {
     // DEBUG TOOL
     if (this.drawAroundHitBox) {
-      this.attackBox.drawHitBox();
-      this.hitB.drawHitBox();
+      // this.attackBox.drawHitBox();
+      // this.hitB.drawHitBox();
+      this.platformBox.drawHitBox();
       //this.ctx.clearRect(this.x, this.y, this.frameWidth * this.size, this.frameHeight * this.size);
     }
 
@@ -359,12 +370,24 @@ class Blink extends Entity {
       ];
     }
     // If Blink is not on his platform anymore, get rid of that refference
-    if (
-      this.currentPlatform != null &&
-      !this.currentPlatform.hasMe(this) &&
-      !this.jumping
-    ) {
-      this.currentPlatform = null;
+    // if (
+    //   this.currentPlatform != null &&
+    //   !this.currentPlatform.hasMe(this) &&
+    //   !this.jumping
+    // ) {
+    //   console.log("FELL OFF");
+    //   this.currentPlatform = null;
+    // }
+
+    if (this.myPlatforms.length > 0) {
+      if (
+        this.x > this.myPlatforms[this.myPlatforms.length - 1].x ||
+        this.y > this.myPlatforms[this.myPlatforms.length - 1].y
+      ) {
+        console.log("CLEAR");
+        this.myPlatforms.length = 0;
+        this.y = this.groundLevel;
+      }
     }
     this.updateBlinksStateFromKeyListeners();
 
@@ -407,7 +430,6 @@ class Blink extends Entity {
 
   //Handle collisons
   handleCollison(other, type) {
-    console.log(this.health);
     console.log("Blink has collided with a " + other.constructor.name);
     this.jumping = false;
     if (type === "attack" && this.basicAttack && !this.gotHit) {
@@ -429,16 +451,21 @@ class Blink extends Entity {
     }
     if (other instanceof Platform && type !== "attack") {
       // If blink is on top of the platform, make him land on it
-      if (this.y <= other.y && this.currentPlatform == null) {
-        console.log('othery: ' + other.y);
-        console.log('this.y : ' + this.y);
-        this.jumping = false;
-        this.elapsedJumpTime = 1;
-        other.addEntity(this); // Blink to that Platform
-        this.currentPlatform = other;
-        if (this.currentPlatform != null) {
-          this.platformY = other.y - other.height - 8;
+      if (this.y <= other.y) {
+        if (!this.myPlatforms.includes(other)) {
+          console.log(this.myPlatforms);
+          this.myPlatforms.push(other);
+          this.jumping = false;
+          this.elapsedJumpTime = 1;
         }
+
+        // other.addEntity(this); // Blink to that Platform
+        this.currentPlatform = this.myPlatforms[this.myPlatforms.length - 1];
+
+        this.platformY =
+          this.currentPlatform.y -
+          this.currentPlatform.height -
+          this.frameHeight;
       }
       // If Blink is not attacking, it means he just got hit by an Enemy .. atleast for now
       // TODO: Maybe Come back and make this cleaner so that Blink gets hit based on collison distance
@@ -604,10 +631,19 @@ class Blink extends Entity {
   }
 
   updateMyHitBoxes() {
+    // console.log(this.myPlatforms);
     this.hitB.width = this.frameWidth;
     this.hitB.height = this.frameHeight;
     this.hitB.boundX = this.boundX + 10;
     this.hitB.boundY = this.boundY;
+
+    this.platformBox.width = 40;
+    this.platformBox.height = 150;
+    this.platformBox.boundX = this.boundX + 16;
+    this.platformBox.boundY = this.boundY;
+    if (this.jumping && this.facingRight) {
+      this.platformBox.boundX = this.boundX + 20;
+    }
     if (this.facingRight) {
       this.attackBox.width = 40;
       this.attackBox.height = 90;
@@ -756,7 +792,7 @@ class Blink extends Entity {
     var self = this;
 
     // HANDLE MUSIC TRACKS************************************************************
-    this.changeMusic.onclick = function () {
+    this.changeMusic.onclick = function() {
       // Set this to let level know music has been started somewhere
       self.beginMusic = false;
       self.userWantsNoMusic = false;
@@ -805,7 +841,7 @@ class Blink extends Entity {
       }
     };
     // STOP MUSIC*********************************************************************
-    this.stopMusic.onclick = function () {
+    this.stopMusic.onclick = function() {
       self.userWantsNoMusic = true;
       self.adventureTimeTrack.pause();
       self.sandsOfTimeTrack.pause();
@@ -822,26 +858,26 @@ class Blink extends Entity {
     };
 
     // HANDLE DEV BUTTONS*************************************************************
-    this.godModeButton.onclick = function () {
+    this.godModeButton.onclick = function() {
       self.godMode = !self.godMode;
     };
-    this.speedUpButton.onclick = function () {
+    this.speedUpButton.onclick = function() {
       self.speedUpMovement = !self.speedUpMovement;
     };
-    this.outlineHitBoxButton.onclick = function () {
+    this.outlineHitBoxButton.onclick = function() {
       self.outlineHitBox = !self.outlineHitBox;
     };
-    this.stopEnemiesButton.onclick = function () {
+    this.stopEnemiesButton.onclick = function() {
       self.stopEnemies = !self.stopEnemies;
     };
 
     // HANDLE LEVEL MANAGER BUTTONS***************************************************
-    this.levelOneButton.onclick = function () {
+    this.levelOneButton.onclick = function() {
       console.log("Level One clicked");
       self.game.levelManager.level = 1;
       self.game.levelManager.states.loadNextLevel = true;
     };
-    this.levelTwoButton.onclick = function () {
+    this.levelTwoButton.onclick = function() {
       console.log("Level Two clicked");
       self.game.levelManager.level = 2;
       self.game.levelManager.states.loadNextLevel = true;
