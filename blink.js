@@ -28,6 +28,8 @@ class Blink extends Entity {
     // Set initial values for Blinks world state
     this.x = 100;
     this.y = 350;
+    this.minX = 2000;
+    this.maxX = 0;
     this.platformY = null;
     this.lastY = this.y;
     this.groundLevel = this.y;
@@ -354,6 +356,18 @@ class Blink extends Entity {
     }
   }
 
+  fellOff() {
+    if (
+      this.x > this.maxX ||
+      this.x < this.minX ||
+      this.y > this.myPlatforms[this.myPlatforms.length - 1].y
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   // UPDATE-----------------------------------------------------------------------------
   /** All changes to blinks state happen here. Draw should not handle those changes
    *  as it could potentially be a hard bug to find. */
@@ -379,15 +393,10 @@ class Blink extends Entity {
     //   this.currentPlatform = null;
     // }
 
-    if (this.myPlatforms.length > 0) {
-      if (
-        this.x > this.myPlatforms[this.myPlatforms.length - 1].x ||
-        this.y > this.myPlatforms[this.myPlatforms.length - 1].y
-      ) {
-        console.log("CLEAR");
-        this.myPlatforms.length = 0;
-        this.y = this.groundLevel;
-      }
+    if (this.myPlatforms.length > 0 && this.fellOff()) {
+      console.log("CLEAR");
+      this.myPlatforms.length = 0;
+      this.y = this.groundLevel;
     }
     this.updateBlinksStateFromKeyListeners();
 
@@ -430,8 +439,7 @@ class Blink extends Entity {
 
   //Handle collisons
   handleCollison(other, type) {
-    console.log("Blink has collided with a " + other.constructor.name);
-    this.jumping = false;
+    // console.log("Blink has collided with a " + other.constructor.name);
     if (type === "attack" && this.basicAttack && !this.gotHit) {
       other.health -= 5;
       if (other.health <= 0 && !(other instanceof Mummy)) {
@@ -450,13 +458,19 @@ class Blink extends Entity {
       return;
     }
     if (other instanceof Platform && type !== "attack") {
+      // console.log("Collided with platform");
       // If blink is on top of the platform, make him land on it
       if (this.y <= other.y) {
         if (!this.myPlatforms.includes(other)) {
-          console.log(this.myPlatforms);
+          if (other.x > this.maxX) this.maxX = other.x;
+          if (other.x < this.minX) this.minX = other.x;
+          console.log(this.minX);
           this.myPlatforms.push(other);
+          this.game.jumping = false;
           this.jumping = false;
-          this.elapsedJumpTime = 1;
+          this.elapsedJumpTime = 0;
+          this.jumpFaceRightAnimation.elapsedTime = 0;
+          this.jumpFaceLeftAnimation.elapsedTime = 0;
         }
 
         // other.addEntity(this); // Blink to that Platform
@@ -637,12 +651,15 @@ class Blink extends Entity {
     this.hitB.boundX = this.boundX + 10;
     this.hitB.boundY = this.boundY;
 
-    this.platformBox.width = 40;
+    this.platformBox.width = 100;
     this.platformBox.height = 117;
     this.platformBox.boundX = this.boundX + 16;
     this.platformBox.boundY = this.boundY;
+    if (this.currentPlatform != null) {
+      // this.platformBox.boundY = this.boundY;
+    }
     if (this.jumping && this.facingRight) {
-      this.platformBox.boundX = this.boundX + 20;
+      // this.platformBox.boundX = this.boundX + 30;
     }
     if (this.facingRight) {
       this.attackBox.width = 40;
