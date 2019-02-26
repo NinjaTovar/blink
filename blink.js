@@ -638,7 +638,7 @@ class Blink extends Entity {
     this.hitB.boundY = this.boundY;
 
     this.platformBox.width = 40;
-    this.platformBox.height = 150;
+    this.platformBox.height = 117;
     this.platformBox.boundX = this.boundX + 16;
     this.platformBox.boundY = this.boundY;
     if (this.jumping && this.facingRight) {
