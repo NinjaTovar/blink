@@ -1,8 +1,11 @@
 class Hud {
 	constructor(game) {
 		this.game = game;
+		this.camera = game.camera;
 		this.healthbar = new HealthBar(game);
 		this.components = [this.healthbar];
+
+
 	}
 	update() {
 		for (var i = 0; i < this.components.length; i++) {
@@ -13,6 +16,11 @@ class Hud {
 		for (var i = 0; i < this.components.length; i++) {
 			this.components[i].draw(ctx);
 		}
+
+		ctx.beginPath();
+		ctx.strokeStyle = 'red';
+		ctx.rect(this.camera.offsetX, this.camera.offsetY, this.camera.viewWidth, this.camera.viewHeight);
+		ctx.stroke();
 	}
 
 

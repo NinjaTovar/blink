@@ -1,67 +1,65 @@
-class Camera
-{
+class Camera extends Entity {
     /**
      * Camera handles managing the view position of the world in relation to Blink
      * 
      * @param {any} blink Reference to Blink
      * @param {any} ctx Object passed as reference to canvas
-     * @param {any} viewWidth width dimension of the camera
-     * @param {any} viewHeight width dimension of the camera
      * @param {any} worldWidth width dimensions of the entire level
      * @param {any} worldHeight height dimensions of the entire level
      */
-    constructor(ctx, viewWidth, viewHeight, worldWidth, worldHeight)
-    {
-        this.ctx = ctx;
-        this.viewWidth = viewWidth;
-        this.viewHeight = viewHeight;
+    constructor(game, x, y = 0, canvasWidth, canvasHeight, worldWidth, worldHeight) {
+        super(game, x, y);
+        this.canvasWidth = canvasWidth;
+        this.canvasHeight = canvasHeight;
         this.worldWidth = worldWidth;
         this.worldHeight = worldHeight;
-        this.endOfLevel;
 
-        // Offset is the x and y coordinates of the center of the camera
-        this.offsetX = this.viewWidth / 2;
-        this.offsetY = this.viewHeight / 2;
-        // this.speedX = 10;
-        // this.speedY = 10;
+        this.absOffX = 2;
+        this.absOffY = 4;
+        this.offX = (this.canvasWidth / this.absOffX);
+        this.offY = this.canvasHeight / this.absOffY;
 
-        // debug camera tool
-        this.shouldOutlineCamera = false;
+        this.camSpeedX = 8;
+        this.camSpeedY = 8;
+
+        this.blink = null;
+
     }
-    follow(him)
-    {
+    follow(him) {
         this.blink = him;
-        this.xPosition = this.blink.x;
-        this.yPosition = this.blink.y;
-    }
-    draw()
-    {
-        // If blink is just barely into the start of the level or
-        // right before the end, translate the canvas to emulate a camera
-        if (this.blink.x > 100 && this.blink.x < 3680)
-        {
-            this.endOfLevel = this.xPosition / 1.15;
-            this.ctx.translate(this.xPosition / 1.15, 0);
-        }
-        // otherwise stay stationary
-        else
-        {
-            this.ctx.translate(this.endOfLevel, 0);
-        }
 
-        if (this.shouldOutlineCamera)
-        {
-            this.ctx.beginPath();
-            this.ctx.strokeStyle = 'red';
-            this.ctx.rect(this.offsetX, this.offsetY, this.viewWidth, this.viewHeight);
-            this.ctx.stroke();
-            //console.log(this.xPosition);
-            //console.log(this.yPosition);
+    }
+    draw(ctx) {
+
+        ctx.translate(this.x, this.y);
+    }
+    update() {
+        if (this.blink != null) {
+            this.updateBounds();
+            this.x = -this.blink.x + this.offX;
+            this.y = -this.blink.y + this.offY;
+
         }
     }
-    update()
-    {
-        this.xPosition = this.offsetX - this.blink.x;
-        this.yPosition = this.offsetY - this.blink.y;
+
+    updateBounds() {
+        if (!(this.offX === this.canvasWidth / this.absOffX)) {
+            if (this.offX + 10 < Math.floor(this.canvasWidth / this.absOffX)) {
+                this.offX += this.camSpeedX;
+            } else if (this.offX - 10 > Math.floor(this.canvasWidth / this.absOffX)) {
+                this.offX -= this.camSpeedX;
+            } else(this.offX = this.canvasWidth / this.absOffX);
+        }
+        if (!(this.offY === this.canvasHeight / this.absOffY)) {
+            if (this.offY + 10 < Math.floor(this.canvasHeight / this.absOffY)) {
+                this.offY += this.camSpeedY;
+            } else if (this.offY - 10 > Math.floor(this.canvasHeight / this.absOffY)) {
+                this.offY -= this.camSpeedY;
+            } else(this.offY = this.canvasHeight / this.absOffY);
+        }
+    }
+
+    boundsCheck(val, min, max) {
+        return Math.min(Math.max(val, min), max);
     }
 }

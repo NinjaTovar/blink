@@ -8,7 +8,7 @@ class LevelManager {
         this.game = game;
         this.AM = AM; // Might need this later?
         this.ctx = ctx; // Might need this later?
-        this.level = 1; // Indicates which level
+        this.level = 2; // Indicates which level
 
 
         // States for loading

@@ -59,11 +59,13 @@ class GameEngine {
     this.initializeEventListeners();
     // Create camera as an instance field
     this.camera = new Camera(
-      this.ctx,
-      200,
-      400,
+      this,
+      0,
+      0,
       this.surfaceWidth,
-      this.surfaceHeight
+      this.surfaceHeight,
+      3200,
+      3200
     );
     // Create blink as an instance field
     this.blink = new Blink(this);
@@ -123,6 +125,7 @@ class GameEngine {
     this.ctx.save();
     for (let i = 0; i < this.entities.length; i++) {
       this.entities[i].draw(this.ctx);
+      this.camera.hitB.drawHitBox();
     }
     this.ctx.restore();
 
