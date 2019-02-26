@@ -106,7 +106,6 @@ class GameEngine {
    */
   addEntity(entity) {
     console.log("added entity");
-    console.log(this.entities);
     if (entity instanceof Blink) {
       this.blink = entity;
     }
@@ -277,11 +276,22 @@ class GameEngine {
   checkBlinksCollisons() {
     for (let j = 0; j < this.entities.length; j++) {
       let other = this.entities[j];
-
-      if (other instanceof Entity && !(other instanceof Blink)) {
+      if (
+        other instanceof Platform &&
+        this.blink.platformBox.collision(other.hitB)
+      ) {
+        this.blink.handleCollison(other, "platform");
+      }
+      if (
+        other instanceof Entity &&
+        !(other instanceof Blink) &&
+        !(other instanceof Platform)
+      ) {
         if (this.blink.hitB.collision(other.hitB)) {
           this.blink.handleCollison(other, "damage");
-        } else if (
+        }
+
+        if (
           this.blink.attackBox.collision(other.hitB) &&
           !(other instanceof Platform)
         ) {
@@ -409,14 +419,14 @@ class GameEngine {
 }
 
 // This helps discover what type of browser it will be communicating with
-window.requestAnimFrame = (function () {
+window.requestAnimFrame = (function() {
   return (
     window.requestAnimationFrame ||
     window.webkitRequestAnimationFrame ||
     window.mozRequestAnimationFrame ||
     window.oRequestAnimationFrame ||
     window.msRequestAnimationFrame ||
-    function (callback, element) {
+    function(callback, element) {
       window.setTimeout(callback, 1000 / 60);
     }
   );
