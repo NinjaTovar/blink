@@ -359,8 +359,8 @@ class Blink extends Entity {
   fellOff() {
     if (
       this.x > this.maxX ||
-      this.x < this.minX ||
-      this.y > this.myPlatforms[this.myPlatforms.length - 1].y
+      this.x < this.minX - 50 ||
+      this.y < this.myPlatforms[this.myPlatforms.length - 1].y - 200
     ) {
       return true;
     } else {
@@ -395,6 +395,8 @@ class Blink extends Entity {
 
     if (this.myPlatforms.length > 0 && this.fellOff()) {
       console.log("CLEAR");
+      this.maxX = 0;
+      this.minX = 2000;
       this.myPlatforms.length = 0;
       this.y = this.groundLevel;
     }
@@ -464,7 +466,9 @@ class Blink extends Entity {
         if (!this.myPlatforms.includes(other)) {
           if (other.x > this.maxX) this.maxX = other.x;
           if (other.x < this.minX) this.minX = other.x;
-          console.log(this.minX);
+          console.log("Max  " + this.maxX);
+          console.log("Min " + this.minX);
+          console.log(this.x);
           this.myPlatforms.push(other);
           this.game.jumping = false;
           this.jumping = false;
@@ -651,9 +655,9 @@ class Blink extends Entity {
     this.hitB.boundX = this.boundX + 10;
     this.hitB.boundY = this.boundY;
 
-    this.platformBox.width = 100;
+    this.platformBox.width = 40;
     this.platformBox.height = 117;
-    this.platformBox.boundX = this.boundX + 16;
+    this.platformBox.boundX = this.boundX + 20;
     this.platformBox.boundY = this.boundY;
     if (this.currentPlatform != null) {
       // this.platformBox.boundY = this.boundY;
