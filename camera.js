@@ -16,7 +16,8 @@ class Camera {
     this.y = cameraY;
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
-    this.endOfLevel;
+    this.endOfLevelX;
+    this.endOfLevelY;
 
     // 2 centers it in the middle, change value to offset amount
     this.offsetwidth = 2;
@@ -37,22 +38,26 @@ class Camera {
   draw() {
     // If blink is just barely into the start of the level or
     // right before the end, translate the canvas to emulate a camera
-    if (this.blink.x > 10 && this.blink.x < 2800) {
-      this.endOfLevel = this.x;
-      this.game.bottomProjectionCtx.translate(this.x, this.y);
-      this.game.middleProjectionCtx.translate(this.x, this.y);
+    if (this.blink.x > 500 && this.blink.x < 2800 && this.blink.y > 300 && this.blink.y < 2800) {
+      this.endOfLevelX = this.x;
+      this.endOfLevelY = this.y;
+      // this.game.bottomProjectionCtx.translate(this.x, this.y);
+      // this.game.middleProjectionCtx.translate(this.x, this.y);
       this.ctx.translate(this.x, this.y);
     }
     // otherwise stay stationary
     else {
-      this.ctx.translate(this.endOfLevel, 0);
+      this.ctx.translate(this.endOfLevelX, this.endOfLevelY);
     }
   }
   update() {
     if (this.blink != null) {
-      this.updateBounds();
-      this.x = -this.blink.x + this.offsetX;
-      this.y = -this.blink.y + this.offsetY;
+      if (this.blink.x > 500 && this.blink.x < 2800 && this.blink.y > 300 && this.blink.y < 2800) {
+
+        // this.updateBounds();
+        this.x = -this.blink.x + this.offsetX;
+        this.y = -this.blink.y + this.offsetY;
+      }
     }
 
   }

@@ -26,8 +26,8 @@ class HealthBar {
 	}
 	update() {
 		this.health = this.blink.health;
-		this.dx = -this.camera.x + 100;
-		this.dy = -this.camera.y + 100;
+		this.dx = -this.camera.x + 50;
+		this.dy = -this.camera.y + 50;
 
 	}
 	draw(ctx) {
