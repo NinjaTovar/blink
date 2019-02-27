@@ -125,7 +125,6 @@ class GameEngine {
     this.ctx.save();
     for (let i = 0; i < this.entities.length; i++) {
       this.entities[i].draw(this.ctx);
-      this.camera.hitB.drawHitBox();
     }
     this.ctx.restore();
 
