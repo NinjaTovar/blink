@@ -1,65 +1,83 @@
-class Camera extends Entity {
-    /**
-     * Camera handles managing the view position of the world in relation to Blink
-     * 
-     * @param {any} blink Reference to Blink
-     * @param {any} ctx Object passed as reference to canvas
-     * @param {any} worldWidth width dimensions of the entire level
-     * @param {any} worldHeight height dimensions of the entire level
-     */
-    constructor(game, x, y = 0, canvasWidth, canvasHeight, worldWidth, worldHeight) {
-        super(game, x, y);
-        this.canvasWidth = canvasWidth;
-        this.canvasHeight = canvasHeight;
-        this.worldWidth = worldWidth;
-        this.worldHeight = worldHeight;
+class Camera {
+  /**
+   * Camera handles managing the view position of the world in relation to Blink
+   * Camera now is always the size of the entire canvas
+   *
+   * @param {any} blink Reference to Blink
+   * @param {any} ctx Object passed as reference to canvas
+   * @param {any} cameraX the starting x of the camera
+   * @param {any} cameraY the starting y of the camera
+   * @param {any} worldWidth width of the canvas/camera
+   * @param {any} worldHeight height of the canvas/camera
+   */
+  constructor(game, ctx, cameraX, cameraY, canvasWidth, canvasHeight) {
+    this.game = game;
+    this.ctx = ctx;
+    this.x = cameraX;
+    this.y = cameraY;
+    this.canvasWidth = canvasWidth;
+    this.canvasHeight = canvasHeight;
+    this.endOfLevelX;
+    this.endOfLevelY;
 
-        this.absOffX = 2;
-        this.absOffY = 4;
-        this.offX = (this.canvasWidth / this.absOffX);
-        this.offY = this.canvasHeight / this.absOffY;
+    // 2 centers it in the middle, change value to offset amount
+    this.offsetwidth = 2;
+    this.offsetheight = 2;
 
-        this.camSpeedX = 8;
-        this.camSpeedY = 8;
+    // Offset is the x and y coordinates of the center of the camera
+    this.offsetX = this.canvasWidth / this.offsetwidth;
+    this.offsetY = this.canvasHeight / this.offsetheight;
 
-        this.blink = null;
+    this.speedX = 5;
+    this.speedY = 5;
 
+    this.blink = null;
+  }
+  follow(him) {
+    this.blink = him;
+  }
+  draw() {
+    // If blink is just barely into the start of the level or
+    // right before the end, translate the canvas to emulate a camera
+    if (this.blink.x > 500 && this.blink.x < 2800 && this.blink.y > 300 && this.blink.y < 2800) {
+      this.endOfLevelX = this.x;
+      this.endOfLevelY = this.y;
+      // this.game.bottomProjectionCtx.translate(this.x, this.y);
+      // this.game.middleProjectionCtx.translate(this.x, this.y);
+      this.ctx.translate(this.x, this.y);
     }
-    follow(him) {
-        this.blink = him;
-
+    // otherwise stay stationary
+    else {
+      this.ctx.translate(this.endOfLevelX, this.endOfLevelY);
     }
-    draw(ctx) {
+  }
+  update() {
+    if (this.blink != null) {
+      if (this.blink.x > 500 && this.blink.x < 2800 && this.blink.y > 300 && this.blink.y < 2800) {
 
-        ctx.translate(this.x, this.y);
-    }
-    update() {
-        if (this.blink != null) {
-            this.updateBounds();
-            this.x = -this.blink.x + this.offX;
-            this.y = -this.blink.y + this.offY;
-
-        }
+        // this.updateBounds();
+        this.x = -this.blink.x + this.offsetX;
+        this.y = -this.blink.y + this.offsetY;
+      }
     }
 
-    updateBounds() {
-        if (!(this.offX === this.canvasWidth / this.absOffX)) {
-            if (this.offX + 10 < Math.floor(this.canvasWidth / this.absOffX)) {
-                this.offX += this.camSpeedX;
-            } else if (this.offX - 10 > Math.floor(this.canvasWidth / this.absOffX)) {
-                this.offX -= this.camSpeedX;
-            } else(this.offX = this.canvasWidth / this.absOffX);
-        }
-        if (!(this.offY === this.canvasHeight / this.absOffY)) {
-            if (this.offY + 10 < Math.floor(this.canvasHeight / this.absOffY)) {
-                this.offY += this.camSpeedY;
-            } else if (this.offY - 10 > Math.floor(this.canvasHeight / this.absOffY)) {
-                this.offY -= this.camSpeedY;
-            } else(this.offY = this.canvasHeight / this.absOffY);
-        }
-    }
+  }
 
-    boundsCheck(val, min, max) {
-        return Math.min(Math.max(val, min), max);
+  // Not being used for now, hope to used to be able to smooth out the camera
+  updateBounds() {
+    if (!(this.offsetX === this.canvasWidth / this.offsetwidth)) {
+      if (this.offsetX + 10 < Math.floor(this.canvasWidth / this.offsetwidth)) {
+        this.offsetX += this.camSpeedX;
+      } else if (this.offsetX - 10 > Math.floor(this.canvasWidth / this.offsetwidth)) {
+        this.offsetX -= this.camSpeedX;
+      } else(this.offsetX = this.canvasWidth / this.offsetwidth);
     }
+    if (!(this.offsetY === this.canvasHeight / this.offsetheight)) {
+      if (this.offsetY + 10 < Math.floor(this.canvasHeight / this.offsetheight)) {
+        this.offsetY += this.camSpeedY;
+      } else if (this.offsetY - 10 > Math.floor(this.canvasHeight / this.offsetheight)) {
+        this.offsetY -= this.camSpeedY;
+      } else(this.offsetY = this.canvasHeight / this.offsetheight);
+    }
+  }
 }
