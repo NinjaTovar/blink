@@ -38,6 +38,7 @@ class Blink extends Entity {
     this.ctx = game.ctx;
     this.gotHit = false;
     this.health = 1000;
+    this.falling = false;
     this.myPlatforms = [];
     this.attackBox = new Hitbox(
       game,
@@ -351,7 +352,9 @@ class Blink extends Entity {
         this.y = this.platformY;
       } else {
         // bring him down to earth if neccessary
-        this.y = this.groundLevel;
+        console.log("falling");
+        this.falling = true;
+        this.y += this.game.blinksClockTick * this.speed;
       }
     }
   }
@@ -398,7 +401,8 @@ class Blink extends Entity {
       this.maxX = 0;
       this.minX = 2000;
       this.myPlatforms.length = 0;
-      this.y = this.groundLevel;
+      this.currentPlatform = null;
+      // this.y = this.groundLevel;
     }
     this.updateBlinksStateFromKeyListeners();
 
@@ -484,6 +488,7 @@ class Blink extends Entity {
           this.currentPlatform.y -
           this.currentPlatform.height -
           this.frameHeight;
+        this.falling = false;
       }
       // If Blink is not attacking, it means he just got hit by an Enemy .. atleast for now
       // TODO: Maybe Come back and make this cleaner so that Blink gets hit based on collison distance
@@ -630,11 +635,8 @@ class Blink extends Entity {
 
       // quadratic jump
       height = (2 * duration - 2 * duration * duration) * this.jumpHeight;
-      if (this.currentPlatform != null) {
-        this.y = this.platformY - height;
-      } else {
-        this.y = this.groundLevel - height;
-      }
+
+      this.y = this.platformY - height;
 
       // Manage both left/right jumps movement acceleration
       if (this.moving) {
@@ -655,7 +657,7 @@ class Blink extends Entity {
     this.hitB.boundX = this.boundX + 10;
     this.hitB.boundY = this.boundY;
 
-    this.platformBox.width = 40;
+    this.platformBox.width = 50;
     this.platformBox.height = 117;
     this.platformBox.boundX = this.boundX + 20;
     this.platformBox.boundY = this.boundY;
@@ -969,7 +971,7 @@ class Blink extends Entity {
     if (this.game.basicAttack !== undefined) {
       this.basicAttack = this.game.basicAttack;
     }
-    if (this.game.jumping !== undefined) {
+    if (this.game.jumping !== undefined && !this.falling) {
       this.jumping = this.game.jumping;
     }
     if (this.game.stopTime !== undefined) {
