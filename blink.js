@@ -60,7 +60,7 @@ class Blink extends Entity {
 
     // Initialize a jump timer. These fields are mostly if not all used in the
     // "handleWhatToDoWhenJumping()" function
-    this.jumpHeight = 700;
+    this.jumpHeight = 500;
     this.totalTimeForJump = 0.96;
     this.jumpTimer = new Timer();
     this.elapsedJumpTime = 0;
@@ -153,8 +153,8 @@ class Blink extends Entity {
   draw(ctx) {
     // DEBUG TOOL
     if (this.drawAroundHitBox) {
-      // this.attackBox.drawHitBox();
-      // this.hitB.drawHitBox();
+      this.attackBox.drawHitBox();
+      this.hitB.drawHitBox();
       this.platformBox.drawHitBox();
       //this.ctx.clearRect(this.x, this.y, this.frameWidth * this.size, this.frameHeight * this.size);
     }
@@ -164,6 +164,24 @@ class Blink extends Entity {
       return;
     }
 
+    if (this.falling) {
+      if (this.facingRight) {
+        this.spellFaceRight.drawFrame(
+          this.game.blinksClockTick,
+          ctx,
+          this.x,
+          this.y
+        );
+      } else {
+        this.spellFaceLeft.drawFrame(
+          this.game.blinksClockTick,
+          ctx,
+          this.x,
+          this.y
+        );
+      }
+      return;
+    }
     if (this.gotHit) {
       if (this.facingRight) {
         this.hitFacingRight.drawFrame(
@@ -345,18 +363,6 @@ class Blink extends Entity {
         );
       }
     }
-
-    // If not jumping, make sure Blink is on the ground level/And Or on his platform
-    if (!this.jumping) {
-      if (this.currentPlatform != null) {
-        this.y = this.platformY;
-      } else {
-        // bring him down to earth if neccessary
-        console.log("falling");
-        this.falling = true;
-        this.y += this.game.blinksClockTick * this.speed;
-      }
-    }
   }
 
   fellOff() {
@@ -375,6 +381,18 @@ class Blink extends Entity {
   /** All changes to blinks state happen here. Draw should not handle those changes
    *  as it could potentially be a hard bug to find. */
   update() {
+    // If not jumping, make sure Blink is on the ground level/And Or on his platform
+    if (!this.jumping) {
+      if (this.currentPlatform != null) {
+        this.y = this.platformY;
+      } else {
+        // bring him down to earth if neccessary
+        console.log("falling");
+        this.falling = true;
+        this.y += this.game.blinksClockTick * this.speed * 1.5;
+      }
+    }
+
     if (this.health <= 0) {
       if (this.dead.elapsedTime > 0.7) {
         modal.style.display = "block";
@@ -398,11 +416,10 @@ class Blink extends Entity {
 
     if (this.myPlatforms.length > 0 && this.fellOff()) {
       console.log("CLEAR");
-      this.maxX = 0;
-      this.minX = 2000;
+      this.maxX = -10;
+      this.minX = 20000;
       this.myPlatforms.length = 0;
       this.currentPlatform = null;
-      // this.y = this.groundLevel;
     }
     this.updateBlinksStateFromKeyListeners();
 
@@ -475,6 +492,7 @@ class Blink extends Entity {
           console.log(this.x);
           this.myPlatforms.push(other);
           this.game.jumping = false;
+
           this.jumping = false;
           this.elapsedJumpTime = 0;
           this.jumpFaceRightAnimation.elapsedTime = 0;
@@ -1180,6 +1198,16 @@ class Blink extends Entity {
       1, // sheet width
       0.8, // frame duration
       1, // frames in animation
+      true, // to loop or not to loop
+      3 // scale in relation to original image
+    );
+    this.fallFaceRight = new Animation(
+      AM.getAsset("./img/blink/Crono_Fall_FaceRight.png"),
+      40, // frame width
+      40, // frame height
+      3, // sheet width
+      0.8, // frame duration
+      3, // frames in animation
       true, // to loop or not to loop
       3 // scale in relation to original image
     );

@@ -26,6 +26,7 @@ AM.queueDownload("./img/blink/Crono_Damage_FaceLeft.png");
 AM.queueDownload("./img/blink/Crono_Damage_FaceRight.png");
 AM.queueDownload("./img/blink/Coin.png");
 AM.queueDownload("./img/blink/Crono_dead.png");
+AM.queueDownload("./img/blink/Crono_Fall_FaceRight.png");
 
 // Queue downloading Bug
 AM.queueDownload("./img/enemies/bug/BugRun_FaceLeft.png");
@@ -54,7 +55,7 @@ AM.queueDownload("./img/enemies/necroman/Necroman_FaceRight.png");
 // Queue downlaoding Jason
 AM.queueDownload("./img/enemies/jason.png");
 
-AM.downloadAll(function () {
+AM.downloadAll(function() {
   // Load game world. This is the top layer
   var canvas = document.getElementById("gameWorld");
   var gameCtx = canvas.getContext("2d");
