@@ -125,7 +125,7 @@ class Blink extends Entity {
     this.frameWidth = 35;
     this.frameHeight = 80;
     this.size = 3;
-    this.drawAroundHitBox = false;
+    this.drawAroundHitBox = true;
     this.originalSpeed = this.speed;
 
     // Load states of HTML page debug buttons
@@ -153,8 +153,8 @@ class Blink extends Entity {
   draw(ctx) {
     // DEBUG TOOL
     if (this.drawAroundHitBox) {
-      this.attackBox.drawHitBox();
-      this.hitB.drawHitBox();
+      // this.attackBox.drawHitBox();
+      // this.hitB.drawHitBox();
       this.platformBox.drawHitBox();
       //this.ctx.clearRect(this.x, this.y, this.frameWidth * this.size, this.frameHeight * this.size);
     }
@@ -387,7 +387,7 @@ class Blink extends Entity {
         this.y = this.platformY;
       } else {
         // bring him down to earth if neccessary
-        console.log("falling");
+
         this.falling = true;
         this.y += this.game.blinksClockTick * this.speed * 1.5;
       }
@@ -404,15 +404,6 @@ class Blink extends Entity {
         Math.floor(Math.random() * this.damageSoundEffects.length)
       ];
     }
-    // If Blink is not on his platform anymore, get rid of that refference
-    // if (
-    //   this.currentPlatform != null &&
-    //   !this.currentPlatform.hasMe(this) &&
-    //   !this.jumping
-    // ) {
-    //   console.log("FELL OFF");
-    //   this.currentPlatform = null;
-    // }
 
     if (this.myPlatforms.length > 0 && this.fellOff()) {
       console.log("CLEAR");
@@ -483,13 +474,11 @@ class Blink extends Entity {
     if (other instanceof Platform && type !== "attack") {
       // console.log("Collided with platform");
       // If blink is on top of the platform, make him land on it
-      if (this.y <= other.y) {
+      if (this.y < other.y) {
         if (!this.myPlatforms.includes(other)) {
           if (other.x > this.maxX) this.maxX = other.x;
           if (other.x < this.minX) this.minX = other.x;
-          console.log("Max  " + this.maxX);
-          console.log("Min " + this.minX);
-          console.log(this.x);
+
           this.myPlatforms.push(other);
           this.game.jumping = false;
 
@@ -507,6 +496,8 @@ class Blink extends Entity {
           this.currentPlatform.height -
           this.frameHeight;
         this.falling = false;
+      } else {
+        console.log("yo");
       }
       // If Blink is not attacking, it means he just got hit by an Enemy .. atleast for now
       // TODO: Maybe Come back and make this cleaner so that Blink gets hit based on collison distance
@@ -515,10 +506,10 @@ class Blink extends Entity {
       this.gotHit = true;
       this.health -= 2;
       if (other.x > this.x) {
-        console.log("hit from the right");
+        // console.log("hit from the right");
         this.hitFromRight = true;
       } else {
-        console.log("hit from the Left");
+        // console.log("hit from the Left");
         this.hitFromLeft = true;
       }
     }
@@ -669,19 +660,16 @@ class Blink extends Entity {
   }
 
   updateMyHitBoxes() {
-    // console.log(this.myPlatforms);
     this.hitB.width = this.frameWidth;
     this.hitB.height = this.frameHeight;
     this.hitB.boundX = this.boundX + 10;
     this.hitB.boundY = this.boundY;
 
-    this.platformBox.width = 50;
-    this.platformBox.height = 117;
+    this.platformBox.width = 20;
+    this.platformBox.height = 100;
     this.platformBox.boundX = this.boundX + 20;
     this.platformBox.boundY = this.boundY;
-    if (this.currentPlatform != null) {
-      // this.platformBox.boundY = this.boundY;
-    }
+
     if (this.jumping && this.facingRight) {
       // this.platformBox.boundX = this.boundX + 30;
     }
@@ -691,6 +679,7 @@ class Blink extends Entity {
       this.attackBox.boundX = this.boundX + 60;
       this.attackBox.boundY = this.boundY + 10;
     } else {
+      this.platformBox.boundX = this.boundX + 20;
       this.attackBox.width = 40;
       this.attackBox.height = 90;
       this.attackBox.boundX = this.boundX - 20;
