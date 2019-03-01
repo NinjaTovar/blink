@@ -478,7 +478,6 @@ class Blink extends Entity {
         if (!this.myPlatforms.includes(other)) {
           if (other.x > this.maxX) this.maxX = other.x;
           if (other.x < this.minX) this.minX = other.x;
-
           this.myPlatforms.push(other);
           this.game.jumping = false;
 
@@ -566,8 +565,8 @@ class Blink extends Entity {
   handleKeepingBlinkInCanvas() {
     // TODO - on finish of camera rework this
     // keep in bounds of canvas until camera class is functional
-    if (this.x > this.ctx.canvas.width - 150) {
-      this.x = this.ctx.canvas.width - 150;
+    if (this.x > this.game.mapWidth) {
+      this.x = this.game.mapWidth;
       this.moving = false;
     } else if (this.x < 0) {
       this.x = 0;

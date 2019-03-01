@@ -13,8 +13,10 @@ class GameEngine {
   constructor() {
     this.entities = [];
     this.ctx = null;
-    this.surfaceWidth = null;
-    this.surfaceHeight = null;
+    this.mapWidth = 3200;
+    this.mapHeight = 3200;
+    this.canvasWidth = null;
+    this.canvasHeight = null;
     this.drawAroundHitBox = false;
     this.devModeStopTime = false;
   }
@@ -37,8 +39,8 @@ class GameEngine {
     this.middleProjectionCtx = middleProjectionContext;
     this.bottomProjectionCtx = bottomProjectionContext;
     this.AM = assetManager;
-    this.surfaceWidth = this.ctx.canvas.width;
-    this.surfaceHeight = this.ctx.canvas.height;
+    this.canvasWidth = this.ctx.canvas.width;
+    this.canvasHeight = this.ctx.canvas.height;
     this.timer = new Timer();
 
     // create a special effects handler, passing in multiple canvas' for effects
@@ -59,11 +61,12 @@ class GameEngine {
     this.initializeEventListeners();
     // Create camera as an instance field
     this.camera = new Camera(
+      this,
       this.ctx,
-      200,
-      400,
-      this.surfaceWidth,
-      this.surfaceHeight
+      0,
+      0,
+      this.canvasWidth,
+      this.canvasHeight
     );
     // Create blink as an instance field
     this.blink = new Blink(this);
@@ -118,7 +121,7 @@ class GameEngine {
    */
   draw() {
     // normal draw function for each entity. We didn't make this.
-    this.ctx.clearRect(0, 0, this.surfaceWidth, this.surfaceHeight);
+    this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
     this.ctx.save();
     for (let i = 0; i < this.entities.length; i++) {
       this.entities[i].draw(this.ctx);
@@ -419,14 +422,14 @@ class GameEngine {
 }
 
 // This helps discover what type of browser it will be communicating with
-window.requestAnimFrame = (function() {
+window.requestAnimFrame = (function () {
   return (
     window.requestAnimationFrame ||
     window.webkitRequestAnimationFrame ||
     window.mozRequestAnimationFrame ||
     window.oRequestAnimationFrame ||
     window.msRequestAnimationFrame ||
-    function(callback, element) {
+    function (callback, element) {
       window.setTimeout(callback, 1000 / 60);
     }
   );
