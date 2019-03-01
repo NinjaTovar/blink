@@ -394,7 +394,7 @@ class Blink extends Entity {
     // }
 
     if (this.myPlatforms.length > 0 && this.fellOff()) {
-      console.log("CLEAR");
+      // console.log("CLEAR");
       this.maxX = 0;
       this.minX = 2000;
       this.myPlatforms.length = 0;
@@ -466,9 +466,9 @@ class Blink extends Entity {
         if (!this.myPlatforms.includes(other)) {
           if (other.x > this.maxX) this.maxX = other.x;
           if (other.x < this.minX) this.minX = other.x;
-          console.log("Max  " + this.maxX);
-          console.log("Min " + this.minX);
-          console.log(this.x);
+          // console.log("Max  " + this.maxX);
+          // console.log("Min " + this.minX);
+          // console.log(this.x);
           this.myPlatforms.push(other);
           this.game.jumping = false;
           this.jumping = false;
@@ -552,8 +552,8 @@ class Blink extends Entity {
   handleKeepingBlinkInCanvas() {
     // TODO - on finish of camera rework this
     // keep in bounds of canvas until camera class is functional
-    if (this.x > this.ctx.canvas.width - 150) {
-      this.x = this.ctx.canvas.width - 150;
+    if (this.x > this.game.mapWidth) {
+      this.x = this.game.mapWidth;
       this.moving = false;
     } else if (this.x < 0) {
       this.x = 0;
@@ -813,7 +813,7 @@ class Blink extends Entity {
     var self = this;
 
     // HANDLE MUSIC TRACKS************************************************************
-    this.changeMusic.onclick = function() {
+    this.changeMusic.onclick = function () {
       // Set this to let level know music has been started somewhere
       self.beginMusic = false;
       self.userWantsNoMusic = false;
@@ -862,7 +862,7 @@ class Blink extends Entity {
       }
     };
     // STOP MUSIC*********************************************************************
-    this.stopMusic.onclick = function() {
+    this.stopMusic.onclick = function () {
       self.userWantsNoMusic = true;
       self.adventureTimeTrack.pause();
       self.sandsOfTimeTrack.pause();
@@ -879,26 +879,26 @@ class Blink extends Entity {
     };
 
     // HANDLE DEV BUTTONS*************************************************************
-    this.godModeButton.onclick = function() {
+    this.godModeButton.onclick = function () {
       self.godMode = !self.godMode;
     };
-    this.speedUpButton.onclick = function() {
+    this.speedUpButton.onclick = function () {
       self.speedUpMovement = !self.speedUpMovement;
     };
-    this.outlineHitBoxButton.onclick = function() {
+    this.outlineHitBoxButton.onclick = function () {
       self.outlineHitBox = !self.outlineHitBox;
     };
-    this.stopEnemiesButton.onclick = function() {
+    this.stopEnemiesButton.onclick = function () {
       self.stopEnemies = !self.stopEnemies;
     };
 
     // HANDLE LEVEL MANAGER BUTTONS***************************************************
-    this.levelOneButton.onclick = function() {
+    this.levelOneButton.onclick = function () {
       console.log("Level One clicked");
       self.game.levelManager.level = 1;
       self.game.levelManager.states.loadNextLevel = true;
     };
-    this.levelTwoButton.onclick = function() {
+    this.levelTwoButton.onclick = function () {
       console.log("Level Two clicked");
       self.game.levelManager.level = 2;
       self.game.levelManager.states.loadNextLevel = true;

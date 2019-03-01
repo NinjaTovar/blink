@@ -35,8 +35,7 @@ class LevelManager {
         currentLevel.loadLevel();
       }
       this.states.levelLoaded = true;
-    } else {
-    }
+    } else {}
   }
   draw(ctx) {}
 }
