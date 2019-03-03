@@ -21,6 +21,11 @@ class LevelThree {
 		this.game.blink.y = 2200;
 		// this.game.blink.groundLevel = 2400;
 
+		// this.game.addEntity(new Boid());
+		// this.game.addEntity(new Boid());
+		// this.game.addEntity(new Boid());
+		// this.game.addEntity(new Boid());
+		// this.game.addEntity(new Boid());
 
 
 	}
