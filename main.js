@@ -4,6 +4,10 @@ var AM = new AssetManager();
 AM.queueDownload("./img/levels/trainTunnel.png");
 AM.queueDownload("./img/levels/level1background.png");
 AM.queueDownload("./img/tiles/terrainsprite.png");
+AM.queueDownload("./img/tiles/lavagif.png");
+AM.queueDownload("./img/tiles/saigo_station.png");
+AM.queueDownload("./img/levels/molten_pillar.png");
+AM.queueDownload("./img/levels/pink_background.png");
 
 // Queue downloading main character
 AM.queueDownload("./img/blink/Crono_PullSwordOut_FaceLeft.png");
@@ -56,7 +60,7 @@ AM.queueDownload("./img/enemies/necroman/Necroman_FaceRight.png");
 // Queue downlaoding Jason
 AM.queueDownload("./img/enemies/jason.png");
 
-AM.downloadAll(function() {
+AM.downloadAll(function () {
   // Load game world. This is the top layer
   var canvas = document.getElementById("gameWorld");
   var gameCtx = canvas.getContext("2d");

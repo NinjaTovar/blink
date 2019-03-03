@@ -13,8 +13,6 @@ class GameEngine {
   constructor() {
     this.entities = [];
     this.ctx = null;
-    this.mapWidth = 3200;
-    this.mapHeight = 3200;
     this.canvasWidth = null;
     this.canvasHeight = null;
     this.drawAroundHitBox = false;
@@ -120,6 +118,7 @@ class GameEngine {
    *  entity[] array.
    */
   draw() {
+
     // normal draw function for each entity. We didn't make this.
     this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
     this.ctx.save();
