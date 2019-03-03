@@ -17,6 +17,8 @@ class Camera {
     this.y = cameraY;
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
+    this.mapWidth = 3200; //Default map size
+    this.mapHeight = 3200;
     this.endOfLevelX;
     this.endOfLevelY;
 
@@ -28,8 +30,8 @@ class Camera {
     this.offsetX = this.canvasWidth / this.offsetwidth;
     this.offsetY = this.canvasHeight / this.offsetheight;
 
-    this.speedX = 5;
-    this.speedY = 5;
+    this.speedX = 4;
+    this.speedY = 4;
 
     this.blink = null;
   }
@@ -40,10 +42,10 @@ class Camera {
     // If blink is just barely into the start of the level or
     // right before the end, translate the canvas to emulate a camera
     if (
-      this.blink.x > 500 &&
-      this.blink.x < 2800 &&
+      this.blink.x > 400 &&
+      this.blink.x < this.mapWidth - 400 &&
       this.blink.y > 300 &&
-      this.blink.y < 2800
+      this.blink.y < this.mapHeight - 300
     ) {
       this.endOfLevelX = this.x;
       this.endOfLevelY = this.y;
@@ -59,12 +61,12 @@ class Camera {
   update() {
     if (this.blink != null) {
       if (
-        this.blink.x > 500 &&
-        this.blink.x < 2800 &&
+        this.blink.x > 400 &&
+        this.blink.x < this.mapWidth - 400 &&
         this.blink.y > 300 &&
-        this.blink.y < 2800
+        this.blink.y < this.mapHeight - 300
       ) {
-        // this.updateBounds();
+        this.updateBounds();
         this.x = -this.blink.x + this.offsetX;
         this.y = -this.blink.y + this.offsetY;
       }
