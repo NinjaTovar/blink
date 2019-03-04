@@ -40,6 +40,7 @@ class Blink extends Entity {
     this.health = 1000;
     this.falling = false;
     this.myPlatforms = [];
+    this.level = 1;
     this.attackBox = new Hitbox(
       game,
       this.boundX + 10,
@@ -60,7 +61,7 @@ class Blink extends Entity {
 
     // Initialize a jump timer. These fields are mostly if not all used in the
     // "handleWhatToDoWhenJumping()" function
-    this.jumpHeight = 500;
+    this.jumpHeight = 600;
     this.totalTimeForJump = 0.96;
     this.jumpTimer = new Timer();
     this.elapsedJumpTime = 0;
@@ -125,7 +126,7 @@ class Blink extends Entity {
     this.frameWidth = 35;
     this.frameHeight = 80;
     this.size = 3;
-    this.drawAroundHitBox = true;
+    this.drawAroundHitBox = false;
     this.originalSpeed = this.speed;
 
     // Load states of HTML page debug buttons
@@ -371,6 +372,8 @@ class Blink extends Entity {
       this.x < this.minX - 50 ||
       this.y < this.myPlatforms[this.myPlatforms.length - 1].y - 200
     ) {
+      console.log("maxX: " + this.maxX);
+      console.log(this.x);
       return true;
     } else {
       return false;
@@ -389,6 +392,7 @@ class Blink extends Entity {
         // bring him down to earth if neccessary
 
         this.falling = true;
+        console.log("falling");
         this.y += this.game.blinksClockTick * this.speed * 1.5;
       }
     }
@@ -409,6 +413,7 @@ class Blink extends Entity {
       console.log("CLEAR");
       this.maxX = -10;
       this.minX = 20000;
+      // console.log(this.myPlatforms);
       this.myPlatforms.length = 0;
       this.currentPlatform = null;
     }
@@ -472,11 +477,17 @@ class Blink extends Entity {
       return;
     }
     if (other instanceof Platform && type !== "attack") {
-      // console.log("Collided with platform");
+      console.log("HIT PLATFORM");
       // If blink is on top of the platform, make him land on it
       if (this.y < other.y) {
         if (!this.myPlatforms.includes(other)) {
-          if (other.x > this.maxX) this.maxX = other.x;
+          let width = 0;
+          if (this.level == 2) {
+            width = 0;
+          } else if (this.level == 3) {
+            width = other.width;
+          }
+          if (other.x + width > this.maxX) this.maxX = other.x + width;
           if (other.x < this.minX) this.minX = other.x;
           this.myPlatforms.push(other);
           this.game.jumping = false;
@@ -494,11 +505,16 @@ class Blink extends Entity {
           this.currentPlatform.y -
           this.currentPlatform.height -
           this.frameHeight;
+        if (this.level == 3) {
+          this.platformY += 45;
+        }
         this.y = this.platformY;
         this.falling = false;
       } else {
         console.log("yo");
       }
+
+      // console.log(this.myPlatforms);
       // If Blink is not attacking, it means he just got hit by an Enemy .. atleast for now
       // TODO: Maybe Come back and make this cleaner so that Blink gets hit based on collison distance
     }
@@ -822,7 +838,7 @@ class Blink extends Entity {
     var self = this;
 
     // HANDLE MUSIC TRACKS************************************************************
-    this.changeMusic.onclick = function () {
+    this.changeMusic.onclick = function() {
       // Set this to let level know music has been started somewhere
       self.beginMusic = false;
       self.userWantsNoMusic = false;
@@ -871,7 +887,7 @@ class Blink extends Entity {
       }
     };
     // STOP MUSIC*********************************************************************
-    this.stopMusic.onclick = function () {
+    this.stopMusic.onclick = function() {
       self.userWantsNoMusic = true;
       self.adventureTimeTrack.pause();
       self.sandsOfTimeTrack.pause();
@@ -888,26 +904,26 @@ class Blink extends Entity {
     };
 
     // HANDLE DEV BUTTONS*************************************************************
-    this.godModeButton.onclick = function () {
+    this.godModeButton.onclick = function() {
       self.godMode = !self.godMode;
     };
-    this.speedUpButton.onclick = function () {
+    this.speedUpButton.onclick = function() {
       self.speedUpMovement = !self.speedUpMovement;
     };
-    this.outlineHitBoxButton.onclick = function () {
+    this.outlineHitBoxButton.onclick = function() {
       self.outlineHitBox = !self.outlineHitBox;
     };
-    this.stopEnemiesButton.onclick = function () {
+    this.stopEnemiesButton.onclick = function() {
       self.stopEnemies = !self.stopEnemies;
     };
 
     // HANDLE LEVEL MANAGER BUTTONS***************************************************
-    this.levelOneButton.onclick = function () {
+    this.levelOneButton.onclick = function() {
       console.log("Level One clicked");
       self.game.levelManager.level = 1;
       self.game.levelManager.states.loadNextLevel = true;
     };
-    this.levelTwoButton.onclick = function () {
+    this.levelTwoButton.onclick = function() {
       console.log("Level Two clicked");
       self.game.levelManager.level = 2;
       self.game.levelManager.states.loadNextLevel = true;

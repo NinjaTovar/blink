@@ -11,7 +11,6 @@ class LevelManager {
 
     this.endOfLevelX = 3500; // Default values will be changed when maps are loaded
     this.endOfLevelY = 3500;
-
     // States for loading
     this.states = {
       loadNextLevel: true,
@@ -20,7 +19,6 @@ class LevelManager {
   }
 
   update() {
-
     // if (this.game.blink.x == this.endOfLevelX && this.game.blink.y == this.endOfLevelY) {
     //   this.states.loadNextLevel = true;
     // }
@@ -46,7 +44,10 @@ class LevelManager {
         currentLevel.loadLevel();
       }
       this.states.levelLoaded = true;
-    } else {}
+    } else {
+    }
+
+    this.game.blink.level = this.level;
   }
   draw(ctx) {}
 }
