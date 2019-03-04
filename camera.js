@@ -48,7 +48,6 @@ class Camera
             this.endOfLevelX = this.x;
             this.endOfLevelY = this.y;
             this.ctx.translate(this.x, this.y);
-
         }
         // otherwise stay stationary
         else
@@ -60,8 +59,6 @@ class Camera
     {
         if (this.blink !== null)
         {
-                //this.updateBounds();
-
             //if (Math.ceil(this.x) > Math.ceil(- this.blink.x + this.offsetX))
             //{
             //    this.x -= 4;
@@ -71,8 +68,11 @@ class Camera
             //    this.x += 3.5;
             //}
 
+            // Update the camera.x value always
             this.x = - this.blink.x + this.offsetX;
 
+            // for the y value, update it once blink has landed in a level.
+            // After that, follow Blinks y value on a small delay.
             if (this.blink.y > this.blink.startingGroundLevel)
             {
                 if (Math.ceil(this.y) > Math.floor(- this.blink.y + this.offsetY))

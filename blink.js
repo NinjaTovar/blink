@@ -17,8 +17,8 @@ class Blink extends Entity
     constructor(game)
     {
         super(game, 50, 450);
-
         this.canBeatBoss = false;
+
         // Way at bottom to clean up class constructor. There 's a ton!
         this.loadAllBlinksAssets();
 
@@ -45,7 +45,7 @@ class Blink extends Entity
         this.falling = false;
         this.myPlatforms = [];
 
-        // These need figured out
+        // What are these and what do they do?
         this.attackBox = new Hitbox(
             game,
             this.boundX + 10,
@@ -54,7 +54,6 @@ class Blink extends Entity
             20,
             "attack"
         );
-
         this.platformBox = new Hitbox(
             game,
             this.boundX + 10,
@@ -126,14 +125,13 @@ class Blink extends Entity
         this.outlineHitBox = true;
         this.stopEnemies = false;
 
-        // DEBUG TOOLS Also used for collison detection
-        // Draw around hit box debug stuff
+        // Debug tools and collision detection fields
         this.frameWidth = 35;
         this.frameHeight = 80;
         this.size = 3;
         this.drawAroundHitBox = false;
         this.originalSpeed = this.speed;
-        this.collision = false;
+        this.wallCollision = false;
         this.xBeforeCollision = this.x;
 
         // Load states of HTML page debug buttons
@@ -464,11 +462,11 @@ class Blink extends Entity
             }
         }
 
-        if (!this.falling)
-        {
-            this.y = this.platformY;
-            this.groundLevel = this.platformY;
-        }
+        //if (!this.falling)
+        //{
+        //    this.y = this.platformY;
+        //    this.groundLevel = this.platformY;
+        //}
 
         if (this.health <= 0)
         {
@@ -488,7 +486,7 @@ class Blink extends Entity
 
         if (this.myPlatforms.length > 0 && this.fellOff())
         {
-            console.log("Fell off platform.");
+            console.log("Cleared myPlatforms[]");
             this.maxX = -10;
             this.minX = 20000;
             this.myPlatforms.length = 0;
@@ -597,12 +595,12 @@ class Blink extends Entity
                 // in work wall detection
                 if (this.x < this.xBeforeCollision && this.facingRight)
                 {
-                    this.collision = false;
+                    this.wallCollision = false;
                 }
                 // in work wall detection
                 if (this.x > this.xBeforeCollision && !this.facingRight)
                 {
-                    this.collision = false;
+                    this.wallCollision = false;
                 }
 
             }
@@ -610,17 +608,17 @@ class Blink extends Entity
             {
 
                 // in work wall detection
-                if (!this.collision && this.facingRight)
+                if (!this.wallCollision && this.facingRight)
                 {
                     this.xBeforeCollision = this.x;
                     this.x = this.xBeforeCollision - 5;
                 }
-                else if (!this.collision && !this.facingRight)
+                else if (!this.wallCollision && !this.facingRight)
                 {
                     this.xBeforeCollision = this.x;
                     this.x = this.xBeforeCollision + 5;
                 }
-                this.collision = true;
+                this.wallCollision = true;
 
                 console.log("Blink y less than platform or 'other' y.");
             }
@@ -765,11 +763,11 @@ class Blink extends Entity
     /** Update method helper for what to do when moving. */
     handleWhatToDoWhenMoving()
     {
-        if (!this.facingRight && this.isRunning() && !this.collision)
+        if (!this.facingRight && this.isRunning() && !this.wallCollision)
         {
             this.x -= this.game.blinksClockTick * this.speed;
         }
-        if (this.facingRight && this.isRunning() && !this.collision)
+        if (this.facingRight && this.isRunning() && !this.wallCollision)
         {
             this.x += this.game.blinksClockTick * this.speed;
         }
