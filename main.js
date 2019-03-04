@@ -18,6 +18,8 @@ AM.queueDownload("./img/blink/Crono_JumpSlash_FaceLeft.png");
 AM.queueDownload("./img/blink/Crono_JumpSlash_FaceRight.png");
 AM.queueDownload("./img/blink/Crono_Slash_FaceLeft.png");
 AM.queueDownload("./img/blink/Crono_Slash_FaceRight.png");
+AM.queueDownload("./img/blink/Crono_DashSlash_FaceLeft.png");
+AM.queueDownload("./img/blink/Crono_DashSlash_FaceRight.png");
 AM.queueDownload("./img/blink/Crono_Jump_FaceLeft.png");
 AM.queueDownload("./img/blink/Crono_Jump_FaceRight.png");
 AM.queueDownload("./img/blink/Crono_Spell_FaceLeft.png");
@@ -28,6 +30,9 @@ AM.queueDownload("./img/blink/Coin.png");
 AM.queueDownload("./img/blink/Crono_dead.png");
 AM.queueDownload("./img/blink/healthbar.png");
 AM.queueDownload("./img/blink/energy.png");
+AM.queueDownload("./img/blink/blinkface.png");
+AM.queueDownload("./img/blink/Crono_Falling.png");
+
 
 // Queue downloading Bug
 AM.queueDownload("./img/enemies/bug/BugRun_FaceLeft.png");
@@ -56,35 +61,39 @@ AM.queueDownload("./img/enemies/necroman/Necroman_FaceRight.png");
 // Queue downlaoding Jason
 AM.queueDownload("./img/enemies/jason.png");
 
-AM.downloadAll(function() {
-  // Load game world. This is the top layer
-  var canvas = document.getElementById("gameWorld");
-  var gameCtx = canvas.getContext("2d");
+AM.downloadAll(function ()
+{
+    window.onload = function ()
+    {
+        // Load game world. This is the top layer
+        var canvas = document.getElementById("gameWorld");
+        var gameCtx = canvas.getContext("2d");
 
-  // Load a special effects layer. This is on bottom.
-  var bottomCanvas = document.getElementById("projectionsLayerBottom");
-  var bottomProjectionContext = bottomCanvas.getContext("2d");
+        // Load a special effects layer. This is on bottom.
+        var bottomCanvas = document.getElementById("projectionsLayerBottom");
+        var bottomProjectionContext = bottomCanvas.getContext("2d");
 
-  // Load a special effects layer. This is in the middle.
-  var middleCanvas = document.getElementById("projectionsLayerMiddle");
-  var middleProjectionContext = middleCanvas.getContext("2d");
+        // Load a special effects layer. This is in the middle.
+        var middleCanvas = document.getElementById("projectionsLayerMiddle");
+        var middleProjectionContext = middleCanvas.getContext("2d");
 
-  //// Load a special effects layer. This is in the middle.
-  //var overlayCanvas = document.getElementById('projectionsLayerOverlayAll');
-  //var overlayProjectionContext = overlayCanvas.getContext('2d');
+        //// Load a special effects layer. This is in the middle.
+        //var overlayCanvas = document.getElementById('projectionsLayerOverlayAll');
+        //var overlayProjectionContext = overlayCanvas.getContext('2d');
 
-  var gameEngine = new GameEngine();
+        var gameEngine = new GameEngine();
 
-  gameCtx.canvas.focus();
+        gameCtx.canvas.focus();
 
-  // Send canvas' to game engine
-  gameEngine.init(
-    bottomProjectionContext,
-    middleProjectionContext,
-    gameCtx,
-    AM
-  );
-  gameEngine.start();
+        // Send canvas' to game engine
+        gameEngine.init(
+            bottomProjectionContext,
+            middleProjectionContext,
+            gameCtx,
+            AM
+        );
+        gameEngine.start();
 
-  console.log("All Done!");
+        console.log("All Done!");
+    };
 });

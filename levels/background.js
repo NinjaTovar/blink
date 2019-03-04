@@ -22,7 +22,7 @@ class Background {
     }
 
     /**  */
-    update() {}
+    update() { }
 }
 
 /** Handles loading the static background of the second level. 
@@ -52,5 +52,5 @@ class Background2 {
     }
 
     /**  */
-    update() {}
+    update() { }
 }
