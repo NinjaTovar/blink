@@ -75,7 +75,6 @@ class Blink extends Entity
         this.moving = false;
         this.basicAttack = false;
         this.facingRight = true;
-        this.running = false;
         this.jumping = false;
         this.stopTime = false;
         this.rewindTime = false;
@@ -341,6 +340,63 @@ class Blink extends Entity
                 //this.frameHeight = this.jumpAttackFaceRight.frameHeight;
             }
         }
+
+        // ATTACKING----------------------------------------------------------------------
+        if (this.basicAttack && !this.jumping)
+        {
+            if (!this.moving)
+            {
+                // basic attack left or right depending on direction
+                if (!this.facingRight)
+                {
+                    // fix his attack frames that jump a bit
+                    this.y = this.y - 40;
+                    this.slashFaceLeft.drawFrame(
+                        this.game.blinksClockTick,
+                        ctx,
+                        this.x,
+                        this.y
+                    );
+                } else if (this.facingRight)
+                {
+                    // fix his attack frames that jump a bit
+                    this.y = this.y - 40;
+                    this.slashFaceRight.drawFrame(
+                        this.game.blinksClockTick,
+                        ctx,
+                        this.x,
+                        this.y
+                    );
+                }
+            }
+            else
+            {
+                // basic attack left or right depending on direction
+                if (!this.facingRight)
+                {
+                    // fix his attack frames that jump a bit
+                    this.y = this.y - 40;
+                    this.dashSlashFaceLeft.drawFrame(
+                        this.game.blinksClockTick,
+                        ctx,
+                        this.x,
+                        this.y
+                    );
+                } else if (this.facingRight)
+                {
+                    // fix his attack frames that jump a bit
+                    this.y = this.y - 40;
+                    this.dashSlashFaceRight.drawFrame(
+                        this.game.blinksClockTick,
+                        ctx,
+                        this.x,
+                        this.y
+                    );
+                }
+            }
+            //this.frameWidth = this.dashSlashFaceRight.frameWidth;
+            //this.frameHeight = this.dashSlashFaceRight.frameHeight;
+        }
         // RUNNING------------------------------------------------------------------------
         if (this.isRunning())
         {
@@ -367,35 +423,6 @@ class Blink extends Entity
 
             //this.frameWidth = this.runFaceRightAnimation.frameWidth;
             //this.frameHeight = this.runFaceRightAnimation.frameHeight;
-        }
-        // ATTACKING----------------------------------------------------------------------
-        if (this.basicAttack && !this.jumping)
-        {
-            // basic attack left or right depending on direction
-            if (!this.facingRight)
-            {
-                // fix his attack frames that jump a bit
-                this.y = this.y - 40;
-                this.dashSlashFaceLeft.drawFrame(
-                    this.game.blinksClockTick,
-                    ctx,
-                    this.x,
-                    this.y
-                );
-            } else if (this.facingRight && this.basicAttack)
-            {
-                // fix his attack frames that jump a bit
-                this.y = this.y - 40;
-                this.dashSlashFaceRight.drawFrame(
-                    this.game.blinksClockTick,
-                    ctx,
-                    this.x,
-                    this.y
-                );
-            }
-
-            //this.frameWidth = this.dashSlashFaceRight.frameWidth;
-            //this.frameHeight = this.dashSlashFaceRight.frameHeight;
         }
         // SPELLCASTING-------------------------------------------------------------------
         if (this.isSpellcasting())
@@ -461,12 +488,6 @@ class Blink extends Entity
                 this.y += this.game.blinksClockTick * this.speed * 2.5;
             }
         }
-
-        //if (!this.falling)
-        //{
-        //    this.y = this.platformY;
-        //    this.groundLevel = this.platformY;
-        //}
 
         if (this.health <= 0)
         {
@@ -729,10 +750,13 @@ class Blink extends Entity
             {
                 this.slashSoundEffect.play();
             }
+            else if (this.slashFaceRight.currentFrame() === 1 || this.slashFaceLeft.currentFrame() === 1)
+            {
+                this.slashSoundEffect.play();
+            }
+
             this.unsheathSword = false;
             this.unsheathSwordStandStill = false;
-
-
 
             // If in the dash part of the attack animation, shift x position to emulate dash
             if (this.facingRight && (this.dashSlashFaceRight.currentFrame() === 1))
