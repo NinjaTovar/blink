@@ -573,7 +573,12 @@ class Blink extends Entity {
       // If Blink is not attacking, it means he just got hit by an Enemy .. atleast for now
       // TODO: Maybe Come back and make this cleaner so that Blink gets hit based on collison distance
     }
-    if (type === "damage" && other.health > 0 && !(other instanceof Platform)) {
+    if (
+      type === "damage" &&
+      other.health > 0 &&
+      !(other instanceof Platform) &&
+      !this.basicAttack
+    ) {
       this.gotHit = true;
       this.health -= 2;
       if (other.x > this.x) {

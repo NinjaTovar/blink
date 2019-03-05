@@ -84,7 +84,7 @@ class Violator extends Entity {
   draw(ctx) {
     // debug tool
     if (this.drawAroundHitBox) {
-      this.drawAroundBox();
+      // this.drawAroundBox();
       //this.ctx.clearRect(this.x, this.y, this.frameWidth * this.size, this.frameHeight * this.size);
     }
 
