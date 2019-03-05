@@ -688,12 +688,14 @@ class Blink extends Entity {
     }
     if (!this.basicAttack) {
       // if not attacking, mak sure to reset the slash sound so it sounds right
-      // on next attack
-      this.jumpSlashSoundPlayed = false;
-      this.slashSoundEffect.pause();
-      this.slashSoundEffect.currentTime = 0;
-      this.dashSlashFaceRight.elapsedTime = 0;
-      this.dashSlashFaceLeft.elapsedTime = 0;
+        // on next attack
+        this.jumpSlashSoundPlayed = false;
+        this.slashSoundEffect.pause();
+        this.slashSoundEffect.currentTime = 0;
+        this.dashSlashFaceRight.elapsedTime = 0;
+        this.slashFaceLeft.elapsedTime = 0;
+        this.slashFaceRight.elapsedTime = 0;
+        this.slashFaceLeft.elapsedTime = 0;
     }
   }
 

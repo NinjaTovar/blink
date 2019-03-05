@@ -42,7 +42,7 @@ class Mummy extends Entity {
       40, // frame width
       55, // frame height
       9, // sheet width
-      0.4, // frame duration
+      .05, // frame duration
       9, // frames in animation
       false, // to loop or not to loop
       size // scale in relation to original image
