@@ -12,6 +12,41 @@ class LevelTwo {
         this.game.addEntity(new Background2(this.game));
         this.game.addEntity(this.game.blink);
         this.game.addEntity(this.game.hud);
+        for (var i = 0; i < 7; i+=2) {
+            this.game.addEntity(
+              new Mummy(
+                this.game,
+                1110 + (i * 95),
+                320,
+                2.5,
+                Randomizer.returnRandomDirection()
+              )
+            );
+          }
+
+
+          for (var i = 0; i < 3; i++) {
+            this.game.addEntity(
+              new Mummy(
+                this.game,
+                950 + (i * 100),
+                832,
+                2.5,
+                Randomizer.returnRandomDirection()
+              )
+            );
+          }
+
+          this.game.addEntity(
+            new Violator(
+              this.game,
+              400,
+              700,
+              2.5,
+              Randomizer.returnRandomDirection()
+            )
+          );
+        
         this.loadPlatforms();
 
 
