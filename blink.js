@@ -614,12 +614,12 @@ class Blink extends Entity
                 this.falling = false;
 
                 // in work wall detection
-                if (this.x < this.xBeforeCollision && this.facingRight)
+                if (this.x < this.xBeforeCollision && this.facingRight && !this.basicAttack)
                 {
                     this.wallCollision = false;
                 }
                 // in work wall detection
-                if (this.x > this.xBeforeCollision && !this.facingRight)
+                if (this.x > this.xBeforeCollision && !this.facingRight && !this.basicAttack)
                 {
                     this.wallCollision = false;
                 }
@@ -632,12 +632,12 @@ class Blink extends Entity
                 if (!this.wallCollision && this.facingRight)
                 {
                     this.xBeforeCollision = this.x;
-                    this.x = this.xBeforeCollision - 5;
+                    this.x = this.xBeforeCollision - 10;
                 }
                 else if (!this.wallCollision && !this.facingRight)
                 {
                     this.xBeforeCollision = this.x;
-                    this.x = this.xBeforeCollision + 5;
+                    this.x = this.xBeforeCollision + 10;
                 }
                 this.wallCollision = true;
 
@@ -759,11 +759,11 @@ class Blink extends Entity
             this.unsheathSwordStandStill = false;
 
             // If in the dash part of the attack animation, shift x position to emulate dash
-            if (this.facingRight && (this.dashSlashFaceRight.currentFrame() === 1))
+            if (this.facingRight && (this.dashSlashFaceRight.currentFrame() === 1) && !this.wallCollision)
             {
                 this.x += 20;
             }
-            else if (!this.facingRight && (this.dashSlashFaceLeft.currentFrame() === 1))
+            else if (!this.facingRight && (this.dashSlashFaceLeft.currentFrame() === 1) && !this.wallCollision)
             {
                 this.x -= 20;
             }
@@ -854,10 +854,10 @@ class Blink extends Entity
             if (this.moving)
             {
                 // double x speed during jump if moving
-                if (this.facingRight)
+                if (this.facingRight && !this.wallCollision)
                 {
                     this.x += 2 * this.game.blinksClockTick * this.speed;
-                } else if (!this.facingRight)
+                } else if (!this.facingRight && !this.wallCollision)
                 {
                     this.x -= 2 * this.game.blinksClockTick * this.speed;
                 }
