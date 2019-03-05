@@ -47,13 +47,13 @@ class HealthBar {
         
         if (this.blink.x > 470)
         {
-            this.dx = this.blink.x - 470;
-            this.dy = this.blink.y - 280;
+            this.dx = this.game.canvasWidth / 30 - this.camera.x;
+            this.dy = this.game.canvasHeight / 30 - this.camera.y;
         }
         else
         {
-            this.dx = this.game.canvasWidth / 30;
-            this.dy = this.blink.y - 280;
+            this.dx = this.game.canvasWidth / 30 ;
+            this.dy = this.game.canvasHeight / 30 - this.camera.y;
         }
 
 
