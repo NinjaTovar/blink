@@ -593,8 +593,8 @@ class Blink extends Entity {
 
   handleBlinkGettingHit() {
     if (
-      this.hitFacingLeft.elapsedTime > 1 ||
-      this.hitFacingRight.elapsedTime > 1
+      this.hitFacingLeft.elapsedTime > .34 ||
+      this.hitFacingRight.elapsedTime > .34
     ) {
       this.hitFacingLeft.elapsedTime = 0;
       this.hitFacingRight.elapsedTime = 0;
@@ -1298,7 +1298,7 @@ class Blink extends Entity {
       30, // frame width
       39, // frame height
       6, // sheet width
-      0.2, // frame duration
+      0.06, // frame duration
       6, // frames in animation
       true, // to loop or not to loop
       3 // scale in relation to original image
@@ -1308,7 +1308,7 @@ class Blink extends Entity {
       30, // frame width
       39, // frame height
       6, // sheet width
-      0.2, // frame duration
+      0.06, // frame duration
       6, // frames in animation
       true, // to loop or not to loop
       3 // scale in relation to original image
