@@ -780,6 +780,8 @@ class Blink extends Entity
             this.slashSoundEffect.currentTime = 0;
             this.dashSlashFaceRight.elapsedTime = 0;
             this.dashSlashFaceLeft.elapsedTime = 0;
+            this.slashFaceRight.elapsedTime = 0;
+            this.slashFaceLeft.elapsedTime = 0;
         }
     }
 
