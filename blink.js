@@ -431,7 +431,7 @@ class Blink extends Entity {
         // bring him down to earth if neccessary
 
         this.falling = true;
-        this.y += this.game.blinksClockTick * this.speed * 1.5;
+        this.y += this.game.blinksClockTick * this.speed * 2;
       }
     }
 
@@ -543,27 +543,31 @@ class Blink extends Entity {
         this.groundLevel = this.platformY;
         this.falling = false;
 
-        // in work wall detection
-        //     if (this.x < this.xBeforeCollision && this.facingRight) {
-        //       this.wallCollision = false;
-        //     }
-        //     // in work wall detection
-        //     if (this.x > this.xBeforeCollision && !this.facingRight) {
-        //       this.wallCollision = false;
-        //     }
-        //   } else {
-        //     // in work wall detection
-        //     if (!this.wallCollision && this.facingRight) {
-        //       this.xBeforeCollision = this.x;
-        //       this.x = this.xBeforeCollision - 5;
-        //     } else if (!this.wallCollision && !this.facingRight) {
-        //       this.xBeforeCollision = this.x;
-        //       this.x = this.xBeforeCollision + 5;
-        //     }
-        //     this.wallCollision = true;
+          //in work wall detection
+          if (this.x <= this.xBeforeCollision && this.facingRight)
+          {
+              this.wallCollision = false;
+          }
+          // in work wall detection
+          if (this.x >= this.xBeforeCollision && !this.facingRight)
+          {
+              this.wallCollision = false;
+          }
 
-        //     console.log("Blink y less than platform or 'other' y.");
-      } else {
+          } else {
+
+          // in work wall detection
+          if (!this.wallCollision && this.facingRight) {
+              this.xBeforeCollision = this.x - 10;
+              this.x = this.xBeforeCollision;
+          } else if (!this.wallCollision && !this.facingRight) {
+              this.xBeforeCollision = this.x + 10;
+              this.x = this.xBeforeCollision;
+          }
+          this.wallCollision = true;
+
+          console.log("Blink y less than platform or 'other' y.");
+
         this.jumping = false;
         this.falling = true;
         this.elapsedJumpTime = 0;
@@ -701,16 +705,17 @@ class Blink extends Entity {
 
   // HANDLE UPDATE ON MOVING------------------------------------------------------------
   /** Update method helper for what to do when moving. */
-  handleWhatToDoWhenMoving() {
-    if (!this.facingRight && this.isRunning() && !this.wallCollision) {
-      this.x -= this.game.blinksClockTick * this.speed;
-    }
-    if (this.facingRight && this.isRunning() && !this.wallCollision) {
-      this.x += this.game.blinksClockTick * this.speed;
-    }
-    if (this.isRunning() || this.jumping) {
-      //console.log("x: " + this.x + ", y: " + this.y);
-    }
+    handleWhatToDoWhenMoving() {
+        if (!this.wallCollision) {
+            if (!this.facingRight && this.isRunning()) {
+                this.x -= this.game.blinksClockTick * this.speed;
+            }
+            if (this.facingRight && this.isRunning()) {
+                this.x += this.game.blinksClockTick * this.speed;
+            }
+        }
+
+
   }
 
   // HANDLE UPDATE ON JUMPING-----------------------------------------------------------

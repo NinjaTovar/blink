@@ -63,6 +63,7 @@ class Camera {
             //}
 
             // Update the camera.x value always
+
             this.x = -this.blink.x + this.offsetX;
 
             // for the y value, update it once blink has landed in a level.
