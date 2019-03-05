@@ -42,13 +42,10 @@ class Hitbox {
   }
 
   // draws the hitbox on canvas
-    drawHitBox()
-    {
-        // TEMP DISABLE DRAW OF BOX
-
-    //this.ctx.beginPath();
-    //this.ctx.strokeStyle = "white";
-    //this.ctx.rect(this.boundX, this.boundY, this.width, this.height);
-    //this.ctx.stroke();
+  drawHitBox() {
+    this.ctx.beginPath();
+    this.ctx.strokeStyle = "white";
+    this.ctx.rect(this.boundX, this.boundY, this.width, this.height);
+    this.ctx.stroke();
   }
 }
