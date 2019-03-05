@@ -15,9 +15,8 @@ class Blink extends Entity {
    */
   constructor(game) {
     super(game, 50, 450);
-    var modal = document.getElementById("myModal");
-
     this.canBeatBoss = false;
+
     // Way at bottom to clean up class constructor. There 's a ton!
     this.loadAllBlinksAssets();
 
@@ -27,12 +26,15 @@ class Blink extends Entity {
 
     // Set initial values for Blinks world state
     this.x = 100;
-    this.y = 350;
+    this.y = -100;
+    this.startingX = this.x;
+    this.startingY = this.y;
+    this.groundLevel = this.y;
+    this.startingGroundLevel = 300;
     this.minX = 2000;
     this.maxX = 0;
     this.platformY = null;
     this.lastY = this.y;
-    this.groundLevel = this.y;
     this.speed = 275;
     this.game = game;
     this.ctx = game.ctx;
@@ -40,6 +42,8 @@ class Blink extends Entity {
     this.health = 1000;
     this.falling = false;
     this.myPlatforms = [];
+
+    // What are these and what do they do?
     this.attackBox = new Hitbox(
       game,
       this.boundX + 10,
@@ -48,7 +52,6 @@ class Blink extends Entity {
       20,
       "attack"
     );
-
     this.platformBox = new Hitbox(
       game,
       this.boundX + 10,
@@ -70,7 +73,6 @@ class Blink extends Entity {
     this.moving = false;
     this.basicAttack = false;
     this.facingRight = true;
-    this.running = false;
     this.jumping = false;
     this.stopTime = false;
     this.rewindTime = false;
@@ -117,16 +119,17 @@ class Blink extends Entity {
     // Developer debug tools
     this.godMode = false;
     this.speedUpMovement = false;
-    this.outlineHitBox = false;
+    this.outlineHitBox = true;
     this.stopEnemies = false;
 
-    // DEBUG TOOLS Also used for collison detection
-    // Draw around hit box debug stuff
+    // Debug tools and collision detection fields
     this.frameWidth = 35;
     this.frameHeight = 80;
     this.size = 3;
     this.drawAroundHitBox = true;
     this.originalSpeed = this.speed;
+    this.wallCollision = false;
+    this.xBeforeCollision = this.x;
 
     // Load states of HTML page debug buttons
     this.godModeButton = document.getElementById("godMode");
@@ -155,7 +158,7 @@ class Blink extends Entity {
     if (this.drawAroundHitBox) {
       // this.attackBox.drawHitBox();
       // this.hitB.drawHitBox();
-      this.platformBox.drawHitBox();
+      // this.platformBox.drawHitBox();
       //this.ctx.clearRect(this.x, this.y, this.frameWidth * this.size, this.frameHeight * this.size);
     }
 
@@ -166,19 +169,9 @@ class Blink extends Entity {
 
     if (this.falling) {
       if (this.facingRight) {
-        this.spellFaceRight.drawFrame(
-          this.game.blinksClockTick,
-          ctx,
-          this.x,
-          this.y
-        );
+        this.fall.drawFrame(this.game.blinksClockTick, ctx, this.x, this.y);
       } else {
-        this.spellFaceLeft.drawFrame(
-          this.game.blinksClockTick,
-          ctx,
-          this.x,
-          this.y
-        );
+        this.fall.drawFrame(this.game.blinksClockTick, ctx, this.x, this.y);
       }
       return;
     }
@@ -237,6 +230,9 @@ class Blink extends Entity {
           this.y
         );
       }
+
+      //this.frameWidth = this.atTheReady_FaceRight.frameWidth;
+      //this.frameHeight = this.atTheReady_FaceRight.frameHeight;
     }
 
     // STANDING-----------------------------------------------------------------------
@@ -257,6 +253,9 @@ class Blink extends Entity {
           this.y
         );
       }
+
+      //this.frameWidth = this.standRightAnimation.frameWidth;
+      //this.frameHeight = this.standRightAnimation.frameHeight;
     }
     // JUMPING------------------------------------------------------------------------
     if (this.jumping) {
@@ -277,6 +276,9 @@ class Blink extends Entity {
             this.y
           );
         }
+
+        //this.frameWidth = this.jumpFaceRightAnimation.frameWidth;
+        //this.frameHeight = this.jumpFaceRightAnimation.frameHeight;
       }
       // JUMP ATTACK----------------------------------------------------------------
       else {
@@ -296,7 +298,59 @@ class Blink extends Entity {
             this.y
           );
         }
+
+        //this.frameWidth = this.jumpAttackFaceRight.frameWidth;
+        //this.frameHeight = this.jumpAttackFaceRight.frameHeight;
       }
+    }
+
+    // ATTACKING----------------------------------------------------------------------
+    if (this.basicAttack && !this.jumping) {
+      if (!this.moving) {
+        // basic attack left or right depending on direction
+        if (!this.facingRight) {
+          // fix his attack frames that jump a bit
+          this.y = this.y - 40;
+          this.slashFaceLeft.drawFrame(
+            this.game.blinksClockTick,
+            ctx,
+            this.x,
+            this.y
+          );
+        } else if (this.facingRight) {
+          // fix his attack frames that jump a bit
+          this.y = this.y - 40;
+          this.slashFaceRight.drawFrame(
+            this.game.blinksClockTick,
+            ctx,
+            this.x,
+            this.y
+          );
+        }
+      } else {
+        // basic attack left or right depending on direction
+        if (!this.facingRight) {
+          // fix his attack frames that jump a bit
+          this.y = this.y - 40;
+          this.dashSlashFaceLeft.drawFrame(
+            this.game.blinksClockTick,
+            ctx,
+            this.x,
+            this.y
+          );
+        } else if (this.facingRight) {
+          // fix his attack frames that jump a bit
+          this.y = this.y - 40;
+          this.dashSlashFaceRight.drawFrame(
+            this.game.blinksClockTick,
+            ctx,
+            this.x,
+            this.y
+          );
+        }
+      }
+      //this.frameWidth = this.dashSlashFaceRight.frameWidth;
+      //this.frameHeight = this.dashSlashFaceRight.frameHeight;
     }
     // RUNNING------------------------------------------------------------------------
     if (this.isRunning()) {
@@ -318,29 +372,9 @@ class Blink extends Entity {
           this.y
         );
       }
-    }
-    // ATTACKING----------------------------------------------------------------------
-    if (this.basicAttack && !this.jumping) {
-      // basic attack left or right depending on direction
-      if (!this.facingRight) {
-        // fix his attack frames that jump a bit
-        this.y = this.y - 30;
-        this.slashFaceLeft.drawFrame(
-          this.game.blinksClockTick,
-          ctx,
-          this.x,
-          this.y
-        );
-      } else if (this.facingRight && this.basicAttack) {
-        // fix his attack frames that jump a bit
-        this.y = this.y - 30;
-        this.slashFaceRight.drawFrame(
-          this.game.blinksClockTick,
-          ctx,
-          this.x,
-          this.y
-        );
-      }
+
+      //this.frameWidth = this.runFaceRightAnimation.frameWidth;
+      //this.frameHeight = this.runFaceRightAnimation.frameHeight;
     }
     // SPELLCASTING-------------------------------------------------------------------
     if (this.isSpellcasting()) {
@@ -362,6 +396,9 @@ class Blink extends Entity {
           this.y - raiseUpABit
         );
       }
+
+      //this.frameWidth = this.spellFaceRight.frameWidth;
+      //this.frameHeight = this.spellFaceRight.frameHeight;
     }
   }
 
@@ -381,6 +418,11 @@ class Blink extends Entity {
   /** All changes to blinks state happen here. Draw should not handle those changes
    *  as it could potentially be a hard bug to find. */
   update() {
+    if (this.y > 3000) {
+      this.x = 100;
+      this.y = -100;
+      return;
+    }
     // If not jumping, make sure Blink is on the ground level/And Or on his platform
     if (!this.jumping) {
       if (this.currentPlatform != null) {
@@ -395,7 +437,8 @@ class Blink extends Entity {
 
     if (this.health <= 0) {
       if (this.dead.elapsedTime > 0.7) {
-        modal.style.display = "block";
+        // took out modal
+        //modal.style.display = "block";
       }
       return;
     }
@@ -406,7 +449,7 @@ class Blink extends Entity {
     }
 
     if (this.myPlatforms.length > 0 && this.fellOff()) {
-      console.log("CLEAR");
+      console.log("Cleared myPlatforms[]");
       this.maxX = -10;
       this.minX = 20000;
       this.myPlatforms.length = 0;
@@ -474,7 +517,8 @@ class Blink extends Entity {
     if (other instanceof Platform && type !== "attack") {
       // console.log("Collided with platform");
       // If blink is on top of the platform, make him land on it
-      if (this.y < other.y) {
+
+      if (this.y < other.y - other.frameHeight) {
         if (!this.myPlatforms.includes(other)) {
           if (other.x > this.maxX) this.maxX = other.x;
           if (other.x < this.minX) this.minX = other.x;
@@ -482,6 +526,7 @@ class Blink extends Entity {
           this.game.jumping = false;
 
           this.jumping = false;
+          this.falling = false;
           this.elapsedJumpTime = 0;
           this.jumpFaceRightAnimation.elapsedTime = 0;
           this.jumpFaceLeftAnimation.elapsedTime = 0;
@@ -495,14 +540,45 @@ class Blink extends Entity {
           this.currentPlatform.height -
           this.frameHeight;
         this.y = this.platformY;
+        this.groundLevel = this.platformY;
         this.falling = false;
+
+        // in work wall detection
+        //     if (this.x < this.xBeforeCollision && this.facingRight) {
+        //       this.wallCollision = false;
+        //     }
+        //     // in work wall detection
+        //     if (this.x > this.xBeforeCollision && !this.facingRight) {
+        //       this.wallCollision = false;
+        //     }
+        //   } else {
+        //     // in work wall detection
+        //     if (!this.wallCollision && this.facingRight) {
+        //       this.xBeforeCollision = this.x;
+        //       this.x = this.xBeforeCollision - 5;
+        //     } else if (!this.wallCollision && !this.facingRight) {
+        //       this.xBeforeCollision = this.x;
+        //       this.x = this.xBeforeCollision + 5;
+        //     }
+        //     this.wallCollision = true;
+
+        //     console.log("Blink y less than platform or 'other' y.");
       } else {
-        console.log("yo");
+        this.jumping = false;
+        this.falling = true;
+        this.elapsedJumpTime = 0;
+        this.jumpFaceRightAnimation.elapsedTime = 0;
+        this.jumpFaceLeftAnimation.elapsedTime = 0;
       }
       // If Blink is not attacking, it means he just got hit by an Enemy .. atleast for now
       // TODO: Maybe Come back and make this cleaner so that Blink gets hit based on collison distance
     }
-    if (type === "damage" && other.health > 0 && !(other instanceof Platform)) {
+    if (
+      type === "damage" &&
+      other.health > 0 &&
+      !(other instanceof Platform) &&
+      !this.basicAttack
+    ) {
       this.gotHit = true;
       this.health -= 2;
       if (other.x > this.x) {
@@ -581,9 +657,34 @@ class Blink extends Entity {
     // If attack (but not jump attacking)
     if (this.basicAttack && !this.isJumpAttacking()) {
       // play slash sounds and reset sword unsheathing animation booleans
-      this.slashSoundEffect.play();
+      if (
+        this.dashSlashFaceRight.currentFrame() === 1 ||
+        this.dashSlashFaceRight.currentFrame() === 2 ||
+        this.dashSlashFaceLeft.currentFrame() === 1 ||
+        this.dashSlashFaceLeft.currentFrame() === 2
+      ) {
+        this.slashSoundEffect.play();
+      } else if (
+        this.slashFaceRight.currentFrame() === 1 ||
+        this.slashFaceLeft.currentFrame() === 1
+      ) {
+        this.slashSoundEffect.play();
+      }
+
       this.unsheathSword = false;
       this.unsheathSwordStandStill = false;
+
+      // If in the dash part of the attack animation, shift x position to emulate dash
+      if (this.facingRight && this.dashSlashFaceRight.currentFrame() === 1) {
+        this.x += 20;
+      } else if (
+        !this.facingRight &&
+        this.dashSlashFaceLeft.currentFrame() === 1
+      ) {
+        this.x -= 20;
+      }
+      //console.log(this.dashSlashFaceRight.isDone());
+      //console.log(this.dashSlashFaceRight.elapsedTime);
     }
     if (!this.basicAttack) {
       // if not attacking, mak sure to reset the slash sound so it sounds right
@@ -591,17 +692,22 @@ class Blink extends Entity {
       this.jumpSlashSoundPlayed = false;
       this.slashSoundEffect.pause();
       this.slashSoundEffect.currentTime = 0;
+      this.dashSlashFaceRight.elapsedTime = 0;
+      this.dashSlashFaceLeft.elapsedTime = 0;
     }
   }
 
   // HANDLE UPDATE ON MOVING------------------------------------------------------------
   /** Update method helper for what to do when moving. */
   handleWhatToDoWhenMoving() {
-    if (!this.facingRight && this.isRunning()) {
+    if (!this.facingRight && this.isRunning() && !this.wallCollision) {
       this.x -= this.game.blinksClockTick * this.speed;
     }
-    if (this.facingRight && this.isRunning()) {
+    if (this.facingRight && this.isRunning() && !this.wallCollision) {
       this.x += this.game.blinksClockTick * this.speed;
+    }
+    if (this.isRunning() || this.jumping) {
+      //console.log("x: " + this.x + ", y: " + this.y);
     }
   }
 
@@ -742,7 +848,10 @@ class Blink extends Entity {
       this.unsheathSwordStandStill = false;
 
       this.slowSoundEffect.play();
-      this.lastSongPlayed.playbackRate = 0.5;
+
+      if (this.lastSongPlayed !== undefined) {
+        this.lastSongPlayed.playbackRate = 0.5;
+      }
     }
     if (!this.slowTime) {
       this.game.allShouldSlow(false);
@@ -788,6 +897,9 @@ class Blink extends Entity {
       ) {
         this.unsheathSword = false;
         this.unsheathSwordStandStill = true;
+
+        //this.frameWidth = this.atTheReady_FaceRight.frameWidth;
+        //this.frameHeight = this.atTheReady_FaceRight.frameHeight;
       }
     }
 
@@ -1118,6 +1230,26 @@ class Blink extends Entity {
       true, // to loop or not to loop
       3 // scale in relation to original image
     );
+    this.dashSlashFaceLeft = new Animation(
+      AM.getAsset("./img/blink/Crono_DashSlash_FaceLeft.png"),
+      42.7, // frame width
+      49.3, // frame height
+      3, // sheet width
+      0.13, // frame duration
+      6, // frames in animation
+      true, // to loop or not to loop
+      3 // scale in relation to original image
+    );
+    this.dashSlashFaceRight = new Animation(
+      AM.getAsset("./img/blink/Crono_DashSlash_FaceRight.png"),
+      44, // frame width
+      49.3, // frame height
+      3, // sheet width
+      0.13, // frame duration
+      6, // frames in animation
+      true, // to loop or not to loop
+      3 // scale in relation to original image
+    );
     this.jumpFaceLeftAnimation = new Animation(
       AM.getAsset("./img/blink/Crono_Jump_FaceLeft.png"),
       39, // frame width
@@ -1197,6 +1329,16 @@ class Blink extends Entity {
       3, // sheet width
       0.8, // frame duration
       3, // frames in animation
+      true, // to loop or not to loop
+      3 // scale in relation to original image
+    );
+    this.fall = new Animation(
+      AM.getAsset("./img/blink/Crono_Falling.png"),
+      20, // frame width
+      35, // frame height
+      1, // sheet width
+      0.8, // frame duration
+      1, // frames in animation
       true, // to loop or not to loop
       3 // scale in relation to original image
     );

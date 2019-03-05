@@ -30,8 +30,8 @@ class Camera {
         this.offsetX = this.canvasWidth / this.offsetwidth;
         this.offsetY = this.canvasHeight / this.offsetheight;
 
-        this.speedX = 4;
-        this.speedY = 4;
+        this.speedX = 5;
+        this.speedY = 5;
 
         this.blink = null;
     }
@@ -41,26 +41,41 @@ class Camera {
     draw() {
         // If blink is just barely into the start of the level or
         // right before the end, translate the canvas to emulate a camera
-        if (this.blink.x > 400 && this.blink.x < this.mapWidth - 400 && this.blink.y > 300 && this.blink.y < this.mapHeight - 300) {
+        if (this.blink.x > 470 && this.blink.x < 2800) {
             this.endOfLevelX = this.x;
             this.endOfLevelY = this.y;
-            // this.game.bottomProjectionCtx.translate(this.x, this.y);
-            // this.game.middleProjectionCtx.translate(this.x, this.y);
             this.ctx.translate(this.x, this.y);
         }
         // otherwise stay stationary
         else {
-            this.ctx.translate(this.endOfLevelX, this.endOfLevelY);
+            this.ctx.translate(0, this.y);
         }
     }
     update() {
-        if (this.blink != null) {
-            if (this.blink.x > 400 && this.blink.x < this.mapWidth - 400 && this.blink.y > 300 && this.blink.y < this.mapHeight - 300) {
+        if (this.blink !== null) {
+            //if (Math.ceil(this.x) > Math.ceil(- this.blink.x + this.offsetX))
+            //{
+            //    this.x -= 4;
+            //}
+            //else if (Math.floor(this.x) < Math.floor(- this.blink.x + this.offsetX))
+            //{
+            //    this.x += 3.5;
+            //}
 
-                this.updateBounds();
-                this.x = -this.blink.x + this.offsetX;
-                this.y = -this.blink.y + this.offsetY;
+            // Update the camera.x value always
+            this.x = -this.blink.x + this.offsetX;
+
+            // for the y value, update it once blink has landed in a level.
+            // After that, follow Blinks y value on a small delay.
+            if (this.blink.y > this.blink.startingGroundLevel) {
+                if (Math.ceil(this.y) > Math.floor(-this.blink.y + this.offsetY)) {
+                    this.y -= 7;
+                } else if (Math.floor(this.y) < Math.ceil(-this.blink.y + this.offsetY)) {
+                    this.y += 6;
+                }
             }
+
+
         }
 
     }
@@ -82,4 +97,31 @@ class Camera {
             } else(this.offsetY = this.canvasHeight / this.offsetheight);
         }
     }
+
 }
+
+// draw() {
+//     // If blink is just barely into the start of the level or
+//     // right before the end, translate the canvas to emulate a camera
+//     if (this.blink.x > 400 && this.blink.x < this.mapWidth - 400 && this.blink.y > 300 && this.blink.y < this.mapHeight - 300) {
+//         this.endOfLevelX = this.x;
+//         this.endOfLevelY = this.y;
+//         // this.game.bottomProjectionCtx.translate(this.x, this.y);
+//         // this.game.middleProjectionCtx.translate(this.x, this.y);
+//         this.ctx.translate(this.x, this.y);
+//     }
+//     // otherwise stay stationary
+//     else {
+//         this.ctx.translate(this.endOfLevelX, this.endOfLevelY);
+//     }
+// }
+// update() {
+//     if (this.blink != null) {
+//         if (this.blink.x > 400 && this.blink.x < this.mapWidth - 400 && this.blink.y > 300 && this.blink.y < this.mapHeight - 300) {
+
+//             this.updateBounds();
+//             this.x = -this.blink.x + this.offsetX;
+//             this.y = -this.blink.y + this.offsetY;
+//         }
+//     }
+// }

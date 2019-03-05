@@ -18,10 +18,11 @@ class Hud {
 			this.components[i].draw(ctx);
 		}
 
-		ctx.beginPath();
-		ctx.strokeStyle = 'red';
-		ctx.rect(this.camera.offsetX, this.camera.offsetY, this.camera.viewWidth, this.camera.viewHeight);
-		ctx.stroke();
+        // NOT SURE WHAT THIS IS DOING
+		//ctx.beginPath();
+		//ctx.strokeStyle = 'red';
+		//ctx.rect(this.camera.offsetX, this.camera.offsetY, this.camera.viewWidth, this.camera.viewHeight);
+		//ctx.stroke();
 	}
 
 
@@ -42,14 +43,33 @@ class HealthBar {
 	update() {
 		this.health = this.blink.health;
 		// Add update for energy here
-		this.dx = -this.camera.x + 50;
-		this.dy = -this.camera.y + 50;
+
+        
+        if (this.blink.x > 470)
+        {
+            this.dx = this.game.canvasWidth / 30 - this.camera.x;
+            this.dy = this.game.canvasHeight / 30 - this.camera.y;
+        }
+        else
+        {
+            this.dx = this.game.canvasWidth / 30 ;
+            this.dy = this.game.canvasHeight / 30 - this.camera.y;
+        }
+
 
 	}
 	// need to flip the images
 	draw(ctx) {
 		let health = AM.getAsset('./img/blink/healthbar.png');
-		let energy = AM.getAsset('./img/blink/energy.png');
+        let energy = AM.getAsset('./img/blink/energy.png');
+        let blinkImage = AM.getAsset('./img/blink/blinkface.png');
+
+        // Draws Blinks Face
+        ctx.drawImage(
+            blinkImage,
+            this.dx - 5,
+            this.dy + 95,
+        );
 
 		// Draws health bar
 		ctx.drawImage(
