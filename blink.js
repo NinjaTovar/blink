@@ -128,7 +128,7 @@ class Blink extends Entity
         this.frameWidth = 35;
         this.frameHeight = 80;
         this.size = 3;
-        this.drawAroundHitBox = false;
+        this.drawAroundHitBox = true;
         this.originalSpeed = this.speed;
         this.wallCollision = false;
         this.xBeforeCollision = this.x;
@@ -474,6 +474,12 @@ class Blink extends Entity
      *  as it could potentially be a hard bug to find. */
     update()
     {
+        if (this.y > 3000) {
+            this.x = 100;
+            this.y = -100;
+            return;
+        }
+
         // If not jumping, make sure Blink is on the ground level/And Or on his platform
         if (!this.jumping)
         {
@@ -586,7 +592,7 @@ class Blink extends Entity
         {
             // console.log("Collided with platform");
             // If blink is on top of the platform, make him land on it
-            if (this.y < other.y)
+            if (this.y < other.y - other.frameHeight)
             {
                 if (!this.myPlatforms.includes(other))
                 {
@@ -596,7 +602,7 @@ class Blink extends Entity
                     this.game.jumping = false;
 
                     this.jumping = false;
-                    this.falling = true;
+                    this.falling = false;
                     this.elapsedJumpTime = 0;
                     this.jumpFaceRightAnimation.elapsedTime = 0;
                     this.jumpFaceLeftAnimation.elapsedTime = 0;
