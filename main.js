@@ -37,10 +37,11 @@ AM.queueDownload("./img/blink/energy.png");
 AM.queueDownload("./img/blink/blinkface.png");
 AM.queueDownload("./img/blink/Crono_Falling.png");
 
-
 // Queue downloading Bug
 AM.queueDownload("./img/enemies/bug/BugRun_FaceLeft.png");
 AM.queueDownload("./img/enemies/bug/BugRun_FaceRight.png");
+AM.queueDownload("./img/enemies/bug/ButHit_FaceRight.png");
+AM.queueDownload("./img/enemies/bug/ButHit_FaceLeft.png");
 
 // Queue downloading FlyMutant
 AM.queueDownload("./img/enemies/fly/Fly_FaceLeft.png");
@@ -57,6 +58,8 @@ AM.queueDownload("./img/enemies/metroid/metroid.png");
 // Queue downloading Violator
 AM.queueDownload("./img/enemies/violator/ViolatorSwing_FaceRight.png");
 AM.queueDownload("./img/enemies/violator/ViolatorSwing_FaceLeft.png");
+AM.queueDownload("./img/enemies/violator/Violator_Hit_FaceLeft.png");
+AM.queueDownload("./img/enemies/violator/Violator_Hit_FaceRight.png");
 
 // Queue downloading Necroman
 AM.queueDownload("./img/enemies/necroman/Necroman_FaceLeft.png");
@@ -65,8 +68,8 @@ AM.queueDownload("./img/enemies/necroman/Necroman_FaceRight.png");
 // Queue downlaoding Jason
 AM.queueDownload("./img/enemies/jason.png");
 
-AM.downloadAll(function () {
-  window.onload = function () {
+AM.downloadAll(function() {
+  window.onload = function() {
     // Load game world. This is the top layer
     var canvas = document.getElementById("gameWorld");
     var gameCtx = canvas.getContext("2d");

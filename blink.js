@@ -499,9 +499,11 @@ class Blink extends Entity {
     // console.log("Blink has collided with a " + other.constructor.name);
     if (type === "attack" && this.basicAttack && !this.gotHit) {
       other.health -= 5;
+      other.gettingHit = true;
       if (other.health <= 0 && !(other instanceof Mummy)) {
         other.isDead = true;
       }
+
       if (Math.random() >= 0.7 && Math.random() > 0.9) {
         this.game.addEntity(
           new Coin(this.game, other.x + Math.floor(Math.random() * 44), other.y)
@@ -688,14 +690,14 @@ class Blink extends Entity {
     }
     if (!this.basicAttack) {
       // if not attacking, mak sure to reset the slash sound so it sounds right
-        // on next attack
-        this.jumpSlashSoundPlayed = false;
-        this.slashSoundEffect.pause();
-        this.slashSoundEffect.currentTime = 0;
-        this.dashSlashFaceRight.elapsedTime = 0;
-        this.slashFaceLeft.elapsedTime = 0;
-        this.slashFaceRight.elapsedTime = 0;
-        this.slashFaceLeft.elapsedTime = 0;
+      // on next attack
+      this.jumpSlashSoundPlayed = false;
+      this.slashSoundEffect.pause();
+      this.slashSoundEffect.currentTime = 0;
+      this.dashSlashFaceRight.elapsedTime = 0;
+      this.slashFaceLeft.elapsedTime = 0;
+      this.slashFaceRight.elapsedTime = 0;
+      this.slashFaceLeft.elapsedTime = 0;
     }
   }
 
@@ -936,7 +938,7 @@ class Blink extends Entity {
     var self = this;
 
     // HANDLE MUSIC TRACKS************************************************************
-    this.changeMusic.onclick = function () {
+    this.changeMusic.onclick = function() {
       // Set this to let level know music has been started somewhere
       self.beginMusic = false;
       self.userWantsNoMusic = false;
@@ -985,7 +987,7 @@ class Blink extends Entity {
       }
     };
     // STOP MUSIC*********************************************************************
-    this.stopMusic.onclick = function () {
+    this.stopMusic.onclick = function() {
       self.userWantsNoMusic = true;
       self.adventureTimeTrack.pause();
       self.sandsOfTimeTrack.pause();
@@ -1002,26 +1004,26 @@ class Blink extends Entity {
     };
 
     // HANDLE DEV BUTTONS*************************************************************
-    this.godModeButton.onclick = function () {
+    this.godModeButton.onclick = function() {
       self.godMode = !self.godMode;
     };
-    this.speedUpButton.onclick = function () {
+    this.speedUpButton.onclick = function() {
       self.speedUpMovement = !self.speedUpMovement;
     };
-    this.outlineHitBoxButton.onclick = function () {
+    this.outlineHitBoxButton.onclick = function() {
       self.outlineHitBox = !self.outlineHitBox;
     };
-    this.stopEnemiesButton.onclick = function () {
+    this.stopEnemiesButton.onclick = function() {
       self.stopEnemies = !self.stopEnemies;
     };
 
     // HANDLE LEVEL MANAGER BUTTONS***************************************************
-    this.levelOneButton.onclick = function () {
+    this.levelOneButton.onclick = function() {
       console.log("Level One clicked");
       self.game.levelManager.level = 1;
       self.game.levelManager.states.loadNextLevel = true;
     };
-    this.levelTwoButton.onclick = function () {
+    this.levelTwoButton.onclick = function() {
       console.log("Level Two clicked");
       self.game.levelManager.level = 2;
       self.game.levelManager.states.loadNextLevel = true;

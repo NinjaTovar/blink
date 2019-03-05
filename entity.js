@@ -23,9 +23,9 @@ class Entity {
     this.x = x;
     this.y = y;
     this.boundX = this.x;
-      this.boundY = this.y;
-      this.health = 100;
-      this.currentHealth = this.health;
+    this.boundY = this.y;
+    this.health = 800;
+    this.currentHealth = this.health;
     this.isDead = false;
     this.hitB = new Hitbox(
       this.game,
@@ -38,9 +38,7 @@ class Entity {
   }
 
   /** Update handles updating the objects world state. */
-    update() {
-
-
+  update() {
     console.log("CALL");
   }
 
