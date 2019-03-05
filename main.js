@@ -4,6 +4,10 @@ var AM = new AssetManager();
 AM.queueDownload("./img/levels/trainTunnel.png");
 AM.queueDownload("./img/levels/level1background.png");
 AM.queueDownload("./img/tiles/terrainsprite.png");
+AM.queueDownload("./img/tiles/lavagif.png");
+AM.queueDownload("./img/tiles/saigo_station.png");
+AM.queueDownload("./img/levels/molten_pillar.png");
+AM.queueDownload("./img/levels/pink_background.png");
 
 // Queue downloading main character
 AM.queueDownload("./img/blink/Crono_PullSwordOut_FaceLeft.png");
@@ -61,39 +65,37 @@ AM.queueDownload("./img/enemies/necroman/Necroman_FaceRight.png");
 // Queue downlaoding Jason
 AM.queueDownload("./img/enemies/jason.png");
 
-AM.downloadAll(function ()
-{
-    window.onload = function ()
-    {
-        // Load game world. This is the top layer
-        var canvas = document.getElementById("gameWorld");
-        var gameCtx = canvas.getContext("2d");
+AM.downloadAll(function () {
+  window.onload = function () {
+    // Load game world. This is the top layer
+    var canvas = document.getElementById("gameWorld");
+    var gameCtx = canvas.getContext("2d");
 
-        // Load a special effects layer. This is on bottom.
-        var bottomCanvas = document.getElementById("projectionsLayerBottom");
-        var bottomProjectionContext = bottomCanvas.getContext("2d");
+    // Load a special effects layer. This is on bottom.
+    var bottomCanvas = document.getElementById("projectionsLayerBottom");
+    var bottomProjectionContext = bottomCanvas.getContext("2d");
 
-        // Load a special effects layer. This is in the middle.
-        var middleCanvas = document.getElementById("projectionsLayerMiddle");
-        var middleProjectionContext = middleCanvas.getContext("2d");
+    // Load a special effects layer. This is in the middle.
+    var middleCanvas = document.getElementById("projectionsLayerMiddle");
+    var middleProjectionContext = middleCanvas.getContext("2d");
 
-        //// Load a special effects layer. This is in the middle.
-        //var overlayCanvas = document.getElementById('projectionsLayerOverlayAll');
-        //var overlayProjectionContext = overlayCanvas.getContext('2d');
+    //// Load a special effects layer. This is in the middle.
+    //var overlayCanvas = document.getElementById('projectionsLayerOverlayAll');
+    //var overlayProjectionContext = overlayCanvas.getContext('2d');
 
-        var gameEngine = new GameEngine();
+    var gameEngine = new GameEngine();
 
-        gameCtx.canvas.focus();
+    gameCtx.canvas.focus();
 
-        // Send canvas' to game engine
-        gameEngine.init(
-            bottomProjectionContext,
-            middleProjectionContext,
-            gameCtx,
-            AM
-        );
-        gameEngine.start();
+    // Send canvas' to game engine
+    gameEngine.init(
+      bottomProjectionContext,
+      middleProjectionContext,
+      gameCtx,
+      AM
+    );
+    gameEngine.start();
 
-        console.log("All Done!");
-    };
+    console.log("All Done!");
+  };
 });

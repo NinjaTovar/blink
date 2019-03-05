@@ -9,6 +9,9 @@ class LevelManager {
     this.ctx = ctx; // Might need this later?
     this.level = 2; // Indicates which level
 
+    this.endOfLevelX = 3500; // Default values will be changed when maps are loaded
+    this.endOfLevelY = 3500;
+
     // States for loading
     this.states = {
       loadNextLevel: true,
@@ -17,6 +20,10 @@ class LevelManager {
   }
 
   update() {
+
+    // if (this.game.blink.x == this.endOfLevelX && this.game.blink.y == this.endOfLevelY) {
+    //   this.states.loadNextLevel = true;
+    // }
     // checks game state to see if it will load.
     if (this.states.loadNextLevel) {
       this.states.levelLoaded = false;
@@ -32,6 +39,10 @@ class LevelManager {
       } else if (this.level == 2) {
         console.log("loading level Two!");
         let currentLevel = new LevelTwo(this.game);
+        currentLevel.loadLevel();
+      } else if (this.level == 3) {
+        console.log("loading level Three!");
+        let currentLevel = new LevelThree(this.game);
         currentLevel.loadLevel();
       }
       this.states.levelLoaded = true;

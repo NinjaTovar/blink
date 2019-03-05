@@ -21,14 +21,15 @@ class Platform extends Entity {
   // 	 * @param {any} data index/ID of the specific tile im tryna draw
   // 	 * @param {any} img tile sprite
   // 	 */
-  constructor(game, dx, dy, tileRows, tileColumns, data, img) {
+  constructor(game, tileSize, dx, dy, tileRows, tileColumns, data, img) {
     super(game, dx, dy);
     this.x = dx;
     this.y = dy;
-    this.width = 16;
-    this.height = 16;
-    this.frameWidth = 16;
-    this.frameHeight = 16;
+    this.tileSize = tileSize;
+    this.width = this.tileSize;
+    this.height = this.tileSize;
+    this.frameWidth = this.tileSize;
+    this.frameHeight = this.tileSize;
     this.speed = 0;
     this.myEntites = [];
     this.ctx = game.ctx;
@@ -39,8 +40,8 @@ class Platform extends Entity {
     this.tileRows = tileRows;
     this.tileColumns = tileColumns;
     this.data = data;
-    this.tile_width = 16;
-    this.tile_height = 16;
+    this.tile_width = this.tileSize;
+    this.tile_height = this.tileSize;
     this.img = img;
 
     // sy and sx is the sourcex and sourcey of the tile sprite
@@ -53,6 +54,7 @@ class Platform extends Entity {
       this.data -= this.tileColumns;
     }
     this.sx = this.data;
+
   }
 
   draw(ctx) {
