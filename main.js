@@ -32,7 +32,7 @@ AM.queueDownload("./img/blink/Crono_Spell_FaceLeft.png");
 AM.queueDownload("./img/blink/Crono_Spell_FaceRight.png");
 AM.queueDownload("./img/blink/Crono_Damage_FaceLeft.png");
 AM.queueDownload("./img/blink/Crono_Damage_FaceRight.png");
-AM.queueDownload("./img/blink/Coin.png");
+AM.queueDownload("./img/blink/clock.png");
 AM.queueDownload("./img/blink/Crono_dead.png");
 AM.queueDownload("./img/blink/healthbar.png");
 AM.queueDownload("./img/blink/energy.png");

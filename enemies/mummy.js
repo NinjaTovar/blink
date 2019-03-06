@@ -155,6 +155,29 @@ class Mummy extends Entity {
 
   /** Update handles updating the objects world state. */
   update() {
+
+    if(this.health > 10)
+    {
+        //if hit
+        if (this.currentHealth !== this.health) {
+          console.log("Health changed");
+          this.currentHealth = this.health;
+    
+          if (this.game.blink.facingRight) {
+            if (!(this instanceof Blink)) {
+              this.x += 20;
+            }
+    
+          }
+          else if (!this.game.blink.facingRight) {
+            if (!(this instanceof Blink)) {
+              this.x -= 20;
+            }
+          }
+        }
+    }
+
+
     if (this.game.resetPaths != undefined) {
       this.resetPath = this.game.resetPaths;
     }

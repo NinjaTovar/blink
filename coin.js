@@ -14,14 +14,14 @@ class Coin extends Entity {
     this.leftOrRight = Math.random() >= 0.5;
 
     this.coinAnimation = new Animation(
-      AM.getAsset("./img/blink/Coin.png"), // load sprite asset
-      60, // frame width
-      70, // frameheight
-      4, // sheet width
+      AM.getAsset("./img/blink/clock.png"), // load sprite asset
+      256, // frame width
+      256, // frameheight
+      1, // sheet width
       0.2, // frame duration
-      4, // frames in animation
+      1, // frames in animation
       true, // to loop or not to loop
-      0.6 // scale in relation to original image
+      0.1 // scale in relation to original image
     );
   }
 

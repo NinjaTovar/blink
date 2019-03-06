@@ -41,7 +41,7 @@ class Camera {
     draw() {
         // If blink is just barely into the start of the level or
         // right before the end, translate the canvas to emulate a camera
-        if (this.blink.x > 470 && this.blink.x < 2800) {
+        if (this.blink.x > 500 && this.blink.x < this.mapWidth) {
             this.endOfLevelX = this.x;
             this.endOfLevelY = this.y;
             this.ctx.translate(this.x, this.y);
@@ -63,15 +63,16 @@ class Camera {
             //}
 
             // Update the camera.x value always
+
             this.x = -this.blink.x + this.offsetX;
 
             // for the y value, update it once blink has landed in a level.
             // After that, follow Blinks y value on a small delay.
             if (this.blink.y > this.blink.startingGroundLevel) {
-                if (Math.ceil(this.y) > Math.floor(-this.blink.y + this.offsetY)) {
+                if ((Math.ceil(this.y) - Math.floor(-this.blink.y + this.offsetY)) > 10) {
                     this.y -= 7;
                 } else if (Math.floor(this.y) < Math.ceil(-this.blink.y + this.offsetY)) {
-                    this.y += 6;
+                    this.y += 4;
                 }
             }
 
