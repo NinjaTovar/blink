@@ -1023,12 +1023,12 @@ class Blink extends Entity {
     // HANDLE LEVEL MANAGER BUTTONS***************************************************
     this.levelOneButton.onclick = function () {
       console.log("Level One clicked");
-      self.game.levelManager.level = 1;
+      self.game.levelManager.level = 2;
       self.game.levelManager.states.loadNextLevel = true;
     };
     this.levelTwoButton.onclick = function () {
       console.log("Level Two clicked");
-      self.game.levelManager.level = 2;
+      self.game.levelManager.level = 4;
       self.game.levelManager.states.loadNextLevel = true;
     };
   }
