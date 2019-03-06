@@ -496,6 +496,9 @@ class Blink extends Entity {
 
   //Handle collisons
   handleCollison(other, type) {
+    if (other instanceof Vegeta) {
+      other.blinkTouchedMe = true;
+    }
     // console.log("Blink has collided with a " + other.constructor.name);
     if (type === "attack" && this.basicAttack && !this.gotHit) {
       other.health -= 5;
@@ -575,11 +578,13 @@ class Blink extends Entity {
       // If Blink is not attacking, it means he just got hit by an Enemy .. atleast for now
       // TODO: Maybe Come back and make this cleaner so that Blink gets hit based on collison distance
     }
+
     if (
       type === "damage" &&
       other.health > 0 &&
       !(other instanceof Platform) &&
-      !this.basicAttack
+      !this.basicAttack &&
+      !(other instanceof Vegeta)
     ) {
       this.gotHit = true;
       this.health -= 2;

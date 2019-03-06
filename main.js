@@ -36,6 +36,7 @@ AM.queueDownload("./img/blink/healthbar.png");
 AM.queueDownload("./img/blink/energy.png");
 AM.queueDownload("./img/blink/blinkface.png");
 AM.queueDownload("./img/blink/Crono_Falling.png");
+AM.queueDownload("./img/blink/Crono_Falling.png");
 
 // Queue downloading Bug
 AM.queueDownload("./img/enemies/bug/BugRun_FaceLeft.png");
@@ -67,6 +68,11 @@ AM.queueDownload("./img/enemies/necroman/Necroman_FaceRight.png");
 
 // Queue downlaoding Jason
 AM.queueDownload("./img/enemies/jason.png");
+
+// Queue downlaoding Vegeta
+AM.queueDownload("./img/vegeta.png");
+AM.queueDownload("./img/startMessage.png");
+AM.queueDownload("./img/messageStill.png");
 
 AM.downloadAll(function() {
   window.onload = function() {

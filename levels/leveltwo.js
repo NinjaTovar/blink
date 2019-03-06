@@ -14,11 +14,12 @@ class LevelTwo {
         this.game.addEntity(new Background2(this.game));
         this.game.addEntity(this.game.blink);
         this.game.addEntity(this.game.hud);
+        this.game.addEntity(new Vegeta(this.game, 200, 290, 2));
 
         this.game.addEntity(
           new Bug(
             this.game,
-            1110,
+            1800,
             302,
             2.5,
             Randomizer.returnRandomDirection()
