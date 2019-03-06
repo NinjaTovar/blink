@@ -8,6 +8,8 @@ AM.queueDownload("./img/tiles/lavagif.png");
 AM.queueDownload("./img/tiles/saigo_station.png");
 AM.queueDownload("./img/levels/molten_pillar.png");
 AM.queueDownload("./img/levels/pink_background.png");
+AM.queueDownload("./img/tiles/terrain16.png");
+AM.queueDownload("./img/levels/station.png");
 
 // Queue downloading main character
 AM.queueDownload("./img/blink/Crono_PullSwordOut_FaceLeft.png");

@@ -44,6 +44,10 @@ class LevelManager {
         console.log("loading level Three!");
         let currentLevel = new LevelThree(this.game);
         currentLevel.loadLevel();
+      } else if (this.level == 4) {
+        console.log("loading level Four!");
+        let currentLevel = new LevelFour(this.game);
+        currentLevel.loadLevel();
       }
       this.states.levelLoaded = true;
     } else {}
