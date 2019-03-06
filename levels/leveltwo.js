@@ -14,17 +14,28 @@ class LevelTwo {
         this.game.addEntity(new Background2(this.game));
         this.game.addEntity(this.game.blink);
         this.game.addEntity(this.game.hud);
-        for (var i = 0; i < 7; i+=2) {
-            this.game.addEntity(
-              new Mummy(
-                this.game,
-                1110 + (i * 95),
-                320,
-                2.5,
-                Randomizer.returnRandomDirection()
-              )
-            );
-          }
+        this.game.addEntity(new Vegeta(this.game, 200, 290, 2));
+
+        this.game.addEntity(
+          new Bug(
+            this.game,
+            1800,
+            302,
+            2.5,
+            Randomizer.returnRandomDirection()
+          )
+        );
+        // for (var i = 0; i < 7; i+=2) {
+        //     this.game.addEntity(
+        //       new Mummy(
+        //         this.game,
+        //         1110 + (i * 95),
+        //         320,
+        //         2.5,
+        //         Randomizer.returnRandomDirection()
+        //       )
+        //     );
+        //   }
 
 
           for (var i = 0; i < 3; i++) {

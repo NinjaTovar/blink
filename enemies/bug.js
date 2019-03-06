@@ -37,6 +37,27 @@ class Bug extends Entity {
       true, // to loop or not to loop
       size // scale in relation to original image
     );
+    this.hitFaceLeftAnimation = new Animation(
+      AM.getAsset("./img/enemies/bug/ButHit_FaceLeft.png"),
+      55, // frame width
+      55, // frame height
+      3, // sheet width
+      0.1, // frame duration
+      3, // frames in animation
+      true, // to loop or not to loop
+      size // scale in relation to original image
+    );
+
+    this.hitFaceRightAnimation = new Animation(
+      AM.getAsset("./img/enemies/bug/ButHit_FaceRight.png"),
+      55, // frame width
+      55, // frame height
+      3, // sheet width
+      0.1, // frame duration
+      3, // frames in animation
+      true, // to loop or not to loop
+      size // scale in relation to original image
+    );
 
     this.x = startX;
     this.y = startY;
@@ -44,6 +65,8 @@ class Bug extends Entity {
     this.game = game;
     this.ctx = game.ctx;
     this.isHeadingRight = isHeadingRight;
+    this.gettingHit = false;
+    this.health = 400;
 
     // set invisible boundaries for enemies path
     this.randomMinBoundary =
@@ -84,8 +107,28 @@ class Bug extends Entity {
   draw(ctx) {
     // debug tool
     if (this.drawAroundHitBox) {
-      this.drawAroundBox();
+      // this.drawAroundBox();
       //this.ctx.clearRect(this.x, this.y, this.frameWidth * this.size, this.frameHeight * this.size);
+    }
+
+    if (this.gettingHit) {
+      if (this.isHeadingRight) {
+        this.hitFaceRightAnimation.drawFrame(
+          this.game.clockTick,
+          ctx,
+          this.x,
+          this.y
+        );
+      } else {
+        this.hitFaceLeftAnimation.drawFrame(
+          this.game.clockTick,
+          ctx,
+          this.x,
+          this.y
+        );
+      }
+
+      return;
     }
 
     // If field "isHeadingRight" is true, play fly right animation
@@ -161,6 +204,12 @@ class Bug extends Entity {
       ) {
         this.myPath.push(this.x);
       }
+    }
+
+    if (this.gettingHit) {
+      this.gettingHit = false;
+
+      return;
     }
 
     if (this.isHeadingRight) {
