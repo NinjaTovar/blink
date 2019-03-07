@@ -42,6 +42,7 @@ class Blink extends Entity {
     this.health = 1000;
     this.falling = false;
     this.myPlatforms = [];
+    this.level = 1;
 
     // What are these and what do they do?
     this.attackBox = new Hitbox(
@@ -525,7 +526,14 @@ class Blink extends Entity {
 
       if (this.y < other.y - other.frameHeight) {
         if (!this.myPlatforms.includes(other)) {
-          if (other.x > this.maxX) this.maxX = other.x;
+          let width = 0;
+          if (this.level == 2) {
+            width = 0;
+          } else if (this.level == 3) {
+            console.log("yo");
+            width = other.width;
+          }
+          if (other.x + width > this.maxX) this.maxX = other.x + width;
           if (other.x < this.minX) this.minX = other.x;
           this.myPlatforms.push(other);
           this.game.jumping = false;
@@ -544,34 +552,33 @@ class Blink extends Entity {
           this.currentPlatform.y -
           this.currentPlatform.height -
           this.frameHeight;
+        if (this.level == 3) {
+          this.platformY += 45;
+        }
         this.y = this.platformY;
         this.groundLevel = this.platformY;
         this.falling = false;
 
-          //in work wall detection
-          if (this.x <= this.xBeforeCollision && this.facingRight)
-          {
-              this.wallCollision = false;
-          }
-          // in work wall detection
-          if (this.x >= this.xBeforeCollision && !this.facingRight)
-          {
-              this.wallCollision = false;
-          }
+        //in work wall detection
+        if (this.x <= this.xBeforeCollision && this.facingRight) {
+          this.wallCollision = false;
+        }
+        // in work wall detection
+        if (this.x >= this.xBeforeCollision && !this.facingRight) {
+          this.wallCollision = false;
+        }
+      } else {
+        // in work wall detection
+        if (!this.wallCollision && this.facingRight) {
+          this.xBeforeCollision = this.x - 10;
+          this.x = this.xBeforeCollision;
+        } else if (!this.wallCollision && !this.facingRight) {
+          this.xBeforeCollision = this.x + 10;
+          this.x = this.xBeforeCollision;
+        }
+        this.wallCollision = true;
 
-          } else {
-
-          // in work wall detection
-          if (!this.wallCollision && this.facingRight) {
-              this.xBeforeCollision = this.x - 10;
-              this.x = this.xBeforeCollision;
-          } else if (!this.wallCollision && !this.facingRight) {
-              this.xBeforeCollision = this.x + 10;
-              this.x = this.xBeforeCollision;
-          }
-          this.wallCollision = true;
-
-          console.log("Blink y less than platform or 'other' y.");
+        console.log("Blink y less than platform or 'other' y.");
 
         this.jumping = false;
         this.falling = true;
@@ -604,8 +611,8 @@ class Blink extends Entity {
 
   handleBlinkGettingHit() {
     if (
-      this.hitFacingLeft.elapsedTime > .34 ||
-      this.hitFacingRight.elapsedTime > .34
+      this.hitFacingLeft.elapsedTime > 0.34 ||
+      this.hitFacingRight.elapsedTime > 0.34
     ) {
       this.hitFacingLeft.elapsedTime = 0;
       this.hitFacingRight.elapsedTime = 0;
@@ -712,17 +719,15 @@ class Blink extends Entity {
 
   // HANDLE UPDATE ON MOVING------------------------------------------------------------
   /** Update method helper for what to do when moving. */
-    handleWhatToDoWhenMoving() {
-        if (!this.wallCollision) {
-            if (!this.facingRight && this.isRunning()) {
-                this.x -= this.game.blinksClockTick * this.speed;
-            }
-            if (this.facingRight && this.isRunning()) {
-                this.x += this.game.blinksClockTick * this.speed;
-            }
-        }
-
-
+  handleWhatToDoWhenMoving() {
+    if (!this.wallCollision) {
+      if (!this.facingRight && this.isRunning()) {
+        this.x -= this.game.blinksClockTick * this.speed;
+      }
+      if (this.facingRight && this.isRunning()) {
+        this.x += this.game.blinksClockTick * this.speed;
+      }
+    }
   }
 
   // HANDLE UPDATE ON JUMPING-----------------------------------------------------------

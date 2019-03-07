@@ -78,7 +78,6 @@ class Vegeta extends Entity {
    * @param {any} ctx  A reference to the Game Context.
    */
   draw(ctx) {
-    console.log(this.messageAnimation.elapsedTime);
     // debug tool
     if (this.drawAroundHitBox) {
       //   this.drawAroundBox();

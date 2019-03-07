@@ -7,7 +7,7 @@ class LevelManager {
     this.game = game;
     this.AM = AM; // Might need this later?
     this.ctx = ctx; // Might need this later?
-    this.level = 2; // Indicates which level
+    this.level = 3; // Indicates which level
 
     this.endOfLevelX = 3500; // Default values will be changed when maps are loaded
     this.endOfLevelY = 3500;
@@ -51,6 +51,7 @@ class LevelManager {
       this.states.levelLoaded = true;
     } else {
     }
+    this.game.blink.level = this.level;
   }
   draw(ctx) {}
 }
