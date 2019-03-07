@@ -1,8 +1,9 @@
 class Boid extends Actor {
 	constructor(game, x, y, atkSpd, img) {
 		super(game, x, y, atkSpd);
-		this.frameWidth = 42;
-		this.frameHeight = 42;
+		this.scale = 2;
+		this.frameWidth = 42 * this.scale;
+		this.frameHeight = 42 * this.scale;;
 		this.super_update = this.update();
 		this.damage = 1;
 		this.floatAnimation = new Animation(
@@ -13,7 +14,7 @@ class Boid extends Actor {
 			.4,
 			16,
 			true,
-			1);
+			this.scale);
 	}
 
 
@@ -30,10 +31,9 @@ class Boid extends Actor {
 
 	draw(ctx) {
 		// debug tool
-		if (this.drawAroundHitBox) {
-			this.drawAroundBox();
-			//this.ctx.clearRect(this.x, this.y, this.frameWidth * this.size, this.frameHeight * this.size);
-		}
+		// if (this.drawAroundHitBox) {
+		// 	this.drawAroundBox();
+		// }
 		this.floatAnimation.drawFrame(
 			this.game.clockTick,
 			ctx,
