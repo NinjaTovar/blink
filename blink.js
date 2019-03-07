@@ -543,30 +543,28 @@ class Blink extends Entity {
         this.groundLevel = this.platformY;
         this.falling = false;
 
-          //in work wall detection
-          if (this.x <= this.xBeforeCollision && this.facingRight)
-          {
-              this.wallCollision = false;
-          }
-          // in work wall detection
-          if (this.x >= this.xBeforeCollision && !this.facingRight)
-          {
-              this.wallCollision = false;
-          }
+        //in work wall detection
+        if (this.x <= this.xBeforeCollision && this.facingRight) {
+          this.wallCollision = false;
+        }
+        // in work wall detection
+        if (this.x >= this.xBeforeCollision && !this.facingRight) {
+          this.wallCollision = false;
+        }
 
-          } else {
+      } else {
 
-          // in work wall detection
-          if (!this.wallCollision && this.facingRight) {
-              this.xBeforeCollision = this.x - 10;
-              this.x = this.xBeforeCollision;
-          } else if (!this.wallCollision && !this.facingRight) {
-              this.xBeforeCollision = this.x + 10;
-              this.x = this.xBeforeCollision;
-          }
-          this.wallCollision = true;
+        // in work wall detection
+        if (!this.wallCollision && this.facingRight) {
+          this.xBeforeCollision = this.x - 10;
+          this.x = this.xBeforeCollision;
+        } else if (!this.wallCollision && !this.facingRight) {
+          this.xBeforeCollision = this.x + 10;
+          this.x = this.xBeforeCollision;
+        }
+        this.wallCollision = true;
 
-          console.log("Blink y less than platform or 'other' y.");
+        console.log("Blink y less than platform or 'other' y.");
 
         this.jumping = false;
         this.falling = true;
@@ -584,7 +582,7 @@ class Blink extends Entity {
       !this.basicAttack
     ) {
       this.gotHit = true;
-      this.health -= 2;
+      this.health -= other.damage;
       if (other.x > this.x) {
         // console.log("hit from the right");
         this.hitFromRight = true;
@@ -692,28 +690,28 @@ class Blink extends Entity {
     }
     if (!this.basicAttack) {
       // if not attacking, mak sure to reset the slash sound so it sounds right
-        // on next attack
-        this.jumpSlashSoundPlayed = false;
-        this.slashSoundEffect.pause();
-        this.slashSoundEffect.currentTime = 0;
-        this.dashSlashFaceRight.elapsedTime = 0;
-        this.slashFaceLeft.elapsedTime = 0;
-        this.slashFaceRight.elapsedTime = 0;
-        this.slashFaceLeft.elapsedTime = 0;
+      // on next attack
+      this.jumpSlashSoundPlayed = false;
+      this.slashSoundEffect.pause();
+      this.slashSoundEffect.currentTime = 0;
+      this.dashSlashFaceRight.elapsedTime = 0;
+      this.slashFaceLeft.elapsedTime = 0;
+      this.slashFaceRight.elapsedTime = 0;
+      this.slashFaceLeft.elapsedTime = 0;
     }
   }
 
   // HANDLE UPDATE ON MOVING------------------------------------------------------------
   /** Update method helper for what to do when moving. */
-    handleWhatToDoWhenMoving() {
-        if (!this.wallCollision) {
-            if (!this.facingRight && this.isRunning()) {
-                this.x -= this.game.blinksClockTick * this.speed;
-            }
-            if (this.facingRight && this.isRunning()) {
-                this.x += this.game.blinksClockTick * this.speed;
-            }
-        }
+  handleWhatToDoWhenMoving() {
+    if (!this.wallCollision) {
+      if (!this.facingRight && this.isRunning()) {
+        this.x -= this.game.blinksClockTick * this.speed;
+      }
+      if (this.facingRight && this.isRunning()) {
+        this.x += this.game.blinksClockTick * this.speed;
+      }
+    }
 
 
   }

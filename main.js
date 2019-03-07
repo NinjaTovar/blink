@@ -67,6 +67,9 @@ AM.queueDownload("./img/enemies/necroman/Necroman_FaceRight.png");
 // Queue downlaoding Jason
 AM.queueDownload("./img/enemies/jason.png");
 
+// Queue downloading red skull
+AM.queueDownload("./img/enemies/skull/redskull.png");
+
 AM.downloadAll(function () {
   window.onload = function () {
     // Load game world. This is the top layer
