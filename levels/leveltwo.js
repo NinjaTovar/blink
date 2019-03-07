@@ -16,6 +16,15 @@ class LevelTwo {
         this.game.addEntity(this.game.hud);
         this.game.addEntity(new Vegeta(this.game, 200, 290, 2));
 
+        // Manually set blinks coordinates here for now
+        this.game.blink.groundLevel = 290;
+        this.game.blink.y = 290;
+        this.game.blink.x = 100;
+        this.game.blink.platformY = null;
+        this.game.blink.lastY = 290;
+        this.game.camera.x = -100;
+				this.game.camera.y = 0;
+
         this.game.addEntity(
           new Bug(
             this.game,

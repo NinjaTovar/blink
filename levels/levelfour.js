@@ -14,16 +14,23 @@ class LevelFour {
 		this.game.addEntity(new Background4(this.game));
 		this.game.addEntity(this.game.blink);
 		this.game.addEntity(this.game.hud);
+		this.game.addEntity(new Vegeta(this.game, 500, 2255, 2));
 		this.loadPlatforms();
 
 
 		// Manually set Blink's coordinates for now
-		this.game.blink.y = 2200;
-		// this.game.blink.groundLevel = 2400;
+        this.game.blink.groundLevel = 2200;
+        this.game.blink.y = 2200;
+        this.game.blink.x = 100;
+        this.game.blink.platformY = null;
+				this.game.blink.lastY = 2200;
+				this.game.camera.x = -100;
+				this.game.camera.y = -2000;
 
-		let enemyList = {};
+		let skullList = [];
 		let upgradeList = {};
 		let bulletList = {};
+
 
 		//Math.random() returns a number between 0 and 1
 		var x = Math.random()* this.game.camera.mapWidth;
@@ -31,6 +38,7 @@ class LevelFour {
 		var attackSpeed = 10;
 		var img = AM.getAsset("./img/enemies/skull/redskull.png");
 		this.game.addEntity(new Boid(this.game, x, y, attackSpeed, img));
+		
 			
 
 
