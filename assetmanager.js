@@ -1,14 +1,12 @@
 /** AssetManager object. Handles asset downloads and importing */
-class AssetManager
-{
+class AssetManager {
     /**
      * Creates an asset manager object with empty fields for handling incoming 
      * assets.
      * 
      * @constructor 
      */
-    constructor()
-    {
+    constructor() {
         this.successCount = 0;
         this.errorCount = 0;
         this.cache = [];
@@ -21,15 +19,13 @@ class AssetManager
      * 
      * @param {any} path
      */
-    queueDownload(path)
-    {
+    queueDownload(path) {
         console.log('Queueing ' + path);
         this.downloadQueue.push(path);
     }
 
     /** */
-    isDone()
-    {
+    isDone() {
         return this.downloadQueue.length === this.successCount + this.errorCount;
     }
 
@@ -37,32 +33,26 @@ class AssetManager
      * 
      * @param {any} callback
      */
-    downloadAll(callback)
-    {
-        for (let i = 0; i < this.downloadQueue.length; i++)
-        {
+    downloadAll(callback) {
+        for (let i = 0; i < this.downloadQueue.length; i++) {
             let img = new Image();
             let self = this;
 
             let path = this.downloadQueue[i];
             console.log(path);
 
-            img.addEventListener('load', function ()
-            {
+            img.addEventListener('load', function () {
                 console.log('Loaded ' + this.src);
                 self.successCount++;
-                if (self.isDone())
-                {
+                if (self.isDone()) {
                     callback();
                 }
             });
 
-            img.addEventListener('error', function ()
-            {
+            img.addEventListener('error', function () {
                 console.error('Error loading ' + this.src);
                 self.errorCount++;
-                if (self.isDone())
-                {
+                if (self.isDone()) {
                     callback();
                 }
             });
@@ -76,8 +66,7 @@ class AssetManager
      * 
      * @param {any} path
      */
-    getAsset(path)
-    {
+    getAsset(path) {
         return this.cache[path];
     }
 }

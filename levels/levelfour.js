@@ -35,9 +35,7 @@ class LevelFour {
 		//Math.random() returns a number between 0 and 1
 		var x = Math.random()* this.game.camera.mapWidth;
 		var y = Math.random()* this.game.camera.mapHeight;
-		var attackSpeed = 10;
-		var img = AM.getAsset("./img/enemies/skull/redskull.png");
-		this.game.addEntity(new Boid(this.game, x, y, attackSpeed, img));
+		this.game.addEntity(new Boid(this.game, x, y));
 		
 			
 
