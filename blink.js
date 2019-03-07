@@ -409,10 +409,10 @@ class Blink extends Entity {
             if (this.currentPlatform != null) {
                 this.y = this.platformY;
             } else {
-                // bring him down to earth if neccessary
 
+                // bring him down to earth if neccessary
                 this.falling = true;
-                this.y += this.game.blinksClockTick * this.speed * 2;
+                this.y += this.game.blinksClockTick * this.speed * 2.5;
             }
         }
 
@@ -431,9 +431,6 @@ class Blink extends Entity {
         }
         this.updateBlinksStateFromKeyListeners();
 
-        if (this.gotHit) {
-            this.handleBlinkGettingHit();
-        }
         // Now that the listeners have updated Blinks states, handle those them by
         // appropriating them to the right method calls
         this.updateMyHitBoxes();
@@ -443,6 +440,7 @@ class Blink extends Entity {
         this.handleWhatToDoWhenMoving();
         this.handleWhatToDoWhenAttacking();
         this.handleStartLevel();
+        this.handleBlinkGettingHit();
 
         // Temporary helper for keeping blinks inside boundaries of canvas
         // Probably replace when collisions/camera are finalized
@@ -575,24 +573,29 @@ class Blink extends Entity {
     }
 
     // HANDLE BLINK GETTING HIT----------------------------------------------------------
-    handleBlinkGettingHit() {
-        if (
-            this.hitFacingLeft.elapsedTime > .34 ||
-            this.hitFacingRight.elapsedTime > .34
-        ) {
-            this.hitFacingLeft.elapsedTime = 0;
-            this.hitFacingRight.elapsedTime = 0;
-            this.gotHit = false;
-            this.hitFromLeft = false;
-            this.hitFromRight = false;
-        } else {
-            this.damageSoundEffect.play();
+    handleBlinkGettingHit()
+    {
+        if (this.gotHit)
+        {
+            if (
+                this.hitFacingLeft.elapsedTime > .34 ||
+                    this.hitFacingRight.elapsedTime > .34
+            ) {
+                this.hitFacingLeft.elapsedTime = 0;
+                this.hitFacingRight.elapsedTime = 0;
+                this.gotHit = false;
+                this.hitFromLeft = false;
+                this.hitFromRight = false;
+            } else {
+                this.damageSoundEffect.play();
+            }
+            if (this.hitFromRight) {
+                this.x -= 4;
+            } else {
+                this.x += 4;
+            }
         }
-        if (this.hitFromRight) {
-            this.x -= 1;
-        } else {
-            this.x += 1;
-        }
+
     }
 
     // HANDLE DEV TOOLS-------------------------------------------------------------------
