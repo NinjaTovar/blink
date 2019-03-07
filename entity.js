@@ -25,7 +25,7 @@ class Entity {
     this.y = y;
     this.boundX = this.x;
     this.boundY = this.y;
-    this.damange = 2;
+    this.damage = 5;
     this.health = 800;
     this.currentHealth = this.health;
     this.isDead = false;

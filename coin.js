@@ -8,7 +8,7 @@ class Coin extends Entity {
     this.speed = 45;
     this.game = game;
     this.ctx = game.ctx;
-    this.groundLevel = 510;
+    this.groundLevel = this.game.blink.groundLevel;
     this.keepCoinGoing = true;
     this.staionary = false;
     this.leftOrRight = Math.random() >= 0.5;
@@ -33,11 +33,11 @@ class Coin extends Entity {
     this.updateMyHitBoxes();
     this.boundX = this.x;
     this.boundY = this.y;
-    if (this.y <= 425) {
+    if (this.y < this.game.blink.groundLevel) {
       this.keepCoinGoing = false;
     }
-    if (this.y >= this.groundLevel) {
-      this.staionary = true;
+    if (this.y > this.game.blink.groundLevel + 70) {
+        this.staionary = true;
     }
 
     if (!this.staionary) {

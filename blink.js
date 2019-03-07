@@ -40,9 +40,10 @@ class Blink extends Entity {
         this.ctx = game.ctx;
         this.gotHit = false;
         this.health = 1000;
+        this.energy = 1000;
         this.falling = false;
         this.myPlatforms = [];
-
+        
         // What are these and what do they do?
         this.attackBox = new Hitbox(
             game,
@@ -166,7 +167,7 @@ class Blink extends Entity {
 
         // DEATH--------------------------------------------------------------------------
         if (this.health <= 0) {
-            this.dead.drawFrame(this.game.blinksClockTick, ctx, this.x, this.y);
+            this.dead.drawFrame(this.game.blinksClockTick, ctx, this.x, this.y + 30);
             return;
         }
 
@@ -408,10 +409,10 @@ class Blink extends Entity {
             if (this.currentPlatform != null) {
                 this.y = this.platformY;
             } else {
-                // bring him down to earth if neccessary
 
+                // bring him down to earth if neccessary
                 this.falling = true;
-                this.y += this.game.blinksClockTick * this.speed * 2;
+                this.y += this.game.blinksClockTick * this.speed * 2.5;
             }
         }
 
@@ -430,9 +431,6 @@ class Blink extends Entity {
         }
         this.updateBlinksStateFromKeyListeners();
 
-        if (this.gotHit) {
-            this.handleBlinkGettingHit();
-        }
         // Now that the listeners have updated Blinks states, handle those them by
         // appropriating them to the right method calls
         this.updateMyHitBoxes();
@@ -442,6 +440,7 @@ class Blink extends Entity {
         this.handleWhatToDoWhenMoving();
         this.handleWhatToDoWhenAttacking();
         this.handleStartLevel();
+        this.handleBlinkGettingHit();
 
         // Temporary helper for keeping blinks inside boundaries of canvas
         // Probably replace when collisions/camera are finalized
@@ -487,7 +486,7 @@ class Blink extends Entity {
             }
         }
         if (other instanceof Coin && type === "damage") {
-            this.coinCount += 1;
+            this.energy += 100;
             other.health = -1;
             other.isDead = true;
             return;
@@ -573,24 +572,30 @@ class Blink extends Entity {
         }
     }
 
-    handleBlinkGettingHit() {
-        if (
-            this.hitFacingLeft.elapsedTime > .34 ||
-            this.hitFacingRight.elapsedTime > .34
-        ) {
-            this.hitFacingLeft.elapsedTime = 0;
-            this.hitFacingRight.elapsedTime = 0;
-            this.gotHit = false;
-            this.hitFromLeft = false;
-            this.hitFromRight = false;
-        } else {
-            this.damageSoundEffect.play();
+    // HANDLE BLINK GETTING HIT----------------------------------------------------------
+    handleBlinkGettingHit()
+    {
+        if (this.gotHit)
+        {
+            if (
+                this.hitFacingLeft.elapsedTime > .34 ||
+                    this.hitFacingRight.elapsedTime > .34
+            ) {
+                this.hitFacingLeft.elapsedTime = 0;
+                this.hitFacingRight.elapsedTime = 0;
+                this.gotHit = false;
+                this.hitFromLeft = false;
+                this.hitFromRight = false;
+            } else {
+                this.damageSoundEffect.play();
+            }
+            if (this.hitFromRight) {
+                this.x -= 4;
+            } else {
+                this.x += 4;
+            }
         }
-        if (this.hitFromRight) {
-            this.x -= 1;
-        } else {
-            this.x += 1;
-        }
+
     }
 
     // HANDLE DEV TOOLS-------------------------------------------------------------------
@@ -684,14 +689,14 @@ class Blink extends Entity {
     // HANDLE UPDATE ON MOVING------------------------------------------------------------
     /** Update method helper for what to do when moving. */
     handleWhatToDoWhenMoving() {
-        if (!this.wallCollision) {
-            if (!this.facingRight && this.isRunning()) {
-                this.x -= this.game.blinksClockTick * this.speed;
-            }
-            if (this.facingRight && this.isRunning()) {
-                this.x += this.game.blinksClockTick * this.speed;
-            }
+
+        if (!this.facingRight && this.isRunning()) {
+            this.x -= this.game.blinksClockTick * this.speed;
         }
+        if (this.facingRight && this.isRunning()) {
+            this.x += this.game.blinksClockTick * this.speed;
+        }
+
 
 
     }
@@ -785,86 +790,97 @@ class Blink extends Entity {
      *  their individual responses to Blink's spell casting.
      */
     handleWhatToDoWhenSpellcasting() {
-        // STOP TIME**********************************************************************
-        if (this.stopTime) {
-            this.game.allShouldStop(true);
+        if (this.energy > 0) {
+            // STOP TIME**********************************************************************
+            if (this.stopTime) {
+                this.game.allShouldStop(true);
 
-            this.unsheathSword = false;
-            this.unsheathSwordStandStill = false;
+                this.unsheathSword = false;
+                this.unsheathSwordStandStill = false;
 
-            this.adventureTimeTrack.pause();
-            this.sandsOfTimeTrack.pause();
-            this.heroOfTimeTrack.pause();
-            this.mysteriousTrack.pause();
-            this.questionsTrack.pause();
-            this.stopSoundEffect.play();
-        }
-        if (!this.stopTime) {
-            this.game.allShouldStop(false);
+                this.adventureTimeTrack.pause();
+                this.sandsOfTimeTrack.pause();
+                this.heroOfTimeTrack.pause();
+                this.mysteriousTrack.pause();
+                this.questionsTrack.pause();
+                this.stopSoundEffect.play();
+            }
+            if (!this.stopTime) {
+                this.game.allShouldStop(false);
 
-            this.stopSoundEffect.pause();
+                this.stopSoundEffect.pause();
 
-            if (this.lastSongPlayed != undefined && !this.userWantsNoMusic) {
-                this.lastSongPlayed.play();
+                if (this.lastSongPlayed != undefined && !this.userWantsNoMusic) {
+                    this.lastSongPlayed.play();
+                }
+
+                this.stopSoundEffect.currentTime = 0;
+            }
+            // REWIND TIME********************************************************************
+            if (this.rewindTime) {
+                this.game.allShouldRewind(true);
+
+                this.unsheathSword = false;
+                this.unsheathSwordStandStill = false;
+
+                this.rewindSoundEffect.play();
+            }
+            if (!this.rewindTime) {
+                this.game.allShouldRewind(false);
+
+                this.rewindSoundEffect.pause();
+                this.rewindSoundEffect.currentTime = 0;
+            }
+            // SLOW TIME**********************************************************************
+            if (this.slowTime) {
+                this.game.allShouldSlow(true);
+
+                this.unsheathSword = false;
+                this.unsheathSwordStandStill = false;
+
+                this.slowSoundEffect.play();
+
+                if (this.lastSongPlayed !== undefined) {
+                    this.lastSongPlayed.playbackRate = 0.5;
+                }
+            }
+            if (!this.slowTime) {
+                this.game.allShouldSlow(false);
+
+                this.slowSoundEffect.pause();
+                this.slowSoundEffect.currentTime = 0;
+
+                if (this.lastSongPlayed !== undefined) {
+                    this.lastSongPlayed.playbackRate = 1;
+                }
+            }
+            // SPEED TIME*********************************************************************
+            if (this.speedTime) {
+                this.game.allShouldSpeed(true);
+
+                this.unsheathSword = false;
+                this.unsheathSwordStandStill = false;
+
+                this.speedSoundEffect.play();
+                //this.levelMusic.playbackRate = 1;
+            }
+            if (!this.speedTime) {
+                this.game.allShouldSpeed(false);
+
+                this.speedSoundEffect.pause();
+                this.speedSoundEffect.currentTime = 0;
+                //this.levelMusic.playbackRate = 1;
             }
 
-            this.stopSoundEffect.currentTime = 0;
-        }
-        // REWIND TIME********************************************************************
-        if (this.rewindTime) {
-            this.game.allShouldRewind(true);
+            // Reduce energy on using powers
+            if (this.isSpellcasting() && this.energy > 0) {
+                this.energy -= 5;
 
-            this.unsheathSword = false;
-            this.unsheathSwordStandStill = false;
-
-            this.rewindSoundEffect.play();
-        }
-        if (!this.rewindTime) {
-            this.game.allShouldRewind(false);
-
-            this.rewindSoundEffect.pause();
-            this.rewindSoundEffect.currentTime = 0;
-        }
-        // SLOW TIME**********************************************************************
-        if (this.slowTime) {
-            this.game.allShouldSlow(true);
-
-            this.unsheathSword = false;
-            this.unsheathSwordStandStill = false;
-
-            this.slowSoundEffect.play();
-
-            if (this.lastSongPlayed !== undefined) {
-                this.lastSongPlayed.playbackRate = 0.5;
             }
+        } else {
+            this.game.specialEffects.cleanupEffects();
         }
-        if (!this.slowTime) {
-            this.game.allShouldSlow(false);
-
-            this.slowSoundEffect.pause();
-            this.slowSoundEffect.currentTime = 0;
-
-            if (this.lastSongPlayed !== undefined) {
-                this.lastSongPlayed.playbackRate = 1;
-            }
-        }
-        // SPEED TIME*********************************************************************
-        if (this.speedTime) {
-            this.game.allShouldSpeed(true);
-
-            this.unsheathSword = false;
-            this.unsheathSwordStandStill = false;
-
-            this.speedSoundEffect.play();
-            //this.levelMusic.playbackRate = 1;
-        }
-        if (!this.speedTime) {
-            this.game.allShouldSpeed(false);
-
-            this.speedSoundEffect.pause();
-            this.speedSoundEffect.currentTime = 0;
-            //this.levelMusic.playbackRate = 1;
-        }
+        //console.log(this.energy);
     }
 
     // HANDLE UPDATE ON SWORD HANDLING----------------------------------------------------
@@ -1022,7 +1038,9 @@ class Blink extends Entity {
             !this.jumping &&
             !this.basicAttack &&
             !this.unsheathSword &&
-            !this.unsheathSwordStandStill
+            !this.unsheathSwordStandStill &&
+            this.energy > 0
+
         );
     }
     isStandingStill() {

@@ -33,7 +33,8 @@ class HealthBar {
 		this.game = game;
 		this.camera = this.game.camera;
 		this.blink = this.game.blink;
-		this.health = this.blink.health;
+        this.health = this.blink.health;
+        this.energy = this.blink.energy;
 		this.width = 8;
 		this.height = 46;
 		this.scale = 2;
@@ -41,7 +42,8 @@ class HealthBar {
 
 	}
 	update() {
-		this.health = this.blink.health;
+        this.health = this.blink.health;
+        this.energy = this.blink.energy;
 		// Add update for energy here
 
 
@@ -87,11 +89,11 @@ class HealthBar {
 			0,
 			0,
 			this.width,
-			this.height * (1000 / 1000),
+			this.height * (this.energy / 1000),
 			this.dx + this.offsetX,
 			this.dy,
 			this.width * this.scale,
-			this.height * (1000 / 1000) * this.scale
+            this.height * (this.energy / 1000) * this.scale
 		);
 
 	}
