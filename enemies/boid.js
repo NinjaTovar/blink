@@ -1,20 +1,23 @@
 class Boid extends Actor {
-	constructor(game, x, y, atkSpd) {
+	constructor(game, x, y, atkSpd, img) {
 		super(game, x, y, atkSpd);
 		this.frameWidth = 42;
 		this.frameHeight = 42;
 		this.super_update = this.update();
 		this.damage = 1;
-		this.animation = new Animation(
-			AM.getAsset("./img/enemies/mummy/mummyDying.png",
-				42,
-				42,
-				4,
-				.4,
-				16,
-				true,
-				1));
+		this.floatAnimation = new Animation(
+			img,
+			42,
+			42,
+			4,
+			.4,
+			16,
+			true,
+			1);
 	}
+
+
+
 
 	update() {
 		this.super_update;
@@ -30,14 +33,13 @@ class Boid extends Actor {
 		if (this.drawAroundHitBox) {
 			this.drawAroundBox();
 			//this.ctx.clearRect(this.x, this.y, this.frameWidth * this.size, this.frameHeight * this.size);
-			this.animation.drawFrame(
-				this.game.clockTick,
-				ctx,
-				this.x,
-				this.y
-			);
 		}
-
+		this.floatAnimation.drawFrame(
+			this.game.clockTick,
+			ctx,
+			this.x,
+			this.y
+		);
 
 	}
 
@@ -62,15 +64,5 @@ class Boid extends Actor {
 		else
 			this.y -= 2;
 	}
-	updateMyHitBoxes() {
-		this.hitB.width = this.frameWidth;
-		this.hitB.height = this.frameHeight;
-		this.hitB.boundX = this.boundX + 15;
-		this.hitB.boundY = this.boundY;
-		this.hitB.width = this.frameWidth;
-		this.hitB.height = this.frameHeight;
-		this.hitB.boundX = this.boundX + 24;
-		this.hitB.boundY = this.boundY;
 
-	}
 }
