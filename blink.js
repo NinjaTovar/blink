@@ -166,7 +166,7 @@ class Blink extends Entity {
 
         // DEATH--------------------------------------------------------------------------
         if (this.health <= 0) {
-            this.dead.drawFrame(this.game.blinksClockTick, ctx, this.x, this.y);
+            this.dead.drawFrame(this.game.blinksClockTick, ctx, this.x, this.y + 30);
             return;
         }
 
