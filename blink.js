@@ -496,12 +496,17 @@ class Blink extends Entity {
 
   //Handle collisons
   handleCollison(other, type) {
+    if (other instanceof Vegeta) {
+      other.blinkTouchedMe = true;
+    }
     // console.log("Blink has collided with a " + other.constructor.name);
     if (type === "attack" && this.basicAttack && !this.gotHit) {
       other.health -= 5;
+      other.gettingHit = true;
       if (other.health <= 0 && !(other instanceof Mummy)) {
         other.isDead = true;
       }
+
       if (Math.random() >= 0.7 && Math.random() > 0.9) {
         this.game.addEntity(
           new Coin(this.game, other.x + Math.floor(Math.random() * 44), other.y)
@@ -575,11 +580,13 @@ class Blink extends Entity {
       // If Blink is not attacking, it means he just got hit by an Enemy .. atleast for now
       // TODO: Maybe Come back and make this cleaner so that Blink gets hit based on collison distance
     }
+
     if (
       type === "damage" &&
       other.health > 0 &&
       !(other instanceof Platform) &&
-      !this.basicAttack
+      !this.basicAttack &&
+      !(other instanceof Vegeta)
     ) {
       this.gotHit = true;
       this.health -= other.damage;
@@ -939,7 +946,7 @@ class Blink extends Entity {
     var self = this;
 
     // HANDLE MUSIC TRACKS************************************************************
-    this.changeMusic.onclick = function () {
+    this.changeMusic.onclick = function() {
       // Set this to let level know music has been started somewhere
       self.beginMusic = false;
       self.userWantsNoMusic = false;
@@ -988,7 +995,7 @@ class Blink extends Entity {
       }
     };
     // STOP MUSIC*********************************************************************
-    this.stopMusic.onclick = function () {
+    this.stopMusic.onclick = function() {
       self.userWantsNoMusic = true;
       self.adventureTimeTrack.pause();
       self.sandsOfTimeTrack.pause();
@@ -1005,26 +1012,26 @@ class Blink extends Entity {
     };
 
     // HANDLE DEV BUTTONS*************************************************************
-    this.godModeButton.onclick = function () {
+    this.godModeButton.onclick = function() {
       self.godMode = !self.godMode;
     };
-    this.speedUpButton.onclick = function () {
+    this.speedUpButton.onclick = function() {
       self.speedUpMovement = !self.speedUpMovement;
     };
-    this.outlineHitBoxButton.onclick = function () {
+    this.outlineHitBoxButton.onclick = function() {
       self.outlineHitBox = !self.outlineHitBox;
     };
-    this.stopEnemiesButton.onclick = function () {
+    this.stopEnemiesButton.onclick = function() {
       self.stopEnemies = !self.stopEnemies;
     };
 
     // HANDLE LEVEL MANAGER BUTTONS***************************************************
-    this.levelOneButton.onclick = function () {
+    this.levelOneButton.onclick = function() {
       console.log("Level One clicked");
       self.game.levelManager.level = 2;
       self.game.levelManager.states.loadNextLevel = true;
     };
-    this.levelTwoButton.onclick = function () {
+    this.levelTwoButton.onclick = function() {
       console.log("Level Two clicked");
       self.game.levelManager.level = 4;
       self.game.levelManager.states.loadNextLevel = true;

@@ -37,6 +37,27 @@ class Violator extends Entity {
       true, // to loop or not to loop
       size // scale in relation to original image
     );
+    this.hitFaceRightAnimation = new Animation(
+      AM.getAsset("./img/enemies/violator/Violator_Hit_FaceRight.png"),
+      122, // frame width
+      103, // frame height
+      3, // sheet width
+      0.2, // frame duration
+      3, // frames in animation
+      true, // to loop or not to loop
+      size // scale in relation to original image
+    );
+
+    this.hitFaceLeftAnimation = new Animation(
+      AM.getAsset("./img/enemies/violator/Violator_Hit_FaceLeft.png"),
+      122, // frame width
+      103, // frame height
+      3, // sheet width
+      0.2, // frame duration
+      3, // frames in animation
+      true, // to loop or not to loop
+      size // scale in relation to original image
+    );
 
     this.x = startX;
     this.y = startY;
@@ -44,6 +65,7 @@ class Violator extends Entity {
     this.game = game;
     this.ctx = game.ctx;
     this.isHeadingRight = false;
+    this.gettingHit = false;
 
     // set invisible boundaries for enemies path
     this.randomMinBoundary =
@@ -87,7 +109,25 @@ class Violator extends Entity {
       // this.drawAroundBox();
       //this.ctx.clearRect(this.x, this.y, this.frameWidth * this.size, this.frameHeight * this.size);
     }
+    if (this.gettingHit) {
+      if (this.isHeadingRight) {
+        this.hitFaceRightAnimation.drawFrame(
+          this.game.clockTick,
+          ctx,
+          this.x,
+          this.y
+        );
+      } else {
+        this.hitFaceLeftAnimation.drawFrame(
+          this.game.clockTick,
+          ctx,
+          this.x,
+          this.y
+        );
+      }
 
+      return;
+    }
     // If field "isHeadingRight" is true, play fly right animation
     if (this.isHeadingRight && !this.willRewind()) {
       this.swingRightAnimation.drawFrame(
@@ -176,6 +216,11 @@ class Violator extends Entity {
     this.boundX = this.x + 70;
     this.boundY = this.y + 135;
 
+    if (this.gettingHit) {
+      this.gettingHit = false;
+
+      return;
+    }
     // FOR NOW LET"S LEAVE THIS GUY STATIONARY
     //if (this.isHeadingRight)
     //{

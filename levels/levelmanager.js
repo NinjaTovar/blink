@@ -20,7 +20,6 @@ class LevelManager {
   }
 
   update() {
-
     // if (this.game.blink.x == this.endOfLevelX && this.game.blink.y == this.endOfLevelY) {
     //   this.states.loadNextLevel = true;
     // }
@@ -50,7 +49,8 @@ class LevelManager {
         currentLevel.loadLevel();
       }
       this.states.levelLoaded = true;
-    } else {}
+    } else {
+    }
   }
   draw(ctx) {}
 }
