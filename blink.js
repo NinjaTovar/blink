@@ -43,6 +43,7 @@ class Blink extends Entity {
         this.energy = 1000;
         this.falling = false;
         this.myPlatforms = [];
+        this.level = 1;
         
         // What are these and what do they do?
         this.attackBox = new Hitbox(
@@ -497,7 +498,13 @@ class Blink extends Entity {
 
             if (this.y < other.y - other.frameHeight) {
                 if (!this.myPlatforms.includes(other)) {
-                    if (other.x > this.maxX) this.maxX = other.x;
+                    let width = 0;
+                    if (this.level == 2) {
+                        width = 0;
+                    } else if (this.level == 3) {
+                        width = other.width;
+                    }
+                    if (other.x + width > this.maxX) this.maxX = other.x + width;
                     if (other.x < this.minX) this.minX = other.x;
                     this.myPlatforms.push(other);
                     this.game.jumping = false;
@@ -516,6 +523,9 @@ class Blink extends Entity {
                     this.currentPlatform.y -
                     this.currentPlatform.height -
                     this.frameHeight;
+                if (this.level == 3) {
+                    this.platformY += 45;
+                }
                 this.y = this.platformY;
                 this.groundLevel = this.platformY;
                 this.falling = false;
@@ -528,9 +538,7 @@ class Blink extends Entity {
                 if (this.x >= this.xBeforeCollision && !this.facingRight) {
                     this.wallCollision = false;
                 }
-
             } else {
-
                 // in work wall detection
                 if (!this.wallCollision && this.facingRight) {
                     this.xBeforeCollision = this.x - 10;
@@ -555,13 +563,12 @@ class Blink extends Entity {
 
         if (
             type === "damage" &&
-            other.health > 0 &&
-            !(other instanceof Platform) &&
-            !this.basicAttack &&
-            !(other instanceof Vegeta)
+                other.health > 0 &&
+                !(other instanceof Platform) &&
+                !(other instanceof Vegeta)
         ) {
             this.gotHit = true;
-            this.health -= other.damage;
+            this.health -= 2;
             if (other.x > this.x) {
                 // console.log("hit from the right");
                 this.hitFromRight = true;

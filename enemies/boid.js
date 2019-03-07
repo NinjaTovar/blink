@@ -5,7 +5,7 @@ class Boid extends Actor {
 		this.frameWidth = 42 * this.scale;
 		this.frameHeight = 42 * this.scale;;
 		this.super_update = this.update();
-		this.damage = 20;
+		this.damage = 10;
 		this.health = 100;
 		this.floatAnimation = new Animation(
 			img,
