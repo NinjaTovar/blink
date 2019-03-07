@@ -76,6 +76,13 @@ AM.queueDownload("./img/vegeta.png");
 AM.queueDownload("./img/startMessage.png");
 AM.queueDownload("./img/messageStill.png");
 
+// Queue downlaoding Soldier
+AM.queueDownload("./img/enemies/soldier/SoldierShooting_FaceLeft.png");
+AM.queueDownload("./img/enemies/soldier/SoldierShooting_FaceRight.png");
+AM.queueDownload("./img/enemies/soldier/SoldierWalking_FaceRight.png");
+AM.queueDownload("./img/enemies/soldier/SoldierWalking_FaceLeft.png");
+AM.queueDownload("./img/enemies/bullets/orangeBullet.png");
+
 AM.downloadAll(function() {
   window.onload = function() {
     // Load game world. This is the top layer

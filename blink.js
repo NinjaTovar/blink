@@ -530,7 +530,6 @@ class Blink extends Entity {
           if (this.level == 2) {
             width = 0;
           } else if (this.level == 3) {
-            console.log("yo");
             width = other.width;
           }
           if (other.x + width > this.maxX) this.maxX = other.x + width;
@@ -594,7 +593,6 @@ class Blink extends Entity {
       type === "damage" &&
       other.health > 0 &&
       !(other instanceof Platform) &&
-      !this.basicAttack &&
       !(other instanceof Vegeta)
     ) {
       this.gotHit = true;

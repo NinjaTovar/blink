@@ -118,7 +118,6 @@ class GameEngine {
    *  entity[] array.
    */
   draw() {
-
     // normal draw function for each entity. We didn't make this.
     this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
     this.ctx.save();
@@ -278,6 +277,9 @@ class GameEngine {
   checkBlinksCollisons() {
     for (let j = 0; j < this.entities.length; j++) {
       let other = this.entities[j];
+      if (other instanceof Bullet && this.blink.hitB.collision(other.hitB)) {
+        other.handleCollison(other, "damage");
+      }
       if (
         other instanceof Platform &&
         this.blink.platformBox.collision(other.hitB)
@@ -421,14 +423,14 @@ class GameEngine {
 }
 
 // This helps discover what type of browser it will be communicating with
-window.requestAnimFrame = (function () {
+window.requestAnimFrame = (function() {
   return (
     window.requestAnimationFrame ||
     window.webkitRequestAnimationFrame ||
     window.mozRequestAnimationFrame ||
     window.oRequestAnimationFrame ||
     window.msRequestAnimationFrame ||
-    function (callback, element) {
+    function(callback, element) {
       window.setTimeout(callback, 1000 / 60);
     }
   );
