@@ -43,7 +43,7 @@ class Blink extends Entity {
         this.energy = 1000;
         this.falling = false;
         this.myPlatforms = [];
-
+        
         // What are these and what do they do?
         this.attackBox = new Hitbox(
             game,
@@ -574,6 +574,7 @@ class Blink extends Entity {
         }
     }
 
+    // HANDLE BLINK GETTING HIT----------------------------------------------------------
     handleBlinkGettingHit() {
         if (
             this.hitFacingLeft.elapsedTime > .34 ||
@@ -685,14 +686,14 @@ class Blink extends Entity {
     // HANDLE UPDATE ON MOVING------------------------------------------------------------
     /** Update method helper for what to do when moving. */
     handleWhatToDoWhenMoving() {
-        if (!this.wallCollision) {
-            if (!this.facingRight && this.isRunning()) {
-                this.x -= this.game.blinksClockTick * this.speed;
-            }
-            if (this.facingRight && this.isRunning()) {
-                this.x += this.game.blinksClockTick * this.speed;
-            }
+
+        if (!this.facingRight && this.isRunning()) {
+            this.x -= this.game.blinksClockTick * this.speed;
         }
+        if (this.facingRight && this.isRunning()) {
+            this.x += this.game.blinksClockTick * this.speed;
+        }
+
 
 
     }
@@ -1034,9 +1035,9 @@ class Blink extends Entity {
             !this.jumping &&
             !this.basicAttack &&
             !this.unsheathSword &&
-            !this.unsheathSwordStandStill && 
+            !this.unsheathSwordStandStill &&
             this.energy > 0
-        
+
         );
     }
     isStandingStill() {
