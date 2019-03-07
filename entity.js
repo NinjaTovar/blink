@@ -20,10 +20,12 @@ class Entity {
    */
   constructor(game, x, y) {
     this.game = game;
+    this.ctx = this.game.ctx;
     this.x = x;
     this.y = y;
     this.boundX = this.x;
     this.boundY = this.y;
+    this.damange = 2;
     this.health = 800;
     this.currentHealth = this.health;
     this.isDead = false;

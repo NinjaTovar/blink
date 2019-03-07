@@ -71,13 +71,16 @@ AM.queueDownload("./img/enemies/necroman/Necroman_FaceRight.png");
 // Queue downlaoding Jason
 AM.queueDownload("./img/enemies/jason.png");
 
+// Queue downloading red skull
+AM.queueDownload("./img/enemies/skull/redskull.png");
+
 // Queue downlaoding Vegeta
 AM.queueDownload("./img/vegeta.png");
 AM.queueDownload("./img/startMessage.png");
 AM.queueDownload("./img/messageStill.png");
 
-AM.downloadAll(function() {
-  window.onload = function() {
+AM.downloadAll(function () {
+  window.onload = function () {
     // Load game world. This is the top layer
     var canvas = document.getElementById("gameWorld");
     var gameCtx = canvas.getContext("2d");
