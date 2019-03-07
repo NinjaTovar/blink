@@ -1,12 +1,13 @@
 class Boid extends Actor {
-	constructor(game, x, y, atkSpd, img) {
-		super(game, x, y, atkSpd);
-		this.scale = 2;
+	constructor(game, x, y) {
+		super(game, x, y);
+		this.scale = 4;
 		this.frameWidth = 42 * this.scale;
 		this.frameHeight = 42 * this.scale;;
-		this.super_update = this.update();
 		this.damage = 1;
-		this.health = 100;
+		this.atkSpd = 1; // Bullet generation speed of skull
+		this.health = 500;
+		let img = AM.getAsset("./img/enemies/skull/redskull.png");
 		this.floatAnimation = new Animation(
 			img,
 			42,
@@ -22,8 +23,9 @@ class Boid extends Actor {
 
 
 	update() {
-		this.super_update;
+		super.update();
 		this.updateAim();
+		this.performAttack();
 		this.updatePosition();
 		this.boundX = this.x;
 		this.boundY = this.y;

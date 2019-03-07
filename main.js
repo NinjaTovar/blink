@@ -73,6 +73,7 @@ AM.queueDownload("./img/enemies/jason.png");
 
 // Queue downloading red skull
 AM.queueDownload("./img/enemies/skull/redskull.png");
+AM.queueDownload("./img/enemies/skull/fireball.png");
 
 // Queue downlaoding Vegeta
 AM.queueDownload("./img/vegeta.png");
