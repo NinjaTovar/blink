@@ -488,7 +488,7 @@ class Blink extends Entity {
             }
         }
         if (other instanceof Coin && type === "damage") {
-            this.coinCount += 1;
+            this.energy += 100;
             other.health = -1;
             other.isDead = true;
             return;
