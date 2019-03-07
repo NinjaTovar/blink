@@ -11,7 +11,6 @@ class Actor extends Entity {
 	}
 
 	performAttack() {
-		console.log("bullet generated" + this.atkSpd);
 
 		if (this.attackCounter > 25) {
 			this.attackCounter = 0;

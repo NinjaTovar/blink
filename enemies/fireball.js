@@ -53,7 +53,9 @@ class Fireball extends Entity {
 		if (this.y < 0 || this.y > this.game.camera.mapHeight) {
 			this.spdY = -this.spdY;
 			this.health = -1;
-
+		}
+		if (this.health <= 0) {
+			this.isDead = true;
 		}
 	}
 }

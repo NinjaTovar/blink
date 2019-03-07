@@ -2,10 +2,12 @@ class Boid extends Actor {
 	constructor(game, x, y) {
 		super(game, x, y);
 		this.scale = 4;
-		this.frameWidth = 42 * this.scale;
-		this.frameHeight = 42 * this.scale;;
-		this.damage = 1;
-		this.atkSpd = 1; // Bullet generation speed of skull
+		this.width = 42;
+		this.height = 42;
+		this.frameWidth = (this.width - 12) * this.scale; //-12 since the hitbox was too big
+		this.frameHeight = (this.height - 12) * this.scale;;
+		this.damage = 1; // Attack Damage of the skull
+		this.atkSpd = .5; // Bullet generation speed of skull
 		this.health = 500;
 		let img = AM.getAsset("./img/enemies/skull/redskull.png");
 		this.floatAnimation = new Animation(
@@ -27,16 +29,16 @@ class Boid extends Actor {
 		this.updateAim();
 		this.performAttack();
 		this.updatePosition();
-		this.boundX = this.x;
-		this.boundY = this.y;
+		this.boundX = this.x + 10;
+		this.boundY = this.y + 10;
 		this.updateMyHitBoxes();
 	}
 
 	draw(ctx) {
 		// debug tool
-		// if (this.drawAroundHitBox) {
-		// 	this.drawAroundBox();
-		// }
+		if (this.drawAroundHitBox) {
+			this.drawAroundBox();
+		}
 		this.floatAnimation.drawFrame(
 			this.game.clockTick,
 			ctx,
@@ -57,12 +59,14 @@ class Boid extends Actor {
 		var diffX = this.game.blink.x - this.x;
 		var diffY = this.game.blink.y - this.y;
 
-		if (diffX > 0)
+		// -400 is so that skull doesnt collide with blink and stays top left
+		// of blink
+		if (diffX - 400 > 0)
 			this.x += 2;
 		else
 			this.x -= 2;
 
-		if (diffY > 0)
+		if (diffY - 400 > 0)
 			this.y += 2;
 		else
 			this.y -= 2;
