@@ -8,6 +8,7 @@ class LevelManager {
     this.AM = AM; // Might need this later?
     this.ctx = ctx; // Might need this later?
     this.level = 4; // Indicates which level
+    this.currentLevel;
 
     this.endOfLevelX = 3500; // Default values will be changed when maps are loaded
     this.endOfLevelY = 3500;
@@ -33,24 +34,23 @@ class LevelManager {
 
       if (this.level == 1) {
         console.log("loading level One!");
-        let currentLevel = new LevelOne(this.game);
-        currentLevel.loadLevel();
+        this.currentLevel = new LevelOne(this.game);
+        this.currentLevel.loadLevel();
       } else if (this.level == 2) {
         console.log("loading level Two!");
-        let currentLevel = new LevelTwo(this.game);
-        currentLevel.loadLevel();
+        this.currentLevel = new LevelTwo(this.game);
+        this.currentLevel.loadLevel();
       } else if (this.level == 3) {
         console.log("loading level Three!");
-        let currentLevel = new LevelThree(this.game);
-        currentLevel.loadLevel();
+        this.currentLevel = new LevelThree(this.game);
+        this.currentLevel.loadLevel();
       } else if (this.level == 4) {
         console.log("loading level Four!");
-        let currentLevel = new LevelFour(this.game);
-        currentLevel.loadLevel();
+        this.currentLevel = new LevelFour(this.game);
+        this.currentLevel.loadLevel();
       }
       this.states.levelLoaded = true;
-    } else {
-    }
+    } else {}
   }
   draw(ctx) {}
 }
