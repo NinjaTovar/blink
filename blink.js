@@ -40,6 +40,7 @@ class Blink extends Entity {
         this.ctx = game.ctx;
         this.gotHit = false;
         this.health = 1000;
+        this.energy = 1000;
         this.falling = false;
         this.myPlatforms = [];
 
@@ -785,86 +786,97 @@ class Blink extends Entity {
      *  their individual responses to Blink's spell casting.
      */
     handleWhatToDoWhenSpellcasting() {
-        // STOP TIME**********************************************************************
-        if (this.stopTime) {
-            this.game.allShouldStop(true);
+        if (this.energy > 0) {
+            // STOP TIME**********************************************************************
+            if (this.stopTime) {
+                this.game.allShouldStop(true);
 
-            this.unsheathSword = false;
-            this.unsheathSwordStandStill = false;
+                this.unsheathSword = false;
+                this.unsheathSwordStandStill = false;
 
-            this.adventureTimeTrack.pause();
-            this.sandsOfTimeTrack.pause();
-            this.heroOfTimeTrack.pause();
-            this.mysteriousTrack.pause();
-            this.questionsTrack.pause();
-            this.stopSoundEffect.play();
-        }
-        if (!this.stopTime) {
-            this.game.allShouldStop(false);
+                this.adventureTimeTrack.pause();
+                this.sandsOfTimeTrack.pause();
+                this.heroOfTimeTrack.pause();
+                this.mysteriousTrack.pause();
+                this.questionsTrack.pause();
+                this.stopSoundEffect.play();
+            }
+            if (!this.stopTime) {
+                this.game.allShouldStop(false);
 
-            this.stopSoundEffect.pause();
+                this.stopSoundEffect.pause();
 
-            if (this.lastSongPlayed != undefined && !this.userWantsNoMusic) {
-                this.lastSongPlayed.play();
+                if (this.lastSongPlayed != undefined && !this.userWantsNoMusic) {
+                    this.lastSongPlayed.play();
+                }
+
+                this.stopSoundEffect.currentTime = 0;
+            }
+            // REWIND TIME********************************************************************
+            if (this.rewindTime) {
+                this.game.allShouldRewind(true);
+
+                this.unsheathSword = false;
+                this.unsheathSwordStandStill = false;
+
+                this.rewindSoundEffect.play();
+            }
+            if (!this.rewindTime) {
+                this.game.allShouldRewind(false);
+
+                this.rewindSoundEffect.pause();
+                this.rewindSoundEffect.currentTime = 0;
+            }
+            // SLOW TIME**********************************************************************
+            if (this.slowTime) {
+                this.game.allShouldSlow(true);
+
+                this.unsheathSword = false;
+                this.unsheathSwordStandStill = false;
+
+                this.slowSoundEffect.play();
+
+                if (this.lastSongPlayed !== undefined) {
+                    this.lastSongPlayed.playbackRate = 0.5;
+                }
+            }
+            if (!this.slowTime) {
+                this.game.allShouldSlow(false);
+
+                this.slowSoundEffect.pause();
+                this.slowSoundEffect.currentTime = 0;
+
+                if (this.lastSongPlayed !== undefined) {
+                    this.lastSongPlayed.playbackRate = 1;
+                }
+            }
+            // SPEED TIME*********************************************************************
+            if (this.speedTime) {
+                this.game.allShouldSpeed(true);
+
+                this.unsheathSword = false;
+                this.unsheathSwordStandStill = false;
+
+                this.speedSoundEffect.play();
+                //this.levelMusic.playbackRate = 1;
+            }
+            if (!this.speedTime) {
+                this.game.allShouldSpeed(false);
+
+                this.speedSoundEffect.pause();
+                this.speedSoundEffect.currentTime = 0;
+                //this.levelMusic.playbackRate = 1;
             }
 
-            this.stopSoundEffect.currentTime = 0;
-        }
-        // REWIND TIME********************************************************************
-        if (this.rewindTime) {
-            this.game.allShouldRewind(true);
+            // Reduce energy on using powers
+            if (this.isSpellcasting() && this.energy > 0) {
+                this.energy -= 5;
 
-            this.unsheathSword = false;
-            this.unsheathSwordStandStill = false;
-
-            this.rewindSoundEffect.play();
-        }
-        if (!this.rewindTime) {
-            this.game.allShouldRewind(false);
-
-            this.rewindSoundEffect.pause();
-            this.rewindSoundEffect.currentTime = 0;
-        }
-        // SLOW TIME**********************************************************************
-        if (this.slowTime) {
-            this.game.allShouldSlow(true);
-
-            this.unsheathSword = false;
-            this.unsheathSwordStandStill = false;
-
-            this.slowSoundEffect.play();
-
-            if (this.lastSongPlayed !== undefined) {
-                this.lastSongPlayed.playbackRate = 0.5;
             }
+        } else {
+            this.game.specialEffects.cleanupEffects();
         }
-        if (!this.slowTime) {
-            this.game.allShouldSlow(false);
-
-            this.slowSoundEffect.pause();
-            this.slowSoundEffect.currentTime = 0;
-
-            if (this.lastSongPlayed !== undefined) {
-                this.lastSongPlayed.playbackRate = 1;
-            }
-        }
-        // SPEED TIME*********************************************************************
-        if (this.speedTime) {
-            this.game.allShouldSpeed(true);
-
-            this.unsheathSword = false;
-            this.unsheathSwordStandStill = false;
-
-            this.speedSoundEffect.play();
-            //this.levelMusic.playbackRate = 1;
-        }
-        if (!this.speedTime) {
-            this.game.allShouldSpeed(false);
-
-            this.speedSoundEffect.pause();
-            this.speedSoundEffect.currentTime = 0;
-            //this.levelMusic.playbackRate = 1;
-        }
+        //console.log(this.energy);
     }
 
     // HANDLE UPDATE ON SWORD HANDLING----------------------------------------------------
@@ -1022,7 +1034,9 @@ class Blink extends Entity {
             !this.jumping &&
             !this.basicAttack &&
             !this.unsheathSword &&
-            !this.unsheathSwordStandStill
+            !this.unsheathSwordStandStill && 
+            this.energy > 0
+        
         );
     }
     isStandingStill() {

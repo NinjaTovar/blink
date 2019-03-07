@@ -55,7 +55,12 @@ class Camera {
         if (this.blink !== null) {
 
             // Update the camera.x value always
-            this.x = -this.blink.x + this.offsetX;
+            //console.log("Blink X: " + this.blink.x + ", Camera X: " + this.x);
+            //console.log(Math.abs(Math.abs(this.x) - Math.abs(this.blink.x) + 500));
+
+                this.x = -this.blink.x + this.offsetX;
+
+
 
             // for the y value, update it once blink has landed in a level.
             // After that, follow Blinks y value on a small delay.
