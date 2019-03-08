@@ -95,6 +95,7 @@ class Blink extends Entity
         this.speedSoundEffect = document.getElementById("speedTime");
         this.rewindSoundEffect = document.getElementById("rewindTime");
         this.stopSoundEffect = document.getElementById("stopTime");
+        this.specialRefillSoundEffect = document.getElementById("specialRefill");
         this.slashSoundEffect = document.getElementById("slash");
         this.dashSlashSoundEffect = document.getElementById("dashSlash");
         this.jumpSoundEffect = document.getElementById("jump");
@@ -532,17 +533,18 @@ class Blink extends Entity
             if (Math.random() >= 0.7 && Math.random() > 0.9)
             {
                 this.game.addEntity(
-                    new Coin(this.game, other.x + Math.floor(Math.random() * 44), other.y)
+                    new Clock(this.game, other.x + Math.floor(Math.random() * 44), other.y)
                 );
             }
         }
-        if (other instanceof Coin && type === "damage")
+        if (other instanceof Clock && type === "damage")
         {
             if (this.energy < 1000)
             {
                 this.energy += 100;
             }
 
+            this.specialRefillSoundEffect.play();
             other.health = -1;
             other.isDead = true;
             return;
@@ -766,16 +768,12 @@ class Blink extends Entity
             // If in the dash part of the attack animation, shift x position to emulate dash
             if (this.facingRight && this.dashSlashFaceRight.currentFrame() === 1)
             {
-                this.x += 20;
-            } else if (
-                !this.facingRight &&
-                this.dashSlashFaceLeft.currentFrame() === 1
-            )
-            {
-                this.x -= 20;
+                this.x += 30;
             }
-            //console.log(this.dashSlashFaceRight.isDone());
-            //console.log(this.dashSlashFaceRight.elapsedTime);
+            else if (!this.facingRight && this.dashSlashFaceLeft.currentFrame() === 1)
+            {
+                this.x -= 30;
+            }
         }
         if (!this.basicAttack)
         {
@@ -1015,7 +1013,6 @@ class Blink extends Entity
         {
             this.game.specialEffects.cleanupEffects();
         }
-        //console.log(this.energy);
     }
 
     // HANDLE UPDATE ON SWORD HANDLING----------------------------------------------------

@@ -20,7 +20,7 @@
     <script type="text/javascript" src="./vegeta.js"></script>
     <script type="text/javascript" src="./vegeta2.js"></script>
     <script type="text/javascript" src="./hitbox.js"></script>
-    <script type="text/javascript" src="./coin.js"></script>
+    <script type="text/javascript" src="./clock.js"></script>
     <script type="text/javascript" src="./platform.js"></script>
     <script type="text/javascript" src="./enemies/flymutant.js"></script>
     <script type="text/javascript" src="./enemies/metroid.js"></script>
@@ -116,11 +116,13 @@
 
                 <Font color='DeepPink' />
                 <tt>
-                    PROTIPS:
-                    <br />
-                    Use time powers to manipulate the enemies.
-                    <br />
-                    Collecting clocks will refill Blink's special meter.
+                    <center>
+                        PROTIPS:
+                        <br />
+                        Use time powers to manipulate the enemies.
+                        <br />
+                        Collecting clocks will refill Blink's special meter.
+                    </center>
                 </tt>
             </div>
 
@@ -209,7 +211,7 @@
                     </h4>
                     <h4>
                         <Font color='White' />A (Hold):
-                        <Font color='3498DB' />Attack!
+                        <Font color='3498DB' />Attack or Dash Cut!
                     </h4>
                     <h4>
                         <Font color='White' />Spacebar:
@@ -243,6 +245,8 @@
     <audio id="rewindTime" controls hidden preload="metadata" src="./audio/effects/RewindTime.wav" />
 
     <audio id="speedTime" controls hidden preload="metadata" src="./audio/effects/HighPitch.wav" />
+
+    <audio id="specialRefill" controls hidden preload="metadata" src="./audio/effects/SpecialRefill.wav" />
 
     <audio id="slash" controls hidden preload="metadata" src="./audio/effects/SwordSlash.wav" />
 
