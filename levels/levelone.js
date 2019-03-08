@@ -14,8 +14,13 @@ class LevelOne {
     this.game.addEntity(this.game.hud);
 
     // Manually set blinks coordinates here for now
-    this.game.blink.lastY = 50;
-    this.game.blink.groundLevel = 450;
+    // this.game.blink.groundLevel = 2200;
+    this.game.blink.y = 20;
+    this.game.blink.x = 300;
+    this.game.blink.platformY = null;
+    this.game.blink.lastY = 2200;
+    this.game.camera.x = 100;
+    this.game.camera.y = -100;
 
     // Add random number of violator up to 2
     for (var i = 0; i < Randomizer.returnRandomIntBetweenThese(1, 2); i++) {

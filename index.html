@@ -50,9 +50,9 @@
 <body>
 
     <!-- Load the game world layers -->
-    <canvas id="projectionsLayerBottom" tabindex="0" width="1000" height="600" style="position:absolute;left:0;top:0;"></canvas>
-    <canvas id="projectionsLayerMiddle" tabindex="0" width="1000" height="600" style="position:absolute;left:0;top:0;"></canvas>
-    <canvas id="gameWorld" tabindex="1" width="1000" height="600" style="position:absolute;left:0;top:0;"></canvas>
+    <canvas id="projectionsLayerBottom" tabindex="0" width="2000" height="600" style="position:absolute;left:0;top:0;"></canvas>
+    <canvas id="projectionsLayerMiddle" tabindex="0" width="2000" height="600" style="position:absolute;left:0;top:0;"></canvas>
+    <canvas id="gameWorld" tabindex="1" width="2000" height="600" style="position:absolute;left:0;top:0;"></canvas>
 
     <!-- Formatting for text instructions on-screen. Audio tags are below this.-->
     <p>
@@ -90,90 +90,44 @@
 
         <div class="row">
 
-
             <!-- Meet Blink -->
             <div class="column">
-                <center>
-                    <Font color='White' face="consolas" />
-                    <h1>
-                        ~
-                        <Font color='3498DB' /> *Blink*
-                        <Font color='White' /> ~
-                    </h1>
+                <h1>
+                    <Font color='3498DB' /> <center> *Blink* </center>
+                </h1>
 
-                    <Font color='E59866' />
-                    <tt>
-                        Meet
-                        <Font color='3498DB' />Blink
-                        <Font color='E59866' />. Who is he and where does he come from? No one knows, not even him.
-                    </tt>
+                <Font color="white" />
+                <tt>
+                    Meet
+                    <Font color='3498DB' />Blink
+                    <Font color='white' />. Who is he and where does he come from? No one knows, not even him.
                     <br />
-                    <tt>
-                        <Font color='3498DB' />Blink
-                        <Font color='E59866' /> has no memory of his past. But he does know one thing... time bends
-                        to
-                        his will. He sets out to find answers. And he will. Because time is his.
-                    </tt>
+                </tt>
+                <br />
+                <tt>
+                    <Font color='3498DB' />Blink
+                    <Font color='white' /> has no memory of his past. But he does know one thing... time bends
+                    to
+                    his will. He sets out to find answers. And he will. Because time is his.
                     <br />
+                </tt>
+                <br />
 
-                    <Font color='Chartreuse' />
-                    <tt>Warning: It is dangerous to go alone, there are 'features' everywhere.</tt>
+                <Font color='DeepPink' />
+                <tt>
+                    PROTIPS:
                     <br />
-                    <tt>
-                        Ok so they are bugs. But listen. It's gonna be sweet. You'll use your time powers to make
-                        it
-                        through obstacles and bosses.
-                    </tt>
+                    Use time powers to manipulate the enemies.
                     <br />
-
-                    <Font color='DeepPink' />
-                    <tt>
-                        PROTIP: Hold a time power and act, while your foes watch in horror as you slip outside the
-                        fabric of time.
-                    </tt>
-                </center>
-            </div>
-
-            <!-- Control Scheme -->
-            <div class="column">
-                <center>
-                    <h2><mark>Controls</mark></h2>
-                    <h4>
-                        <Font color='White' />W (Hold):
-                        <Font color='3498DB' />Slow Time!
-                    </h4>
-                    <h4>
-                        <Font color='White' />F (Hold):
-                        <Font color='3498DB' />Speed Time!
-                    </h4>
-                    <h4>
-                        <Font color='White' />S (Hold):
-                        <Font color='3498DB' />Stop Time!
-                    </h4>
-                    <h4>
-                        <Font color='White' />D (Hold):
-                        <Font color='3498DB' />Rewind Time!
-                    </h4>
-                    <h4>
-                        <Font color='White' />A (Hold):
-                        <Font color='3498DB' />Attack!
-                    </h4>
-                    <h4>
-                        <Font color='White' />Spacebar:
-                        <Font color='3498DB' />Jump
-                    </h4>
-                    <h4>
-                        <Font color='White' />Left/Right Arrows:
-                        <Font color='3498DB' />Movement
-                    </h4>
-                </center>
+                    Collecting clocks will refill Blink's special meter.
+                </tt>
             </div>
 
             <!-- Change Music -->
             <div class="column">
                 <center>
                     <h2>
-                        <Font color='2090C8' />Change Level Music
+                        <Font color='2090C8' />Jukebox
                         <Font color='White' />
                     </h2>
                     <button class="buttonPlay" id="changeMusic" type="button"> Switch Tracks!</button>
@@ -202,30 +156,70 @@
                 </center>
             </div>
 
-            <!-- Developer Toolset -->
+
+            <div class="column">
+
+                <!-- Level Manager-->
+                <h2>
+                    <Font color='2090C8' />Level Manager (In-Work)
+                    <Font color='White' />
+                </h2>
+                <button class="buttonLevelOne" id="levelOne" type="button">Level One</button>
+                <button class="buttonLevelTwo" id="levelTwo" type="button">Level Two</button>
+                <br />
+                <br />
+                <button class="buttonLevelThree" id="levelThree" type="button">Level Three</button>
+                <button class="buttonLevelFour" id="levelFour" type="button">Level Four</button>
+
+                <!-- Developer Toolset -->
+                <h2>
+                    <Font color='2090C8' />Dev Toolkit
+                    <Font color='White' />
+                </h2>
+                <button class="buttonGodMode" id="godMode" type="button">God Mode (Disabled)</button>
+                <button class="buttonSpeedUp" id="speedUp" type="button">Speed Up Blink</button>
+                <br />
+                <br />
+                <button class="buttonHitBox" id="outlineHitBox" type="button">Hit Boxes (Disabled)</button>
+                <button class="buttonStopEnemies" id="stopEnemies" type="button">Stop All Enemies</button>
+
+            </div>
+
+            <!-- Control Scheme -->
             <div class="column">
                 <center>
-                    <h2>
-                        <Font color='2090C8' />Developer Tools
-                        <Font color='White' />
-                    </h2>
-                    <button class="buttonGodMode" id="godMode" type="button">God Mode (Not Active)</button>
-                    <button class="buttonSpeedUp" id="speedUp" type="button">Speed Up Blink</button>
-                    <br />
-                    <br />
-                    <br />
-                    <button class="buttonHitBox" id="outlineHitBox" type="button">Outline Hit Boxes</button>
-                    <button class="buttonStopEnemies" id="stopEnemies" type="button">Stop All Enemies</button>
-
-                    <!-- Level Manager-->
-                    <h2>
-                        <Font color='2090C8' />Level Manager
-                        <Font color='White' />
-                    </h2>
-                    <button class="buttonLevelOne" id="levelOne" type="button">Switch to Level One</button>
-                    <button class="buttonLevelTwo" id="levelTwo" type="button">Switch to Level Two</button>
-                </center>
-            </div>
+                    <Font color='2090C8' />
+                    <h2>Controls</h2>
+                    <h4>
+                        <Font color='White' />W (Hold):
+                        <Font color='3498DB' />Slow Time!
+                    </h4>
+                    <h4>
+                        <Font color='White' />F (Hold):
+                        <Font color='3498DB' />Speed Time!
+                    </h4>
+                    <h4>
+                        <Font color='White' />S (Hold):
+                        <Font color='3498DB' />Stop Time!
+                    </h4>
+                    <h4>
+                        <Font color='White' />D (Hold):
+                        <Font color='3498DB' />Rewind Time!
+                    </h4>
+                    <h4>
+                        <Font color='White' />A (Hold):
+                        <Font color='3498DB' />Attack!
+                    </h4>
+                    <h4>
+                        <Font color='White' />Spacebar:
+                        <Font color='3498DB' />Jump
+                    </h4>
+                    <h4>
+                        <Font color='White' />Left/Right Arrows:
+                        <Font color='3498DB' />Movement
+                    </h4>
+                    </center>
+</div>
 
         </div>
     </p>

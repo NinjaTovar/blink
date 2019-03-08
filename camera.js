@@ -45,7 +45,7 @@ class Camera
     {
         // If blink is just barely into the start of the level or
         // right before the end, translate the canvas to emulate a camera
-        if (this.blink.x > 500 && this.blink.x < this.mapWidth)
+        if (this.blink.x > 1000 && this.blink.x < this.mapWidth)
         {
             this.endOfLevelX = this.x;
             this.endOfLevelY = this.y;
@@ -61,14 +61,11 @@ class Camera
     {
         if (this.blink !== null)
         {
-
             // Update the camera.x value always
             //console.log("Blink X: " + this.blink.x + ", Camera X: " + this.x);
             //console.log(Math.abs(Math.abs(this.x) - Math.abs(this.blink.x) + 500));
 
             this.x = -this.blink.x + this.offsetX;
-
-
 
             // for the y value, update it once blink has landed in a level.
             // After that, follow Blinks y value on a small delay.
@@ -86,6 +83,8 @@ class Camera
 
         }
 
+        //console.log("X: " + this.blink.x + ", Y: " + this.blink.y);
+        //console.log("camX: " + this.x + ", camY: " + this.y);
     }
 
     // Not being used for now, hope to used to be able to smooth out the camera
@@ -114,29 +113,3 @@ class Camera
     }
 
 }
-
-// draw() {
-//     // If blink is just barely into the start of the level or
-//     // right before the end, translate the canvas to emulate a camera
-//     if (this.blink.x > 400 && this.blink.x < this.mapWidth - 400 && this.blink.y > 300 && this.blink.y < this.mapHeight - 300) {
-//         this.endOfLevelX = this.x;
-//         this.endOfLevelY = this.y;
-//         // this.game.bottomProjectionCtx.translate(this.x, this.y);
-//         // this.game.middleProjectionCtx.translate(this.x, this.y);
-//         this.ctx.translate(this.x, this.y);
-//     }
-//     // otherwise stay stationary
-//     else {
-//         this.ctx.translate(this.endOfLevelX, this.endOfLevelY);
-//     }
-// }
-// update() {
-//     if (this.blink != null) {
-//         if (this.blink.x > 400 && this.blink.x < this.mapWidth - 400 && this.blink.y > 300 && this.blink.y < this.mapHeight - 300) {
-
-//             this.updateBounds();
-//             this.x = -this.blink.x + this.offsetX;
-//             this.y = -this.blink.y + this.offsetY;
-//         }
-//     }
-// }
