@@ -42,15 +42,9 @@ class Blink extends Entity {
         this.health = 1000;
         this.energy = 1000;
         this.falling = false;
-        this.myPlatforms = []; <<
-        << << < HEAD
+        this.myPlatforms = [];
+        this.level = 1;
 
-            ===
-            === =
-            this.level = 1;
-
-        >>>
-        >>> > 6 d6629884b344c4e36e89d85340709e2216cf90d
         // What are these and what do they do?
         this.attackBox = new Hitbox(
             game,
