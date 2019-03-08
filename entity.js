@@ -47,6 +47,9 @@ class Entity
         this.myVerticalPath.push(this.y);
         this.shouldRewind = false;
         this.resetPath = false;
+
+        // Enemy Sounds
+        this.enemyInjuredSoundEffect = document.getElementById("enemyHurt");
     }
 
     /** Update handles updating the objects world state. */
@@ -144,23 +147,45 @@ class Entity
         // make enemies recoil when hit
         if (this.health > 10)
         {
-            //if hit
+            // If the health has changed since last check
             if (this.currentHealth !== this.health)
             {
+                // reset this check
                 this.currentHealth = this.health;
 
+                // And recoil the enemy depending on direction facing
                 if (this.game.blink.facingRight)
                 {
                     if (!(this instanceof Blink))
                     {
-                        this.x += 20;
+                        // If dash cut move less so blink can dash through
+                        if (!this.game.blink.moving)
+                        {
+                            this.x += 15;
+                        }
+                        else
+                        {
+                            this.x += 5;
+                        }
+
+                        this.enemyInjuredSoundEffect.play();
                     }
 
-                } else if (!this.game.blink.facingRight)
+                }
+                else if (!this.game.blink.facingRight)
                 {
                     if (!(this instanceof Blink))
                     {
-                        this.x -= 20;
+                        if (!this.game.blink.moving)
+                        {
+                            this.x -= 15;
+                        }
+                        else
+                        {
+                            this.x -= 5;
+                        }
+
+                        this.enemyInjuredSoundEffect.play();
                     }
                 }
             }
