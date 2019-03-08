@@ -94,6 +94,7 @@ class Blink extends Entity {
         this.rewindSoundEffect = document.getElementById("rewindTime");
         this.stopSoundEffect = document.getElementById("stopTime");
         this.slashSoundEffect = document.getElementById("slash");
+        this.dashSlashSoundEffect = document.getElementById("dashSlash");
         this.jumpSoundEffect = document.getElementById("jump");
         this.jumpLandingSoundEffect = document.getElementById("jumpLanding");
         this.damageSoundEffects = [
@@ -165,7 +166,6 @@ class Blink extends Entity {
             this.attackBox.drawHitBox();
             this.hitB.drawHitBox();
             this.platformBox.drawHitBox();
-            this.ctx.clearRect(this.x, this.y, this.frameWidth * this.size, this.frameHeight * this.size);
         }
 
         // DEATH--------------------------------------------------------------------------
@@ -657,7 +657,7 @@ class Blink extends Entity {
                 this.dashSlashFaceLeft.currentFrame() === 1 ||
                 this.dashSlashFaceLeft.currentFrame() === 2
             ) {
-                this.slashSoundEffect.play();
+                this.dashSlashSoundEffect.play();
             } else if (
                 this.slashFaceRight.currentFrame() === 1 ||
                 this.slashFaceLeft.currentFrame() === 1
@@ -686,6 +686,8 @@ class Blink extends Entity {
             this.jumpSlashSoundPlayed = false;
             this.slashSoundEffect.pause();
             this.slashSoundEffect.currentTime = 0;
+            this.dashSlashSoundEffect.pause();
+            this.dashSlashSoundEffect.currentTime = 0;
             this.dashSlashFaceRight.elapsedTime = 0;
             this.slashFaceLeft.elapsedTime = 0;
             this.slashFaceRight.elapsedTime = 0;

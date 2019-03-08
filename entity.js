@@ -52,45 +52,13 @@ class Entity
     /** Update handles updating the objects world state. */
     update()
     {
+        // Handle recoil when struck by Blink
+        this.handleGettingHitByBlink();
 
-        if (this.game.resetPaths != undefined)
-        {
-            this.resetPath = this.game.resetPaths;
-        }
+        // Handle subclasses rewinding
+        this.handleRewind();
 
-        if (this.resetPath)
-        {
-            this.x = this.myPath.pop();
-            this.y = this.myVerticalPath.pop();
-
-            console.log("Rewind path is reset");
-
-            this.resetPath = false;
-            this.game.resetPaths = false;
-        }
-
-        if (this.myPath.length == 1)
-        {
-            this.shouldRewind = false;
-            this.game.shouldRewind = false;
-        }
-
-        // If not under rewind spell
-        if (!this.shouldRewind)
-        {
-            // save current x coordinates if difference from previous coordinate is at
-            // least one third pixel
-            if (
-                Math.abs(
-                    Math.abs(this.x) - Math.abs(this.myPath[this.myPath.length - 1])
-                ) > 0.3
-            )
-            {
-                this.myPath.push(this.x);
-                this.myVerticalPath.push(this.y);
-            }
-        }
-
+        // Calls each entity subclasses update method
         this.subClassUpdate();
     }
 
@@ -168,5 +136,73 @@ class Entity
     willRewind()
     {
         return this.myPath.length > 0 && this.shouldRewind;
+    }
+
+    // HANDLE COLLISION RECOIL------------------------------------------------------------
+    handleGettingHitByBlink()
+    {
+        // make enemies recoil when hit
+        if (this.health > 10)
+        {
+            //if hit
+            if (this.currentHealth !== this.health)
+            {
+                this.currentHealth = this.health;
+
+                if (this.game.blink.facingRight)
+                {
+                    if (!(this instanceof Blink))
+                    {
+                        this.x += 20;
+                    }
+
+                } else if (!this.game.blink.facingRight)
+                {
+                    if (!(this instanceof Blink))
+                    {
+                        this.x -= 20;
+                    }
+                }
+            }
+        }
+    }
+
+    // REWIND FOR ALL SUBCLASSES------------------------------------------------------
+    handleRewind()
+    {
+        if (this.game.resetPaths != undefined)
+        {
+            this.resetPath = this.game.resetPaths;
+        }
+        if (this.resetPath)
+        {
+            this.x = this.myPath.pop();
+            this.y = this.myVerticalPath.pop();
+
+            console.log("Rewind path is reset");
+
+            this.resetPath = false;
+            this.game.resetPaths = false;
+        }
+        if (this.myPath.length == 1)
+        {
+            this.shouldRewind = false;
+            this.game.shouldRewind = false;
+        }
+        // If not under rewind spell
+        if (!this.shouldRewind)
+        {
+            // save current x coordinates if difference from previous coordinate is at
+            // least one third pixel
+            if (
+                Math.abs(
+                    Math.abs(this.x) - Math.abs(this.myPath[this.myPath.length - 1])
+                ) > 0.3
+            )
+            {
+                this.myPath.push(this.x);
+                this.myVerticalPath.push(this.y);
+            }
+        }
     }
 }
