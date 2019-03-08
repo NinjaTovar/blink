@@ -15,36 +15,28 @@ class LevelTwo {
         this.game.addEntity(this.game.blink);
         this.game.addEntity(this.game.hud);
         this.game.addEntity(new Vegeta(this.game, 200, 290, 2));
-
-        // Manually set blinks coordinates here for now
-        this.game.blink.groundLevel = 290;
-        this.game.blink.y = 290;
-        this.game.blink.x = 100;
-        this.game.blink.platformY = null;
-        this.game.blink.lastY = 290;
-        this.game.camera.x = -100;
-				this.game.camera.y = 0;
-
-        this.game.addEntity(
-          new Bug(
-            this.game,
-            1800,
-            302,
-            2.5,
-            Randomizer.returnRandomDirection()
-          )
-        );
-        // for (var i = 0; i < 7; i+=2) {
-        //     this.game.addEntity(
-        //       new Mummy(
-        //         this.game,
-        //         1110 + (i * 95),
-        //         320,
-        //         2.5,
-        //         Randomizer.returnRandomDirection()
-        //       )
-        //     );
-        //   }
+        this.game.addEntity(new Soldier(this.game, 950, 813, 2, true));
+        this.game.addEntity(new Soldier(this.game, 2480, 605, 2, true));
+        // this.game.addEntity(
+        //   new Bug(
+        //     this.game,
+        //     1800,
+        //     302,
+        //     2.5,
+        //     Randomizer.returnRandomDirection()
+        //   )
+        // );
+        for (var i = 0; i < 4; i+=2) {
+            this.game.addEntity(
+              new Mummy(
+                this.game,
+                1110 + (i * 95),
+                320,
+                2.5,
+                Randomizer.returnRandomDirection()
+              )
+            );
+          }
 
 
           for (var i = 0; i < 3; i++) {

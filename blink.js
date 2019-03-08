@@ -400,11 +400,6 @@ class Blink extends Entity {
      *  as it could potentially be a hard bug to find. */
     // **********************************   UPDATE  **************************************
     update() {
-        if (this.y > 3000) {
-            this.x = 100;
-            this.y = -100;
-            return;
-        }
         // If not jumping, make sure Blink is on the ground level/And Or on his platform
         if (!this.jumping) {
             if (this.currentPlatform != null) {

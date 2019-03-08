@@ -278,6 +278,9 @@ class GameEngine {
   checkBlinksCollisons() {
     for (let j = 0; j < this.entities.length; j++) {
       let other = this.entities[j];
+      if (other instanceof Bullet && this.blink.hitB.collision(other.hitB)) {
+        other.handleCollison(other, "damage");
+      }
       if (
         other instanceof Platform &&
         this.blink.platformBox.collision(other.hitB)

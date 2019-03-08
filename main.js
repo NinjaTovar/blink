@@ -40,6 +40,13 @@ AM.queueDownload("./img/blink/blinkface.png");
 AM.queueDownload("./img/blink/Crono_Falling.png");
 AM.queueDownload("./img/blink/Crono_Falling.png");
 
+// Queue downlaoding Soldier
+AM.queueDownload("./img/enemies/soldier/SoldierShooting_FaceLeft.png");
+AM.queueDownload("./img/enemies/soldier/SoldierShooting_FaceRight.png");
+AM.queueDownload("./img/enemies/soldier/SoldierWalking_FaceRight.png");
+AM.queueDownload("./img/enemies/soldier/SoldierWalking_FaceLeft.png");
+AM.queueDownload("./img/enemies/bullets/orangeBullet.png");
+
 // Queue downloading Bug
 AM.queueDownload("./img/enemies/bug/BugRun_FaceLeft.png");
 AM.queueDownload("./img/enemies/bug/BugRun_FaceRight.png");
