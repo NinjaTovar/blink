@@ -72,11 +72,7 @@ class Mummy extends Entity {
       );
     }
 
-    // this will be used for rewind
-    this.myPath = [];
-    this.myPath.push(this.x);
-    this.shouldRewind = false;
-    this.resetPath = false;
+
 
     // debug tool
     this.drawAroundHitBox = false;
@@ -154,7 +150,7 @@ class Mummy extends Entity {
   }
 
   /** Update handles updating the objects world state. */
-  update() {
+  subClassUpdate() {
 
     if (this.health > 10) {
       //if hit
@@ -174,44 +170,11 @@ class Mummy extends Entity {
       }
     }
 
-
-    if (this.game.resetPaths != undefined) {
-      this.resetPath = this.game.resetPaths;
-    }
-
     if (this.health <= 0) {
       if (this.deathAnimation.elapsedTime > 5) {
         this.isDead = true;
       }
       return;
-    }
-
-    // alert mummy to reset the array for path variables
-    if (this.resetPath) {
-      this.x = this.myPath.pop();
-
-      console.log("Rewind path is reset");
-
-      this.resetPath = false;
-      this.game.resetPaths = false;
-    }
-
-    if (this.myPath.length == 1) {
-      this.shouldRewind = false;
-      this.game.shouldRewind = false;
-    }
-
-    // If not under rewind spell
-    if (!this.shouldRewind) {
-      // save current x coordinates if difference from previous coordinate is at
-      // least one third pixel
-      if (
-        Math.abs(
-          Math.abs(this.x) - Math.abs(this.myPath[this.myPath.length - 1])
-        ) > 0.3
-      ) {
-        this.myPath.push(this.x);
-      }
     }
 
     if (this.isHeadingRight) {
@@ -228,11 +191,6 @@ class Mummy extends Entity {
     this.boundX = this.x;
     this.boundY = this.y;
     this.updateMyHitBoxes();
-  }
-
-  // Helper booleans for state
-  willRewind() {
-    return this.myPath.length > 0 && this.shouldRewind;
   }
 
   updateMyHitBoxes() {

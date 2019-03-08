@@ -172,7 +172,7 @@ class Bug extends Entity {
   }
 
   /** Update handles updating the objects world state. */
-  update() {
+  subClassUpdate() {
     this.updateMyHitBoxes();
     if (this.game.resetPaths != undefined) {
       this.resetPath = this.game.resetPaths;
@@ -226,11 +226,6 @@ class Bug extends Entity {
 
     this.boundX = this.x;
     this.boundY = this.y;
-  }
-
-  // Helper booleans for state
-  willRewind() {
-    return this.myPath.length > 0 && this.shouldRewind;
   }
 
   updateMyHitBoxes() {

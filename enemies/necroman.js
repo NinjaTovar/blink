@@ -45,11 +45,6 @@ class Necroman extends Entity {
     this.ctx = game.ctx;
     this.isHeadingRight = false;
 
-    // this will be used for rewind
-    this.myPath = [];
-    this.myPath.push(this.x);
-    this.shouldRewind = false;
-
     // debug tool
     this.drawAroundHitBox = false;
     this.frameWidth = 500;
@@ -82,7 +77,7 @@ class Necroman extends Entity {
   }
 
   /** Update handles updating the objects world state. */
-  update() {
+  subClassUpdate() {
     this.updateMyHitBoxes();
   }
 }

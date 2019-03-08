@@ -27,35 +27,50 @@ class Fireball extends Entity {
 			this.scale);
 
 	}
-	update() {
+	subClassUpdate() {
 		this.updatePosition();
 		this.boundX = this.x;
 		this.boundY = this.y;
 		this.updateMyHitBoxes();
 	}
-	draw(ctx) {
-		this.fireballAnimation.drawFrame(
-			this.game.clockTick,
-			ctx,
-			this.x,
-			this.y
-		);
+    draw(ctx) {
+        if (!this.willRewind()) {
+            this.fireballAnimation.drawFrame(
+                this.game.clockTick,
+                ctx,
+                this.x,
+                this.y
+            );
+        } else {
+            this.x = this.myPath.pop();
+            this.fireballAnimation.drawFrame(
+                this.game.clockTick,
+                ctx,
+                this.x,
+                this.y
+            );
+        }
+
 	}
 
-	updatePosition() {
-		this.x += this.spdX;
-		this.y += this.spdY;
+    updatePosition() {
 
-		if (this.x < 0 || this.x > this.game.camera.mapWidth) {
-			this.spdX = -this.spdX;
-			this.health = -1;
-		}
-		if (this.y < 0 || this.y > this.game.camera.mapHeight) {
-			this.spdY = -this.spdY;
-			this.health = -1;
-		}
-		if (this.health <= 0) {
-			this.isDead = true;
-		}
+        if (!this.game.blink.stopTime) {
+            this.x += this.spdX;
+            this.y += this.spdY;
+
+            if (this.x < 0 || this.x > this.game.camera.mapWidth) {
+                this.spdX = -this.spdX;
+                this.health = -1;
+            }
+            if (this.y < 0 || this.y > this.game.camera.mapHeight) {
+                this.spdY = -this.spdY;
+                this.health = -1;
+            }
+            if (this.health <= 0) {
+                this.isDead = true;
+            }
+        }
+
 	}
 }

@@ -36,13 +36,51 @@ class Entity {
       this.frameWidth,
       this.frameHeight,
       "damage"
-    );
+      );
+
+    // this will be used for rewind
+    this.myPath = [];
+    this.myPath.push(this.x);
+    this.shouldRewind = false;
+    this.resetPath = false;
   }
 
   /** Update handles updating the objects world state. */
-  update() {
-    console.log("CALL");
-  }
+    update() {
+
+      if (this.game.resetPaths != undefined) {
+          this.resetPath = this.game.resetPaths;
+      }
+
+      if (this.resetPath) {
+          this.x = this.myPath.pop();
+
+          console.log("Rewind path is reset");
+
+          this.resetPath = false;
+          this.game.resetPaths = false;
+      }
+
+      if (this.myPath.length == 1) {
+          this.shouldRewind = false;
+          this.game.shouldRewind = false;
+      }
+
+      // If not under rewind spell
+      if (!this.shouldRewind) {
+          // save current x coordinates if difference from previous coordinate is at
+          // least one third pixel
+          if (
+              Math.abs(
+                  Math.abs(this.x) - Math.abs(this.myPath[this.myPath.length - 1])
+              ) > 0.3
+          ) {
+              this.myPath.push(this.x);
+          }
+        }
+
+      this.subClassUpdate();
+    }
 
   /**
    * Draws the entity within the game world.
@@ -107,5 +145,10 @@ class Entity {
     this.hitB.height = this.frameHeight;
     this.hitB.boundX = this.boundX;
     this.hitB.boundY = this.boundY;
+    }
+
+  // Helper booleans for state
+  willRewind() {
+      return this.myPath.length > 0 && this.shouldRewind;
   }
 }

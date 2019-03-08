@@ -61,12 +61,6 @@ class FlyMutant extends Entity {
       );
     }
 
-    // this will be used for rewind
-    this.myPath = [];
-    this.myPath.push(0);
-    this.shouldRewind = false;
-    this.resetPath = false;
-
     // debug tool
     this.drawAroundHitBox = false;
     this.frameWidth = 0;
@@ -129,38 +123,7 @@ class FlyMutant extends Entity {
   }
 
   /** Update handles updating the objects world state. */
-  update() {
-    if (this.game.resetPaths != undefined) {
-      this.resetPath = this.game.resetPaths;
-    }
-
-    // alert fly to reset the array for path variables
-    if (this.resetPath) {
-      this.x = this.myPath.pop();
-
-      console.log("Rewind path is reset");
-
-      this.resetPath = false;
-      this.game.resetPaths = false;
-    }
-
-    if (this.myPath.length == 1) {
-      this.shouldRewind = false;
-      this.game.shouldRewind = false;
-    }
-
-    // If not under rewind spell
-    if (!this.shouldRewind) {
-      // save current x coordinates if difference from previous coordinate is at
-      // least one third pixel
-      if (
-        Math.abs(
-          Math.abs(this.x) - Math.abs(this.myPath[this.myPath.length - 1])
-        ) > 0.3
-      ) {
-        this.myPath.push(this.x);
-      }
-    }
+  subClassUpdate() {
 
     if (this.isHeadingRight) {
       this.x += this.game.clockTick * this.speed;
@@ -173,10 +136,5 @@ class FlyMutant extends Entity {
         this.isHeadingRight = true;
       }
     }
-  }
-
-  // Helper booleans for state
-  willRewind() {
-    return this.myPath.length > 0 && this.shouldRewind;
   }
 }

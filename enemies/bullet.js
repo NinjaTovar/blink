@@ -36,12 +36,6 @@ class Bullet extends Entity {
     this.ctx = game.ctx;
     this.isHeadingRight = isHeadingRight;
 
-    // this will be used for rewind
-    this.myPath = [];
-    this.myPath.push(this.x);
-    this.shouldRewind = false;
-    this.resetPath = false;
-
     // debug tool
     this.drawAroundHitBox = false;
     this.frameWidth = 18;
@@ -62,16 +56,27 @@ class Bullet extends Entity {
       // this.drawAroundBox();
     }
 
-    this.orangeBulletAnimation.drawFrame(
-      this.game.clockTick,
-      ctx,
-      this.x,
-      this.y
-    );
+      if (!this.willRewind()) {
+          this.orangeBulletAnimation.drawFrame(
+              this.game.clockTick,
+              ctx,
+              this.x,
+              this.y
+          );
+      }
+      else {
+          this.x = this.x = this.myPath.pop();
+          this.orangeBulletAnimation.drawFrame(
+              this.game.clockTick,
+              ctx,
+              this.x,
+              this.y
+          );
+      }
   }
 
   /** Update handles updating the objects world state. */
-  update() {
+  subClassUpdate() {
     if (Math.abs(this.x - this.startX) > 300) {
       this.isDead = true;
     }

@@ -96,43 +96,81 @@ class Soldier extends Entity {
       this.drawAroundBox();
     }
 
-    if (this.shouldShoot) {
-      if (this.isHeadingRight) {
-        this.shootFaceRightAnimation.drawFrame(
-          this.game.clockTick,
-          ctx,
-          this.x,
-          this.y
-        );
+      if (!this.willRewind()) {
+          if (this.shouldShoot) {
+              if (this.isHeadingRight) {
+                  this.shootFaceRightAnimation.drawFrame(
+                      this.game.clockTick,
+                      ctx,
+                      this.x,
+                      this.y
+                  );
+              } else {
+                  this.shootFaceLeftAnimation.drawFrame(
+                      this.game.clockTick,
+                      ctx,
+                      this.x,
+                      this.y
+                  );
+              }
+          } else {
+              if (this.isHeadingRight) {
+                  this.walkRightAnimation.drawFrame(
+                      this.game.clockTick,
+                      ctx,
+                      this.x,
+                      this.y
+                  );
+              } else {
+                  this.walkLeftAnimation.drawFrame(
+                      this.game.clockTick,
+                      ctx,
+                      this.x,
+                      this.y
+                  );
+              }
+          }
       } else {
-        this.shootFaceLeftAnimation.drawFrame(
-          this.game.clockTick,
-          ctx,
-          this.x,
-          this.y
-        );
+          this.x = this.x = this.myPath.pop();
+          if (this.shouldShoot) {
+              if (this.isHeadingRight) {
+                  this.shootFaceRightAnimation.drawFrame(
+                      this.game.clockTick,
+                      ctx,
+                      this.x,
+                      this.y
+                  );
+              } else {
+                  this.shootFaceLeftAnimation.drawFrame(
+                      this.game.clockTick,
+                      ctx,
+                      this.x,
+                      this.y
+                  );
+              }
+          } else {
+              if (this.isHeadingRight) {
+                  this.walkRightAnimation.drawFrame(
+                      this.game.clockTick,
+                      ctx,
+                      this.x,
+                      this.y
+                  );
+              } else {
+                  this.walkLeftAnimation.drawFrame(
+                      this.game.clockTick,
+                      ctx,
+                      this.x,
+                      this.y
+                  );
+              }
+          }
       }
-    } else {
-      if (this.isHeadingRight) {
-        this.walkRightAnimation.drawFrame(
-          this.game.clockTick,
-          ctx,
-          this.x,
-          this.y
-        );
-      } else {
-        this.walkLeftAnimation.drawFrame(
-          this.game.clockTick,
-          ctx,
-          this.x,
-          this.y
-        );
-      }
-    }
+
   }
 
   /** Update handles updating the objects world state. */
-  update() {
+  subClassUpdate() {
     // console.log(this.shootFaceRightAnimation.elapsedTime);
     if (
       (Math.abs(this.x - this.game.blink.x) <= 200 && !this.isHeadingRight) ||
