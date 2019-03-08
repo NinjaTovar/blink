@@ -38,11 +38,13 @@ class Entity {
       "damage"
       );
 
-    // this will be used for rewind
-    this.myPath = [];
-    this.myPath.push(this.x);
-    this.shouldRewind = false;
-    this.resetPath = false;
+      // this will be used for rewind
+      this.myPath = [];
+      this.myPath.push(this.x);
+      this.myVerticalPath = [];
+      this.myVerticalPath.push(this.y);
+      this.shouldRewind = false;
+      this.resetPath = false;
   }
 
   /** Update handles updating the objects world state. */
@@ -54,6 +56,7 @@ class Entity {
 
       if (this.resetPath) {
           this.x = this.myPath.pop();
+          this.y = this.myVerticalPath.pop();
 
           console.log("Rewind path is reset");
 
@@ -76,6 +79,7 @@ class Entity {
               ) > 0.3
           ) {
               this.myPath.push(this.x);
+              this.myVerticalPath.push(this.y);
           }
         }
 

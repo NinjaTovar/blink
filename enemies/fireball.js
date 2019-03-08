@@ -43,6 +43,7 @@ class Fireball extends Entity {
             );
         } else {
             this.x = this.myPath.pop();
+            this.y = this.myVerticalPath.pop();
             this.fireballAnimation.drawFrame(
                 this.game.clockTick,
                 ctx,
