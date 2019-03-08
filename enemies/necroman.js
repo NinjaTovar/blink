@@ -67,7 +67,6 @@ class Necroman extends Entity
     if (this.drawAroundHitBox)
     {
       this.drawAroundBox();
-      //this.ctx.clearRect(this.x, this.y, this.frameWidth * this.size, this.frameHeight * this.size);
     }
 
     // If field "isHeadingRight" is true, play fly right animation
