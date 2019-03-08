@@ -2,12 +2,14 @@ class Actor extends Entity {
 	constructor(game, x, y) {
 		super(game, x, y);
 		this.attackCounter = 0;
+		this.specialAttackCounter = 0;
 		this.aimAngle = 0;
 
 	}
 
 	update() {
 		this.attackCounter += this.atkSpd;
+		this.specialAttackCounter += this.atkSpd;
 	}
 
 	performAttack() {
@@ -19,12 +21,15 @@ class Actor extends Entity {
 	}
 
 	performSpecialAttack() {
-		if (this.attackCounter > 50) {
-			this.attackCounter = 0;
+		if (this.specialAttackCounter > 100) {
+			this.specialAttackCounter = 0;
+			console.log("special attack");
+			this.generateBullet(this, this.aimAngle - 20);
+			this.generateBullet(this, this.aimAngle - 10);
+			this.generateBullet(this, this.aimAngle);
+			this.generateBullet(this, this.aimAngle + 10);
+			this.generateBullet(this, this.aimAngle + 20);
 
-			generateBullet(this, this.aimAngle - 5);
-			generateBullet(this, this.aimAngle);
-			generateBullet(this, this.aimAngle + 5);
 		}
 	}
 	generateBullet(actor, aimOverwrite) {

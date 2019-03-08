@@ -1,7 +1,5 @@
-class Fireball extends Entity
-{
-    constructor(game, x, y, speedX, speedY)
-    {
+class Fireball extends Entity {
+    constructor(game, x, y, speedX, speedY) {
         super(game, x, y);
 
 
@@ -29,25 +27,21 @@ class Fireball extends Entity
             this.scale);
 
     }
-    subClassUpdate()
-    {
+    subClassUpdate() {
         this.updatePosition();
         this.boundX = this.x;
         this.boundY = this.y;
         this.updateMyHitBoxes();
     }
-    draw(ctx)
-    {
-        if (!this.willRewind())
-        {
+    draw(ctx) {
+        if (!this.willRewind()) {
             this.fireballAnimation.drawFrame(
                 this.game.clockTick,
                 ctx,
                 this.x,
                 this.y
             );
-        } else
-        {
+        } else {
             this.x = this.myPath.pop();
             this.y = this.myVerticalPath.pop();
             this.fireballAnimation.drawFrame(
@@ -60,29 +54,30 @@ class Fireball extends Entity
 
     }
 
-    updatePosition()
-    {
+    updatePosition() {
+        // this.x += this.spdX;
+        // this.y += this.spdY;
 
-        if (!this.game.blink.stopTime)
-        {
+        if (this.health < 90) {
+            this.x -= this.spdX * 5;
+            this.y -= this.spdY * 5;
+        } else {
             this.x += this.spdX;
             this.y += this.spdY;
-
-            if (this.x < 0 || this.x > this.game.camera.mapWidth)
-            {
-                this.spdX = -this.spdX;
-                this.health = -1;
-            }
-            if (this.y < 0 || this.y > this.game.camera.mapHeight)
-            {
-                this.spdY = -this.spdY;
-                this.health = -1;
-            }
-            if (this.health <= 0)
-            {
-                this.isDead = true;
-            }
         }
-
+        if (this.x < 0 || this.x > this.game.camera.mapWidth) {
+            this.spdX = -this.spdX;
+            this.health = -1;
+            this.isDead = true;
+        }
+        if (this.y < 0 || this.y > this.game.camera.mapHeight) {
+            this.spdY = -this.spdY;
+            this.health = -1;
+            this.isDead = true;
+        }
+        // if (this.health <= 90) {
+        // 	this.health = -1;
+        // 	this.isDead = true;
+        // }
     }
 }

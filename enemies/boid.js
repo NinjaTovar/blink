@@ -31,6 +31,7 @@ class Boid extends Actor
 		super.update();
 		this.updateAim();
 		this.performAttack();
+		this.performSpecialAttack();
 		this.updatePosition();
 		this.boundX = this.x + 10;
 		this.boundY = this.y + 10;
