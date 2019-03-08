@@ -5,7 +5,8 @@
  * Single constructor takes in the game context as its parameter.
  *
  */
-class Blink extends Entity {
+class Blink extends Entity
+{
     /**
      * Single constructor for blink. Loads assets and sets intial parameters including
      * the speed, starting x/y position, jump height, etc.
@@ -13,7 +14,8 @@ class Blink extends Entity {
      * @constructor
      * @param {any} game A reference to the game engine.
      */
-    constructor(game) {
+    constructor(game)
+    {
         super(game, 50, 450);
         this.canBeatBoss = false;
 
@@ -44,7 +46,7 @@ class Blink extends Entity {
         this.falling = false;
         this.myPlatforms = [];
         this.level = 1;
-        
+
         // What are these and what do they do?
         this.attackBox = new Hitbox(
             game,
@@ -142,6 +144,8 @@ class Blink extends Entity {
         // LEVEL MANAGER
         this.levelOneButton = document.getElementById("levelOne");
         this.levelTwoButton = document.getElementById("levelTwo");
+        this.levelThreeButton = document.getElementById("levelThree");
+        this.levelFourButton = document.getElementById("levelFour");
 
         // Set up all html elements to listeners with actions
         this.handleButtonListeners();
@@ -156,10 +160,12 @@ class Blink extends Entity {
      * @param {any} ctx  A reference to the Game Context.
      */
     // ************************************   DRAW   *************************************
-    draw(ctx) {
+    draw(ctx)
+    {
 
         // DEBUG TOOL HIT BOX-------------------------------------------------------------
-        if (this.drawAroundHitBox) {
+        if (this.drawAroundHitBox)
+        {
             this.attackBox.drawHitBox();
             this.hitB.drawHitBox();
             this.platformBox.drawHitBox();
@@ -167,31 +173,38 @@ class Blink extends Entity {
         }
 
         // DEATH--------------------------------------------------------------------------
-        if (this.health <= 0) {
+        if (this.health <= 0)
+        {
             this.dead.drawFrame(this.game.blinksClockTick, ctx, this.x, this.y + 30);
             return;
         }
 
         // FALLING------------------------------------------------------------------------
-        if (this.falling) {
-            if (this.facingRight) {
+        if (this.falling)
+        {
+            if (this.facingRight)
+            {
                 this.fall.drawFrame(this.game.blinksClockTick, ctx, this.x, this.y);
-            } else {
+            } else
+            {
                 this.fall.drawFrame(this.game.blinksClockTick, ctx, this.x, this.y);
             }
             return;
         }
 
         // GOT HIT------------------------------------------------------------------------
-        if (this.gotHit) {
-            if (this.facingRight) {
+        if (this.gotHit)
+        {
+            if (this.facingRight)
+            {
                 this.hitFacingRight.drawFrame(
                     this.game.blinksClockTick,
                     ctx,
                     this.x,
                     this.y
                 );
-            } else {
+            } else
+            {
                 this.hitFacingLeft.drawFrame(
                     this.game.blinksClockTick,
                     ctx,
@@ -203,16 +216,19 @@ class Blink extends Entity {
         }
 
         // UNSHEATH SWORD-----------------------------------------------------------------
-        if (this.unsheathSword) {
+        if (this.unsheathSword)
+        {
             // Unsheath your sword animation facing left or right
-            if (this.facingRight) {
+            if (this.facingRight)
+            {
                 this.swordUnsheath_FaceRight.drawFrame(
                     this.game.blinksClockTick,
                     ctx,
                     this.x,
                     this.y
                 );
-            } else {
+            } else
+            {
                 this.swordUnsheath_FaceLeft.drawFrame(
                     this.game.blinksClockTick,
                     ctx,
@@ -222,15 +238,18 @@ class Blink extends Entity {
             }
         }
         // Once unsheath animation is done, play a still of last frame.
-        if (this.unsheathSwordStandStill) {
-            if (this.facingRight) {
+        if (this.unsheathSwordStandStill)
+        {
+            if (this.facingRight)
+            {
                 this.atTheReady_FaceRight.drawFrame(
                     this.game.blinksClockTick,
                     ctx,
                     this.x,
                     this.y
                 );
-            } else {
+            } else
+            {
                 this.atTheReady_FaceLeft.drawFrame(
                     this.game.blinksClockTick,
                     ctx,
@@ -241,16 +260,19 @@ class Blink extends Entity {
         }
 
         // STANDING-----------------------------------------------------------------------
-        if (this.isStandingStill()) {
+        if (this.isStandingStill())
+        {
             // if standing still face right or left depending on last state
-            if (this.facingRight) {
+            if (this.facingRight)
+            {
                 this.standRightAnimation.drawFrame(
                     this.game.blinksClockTick,
                     ctx,
                     this.x,
                     this.y
                 );
-            } else if (!this.facingRight) {
+            } else if (!this.facingRight)
+            {
                 this.standLeftAnimation.drawFrame(
                     this.game.blinksClockTick,
                     ctx,
@@ -263,17 +285,21 @@ class Blink extends Entity {
             //this.frameHeight = this.standRightAnimation.frameHeight;
         }
         // JUMPING------------------------------------------------------------------------
-        if (this.jumping) {
-            if (!this.basicAttack) {
+        if (this.jumping)
+        {
+            if (!this.basicAttack)
+            {
                 // If jumping and attacking, jump attack animation left or right
-                if (!this.facingRight) {
+                if (!this.facingRight)
+                {
                     this.jumpFaceLeftAnimation.drawFrame(
                         this.game.blinksClockTick,
                         ctx,
                         this.x,
                         this.y
                     );
-                } else if (this.facingRight) {
+                } else if (this.facingRight)
+                {
                     this.jumpFaceRightAnimation.drawFrame(
                         this.game.blinksClockTick,
                         ctx,
@@ -286,16 +312,19 @@ class Blink extends Entity {
                 //this.frameHeight = this.jumpFaceRightAnimation.frameHeight;
             }
             // JUMP ATTACK----------------------------------------------------------------
-            else {
+            else
+            {
                 // if NOT attacking but jumping, play jump animation facing left/right
-                if (!this.facingRight) {
+                if (!this.facingRight)
+                {
                     this.jumpAttackFaceLeft.drawFrame(
                         this.game.blinksClockTick,
                         ctx,
                         this.x,
                         this.y
                     );
-                } else if (this.facingRight) {
+                } else if (this.facingRight)
+                {
                     this.jumpAttackFaceRight.drawFrame(
                         this.game.blinksClockTick,
                         ctx,
@@ -310,10 +339,13 @@ class Blink extends Entity {
         }
 
         // ATTACKING----------------------------------------------------------------------
-        if (this.basicAttack && !this.jumping) {
-            if (!this.moving) {
+        if (this.basicAttack && !this.jumping)
+        {
+            if (!this.moving)
+            {
                 // basic attack left or right depending on direction
-                if (!this.facingRight) {
+                if (!this.facingRight)
+                {
                     this.y = this.y - 40; // fix his attack frames that jump a bit
                     this.slashFaceLeft.drawFrame(
                         this.game.blinksClockTick,
@@ -321,7 +353,8 @@ class Blink extends Entity {
                         this.x,
                         this.y
                     );
-                } else if (this.facingRight) {
+                } else if (this.facingRight)
+                {
                     this.y = this.y - 40; // fix his attack frames that jump a bit
                     this.slashFaceRight.drawFrame(
                         this.game.blinksClockTick,
@@ -330,9 +363,11 @@ class Blink extends Entity {
                         this.y
                     );
                 }
-            } else {
+            } else
+            {
                 // basic attack left or right depending on direction
-                if (!this.facingRight) {
+                if (!this.facingRight)
+                {
                     this.y = this.y - 40; // fix his attack frames that jump a bit
                     this.dashSlashFaceLeft.drawFrame(
                         this.game.blinksClockTick,
@@ -340,7 +375,8 @@ class Blink extends Entity {
                         this.x,
                         this.y
                     );
-                } else if (this.facingRight) {
+                } else if (this.facingRight)
+                {
                     this.y = this.y - 40; // fix his attack frames that jump a bit
                     this.dashSlashFaceRight.drawFrame(
                         this.game.blinksClockTick,
@@ -352,9 +388,11 @@ class Blink extends Entity {
             }
         }
         // RUNNING------------------------------------------------------------------------
-        if (this.isRunning()) {
+        if (this.isRunning())
+        {
             // if facing left and moving, run left animation
-            if (!this.facingRight) {
+            if (!this.facingRight)
+            {
                 this.runFaceLeftAnimation.drawFrame(
                     this.game.blinksClockTick,
                     ctx,
@@ -363,7 +401,8 @@ class Blink extends Entity {
                 );
             }
             // if facing right and moving, run right animation
-            else if (this.moving && !this.jumping) {
+            else if (this.moving && !this.jumping)
+            {
                 this.runFaceRightAnimation.drawFrame(
                     this.game.blinksClockTick,
                     ctx,
@@ -373,18 +412,21 @@ class Blink extends Entity {
             }
         }
         // SPELLCASTING-------------------------------------------------------------------
-        if (this.isSpellcasting()) {
+        if (this.isSpellcasting())
+        {
             var raiseUpABit = 100;
 
             // If rewinding time
-            if (!this.facingRight) {
+            if (!this.facingRight)
+            {
                 this.spellFaceLeft.drawFrame(
                     this.game.blinksClockTick,
                     ctx,
                     this.x,
                     this.y - raiseUpABit
                 );
-            } else if (this.facingRight) {
+            } else if (this.facingRight)
+            {
                 this.spellFaceRight.drawFrame(
                     this.game.blinksClockTick,
                     ctx,
@@ -399,12 +441,16 @@ class Blink extends Entity {
     /** All changes to blinks state happen here. Draw should not handle those changes
      *  as it could potentially be a hard bug to find. */
     // **********************************   UPDATE  **************************************
-    update() {
+    update()
+    {
         // If not jumping, make sure Blink is on the ground level/And Or on his platform
-        if (!this.jumping) {
-            if (this.currentPlatform != null) {
+        if (!this.jumping)
+        {
+            if (this.currentPlatform != null && this.platformY != null)
+            {
                 this.y = this.platformY;
-            } else {
+            } else
+            {
 
                 // bring him down to earth if neccessary
                 this.falling = true;
@@ -412,13 +458,15 @@ class Blink extends Entity {
             }
         }
 
-        if (this.damageSoundEffect == null || this.isStandingStill()) {
+        if (this.damageSoundEffect == null || this.isStandingStill())
+        {
             this.damageSoundEffect = this.damageSoundEffects[
                 Math.floor(Math.random() * this.damageSoundEffects.length)
             ];
         }
 
-        if (this.myPlatforms.length > 0 && this.fellOff()) {
+        if (this.myPlatforms.length > 0 && this.fellOff())
+        {
             console.log("Cleared myPlatforms[]");
             this.maxX = -10;
             this.minX = 20000;
@@ -436,7 +484,7 @@ class Blink extends Entity {
         this.handleWhatToDoWhenMoving();
         this.handleWhatToDoWhenAttacking();
         this.handleStartLevel();
-        this.handleBlinkGettingHit();
+        this.handleBlinkGettingInjured();
 
         // Temporary helper for keeping blinks inside boundaries of canvas
         // Probably replace when collisions/camera are finalized
@@ -453,8 +501,10 @@ class Blink extends Entity {
     /** Handles starting music. Can't autoplay without level interaction due to Chrome's
      * aggressive rules.
      */
-    handleStartLevel() {
-        if (this.levelStarted && this.beginMusic) {
+    handleStartLevel()
+    {
+        if (this.levelStarted && this.beginMusic)
+        {
             this.changeMusic.click();
 
             this.levelStarted = false;
@@ -462,26 +512,32 @@ class Blink extends Entity {
         }
     }
 
-    //Handle collisons
-    handleCollison(other, type) {
-        if (other instanceof Vegeta) {
+    // HANDLE COLLISIONS------------------------------------------------------------------
+    handleCollison(other, type)
+    {
+        if (other instanceof Vegeta)
+        {
             other.blinkTouchedMe = true;
         }
         // console.log("Blink has collided with a " + other.constructor.name);
-        if (type === "attack" && this.basicAttack && !this.gotHit) {
+        if (type === "attack" && this.basicAttack && !this.gotHit)
+        {
             other.health -= 5;
             other.gettingHit = true;
-            if (other.health <= 0 && !(other instanceof Mummy)) {
+            if (other.health <= 0 && !(other instanceof Mummy))
+            {
                 other.isDead = true;
             }
 
-            if (Math.random() >= 0.7 && Math.random() > 0.9) {
+            if (Math.random() >= 0.7 && Math.random() > 0.9)
+            {
                 this.game.addEntity(
                     new Coin(this.game, other.x + Math.floor(Math.random() * 44), other.y)
                 );
             }
         }
-        if (other instanceof Coin && type === "damage") {
+        if (other instanceof Coin && type === "damage")
+        {
             if (this.energy < 1000)
             {
                 this.energy += 100;
@@ -491,16 +547,21 @@ class Blink extends Entity {
             other.isDead = true;
             return;
         }
-        if (other instanceof Platform && type !== "attack") {
+        if (other instanceof Platform && type !== "attack")
+        {
             // console.log("Collided with platform");
             // If blink is on top of the platform, make him land on it
 
-            if (this.y < other.y - other.frameHeight) {
-                if (!this.myPlatforms.includes(other)) {
+            if (this.y < other.y - other.frameHeight)
+            {
+                if (!this.myPlatforms.includes(other))
+                {
                     let width = 0;
-                    if (this.level == 2) {
+                    if (this.level == 2)
+                    {
                         width = 0;
-                    } else if (this.level == 3) {
+                    } else if (this.level == 3)
+                    {
                         width = other.width;
                     }
                     if (other.x + width > this.maxX) this.maxX = other.x + width;
@@ -522,27 +583,35 @@ class Blink extends Entity {
                     this.currentPlatform.y -
                     this.currentPlatform.height -
                     this.frameHeight;
-                if (this.level == 3) {
+                if (this.level == 3)
+                {
                     this.platformY += 45;
                 }
+
+
                 this.y = this.platformY;
                 this.groundLevel = this.platformY;
                 this.falling = false;
 
                 //in work wall detection
-                if (this.x <= this.xBeforeCollision && this.facingRight) {
+                if (this.x <= this.xBeforeCollision && this.facingRight)
+                {
                     this.wallCollision = false;
                 }
                 // in work wall detection
-                if (this.x >= this.xBeforeCollision && !this.facingRight) {
+                if (this.x >= this.xBeforeCollision && !this.facingRight)
+                {
                     this.wallCollision = false;
                 }
-            } else {
+            } else
+            {
                 // in work wall detection
-                if (!this.wallCollision && this.facingRight) {
+                if (!this.wallCollision && this.facingRight)
+                {
                     this.xBeforeCollision = this.x - 10;
                     this.x = this.xBeforeCollision;
-                } else if (!this.wallCollision && !this.facingRight) {
+                } else if (!this.wallCollision && !this.facingRight)
+                {
                     this.xBeforeCollision = this.x + 10;
                     this.x = this.xBeforeCollision;
                 }
@@ -562,16 +631,19 @@ class Blink extends Entity {
 
         if (
             type === "damage" &&
-                other.health > 0 &&
-                !(other instanceof Platform) &&
-                !(other instanceof Vegeta)
-        ) {
+            other.health > 0 &&
+            !(other instanceof Platform) &&
+            !(other instanceof Vegeta)
+        )
+        {
             this.gotHit = true;
             this.health -= 2;
-            if (other.x > this.x) {
+            if (other.x > this.x)
+            {
                 // console.log("hit from the right");
                 this.hitFromRight = true;
-            } else {
+            } else
+            {
                 // console.log("hit from the Left");
                 this.hitFromLeft = true;
             }
@@ -579,52 +651,62 @@ class Blink extends Entity {
     }
 
     // HANDLE BLINK GETTING HIT----------------------------------------------------------
-    handleBlinkGettingHit()
+    handleBlinkGettingInjured()
     {
         if (this.gotHit)
         {
             if (
                 this.hitFacingLeft.elapsedTime > .34 ||
-                    this.hitFacingRight.elapsedTime > .34
-            ) {
+                this.hitFacingRight.elapsedTime > .34
+            )
+            {
                 this.hitFacingLeft.elapsedTime = 0;
                 this.hitFacingRight.elapsedTime = 0;
                 this.gotHit = false;
                 this.hitFromLeft = false;
                 this.hitFromRight = false;
-            } else {
+            } else
+            {
                 this.damageSoundEffect.play();
             }
-            if (this.hitFromRight) {
+            if (this.hitFromRight)
+            {
                 this.x -= 4;
-            } else {
+            } else
+            {
                 this.x += 4;
             }
         }
-
     }
 
     // HANDLE DEV TOOLS-------------------------------------------------------------------
     /** Update method helper to update developer modes when needed. */
-    handleDeveloperTools() {
-        if (this.speedUpMovement) {
+    handleDeveloperTools()
+    {
+        if (this.speedUpMovement)
+        {
             this.speed = this.originalSpeed * 5;
         }
-        if (!this.speedUpMovement) {
+        if (!this.speedUpMovement)
+        {
             this.speed = this.originalSpeed;
         }
-        if (this.stopEnemies) {
+        if (this.stopEnemies)
+        {
             this.game.devModeStopTime = true;
             this.game.allShouldStop(true);
         }
-        if (!this.stopEnemies) {
+        if (!this.stopEnemies)
+        {
             this.game.devModeStopTime = false;
         }
-        if (this.outlineHitBox) {
+        if (this.outlineHitBox)
+        {
             // this needs updating when collision detecting is in
             this.game.drawAroundSpriteSheet(true);
         }
-        if (!this.outlineHitBox) {
+        if (!this.outlineHitBox)
+        {
             // this needs updating when collision detecting is in
             this.game.drawAroundSpriteSheet(false);
         }
@@ -632,13 +714,16 @@ class Blink extends Entity {
 
     // HANDLE UPDATE ON CANVAS BOUNDARIES-------------------------------------------------
     /** Update helper method for keeping Blink in bounds. */
-    handleKeepingBlinkInCanvas() {
+    handleKeepingBlinkInCanvas()
+    {
         // TODO - on finish of camera rework this
         // keep in bounds of canvas until camera class is functional
-        if (this.x > this.game.mapWidth) {
+        if (this.x > this.game.mapWidth)
+        {
             this.x = this.game.mapWidth;
             this.moving = false;
-        } else if (this.x < 0) {
+        } else if (this.x < 0)
+        {
             this.x = 0;
             this.moving = false;
         }
@@ -646,21 +731,25 @@ class Blink extends Entity {
 
     // HANDLE UPDATE WHEN ATTACKING-------------------------------------------------------
     /** Update method helper for when attacking. */
-    handleWhatToDoWhenAttacking() {
+    handleWhatToDoWhenAttacking()
+    {
         // If attack (but not jump attacking)
-        if (this.basicAttack && !this.isJumpAttacking()) {
+        if (this.basicAttack && !this.isJumpAttacking())
+        {
             // play slash sounds and reset sword unsheathing animation booleans
             if (
                 this.dashSlashFaceRight.currentFrame() === 1 ||
                 this.dashSlashFaceRight.currentFrame() === 2 ||
                 this.dashSlashFaceLeft.currentFrame() === 1 ||
                 this.dashSlashFaceLeft.currentFrame() === 2
-            ) {
+            )
+            {
                 this.slashSoundEffect.play();
             } else if (
                 this.slashFaceRight.currentFrame() === 1 ||
                 this.slashFaceLeft.currentFrame() === 1
-            ) {
+            )
+            {
                 this.slashSoundEffect.play();
             }
 
@@ -668,18 +757,21 @@ class Blink extends Entity {
             this.unsheathSwordStandStill = false;
 
             // If in the dash part of the attack animation, shift x position to emulate dash
-            if (this.facingRight && this.dashSlashFaceRight.currentFrame() === 1) {
+            if (this.facingRight && this.dashSlashFaceRight.currentFrame() === 1)
+            {
                 this.x += 20;
             } else if (
                 !this.facingRight &&
                 this.dashSlashFaceLeft.currentFrame() === 1
-            ) {
+            )
+            {
                 this.x -= 20;
             }
             //console.log(this.dashSlashFaceRight.isDone());
             //console.log(this.dashSlashFaceRight.elapsedTime);
         }
-        if (!this.basicAttack) {
+        if (!this.basicAttack)
+        {
             // if not attacking, mak sure to reset the slash sound so it sounds right
             // on next attack
             this.jumpSlashSoundPlayed = false;
@@ -694,12 +786,15 @@ class Blink extends Entity {
 
     // HANDLE UPDATE ON MOVING------------------------------------------------------------
     /** Update method helper for what to do when moving. */
-    handleWhatToDoWhenMoving() {
+    handleWhatToDoWhenMoving()
+    {
 
-        if (!this.facingRight && this.isRunning()) {
+        if (!this.facingRight && this.isRunning())
+        {
             this.x -= this.game.blinksClockTick * this.speed;
         }
-        if (this.facingRight && this.isRunning()) {
+        if (this.facingRight && this.isRunning())
+        {
             this.x += this.game.blinksClockTick * this.speed;
         }
 
@@ -709,25 +804,30 @@ class Blink extends Entity {
 
     // HANDLE UPDATE ON JUMPING-----------------------------------------------------------
     /** Update helper method for what to do when jumping. */
-    handleWhatToDoWhenJumping() {
+    handleWhatToDoWhenJumping()
+    {
         // If jumping, use animations elasped time for setting jump to false. This is
         // currently the best way to keep the animation looking sexy.
         if (this.gotHit) return;
-        if (this.jumping || this.isJumpAttacking()) {
+        if (this.jumping || this.isJumpAttacking())
+        {
             // put that sword away boi
             this.unsheathSword = false;
 
             // play jump sound
             this.jumpSoundEffect.play();
 
-            if (this.elapsedJumpTime < 0.9) {
+            if (this.elapsedJumpTime < 0.9)
+            {
                 this.elapsedJumpTime += this.jumpTimer.tick();
 
-                if (!this.jumpSlashSoundPlayed && this.isJumpAttacking()) {
+                if (!this.jumpSlashSoundPlayed && this.isJumpAttacking())
+                {
                     this.slashSoundEffect.play();
                     this.jumpSlashSoundPlayed = true;
                 }
-            } else {
+            } else
+            {
                 // play landing sound
                 this.jumpLandingSoundEffect.play();
                 this.jumpSlashSoundPlayed = false; // reset so jump attack sound can play
@@ -750,18 +850,22 @@ class Blink extends Entity {
             this.y = this.platformY - height;
 
             // Manage both left/right jumps movement acceleration
-            if (this.moving) {
+            if (this.moving)
+            {
                 // double x speed during jump if moving
-                if (this.facingRight) {
+                if (this.facingRight)
+                {
                     this.x += 2 * this.game.blinksClockTick * this.speed;
-                } else if (!this.facingRight) {
+                } else if (!this.facingRight)
+                {
                     this.x -= 2 * this.game.blinksClockTick * this.speed;
                 }
             }
         }
     }
 
-    updateMyHitBoxes() {
+    updateMyHitBoxes()
+    {
         this.hitB.width = this.frameWidth;
         this.hitB.height = this.frameHeight;
         this.hitB.boundX = this.boundX + 10;
@@ -772,15 +876,18 @@ class Blink extends Entity {
         this.platformBox.boundX = this.boundX + 20;
         this.platformBox.boundY = this.boundY;
 
-        if (this.jumping && this.facingRight) {
+        if (this.jumping && this.facingRight)
+        {
             // this.platformBox.boundX = this.boundX + 30;
         }
-        if (this.facingRight) {
+        if (this.facingRight)
+        {
             this.attackBox.width = 40;
             this.attackBox.height = 90;
             this.attackBox.boundX = this.boundX + 60;
             this.attackBox.boundY = this.boundY + 10;
-        } else {
+        } else
+        {
             this.platformBox.boundX = this.boundX + 20;
             this.attackBox.width = 40;
             this.attackBox.height = 90;
@@ -795,10 +902,13 @@ class Blink extends Entity {
      *  as well as alerting the gameengine, which in turn alerts all entities to call
      *  their individual responses to Blink's spell casting.
      */
-    handleWhatToDoWhenSpellcasting() {
-        if (this.energy > 0) {
+    handleWhatToDoWhenSpellcasting()
+    {
+        if (this.energy > 0)
+        {
             // STOP TIME**********************************************************************
-            if (this.stopTime) {
+            if (this.stopTime)
+            {
                 this.game.allShouldStop(true);
 
                 this.unsheathSword = false;
@@ -811,19 +921,22 @@ class Blink extends Entity {
                 this.questionsTrack.pause();
                 this.stopSoundEffect.play();
             }
-            if (!this.stopTime) {
+            if (!this.stopTime)
+            {
                 this.game.allShouldStop(false);
 
                 this.stopSoundEffect.pause();
 
-                if (this.lastSongPlayed != undefined && !this.userWantsNoMusic) {
+                if (this.lastSongPlayed != undefined && !this.userWantsNoMusic)
+                {
                     this.lastSongPlayed.play();
                 }
 
                 this.stopSoundEffect.currentTime = 0;
             }
             // REWIND TIME********************************************************************
-            if (this.rewindTime) {
+            if (this.rewindTime)
+            {
                 this.game.allShouldRewind(true);
 
                 this.unsheathSword = false;
@@ -831,14 +944,16 @@ class Blink extends Entity {
 
                 this.rewindSoundEffect.play();
             }
-            if (!this.rewindTime) {
+            if (!this.rewindTime)
+            {
                 this.game.allShouldRewind(false);
 
                 this.rewindSoundEffect.pause();
                 this.rewindSoundEffect.currentTime = 0;
             }
             // SLOW TIME**********************************************************************
-            if (this.slowTime) {
+            if (this.slowTime)
+            {
                 this.game.allShouldSlow(true);
 
                 this.unsheathSword = false;
@@ -846,44 +961,49 @@ class Blink extends Entity {
 
                 this.slowSoundEffect.play();
 
-                if (this.lastSongPlayed !== undefined) {
+                if (this.lastSongPlayed !== undefined)
+                {
                     this.lastSongPlayed.playbackRate = 0.5;
                 }
             }
-            if (!this.slowTime) {
+            if (!this.slowTime)
+            {
                 this.game.allShouldSlow(false);
 
                 this.slowSoundEffect.pause();
                 this.slowSoundEffect.currentTime = 0;
 
-                if (this.lastSongPlayed !== undefined) {
+                if (this.lastSongPlayed !== undefined)
+                {
                     this.lastSongPlayed.playbackRate = 1;
                 }
             }
-            // SPEED TIME*********************************************************************
-            if (this.speedTime) {
+            // SPEED TIME*****************************************************************
+            if (this.speedTime)
+            {
                 this.game.allShouldSpeed(true);
 
                 this.unsheathSword = false;
                 this.unsheathSwordStandStill = false;
 
                 this.speedSoundEffect.play();
-                //this.levelMusic.playbackRate = 1;
             }
-            if (!this.speedTime) {
+            if (!this.speedTime)
+            {
                 this.game.allShouldSpeed(false);
 
                 this.speedSoundEffect.pause();
                 this.speedSoundEffect.currentTime = 0;
-                //this.levelMusic.playbackRate = 1;
             }
 
-            // Reduce energy on using powers
-            if (this.isSpellcasting() && this.energy > 0) {
+            // USE ENERGY FOR SPELLS******************************************************
+            if (this.isSpellcasting() && this.energy > 0)
+            {
                 this.energy -= 5;
 
             }
-        } else {
+        } else
+        {
             this.game.specialEffects.cleanupEffects();
         }
         //console.log(this.energy);
@@ -894,14 +1014,17 @@ class Blink extends Entity {
      *  Update method helper for holding sword when stationary. Generally acts as a
      *  timeout function.
      */
-    handleWhenToHoldSword() {
+    handleWhenToHoldSword()
+    {
         // After the animation of unsheathing sword is done playing in ~.7 seconds,
         // switch state to false so the animation freezes on the last frame.
-        if (this.unsheathSword) {
+        if (this.unsheathSword)
+        {
             if (
                 this.swordUnsheath_FaceRight.elapsedTime > 0.7 ||
                 this.swordUnsheath_FaceLeft.elapsedTime > 0.7
-            ) {
+            )
+            {
                 this.unsheathSword = false;
                 this.unsheathSwordStandStill = true;
 
@@ -911,12 +1034,14 @@ class Blink extends Entity {
         }
 
         // If idle for too long, take sword back out and look super badass
-        if (this.isStandingStill()) {
+        if (this.isStandingStill())
+        {
             // If longer than two seconds, do it
             if (
                 this.standLeftAnimation.elapsedTime > 2 ||
                 this.standRightAnimation.elapsedTime > 2
-            ) {
+            )
+            {
                 this.swordUnsheath_FaceLeft.elapsedTime = 0;
                 this.swordUnsheath_FaceRight.elapsedTime = 0;
                 this.standLeftAnimation.elapsedTime = 0;
@@ -926,7 +1051,8 @@ class Blink extends Entity {
         }
 
         // if Blink starts moving, stop holding the sword
-        if (this.isRunning() || this.jumping || this.isSpellcasting()) {
+        if (this.isRunning() || this.jumping || this.isSpellcasting())
+        {
             this.unsheathSwordStandStill = false;
             this.unsheathSword = false;
         }
@@ -936,12 +1062,14 @@ class Blink extends Entity {
     /**
      *  Set up listeners and actions for HTML buttons.
      */
-    handleButtonListeners() {
+    handleButtonListeners()
+    {
         // used to pass in 'this' reference to anonymous function
         var self = this;
 
         // HANDLE MUSIC TRACKS************************************************************
-        this.changeMusic.onclick = function () {
+        this.changeMusic.onclick = function ()
+        {
             // Set this to let level know music has been started somewhere
             self.beginMusic = false;
             self.userWantsNoMusic = false;
@@ -954,43 +1082,50 @@ class Blink extends Entity {
              *  timer so it replays from beginning next time, play the next song in the
              *  list and set it as the last song played (used during stop time power).
              */
-            if (self.lastSongPlayed == self.adventureTimeTrack) {
+            if (self.lastSongPlayed == self.adventureTimeTrack)
+            {
                 self.adventureTimeTrack.pause();
                 self.adventureTimeTrack.currentTime = 0;
 
                 self.sandsOfTimeTrack.play();
                 self.lastSongPlayed = self.sandsOfTimeTrack;
-            } else if (self.lastSongPlayed == self.sandsOfTimeTrack) {
+            } else if (self.lastSongPlayed == self.sandsOfTimeTrack)
+            {
                 self.sandsOfTimeTrack.pause();
                 self.sandsOfTimeTrack.currentTime = 0;
 
                 self.heroOfTimeTrack.play();
                 self.lastSongPlayed = self.heroOfTimeTrack;
-            } else if (self.lastSongPlayed == self.heroOfTimeTrack) {
+            } else if (self.lastSongPlayed == self.heroOfTimeTrack)
+            {
                 self.heroOfTimeTrack.pause();
                 self.heroOfTimeTrack.currentTime = 0;
 
                 self.mysteriousTrack.play();
                 self.lastSongPlayed = self.mysteriousTrack;
-            } else if (self.lastSongPlayed == self.mysteriousTrack) {
+            } else if (self.lastSongPlayed == self.mysteriousTrack)
+            {
                 self.mysteriousTrack.pause();
                 self.mysteriousTrack.currentTime = 0;
 
                 self.questionsTrack.play();
                 self.lastSongPlayed = self.questionsTrack;
-            } else if (self.lastSongPlayed == self.questionsTrack) {
+            } else if (self.lastSongPlayed == self.questionsTrack)
+            {
                 self.questionsTrack.pause();
                 self.questionsTrack.currentTime = 0;
 
                 self.adventureTimeTrack.play();
                 self.lastSongPlayed = self.adventureTimeTrack;
-            } else {
+            } else
+            {
                 self.adventureTimeTrack.play();
                 self.lastSongPlayed = self.adventureTimeTrack;
             }
         };
         // STOP MUSIC*********************************************************************
-        this.stopMusic.onclick = function () {
+        this.stopMusic.onclick = function ()
+        {
             self.userWantsNoMusic = true;
             self.adventureTimeTrack.pause();
             self.sandsOfTimeTrack.pause();
@@ -1007,37 +1142,58 @@ class Blink extends Entity {
         };
 
         // HANDLE DEV BUTTONS*************************************************************
-        this.godModeButton.onclick = function () {
+        this.godModeButton.onclick = function ()
+        {
             self.godMode = !self.godMode;
         };
-        this.speedUpButton.onclick = function () {
+        this.speedUpButton.onclick = function ()
+        {
             self.speedUpMovement = !self.speedUpMovement;
         };
-        this.outlineHitBoxButton.onclick = function () {
+        this.outlineHitBoxButton.onclick = function ()
+        {
             self.outlineHitBox = !self.outlineHitBox;
         };
-        this.stopEnemiesButton.onclick = function () {
+        this.stopEnemiesButton.onclick = function ()
+        {
             self.stopEnemies = !self.stopEnemies;
         };
 
         // HANDLE LEVEL MANAGER BUTTONS***************************************************
-        this.levelOneButton.onclick = function () {
+        this.levelOneButton.onclick = function ()
+        {
             console.log("Level One clicked");
+            self.game.levelManager.level = 1;
+            self.game.levelManager.states.loadNextLevel = true;
+        };
+        this.levelTwoButton.onclick = function ()
+        {
+            console.log("Level Two clicked");
             self.game.levelManager.level = 2;
             self.game.levelManager.states.loadNextLevel = true;
         };
-        this.levelTwoButton.onclick = function () {
-            console.log("Level Two clicked");
+        this.levelThreeButton.onclick = function ()
+        {
+            console.log("Level Three clicked");
+            self.game.levelManager.level = 3;
+            self.game.levelManager.states.loadNextLevel = true;
+        };
+        this.levelFourButton.onclick = function ()
+        {
+            console.log("Level Four clicked");
             self.game.levelManager.level = 4;
             self.game.levelManager.states.loadNextLevel = true;
         };
+
+
     }
 
     /**
      * Boolean evaluations for Blink's state. Necessary shortcuts as these get out of
      * control somewhat.
      */
-    isSpellcasting() {
+    isSpellcasting()
+    {
         return (
             (this.rewindTime || this.stopTime || this.slowTime || this.speedTime) &&
             !this.moving &&
@@ -1049,7 +1205,8 @@ class Blink extends Entity {
 
         );
     }
-    isStandingStill() {
+    isStandingStill()
+    {
         return (
             !this.moving &&
             !this.basicAttack &&
@@ -1060,7 +1217,8 @@ class Blink extends Entity {
             !this.gotHit
         );
     }
-    isRunning() {
+    isRunning()
+    {
         return (
             this.moving &&
             !this.jumping &&
@@ -1069,7 +1227,8 @@ class Blink extends Entity {
             !this.gotHit
         );
     }
-    isJumpAttacking() {
+    isJumpAttacking()
+    {
         return this.jumping && this.basicAttack;
     }
 
@@ -1077,60 +1236,75 @@ class Blink extends Entity {
      * Handle some random jump math.
      *
      */
-    returnTheJumpTime() {
+    returnTheJumpTime()
+    {
         return;
     }
 
     /** Updates the state booleans for Blinks actions. */
-    updateBlinksStateFromKeyListeners() {
+    updateBlinksStateFromKeyListeners()
+    {
         // update state based on gameengine key listener update
         // have to check for undefined because the gameengine initially
         // tries to pass in an unitialized value, but we want Blink's constructor
         // assignments instead.
-        if (this.game.slowTime !== undefined) {
+        if (this.game.slowTime !== undefined)
+        {
             this.slowTime = this.game.slowTime;
         }
-        if (this.game.facingRight !== undefined) {
+        if (this.game.facingRight !== undefined)
+        {
             this.facingRight = this.game.facingRight;
         }
-        if (this.game.moving !== undefined) {
+        if (this.game.moving !== undefined)
+        {
             this.moving = this.game.moving;
         }
-        if (this.game.basicAttack !== undefined) {
+        if (this.game.basicAttack !== undefined)
+        {
             this.basicAttack = this.game.basicAttack;
         }
-        if (this.game.jumping !== undefined && !this.falling) {
+        if (this.game.jumping !== undefined && !this.falling)
+        {
             this.jumping = this.game.jumping;
         }
-        if (this.game.stopTime !== undefined) {
+        if (this.game.stopTime !== undefined)
+        {
             this.stopTime = this.game.stopTime;
         }
-        if (this.game.rewindTime !== undefined) {
+        if (this.game.rewindTime !== undefined)
+        {
             this.rewindTime = this.game.rewindTime;
         }
-        if (this.game.speedTime !== undefined) {
+        if (this.game.speedTime !== undefined)
+        {
             this.speedTime = this.game.speedTime;
         }
-        if (this.game.levelStarted !== undefined) {
+        if (this.game.levelStarted !== undefined)
+        {
             this.levelStarted = this.game.levelStarted;
         }
     }
 
     /** Evaluate if Blink has fallen off of a platform. */
-    fellOff() {
+    fellOff()
+    {
         if (
             this.x > this.maxX ||
             this.x < this.minX - 50 ||
             this.y < this.myPlatforms[this.myPlatforms.length - 1].y - 200
-        ) {
+        )
+        {
             return true;
-        } else {
+        } else
+        {
             return false;
         }
     }
 
     /** Load all animations. */
-    loadAllBlinksAssets() {
+    loadAllBlinksAssets()
+    {
         // Load all assets for character first. There's quite a few.
         this.swordUnsheath_FaceLeft = new Animation(
             AM.getAsset("./img/blink/Crono_PullSwordOut_FaceLeft.png"),

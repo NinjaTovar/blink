@@ -19,13 +19,13 @@ class LevelFour {
 
 
 		// Manually set Blink's coordinates for now
-        this.game.blink.groundLevel = 2200;
-        this.game.blink.y = 2200;
+        this.game.blink.groundLevel = 100;
+        this.game.blink.y = 2000;
         this.game.blink.x = 100;
         this.game.blink.platformY = null;
-				this.game.blink.lastY = 2200;
-				this.game.camera.x = -100;
-				this.game.camera.y = -2000;
+				this.game.blink.lastY = 100;
+				this.game.camera.x = 100;
+				this.game.camera.y = -1700;
 
 		let skullList = [];
 		let upgradeList = {};
@@ -38,8 +38,6 @@ class LevelFour {
 		this.game.addEntity(new Boid(this.game, x, y));
 		
 			
-
-
 	}
 	loadPlatforms() {
 
