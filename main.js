@@ -79,6 +79,8 @@ AM.queueDownload("./img/enemies/skull/fireball.png");
 AM.queueDownload("./img/vegeta.png");
 AM.queueDownload("./img/startMessage.png");
 AM.queueDownload("./img/messageStill.png");
+AM.queueDownload("./img/message2still.png");
+AM.queueDownload("./img/message2.png");
 
 AM.downloadAll(function () {
   window.onload = function () {

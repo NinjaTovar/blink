@@ -14,7 +14,7 @@ class LevelFour {
 		this.game.addEntity(new Background4(this.game));
 		this.game.addEntity(this.game.blink);
 		this.game.addEntity(this.game.hud);
-		this.game.addEntity(new Vegeta(this.game, 500, 2255, 2));
+		this.game.addEntity(new Vegeta2(this.game, 400, 2255, 2));
 		this.loadPlatforms();
 
 

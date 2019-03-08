@@ -43,7 +43,7 @@ class Blink extends Entity {
         this.energy = 1000;
         this.falling = false;
         this.myPlatforms = [];
-        
+
         // What are these and what do they do?
         this.attackBox = new Hitbox(
             game,
@@ -468,7 +468,7 @@ class Blink extends Entity {
 
     //Handle collisons
     handleCollison(other, type) {
-        if (other instanceof Vegeta) {
+        if (other instanceof Vegeta || other instanceof Vegeta2) {
             other.blinkTouchedMe = true;
         }
         // console.log("Blink has collided with a " + other.constructor.name);
@@ -558,7 +558,7 @@ class Blink extends Entity {
             other.health > 0 &&
             !(other instanceof Platform) &&
             !this.basicAttack &&
-            !(other instanceof Vegeta)
+            !(other instanceof Vegeta || other instanceof Vegeta2)
         ) {
             this.gotHit = true;
             this.health -= other.damage;
@@ -573,13 +573,11 @@ class Blink extends Entity {
     }
 
     // HANDLE BLINK GETTING HIT----------------------------------------------------------
-    handleBlinkGettingHit()
-    {
-        if (this.gotHit)
-        {
+    handleBlinkGettingHit() {
+        if (this.gotHit) {
             if (
                 this.hitFacingLeft.elapsedTime > .34 ||
-                    this.hitFacingRight.elapsedTime > .34
+                this.hitFacingRight.elapsedTime > .34
             ) {
                 this.hitFacingLeft.elapsedTime = 0;
                 this.hitFacingRight.elapsedTime = 0;

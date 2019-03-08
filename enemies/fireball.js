@@ -43,19 +43,29 @@ class Fireball extends Entity {
 	}
 
 	updatePosition() {
-		this.x += this.spdX;
-		this.y += this.spdY;
+		// this.x += this.spdX;
+		// this.y += this.spdY;
 
+		if (this.health < 90) {
+			this.x -= this.spdX * 5;
+			this.y -= this.spdY * 5;
+		} else {
+			this.x += this.spdX;
+			this.y += this.spdY;
+		}
 		if (this.x < 0 || this.x > this.game.camera.mapWidth) {
 			this.spdX = -this.spdX;
 			this.health = -1;
+			this.isDead = true;
 		}
 		if (this.y < 0 || this.y > this.game.camera.mapHeight) {
 			this.spdY = -this.spdY;
 			this.health = -1;
-		}
-		if (this.health <= 0) {
 			this.isDead = true;
 		}
+		// if (this.health <= 90) {
+		// 	this.health = -1;
+		// 	this.isDead = true;
+		// }
 	}
 }
