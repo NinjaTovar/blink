@@ -2,7 +2,8 @@
  * Animation class. Defines the type of input neccessary to add a character animation.
  */
 /**Animation class handles passing back animations for incoming spritesheets. */
-class Animation {
+class Animation
+{
     /**
      * Single constructor takes in various information about the incoming spritesheet, as
      * well as allowing the caller to define if it loops, how fast the default framerate is,
@@ -28,7 +29,8 @@ class Animation {
         frames,
         loop,
         scale
-    ) {
+    )
+    {
 
         // fields
         this.spriteSheet = spriteSheet;
@@ -52,13 +54,16 @@ class Animation {
      * @param {any} x The x coordinate in the game world to draw the animation.
      * @param {any} y The y coordinate in the game world to draw the animation.
      */
-    drawFrame(tick, ctx, x, y) {
+    drawFrame(tick, ctx, x, y)
+    {
         this.elapsedTime += tick;
 
-        if (this.isDone()) {
+        if (this.isDone())
+        {
             this.isDonePlaying = true;
 
-            if (this.loop) {
+            if (this.loop)
+            {
                 this.elapsedTime = 0;
             }
         }
@@ -88,7 +93,8 @@ class Animation {
      *  
      *  @returns Which frame in the spritesheet the animation is on.
      */
-    currentFrame() {
+    currentFrame()
+    {
         return Math.floor(this.elapsedTime / this.frameDuration);
     }
 
@@ -97,7 +103,8 @@ class Animation {
      * 
      * @returns Boolean based on if the spritesheet has played all frames it contains.
      */
-    isDone() {
+    isDone()
+    {
         return this.elapsedTime >= this.totalTime;
     }
 }

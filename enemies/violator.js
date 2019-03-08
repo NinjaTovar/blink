@@ -179,7 +179,7 @@ class Violator extends Entity {
   }
 
   /** Update handles updating the objects world state. */
-  update() {
+  subClassUpdate() {
     this.updateMyHitBoxes();
     if (this.game.resetPaths != undefined) {
       this.resetPath = this.game.resetPaths;
@@ -238,10 +238,5 @@ class Violator extends Entity {
     //        this.isHeadingRight = true;
     //    }
     //}
-  }
-
-  // Helper booleans for state
-  willRewind() {
-    return this.myPath.length > 0 && this.shouldRewind;
   }
 }

@@ -4,7 +4,8 @@
  *
  * Single constructor takes in the game context as its parameter. (There is no default)
  */
-class FlyMutant extends Entity {
+class FlyMutant extends Entity
+{
   /**
    * Single constructor for Fly. Loads assets and sets intial parameters including
    * the speed, starting x/y position, etc.
@@ -15,7 +16,8 @@ class FlyMutant extends Entity {
    * @param {any} startY Starting x position of the fly being constructed.
    * @param {any} size Size of scale for character.
    */
-  constructor(game, startX, startY, size, isHeadingRight) {
+  constructor(game, startX, startY, size, isHeadingRight)
+  {
     super(game, startX, startY);
     this.flyLeftAnimation = new Animation(
       AM.getAsset("./img/enemies/fly/Fly_FaceLeft.png"),
@@ -54,18 +56,13 @@ class FlyMutant extends Entity {
     );
 
     // Ensure the enemies boundaries aren't too small
-    while (this.randomMaxBoundary - this.randomMinBoundary < 500) {
+    while (this.randomMaxBoundary - this.randomMinBoundary < 500)
+    {
       this.randomMaxBoundary = Randomizer.returnRandomIntBetweenThese(
         this.randomMinBoundary,
         Randomizer.returnRandomInt(this.ctx.canvas.width)
       );
     }
-
-    // this will be used for rewind
-    this.myPath = [];
-    this.myPath.push(0);
-    this.shouldRewind = false;
-    this.resetPath = false;
 
     // debug tool
     this.drawAroundHitBox = false;
@@ -81,15 +78,18 @@ class FlyMutant extends Entity {
    *
    * @param {any} ctx  A reference to the Game Context.
    */
-  draw(ctx) {
+  draw(ctx)
+  {
     // debug tool
-    if (this.drawAroundHitBox) {
+    if (this.drawAroundHitBox)
+    {
       this.drawAroundBox();
       //this.ctx.clearRect(this.x, this.y, this.frameWidth * this.size, this.frameHeight * this.size);
     }
 
     // If field "isHeadingRight" is true, play fly right animation
-    if (this.isHeadingRight && !this.willRewind()) {
+    if (this.isHeadingRight && !this.willRewind())
+    {
       this.flyRightAnimation.drawFrame(
         this.game.clockTick,
         ctx,
@@ -98,12 +98,14 @@ class FlyMutant extends Entity {
       );
     }
     // If field "isHeadingRight" is false, play fly left animation
-    else if (!this.isHeadingRight && !this.willRewind()) {
+    else if (!this.isHeadingRight && !this.willRewind())
+    {
       this.flyLeftAnimation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
     }
 
     // If affected by time spell
-    if (this.isHeadingRight && this.willRewind() && this.myPath.length > 1) {
+    if (this.isHeadingRight && this.willRewind() && this.myPath.length > 1)
+    {
       this.x = this.myPath.pop();
       this.flyRightAnimation.drawFrame(
         this.game.clockTick,
@@ -112,16 +114,19 @@ class FlyMutant extends Entity {
         this.y
       );
 
-      if (this.myPath.length == 1) {
+      if (this.myPath.length == 1)
+      {
         this.x = this.myPath.pop();
         this.shouldRewind = false;
       }
     }
-    if (!this.isHeadingRight && this.willRewind() && this.myPath.length > 1) {
+    if (!this.isHeadingRight && this.willRewind() && this.myPath.length > 1)
+    {
       this.x = this.myPath.pop();
       this.flyLeftAnimation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
 
-      if (this.myPath.length == 1) {
+      if (this.myPath.length == 1)
+      {
         this.shouldRewind = false;
         this.game.shouldRewind = false;
       }
@@ -129,54 +134,23 @@ class FlyMutant extends Entity {
   }
 
   /** Update handles updating the objects world state. */
-  update() {
-    if (this.game.resetPaths != undefined) {
-      this.resetPath = this.game.resetPaths;
-    }
+  subClassUpdate()
+  {
 
-    // alert fly to reset the array for path variables
-    if (this.resetPath) {
-      this.x = this.myPath.pop();
-
-      console.log("Rewind path is reset");
-
-      this.resetPath = false;
-      this.game.resetPaths = false;
-    }
-
-    if (this.myPath.length == 1) {
-      this.shouldRewind = false;
-      this.game.shouldRewind = false;
-    }
-
-    // If not under rewind spell
-    if (!this.shouldRewind) {
-      // save current x coordinates if difference from previous coordinate is at
-      // least one third pixel
-      if (
-        Math.abs(
-          Math.abs(this.x) - Math.abs(this.myPath[this.myPath.length - 1])
-        ) > 0.3
-      ) {
-        this.myPath.push(this.x);
-      }
-    }
-
-    if (this.isHeadingRight) {
+    if (this.isHeadingRight)
+    {
       this.x += this.game.clockTick * this.speed;
-      if (this.x > this.randomMaxBoundary) {
+      if (this.x > this.randomMaxBoundary)
+      {
         this.isHeadingRight = false;
       }
-    } else if (!this.isHeadingRight) {
+    } else if (!this.isHeadingRight)
+    {
       this.x -= this.game.clockTick * this.speed;
-      if (this.x < this.randomMinBoundary) {
+      if (this.x < this.randomMinBoundary)
+      {
         this.isHeadingRight = true;
       }
     }
-  }
-
-  // Helper booleans for state
-  willRewind() {
-    return this.myPath.length > 0 && this.shouldRewind;
   }
 }

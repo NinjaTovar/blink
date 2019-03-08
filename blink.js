@@ -142,6 +142,8 @@ class Blink extends Entity {
         // LEVEL MANAGER
         this.levelOneButton = document.getElementById("levelOne");
         this.levelTwoButton = document.getElementById("levelTwo");
+        this.levelThreeButton = document.getElementById("levelThree");
+        this.levelFourButton = document.getElementById("levelFour");
 
         // Set up all html elements to listeners with actions
         this.handleButtonListeners();
@@ -402,7 +404,7 @@ class Blink extends Entity {
     update() {
         // If not jumping, make sure Blink is on the ground level/And Or on his platform
         if (!this.jumping) {
-            if (this.currentPlatform != null) {
+            if (this.currentPlatform != null && this.platformY != null) {
                 this.y = this.platformY;
             } else {
 
@@ -436,7 +438,7 @@ class Blink extends Entity {
         this.handleWhatToDoWhenMoving();
         this.handleWhatToDoWhenAttacking();
         this.handleStartLevel();
-        this.handleBlinkGettingHit();
+        this.handleBlinkGettingInjured();
 
         // Temporary helper for keeping blinks inside boundaries of canvas
         // Probably replace when collisions/camera are finalized
@@ -524,6 +526,8 @@ class Blink extends Entity {
                 if (this.level == 3) {
                     this.platformY += 45;
                 }
+
+
                 this.y = this.platformY;
                 this.groundLevel = this.platformY;
                 this.falling = false;
@@ -579,7 +583,7 @@ class Blink extends Entity {
     }
 
     // HANDLE BLINK GETTING HIT----------------------------------------------------------
-    handleBlinkGettingHit() {
+    handleBlinkGettingInjured() {
         if (this.gotHit) {
             if (
                 this.hitFacingLeft.elapsedTime > .34 ||
@@ -599,7 +603,6 @@ class Blink extends Entity {
                 this.x += 4;
             }
         }
-
     }
 
     // HANDLE DEV TOOLS-------------------------------------------------------------------
@@ -858,7 +861,7 @@ class Blink extends Entity {
                     this.lastSongPlayed.playbackRate = 1;
                 }
             }
-            // SPEED TIME*********************************************************************
+            // SPEED TIME*****************************************************************
             if (this.speedTime) {
                 this.game.allShouldSpeed(true);
 
@@ -866,17 +869,15 @@ class Blink extends Entity {
                 this.unsheathSwordStandStill = false;
 
                 this.speedSoundEffect.play();
-                //this.levelMusic.playbackRate = 1;
             }
             if (!this.speedTime) {
                 this.game.allShouldSpeed(false);
 
                 this.speedSoundEffect.pause();
                 this.speedSoundEffect.currentTime = 0;
-                //this.levelMusic.playbackRate = 1;
             }
 
-            // Reduce energy on using powers
+            // USE ENERGY FOR SPELLS******************************************************
             if (this.isSpellcasting() && this.energy > 0) {
                 this.energy -= 5;
 
@@ -1021,14 +1022,26 @@ class Blink extends Entity {
         // HANDLE LEVEL MANAGER BUTTONS***************************************************
         this.levelOneButton.onclick = function () {
             console.log("Level One clicked");
-            self.game.levelManager.level = 2;
+            self.game.levelManager.level = 1;
             self.game.levelManager.states.loadNextLevel = true;
         };
         this.levelTwoButton.onclick = function () {
             console.log("Level Two clicked");
+            self.game.levelManager.level = 2;
+            self.game.levelManager.states.loadNextLevel = true;
+        };
+        this.levelThreeButton.onclick = function () {
+            console.log("Level Three clicked");
+            self.game.levelManager.level = 3;
+            self.game.levelManager.states.loadNextLevel = true;
+        };
+        this.levelFourButton.onclick = function () {
+            console.log("Level Four clicked");
             self.game.levelManager.level = 4;
             self.game.levelManager.states.loadNextLevel = true;
         };
+
+
     }
 
     /**

@@ -61,7 +61,7 @@ class Lava extends Entity {
 
 	draw(ctx) {
 		this.animation.drawFrame(this.game.clockTick, ctx, this.dx, this.dy);
-		this.hitB.drawHitBox();
+		//this.hitB.drawHitBox();
 	}
 
 	update() {
