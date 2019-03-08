@@ -4,7 +4,8 @@
  *
  * Single constructor takes in the game context as its parameter. (There is no default)
  */
-class Bullet extends Entity {
+class Bullet extends Entity
+{
   /**
    * Single constructor for Bullet. Loads assets and sets intial parameters including
    * the speed, starting x/y position, etc.
@@ -15,7 +16,8 @@ class Bullet extends Entity {
    * @param {any} startY Starting x position of the Bullet being constructed.
    * @param {any} size Size of scale for character.
    */
-  constructor(game, startX, startY, size, isHeadingRight, type) {
+  constructor(game, startX, startY, size, isHeadingRight, type)
+  {
     super(game, startX, startY);
     this.orangeBulletAnimation = new Animation(
       AM.getAsset("./img/enemies/bullets/orangeBullet.png"), // load sprite asset
@@ -50,52 +52,62 @@ class Bullet extends Entity {
    *
    * @param {any} ctx  A reference to the Game Context.
    */
-  draw(ctx) {
+  draw(ctx)
+  {
     // debug tool
-    if (this.drawAroundHitBox) {
+    if (this.drawAroundHitBox)
+    {
       // this.drawAroundBox();
     }
 
-      if (!this.willRewind()) {
-          this.orangeBulletAnimation.drawFrame(
-              this.game.clockTick,
-              ctx,
-              this.x,
-              this.y
-          );
-      }
-      else {
-          this.x = this.x = this.myPath.pop();
-          this.orangeBulletAnimation.drawFrame(
-              this.game.clockTick,
-              ctx,
-              this.x,
-              this.y
-          );
-      }
+    if (!this.willRewind())
+    {
+      this.orangeBulletAnimation.drawFrame(
+        this.game.clockTick,
+        ctx,
+        this.x,
+        this.y
+      );
+    }
+    else
+    {
+      this.x = this.x = this.myPath.pop();
+      this.orangeBulletAnimation.drawFrame(
+        this.game.clockTick,
+        ctx,
+        this.x,
+        this.y
+      );
+    }
   }
 
   /** Update handles updating the objects world state. */
-  subClassUpdate() {
-    if (Math.abs(this.x - this.startX) > 300) {
+  subClassUpdate()
+  {
+    if (Math.abs(this.x - this.startX) > 300)
+    {
       this.isDead = true;
     }
-    if (this.isHeadingRight) {
+    if (this.isHeadingRight)
+    {
       this.x += this.game.clockTick * this.speed;
-    } else {
+    } else
+    {
       this.x -= this.game.clockTick * this.speed;
     }
 
     this.boundX = this.x + 19;
     this.boundY = this.y + 21;
-    if (this.isHeadingRight) {
+    if (this.isHeadingRight)
+    {
       this.boundX = this.x + 17.5;
       this.boundY = this.y + 20;
     }
     this.updateMyHitBoxes();
   }
 
-  handleCollison(other, type) {
+  handleCollison(other, type)
+  {
     this.isDead = true;
   }
 }

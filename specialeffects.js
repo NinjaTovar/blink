@@ -1,19 +1,22 @@
 /** Handles loading the static background of a level. */
-class SpecialEffects {
+class SpecialEffects
+{
     /**
      * Loads a static image for the background.
      * 
      * @constructor
      * @param {any} game A reference to the game engine
      */
-    constructor(bottomProjectionContext, middleProjectionContext, gameCtx) {
+    constructor(bottomProjectionContext, middleProjectionContext, gameCtx)
+    {
         this.ctx = gameCtx;
         this.middleProjectionCtx = middleProjectionContext;
         this.bottomProjectionCtx = bottomProjectionContext;
     }
 
     /** Set's the canvas layers up for effects. */
-    prepareCanvasLayersForEffects() {
+    prepareCanvasLayersForEffects()
+    {
         // make main game canvas transparent to show special effects layers underneath
         this.ctx.globalAlpha = .5;
 
@@ -23,16 +26,20 @@ class SpecialEffects {
     }
 
     /** Helper function for rewind graphics */
-    performStopTimeSpecialEffects() {
+    performStopTimeSpecialEffects()
+    {
         // If Blink cast a spell, slowly fade screen transparency back
-        if (this.ctx.globalAlpha < 1) {
+        if (this.ctx.globalAlpha < 1)
+        {
             this.ctx.globalAlpha += .01;
             this.middleProjectionCtx.globalAlpha += .4;
             this.bottomProjectionCtx.globalAlpha += .009;
 
             // Draw mini circles everywhere on stop time spell
-            for (var i = 0; i < 30; i++) {
-                for (var j = 0; j < 80; j++) {
+            for (var i = 0; i < 30; i++)
+            {
+                for (var j = 0; j < 80; j++)
+                {
                     // randomize the circle color
                     this.bottomProjectionCtx.strokeStyle = 'hsl(' + 360 * Math.random() + ', 50%, 50%)';
                     this.bottomProjectionCtx.beginPath();
@@ -43,7 +50,8 @@ class SpecialEffects {
             }
 
             // Draw semi large transparent circles
-            for (var k = 0; k < 30; k++) {
+            for (var k = 0; k < 30; k++)
+            {
                 this.middleProjectionCtx.fillStyle = 'hsl(' + 360 * Math.random() + ', 50%, 50%)';
                 this.middleProjectionCtx.beginPath();
                 this.middleProjectionCtx.arc(75 * k, 75 * k / 5, 10 + 10 * k, 0, Math.PI * 2, true);
@@ -52,19 +60,23 @@ class SpecialEffects {
         }
     }
 
-    performRewindTimeSpecialEffects() {
+    performRewindTimeSpecialEffects()
+    {
         // If Blink cast a spell, slowly fade screen transparency back
-        if (this.ctx.globalAlpha < 1) {
+        if (this.ctx.globalAlpha < 1)
+        {
             this.ctx.globalAlpha += .01;
             this.middleProjectionCtx.globalAlpha += .4;
             this.bottomProjectionCtx.globalAlpha += .009;
 
-            function getRandomInt(max) {
+            function getRandomInt(max)
+            {
                 return Math.floor(Math.random() * Math.floor(max));
             }
 
             // flash middle canvas purple and yellow
-            for (var k = 0; k < 3; k++) {
+            for (var k = 0; k < 3; k++)
+            {
                 var colors = ['#9B59B6', 'yellow'];
 
                 this.middleProjectionCtx.fillStyle = colors[getRandomInt(3)];
@@ -73,18 +85,22 @@ class SpecialEffects {
         }
     }
 
-    performSlowTimeSpecialEffects() {
+    performSlowTimeSpecialEffects()
+    {
         // If Blink cast a spell, slowly fade screen transparency back
-        if (this.ctx.globalAlpha < 1) {
+        if (this.ctx.globalAlpha < 1)
+        {
             this.ctx.globalAlpha += .01;
             this.middleProjectionCtx.globalAlpha += .4;
             this.bottomProjectionCtx.globalAlpha += .009;
 
-            function getRandomInt(max) {
+            function getRandomInt(max)
+            {
                 return Math.floor(Math.random() * Math.floor(max));
             }
 
-            for (var k = 0; k < 3; k++) {
+            for (var k = 0; k < 3; k++)
+            {
                 // bottom canvas flashes blue grey
                 var colors = ['blue', 'grey'];
 
@@ -103,19 +119,23 @@ class SpecialEffects {
         }
     }
 
-    performSpeedTimeSpecialEffects() {
+    performSpeedTimeSpecialEffects()
+    {
         // If Blink cast a spell, slowly fade screen transparency back
-        if (this.ctx.globalAlpha < 1) {
+        if (this.ctx.globalAlpha < 1)
+        {
             this.ctx.globalAlpha += .1;
             this.middleProjectionCtx.globalAlpha += .4;
             this.bottomProjectionCtx.globalAlpha += .009;
 
-            function getRandomInt(max) {
+            function getRandomInt(max)
+            {
                 return Math.floor(Math.random() * Math.floor(max));
             }
 
             // draw random squares over canvas
-            for (var k = 0; k < 3; k++) {
+            for (var k = 0; k < 3; k++)
+            {
                 this.middleProjectionCtx.fillStyle = 'hsl(' + 360 * Math.random() + ', 50%, 50%)';
 
                 this.middleProjectionCtx.fillRect(
@@ -137,14 +157,17 @@ class SpecialEffects {
         }
     }
 
-    cleanupEffects() {
+    cleanupEffects()
+    {
         // If Blink cast a spell, slowly fade screen transparency back
-        if (this.ctx.globalAlpha < 1) {
+        if (this.ctx.globalAlpha < 1)
+        {
             this.ctx.globalAlpha += .01;
             this.middleProjectionCtx.globalAlpha += .4;
             this.bottomProjectionCtx.globalAlpha += .009;
 
-            if (this.ctx.globalAlpha > .94) {
+            if (this.ctx.globalAlpha > .94)
+            {
                 this.bottomProjectionCtx.clearRect(0, 0, this.bottomProjectionCtx.canvas.width, this.bottomProjectionCtx.canvas.height);
                 this.middleProjectionCtx.clearRect(0, 0, this.middleProjectionCtx.canvas.width, this.middleProjectionCtx.canvas.height);
             }

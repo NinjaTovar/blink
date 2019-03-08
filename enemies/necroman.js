@@ -4,7 +4,8 @@
  *
  * Single constructor takes in the game context as its parameter. (There is no default)
  */
-class Necroman extends Entity {
+class Necroman extends Entity
+{
   /**
    * Single constructor for Fly. Loads assets and sets intial parameters including
    * the speed, starting x/y position, etc.
@@ -15,7 +16,8 @@ class Necroman extends Entity {
    * @param {any} startY Starting x position of the fly being constructed.
    * @param {any} size Size of scale for character.
    */
-  constructor(game, startX, startY, size) {
+  constructor(game, startX, startY, size)
+  {
     super(game, startX, startY);
     this.faceLeft = new Animation(
       AM.getAsset("./img/enemies/necroman/Necroman_FaceLeft.png"),
@@ -59,25 +61,30 @@ class Necroman extends Entity {
    *
    * @param {any} ctx  A reference to the Game Context.
    */
-  draw(ctx) {
+  draw(ctx)
+  {
     // debug tool
-    if (this.drawAroundHitBox) {
+    if (this.drawAroundHitBox)
+    {
       this.drawAroundBox();
       //this.ctx.clearRect(this.x, this.y, this.frameWidth * this.size, this.frameHeight * this.size);
     }
 
     // If field "isHeadingRight" is true, play fly right animation
-    if (this.isHeadingRight) {
+    if (this.isHeadingRight)
+    {
       this.faceRight.drawFrame(this.game.clockTick, ctx, this.x, this.y);
     }
     // If field "isHeadingRight" is false, play fly left animation
-    else if (!this.isHeadingRight) {
+    else if (!this.isHeadingRight)
+    {
       this.faceLeft.drawFrame(this.game.clockTick, ctx, this.x, this.y);
     }
   }
 
   /** Update handles updating the objects world state. */
-  subClassUpdate() {
+  subClassUpdate()
+  {
     this.updateMyHitBoxes();
   }
 }

@@ -4,7 +4,8 @@
  *
  * Single constructor takes in the game context as its parameter. (There is no default)
  */
-class Mummy extends Entity {
+class Mummy extends Entity
+{
   /**
    * Single constructor for Fly. Loads assets and sets intial parameters including
    * the speed, starting x/y position, etc.
@@ -15,7 +16,8 @@ class Mummy extends Entity {
    * @param {any} startY Starting x position of the fly being constructed.
    * @param {any} size Size of scale for character.
    */
-  constructor(game, startX, startY, size, isHeadingRight) {
+  constructor(game, startX, startY, size, isHeadingRight)
+  {
     super(game, startX, startY);
     this.walkLeftAnimation = new Animation(
       AM.getAsset("./img/enemies/mummy/Mummy_WalkLeft.png"), // load sprite asset
@@ -65,7 +67,8 @@ class Mummy extends Entity {
     );
 
     // Ensure the enemies boundaries aren't too small
-    while (this.randomMaxBoundary - this.randomMinBoundary < 500) {
+    while (this.randomMaxBoundary - this.randomMinBoundary < 500)
+    {
       this.randomMaxBoundary = Randomizer.returnRandomIntBetweenThese(
         this.randomMinBoundary,
         Randomizer.returnRandomInt(this.ctx.canvas.width)
@@ -88,19 +91,23 @@ class Mummy extends Entity {
    *
    * @param {any} ctx  A reference to the Game Context.
    */
-  draw(ctx) {
+  draw(ctx)
+  {
     // debug tool
-    if (this.drawAroundHitBox) {
+    if (this.drawAroundHitBox)
+    {
       // this.drawAroundBox();
       //this.ctx.clearRect(this.x, this.y, this.frameWidth * this.size, this.frameHeight * this.size);
     }
 
-    if (this.health <= 0) {
+    if (this.health <= 0)
+    {
       this.deathAnimation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
       return;
     }
     // If field "isHeadingRight" is true, play walk right animation
-    if (this.isHeadingRight && !this.willRewind()) {
+    if (this.isHeadingRight && !this.willRewind())
+    {
       this.walkRightAnimation.drawFrame(
         this.game.clockTick,
         ctx,
@@ -109,7 +116,8 @@ class Mummy extends Entity {
       );
     }
     // If field "isHeadingRight" is false, play fly right animation
-    else if (!this.isHeadingRight && !this.willRewind()) {
+    else if (!this.isHeadingRight && !this.willRewind())
+    {
       this.walkLeftAnimation.drawFrame(
         this.game.clockTick,
         ctx,
@@ -119,7 +127,8 @@ class Mummy extends Entity {
     }
 
     // If affected by time spell
-    if (this.isHeadingRight && this.willRewind() && this.myPath.length > 1) {
+    if (this.isHeadingRight && this.willRewind() && this.myPath.length > 1)
+    {
       this.x = this.myPath.pop();
       this.walkRightAnimation.drawFrame(
         this.game.clockTick,
@@ -128,12 +137,14 @@ class Mummy extends Entity {
         this.y
       );
 
-      if (this.myPath.length == 1) {
+      if (this.myPath.length == 1)
+      {
         this.shouldRewind = false;
         this.game.shouldRewind = false;
       }
     }
-    if (!this.isHeadingRight && this.willRewind() && this.myPath.length > 1) {
+    if (!this.isHeadingRight && this.willRewind() && this.myPath.length > 1)
+    {
       this.x = this.myPath.pop();
       this.walkLeftAnimation.drawFrame(
         this.game.clockTick,
@@ -142,7 +153,8 @@ class Mummy extends Entity {
         this.y
       );
 
-      if (this.myPath.length == 1) {
+      if (this.myPath.length == 1)
+      {
         this.shouldRewind = false;
         this.game.shouldRewind = false;
       }
@@ -150,41 +162,54 @@ class Mummy extends Entity {
   }
 
   /** Update handles updating the objects world state. */
-  subClassUpdate() {
+  subClassUpdate()
+  {
 
-    if (this.health > 10) {
+    if (this.health > 10)
+    {
       //if hit
-      if (this.currentHealth !== this.health) {
+      if (this.currentHealth !== this.health)
+      {
         this.currentHealth = this.health;
 
-        if (this.game.blink.facingRight) {
-          if (!(this instanceof Blink)) {
+        if (this.game.blink.facingRight)
+        {
+          if (!(this instanceof Blink))
+          {
             this.x += 20;
           }
 
-        } else if (!this.game.blink.facingRight) {
-          if (!(this instanceof Blink)) {
+        } else if (!this.game.blink.facingRight)
+        {
+          if (!(this instanceof Blink))
+          {
             this.x -= 20;
           }
         }
       }
     }
 
-    if (this.health <= 0) {
-      if (this.deathAnimation.elapsedTime > 5) {
+    if (this.health <= 0)
+    {
+      if (this.deathAnimation.elapsedTime > 5)
+      {
         this.isDead = true;
       }
       return;
     }
 
-    if (this.isHeadingRight) {
+    if (this.isHeadingRight)
+    {
       this.x += this.game.clockTick * this.speed;
-      if (this.x > this.randomMaxBoundary) {
+      if (this.x > this.randomMaxBoundary)
+      {
         this.isHeadingRight = false;
       }
-    } else if (!this.isHeadingRight) {
+    } else if (!this.isHeadingRight)
+    {
       this.x -= this.game.clockTick * this.speed;
-      if (this.x < this.randomMinBoundary) {
+      if (this.x < this.randomMinBoundary)
+      {
         this.isHeadingRight = true;
       }
     }
@@ -193,13 +218,16 @@ class Mummy extends Entity {
     this.updateMyHitBoxes();
   }
 
-  updateMyHitBoxes() {
-    if (this.isHeadingRight) {
+  updateMyHitBoxes()
+  {
+    if (this.isHeadingRight)
+    {
       this.hitB.width = this.frameWidth;
       this.hitB.height = this.frameHeight;
       this.hitB.boundX = this.boundX + 15;
       this.hitB.boundY = this.boundY;
-    } else {
+    } else
+    {
       this.hitB.width = this.frameWidth;
       this.hitB.height = this.frameHeight;
       this.hitB.boundX = this.boundX + 24;
