@@ -27,19 +27,31 @@ class Fireball extends Entity {
             this.scale);
 
     }
-    update() {
+    subClassUpdate() {
         this.updatePosition();
         this.boundX = this.x;
         this.boundY = this.y;
         this.updateMyHitBoxes();
     }
     draw(ctx) {
-        this.fireballAnimation.drawFrame(
-            this.game.clockTick,
-            ctx,
-            this.x,
-            this.y
-        );
+        if (!this.willRewind()) {
+            this.fireballAnimation.drawFrame(
+                this.game.clockTick,
+                ctx,
+                this.x,
+                this.y
+            );
+        } else {
+            this.x = this.myPath.pop();
+            this.y = this.myVerticalPath.pop();
+            this.fireballAnimation.drawFrame(
+                this.game.clockTick,
+                ctx,
+                this.x,
+                this.y
+            );
+        }
+
     }
 
     updatePosition() {
