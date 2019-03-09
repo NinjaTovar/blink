@@ -196,7 +196,9 @@ class Entity
     // HANDLE COLLISION RECOIL------------------------------------------------------------
     handleGettingHitByBlink()
     {
-        if (this instanceof Bullet || this instanceof Clock)
+        // If one of the non-enemy entities, don't play injured sounds
+        if (this instanceof Bullet || this instanceof Clock || this instanceof Vegeta ||
+            this instanceof Vegeta2)
         {
             return;
         }

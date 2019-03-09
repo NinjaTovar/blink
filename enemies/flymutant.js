@@ -66,7 +66,7 @@ class FlyMutant extends Entity
 
         // debug tool
         this.drawAroundHitBox = false;
-        this.frameWidth = 111 * size;
+        this.frameWidth = 111 * size /1.5;
         this.frameHeight = 90 * size;
         this.size = size;
     }

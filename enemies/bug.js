@@ -89,7 +89,7 @@ class Bug extends Entity
 
         // debug tool
         this.drawAroundHitBox = false;
-        this.frameWidth = 53 * size;
+        this.frameWidth = 53 * size /2 ;
         this.frameHeight = 54 * size;
         this.size = size;
     }

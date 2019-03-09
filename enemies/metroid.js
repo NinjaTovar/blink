@@ -57,7 +57,7 @@ class Metroid extends Entity
 
         // debug tool
         this.drawAroundHitBox = false;
-        this.frameWidth = 78 * size;
+        this.frameWidth = 78 * size /1.3;
         this.frameHeight = 86 * size;
         this.size = size;
     }

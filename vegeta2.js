@@ -108,5 +108,6 @@ class Vegeta2 extends Entity {
 	/** Update handles updating the objects world state. */
     subClassUpdate()
     {
+        this.updateMyHitBoxes();
     }
 }

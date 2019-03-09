@@ -88,8 +88,8 @@ class Violator extends Entity
 
         // debug tool
         this.drawAroundHitBox = false;
-        this.frameWidth = 122 * size;
-        this.frameHeight = 103 * size;
+        this.frameWidth = 122 * size/2;
+        this.frameHeight = 103 * size / 1.2;
         this.size = size;
     }
 
