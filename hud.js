@@ -66,6 +66,11 @@ class HealthBar
             this.dx = this.game.canvasWidth / 30;
             this.dy = this.game.canvasHeight / 30 - this.camera.y;
         }
+        else
+        {
+            this.dx = this.camera.mapWidth - 1938;
+            this.dy = this.game.canvasHeight / 30 - this.camera.y;
+        }
 
 
     }
