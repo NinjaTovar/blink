@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\levels"
   ],
-  "SelectedNode": "\\main.js",
+  "SelectedNode": "\\levels\\levelmanager.js",
   "PreviewInSolutionExplorer": false
 }
