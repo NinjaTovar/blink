@@ -38,6 +38,12 @@ class Fireball extends Entity
     }
     draw(ctx)
     {
+        // debug tool
+        if (this.drawAroundHitBox)
+        {
+            this.drawAroundBox();
+        }
+
         if (!this.willRewind())
         {
             this.fireballAnimation.drawFrame(
