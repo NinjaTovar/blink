@@ -77,8 +77,8 @@ class Mummy extends Entity
 
         // debug tool
         this.drawAroundHitBox = false;
-        this.frameWidth = 50;
-        this.frameHeight = 100;
+        this.frameWidth = 36 * size;
+        this.frameHeight = 45 * size;
         this.size = size;
     }
 

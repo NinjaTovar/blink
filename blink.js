@@ -686,12 +686,14 @@ class Blink extends Entity {
             this.unsheathSwordStandStill = false;
 
             // If in the dash part of the attack animation, shift x position to emulate dash
-            if (this.facingRight && this.dashSlashFaceRight.currentFrame() === 1) {
+            if (this.facingRight && this.dashSlashFaceRight.currentFrame() === 1 && !this.gotHit)
+            {
                 this.x += 30;
                 this.slashFaceLeft.elapsedTime = 0;
             } else if (
                 !this.facingRight &&
-                this.dashSlashFaceLeft.currentFrame() === 1
+                this.dashSlashFaceLeft.currentFrame() === 1 &&
+                !this.gotHit
             ) {
                 this.x -= 30;
                 this.slashFaceRight.elapsedTime = 0;

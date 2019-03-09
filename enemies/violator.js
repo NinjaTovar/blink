@@ -4,239 +4,220 @@
  *
  * Single constructor takes in the game context as its parameter. (There is no default)
  */
-class Violator extends Entity {
-  /**
-   * Single constructor for Fly. Loads assets and sets intial parameters including
-   * the speed, starting x/y position, etc.
-   *
-   * @constructor
-   * @param {any} game A reference to the game engine.
-   * @param {any} startX Starting x position of the fly being constructed.
-   * @param {any} startY Starting x position of the fly being constructed.
-   * @param {any} size Size of scale for character.
-   */
-  constructor(game, startX, startY, size, isHeadingRight) {
-    super(game, startX, startY);
-    this.swingRightAnimation = new Animation(
-      AM.getAsset("./img/enemies/violator/ViolatorSwing_FaceRight.png"),
-      122, // frame width
-      103, // frame height
-      3, // sheet width
-      0.15, // frame duration
-      12, // frames in animation
-      true, // to loop or not to loop
-      size // scale in relation to original image
-    );
-    this.swingLeftAnimation = new Animation(
-      AM.getAsset("./img/enemies/violator/ViolatorSwing_FaceLeft.png"),
-      122, // frame width
-      103, // frame height
-      3, // sheet width
-      0.15, // frame duration
-      12, // frames in animation
-      true, // to loop or not to loop
-      size // scale in relation to original image
-    );
-    this.hitFaceRightAnimation = new Animation(
-      AM.getAsset("./img/enemies/violator/Violator_Hit_FaceRight.png"),
-      122, // frame width
-      103, // frame height
-      3, // sheet width
-      0.2, // frame duration
-      3, // frames in animation
-      true, // to loop or not to loop
-      size // scale in relation to original image
-    );
-
-    this.hitFaceLeftAnimation = new Animation(
-      AM.getAsset("./img/enemies/violator/Violator_Hit_FaceLeft.png"),
-      122, // frame width
-      103, // frame height
-      3, // sheet width
-      0.2, // frame duration
-      3, // frames in animation
-      true, // to loop or not to loop
-      size // scale in relation to original image
-    );
-
-    this.x = startX;
-    this.y = startY;
-    this.speed = 300;
-    this.game = game;
-    this.ctx = game.ctx;
-    this.isHeadingRight = false;
-    this.gettingHit = false;
-
-    // set invisible boundaries for enemies path
-    this.randomMinBoundary =
-      Randomizer.returnRandomInt(this.ctx.canvas.width) / 2;
-    this.randomMaxBoundary = Randomizer.returnRandomIntBetweenThese(
-      this.randomMinBoundary,
-      Randomizer.returnRandomInt(this.ctx.canvas.width)
-    );
-
-    // Ensure the enemies boundaries aren't too small
-    while (this.randomMaxBoundary - this.randomMinBoundary < 500) {
-      this.randomMaxBoundary = Randomizer.returnRandomIntBetweenThese(
-        this.randomMinBoundary,
-        Randomizer.returnRandomInt(this.ctx.canvas.width)
-      );
-    }
-
-    // this will be used for rewind
-    this.myPath = [];
-    this.myPath.push(0);
-    this.shouldRewind = false;
-    this.resetPath = false;
-
-    // debug tool
-    this.drawAroundHitBox = false;
-    this.frameWidth = 150;
-    this.frameHeight = 150;
-    this.size = size;
-  }
-
-  // Methods
-
-  /**
-   * Draw takes in the game context and uses that to define what update does.
-   *
-   * @param {any} ctx  A reference to the Game Context.
-   */
-  draw(ctx) {
-    // debug tool
-    if (this.drawAroundHitBox) {
-      // this.drawAroundBox();
-      //this.ctx.clearRect(this.x, this.y, this.frameWidth * this.size, this.frameHeight * this.size);
-    }
-    if (this.gettingHit) {
-      if (this.isHeadingRight) {
-        this.hitFaceRightAnimation.drawFrame(
-          this.game.clockTick,
-          ctx,
-          this.x,
-          this.y
+class Violator extends Entity
+{
+    /**
+     * Single constructor for Fly. Loads assets and sets intial parameters including
+     * the speed, starting x/y position, etc.
+     *
+     * @constructor
+     * @param {any} game A reference to the game engine.
+     * @param {any} startX Starting x position of the fly being constructed.
+     * @param {any} startY Starting x position of the fly being constructed.
+     * @param {any} size Size of scale for character.
+     */
+    constructor(game, startX, startY, size, isHeadingRight)
+    {
+        super(game, startX, startY);
+        this.swingRightAnimation = new Animation(
+            AM.getAsset("./img/enemies/violator/ViolatorSwing_FaceRight.png"),
+            122, // frame width
+            103, // frame height
+            3, // sheet width
+            0.15, // frame duration
+            12, // frames in animation
+            true, // to loop or not to loop
+            size // scale in relation to original image
         );
-      } else {
-        this.hitFaceLeftAnimation.drawFrame(
-          this.game.clockTick,
-          ctx,
-          this.x,
-          this.y
+        this.swingLeftAnimation = new Animation(
+            AM.getAsset("./img/enemies/violator/ViolatorSwing_FaceLeft.png"),
+            122, // frame width
+            103, // frame height
+            3, // sheet width
+            0.15, // frame duration
+            12, // frames in animation
+            true, // to loop or not to loop
+            size // scale in relation to original image
         );
-      }
+        this.hitFaceRightAnimation = new Animation(
+            AM.getAsset("./img/enemies/violator/Violator_Hit_FaceRight.png"),
+            122, // frame width
+            103, // frame height
+            3, // sheet width
+            0.2, // frame duration
+            3, // frames in animation
+            true, // to loop or not to loop
+            size // scale in relation to original image
+        );
 
-      return;
-    }
-    // If field "isHeadingRight" is true, play fly right animation
-    if (this.isHeadingRight && !this.willRewind()) {
-      this.swingRightAnimation.drawFrame(
-        this.game.clockTick,
-        ctx,
-        this.x,
-        this.y
-      );
-    }
-    // If field "isHeadingRight" is false, play fly left animation
-    else if (!this.isHeadingRight && !this.willRewind()) {
-      this.swingLeftAnimation.drawFrame(
-        this.game.clockTick,
-        ctx,
-        this.x,
-        this.y
-      );
-    }
+        this.hitFaceLeftAnimation = new Animation(
+            AM.getAsset("./img/enemies/violator/Violator_Hit_FaceLeft.png"),
+            122, // frame width
+            103, // frame height
+            3, // sheet width
+            0.2, // frame duration
+            3, // frames in animation
+            true, // to loop or not to loop
+            size // scale in relation to original image
+        );
 
-    // If affected by time spell
-    if (this.isHeadingRight && this.willRewind() && this.myPath.length > 1) {
-      this.x = this.myPath.pop();
-      this.swingRightAnimation.drawFrame(
-        this.game.clockTick,
-        ctx,
-        this.x,
-        this.y
-      );
+        this.x = startX;
+        this.y = startY;
+        this.speed = 300;
+        this.game = game;
+        this.ctx = game.ctx;
+        this.isHeadingRight = false;
+        this.gettingHit = false;
 
-      if (this.myPath.length == 1) {
-        this.x = this.myPath.pop();
-        this.shouldRewind = false;
-      }
-    }
-    if (!this.isHeadingRight && this.willRewind() && this.myPath.length > 1) {
-      this.x = this.myPath.pop();
-      this.swingLeftAnimation.drawFrame(
-        this.game.clockTick,
-        ctx,
-        this.x,
-        this.y
-      );
+        // set invisible boundaries for enemies path
+        this.randomMinBoundary =
+            Randomizer.returnRandomInt(this.ctx.canvas.width) / 2;
+        this.randomMaxBoundary = Randomizer.returnRandomIntBetweenThese(
+            this.randomMinBoundary,
+            Randomizer.returnRandomInt(this.ctx.canvas.width)
+        );
 
-      if (this.myPath.length == 1) {
-        this.shouldRewind = false;
-        this.game.shouldRewind = false;
-      }
-    }
-  }
+        // Ensure the enemies boundaries aren't too small
+        while (this.randomMaxBoundary - this.randomMinBoundary < 500)
+        {
+            this.randomMaxBoundary = Randomizer.returnRandomIntBetweenThese(
+                this.randomMinBoundary,
+                Randomizer.returnRandomInt(this.ctx.canvas.width)
+            );
+        }
 
-  /** Update handles updating the objects world state. */
-  subClassUpdate() {
-    this.updateMyHitBoxes();
-    if (this.game.resetPaths != undefined) {
-      this.resetPath = this.game.resetPaths;
+        // debug tool
+        this.drawAroundHitBox = false;
+        this.frameWidth = 122 * size;
+        this.frameHeight = 103 * size;
+        this.size = size;
     }
 
-    // alert fly to reset the array for path variables
-    if (this.resetPath) {
-      this.x = this.myPath.pop();
+    // Methods
 
-      console.log("Rewind path is reset");
+    /**
+     * Draw takes in the game context and uses that to define what update does.
+     *
+     * @param {any} ctx  A reference to the Game Context.
+     */
+    draw(ctx)
+    {
+        // debug tool
+        if (this.drawAroundHitBox)
+        {
+            this.drawAroundBox();
+        }
+        if (this.gettingHit)
+        {
+            if (this.isHeadingRight)
+            {
+                this.hitFaceRightAnimation.drawFrame(
+                    this.game.clockTick,
+                    ctx,
+                    this.x,
+                    this.y
+                );
+            } else
+            {
+                this.hitFaceLeftAnimation.drawFrame(
+                    this.game.clockTick,
+                    ctx,
+                    this.x,
+                    this.y
+                );
+            }
 
-      this.resetPath = false;
-      this.game.resetPaths = false;
+            return;
+        }
+        // If field "isHeadingRight" is true, play fly right animation
+        if (this.isHeadingRight && !this.willRewind())
+        {
+            this.swingRightAnimation.drawFrame(
+                this.game.clockTick,
+                ctx,
+                this.x,
+                this.y
+            );
+        }
+        // If field "isHeadingRight" is false, play fly left animation
+        else if (!this.isHeadingRight && !this.willRewind())
+        {
+            this.swingLeftAnimation.drawFrame(
+                this.game.clockTick,
+                ctx,
+                this.x,
+                this.y
+            );
+        }
+
+        // If affected by time spell
+        if (this.isHeadingRight && this.willRewind() && this.myPath.length > 1)
+        {
+            this.x = this.myPath.pop();
+            this.swingRightAnimation.drawFrame(
+                this.game.clockTick,
+                ctx,
+                this.x,
+                this.y
+            );
+
+            if (this.myPath.length == 1)
+            {
+                this.x = this.myPath.pop();
+                this.shouldRewind = false;
+            }
+        }
+        if (!this.isHeadingRight && this.willRewind() && this.myPath.length > 1)
+        {
+            this.x = this.myPath.pop();
+            this.swingLeftAnimation.drawFrame(
+                this.game.clockTick,
+                ctx,
+                this.x,
+                this.y
+            );
+
+            if (this.myPath.length == 1)
+            {
+                this.shouldRewind = false;
+                this.game.shouldRewind = false;
+            }
+        }
     }
 
-    if (this.myPath.length == 1) {
-      this.shouldRewind = false;
-      this.game.shouldRewind = false;
+    /** Update handles updating the objects world state. */
+    subClassUpdate() 
+    {
+        this.updateMyHitBoxes();
+
+        this.boundX = this.x + 70;
+        this.boundY = this.y + 135;
+
+        if (this.gettingHit)
+        {
+            this.gettingHit = false;
+
+            return;
+        }
+
+        this.boundX = this.x;
+        this.boundY = this.y;
     }
 
-    // If not under rewind spell
-    if (!this.shouldRewind) {
-      // save current x coordinates if difference from previous coordinate is at
-      // least one third pixel
-      if (
-        Math.abs(
-          Math.abs(this.x) - Math.abs(this.myPath[this.myPath.length - 1])
-        ) > 0.3
-      ) {
-        this.myPath.push(this.x);
-      }
+    updateMyHitBoxes()
+    {
+        if (this.isHeadingRight)
+        {
+            this.hitB.width = this.frameWidth;
+            this.hitB.height = this.frameHeight;
+            this.hitB.boundX = this.boundX + 40;
+            this.hitB.boundY = this.boundY;
+        } else
+        {
+            this.hitB.width = this.frameWidth;
+            this.hitB.height = this.frameHeight;
+            this.hitB.boundX = this.boundX + 24;
+            this.hitB.boundY = this.boundY;
+        }
     }
-
-    this.boundX = this.x + 70;
-    this.boundY = this.y + 135;
-
-    if (this.gettingHit) {
-      this.gettingHit = false;
-
-      return;
-    }
-    // FOR NOW LET"S LEAVE THIS GUY STATIONARY
-    //if (this.isHeadingRight)
-    //{
-    //    this.x += this.game.clockTick * this.speed;
-    //    if (this.x > this.randomMaxBoundary)
-    //    {
-    //        this.isHeadingRight = false;
-    //    }
-    //}
-    //else if (!this.isHeadingRight)
-    //{
-    //    this.x -= this.game.clockTick * this.speed;
-    //    if (this.x < this.randomMinBoundary)
-    //    {
-    //        this.isHeadingRight = true;
-    //    }
-    //}
-  }
 }

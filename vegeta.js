@@ -66,8 +66,8 @@ class Vegeta extends Entity
 
         // debug tool
         this.drawAroundHitBox = false;
-        this.frameWidth = 90;
-        this.frameHeight = 90;
+        this.frameWidth = 90 * size;
+        this.frameHeight = 90 * size;
         this.size = size;
         this.blinkTouchedMe = false;
     }
@@ -113,5 +113,6 @@ class Vegeta extends Entity
     /** Update handles updating the objects world state. */
     subClassUpdate()
     {
+        this.updateMyHitBoxes();
     }
 }
