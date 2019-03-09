@@ -63,6 +63,13 @@ class LevelManager
                 currentLevel.loadLevel();
             }
             this.states.levelLoaded = true;
+
+            // Change Music on level change
+            if (this.game.blink !== undefined)
+            {
+                this.game.blink.changeMusic.click();
+            }
+
         } else
         {
 

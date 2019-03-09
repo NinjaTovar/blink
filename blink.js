@@ -463,7 +463,7 @@ class Blink extends Entity {
         }
     }
 
-    //Handle collisons
+    // HANDLE COLLISIONS------------------------------------------------------------------
     handleCollison(other, type) {
         if (other instanceof Vegeta || other instanceof Vegeta2) {
             other.blinkTouchedMe = true;
@@ -830,7 +830,8 @@ class Blink extends Entity {
 
                 this.stopSoundEffect.pause();
 
-                if (this.lastSongPlayed != undefined && !this.userWantsNoMusic) {
+                if (this.lastSongPlayed !== undefined && !this.userWantsNoMusic) 
+                {
                     this.lastSongPlayed.play();
                 }
 
@@ -995,6 +996,7 @@ class Blink extends Entity {
                 self.adventureTimeTrack.play();
                 self.lastSongPlayed = self.adventureTimeTrack;
             } else {
+
                 self.adventureTimeTrack.play();
                 self.lastSongPlayed = self.adventureTimeTrack;
             }
