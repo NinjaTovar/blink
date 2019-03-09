@@ -1,4 +1,4 @@
-class Coin extends Entity
+class Clock extends Entity
 {
     constructor(game, startX, startY)
     {
