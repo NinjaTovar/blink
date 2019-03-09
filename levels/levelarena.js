@@ -18,13 +18,81 @@ class LevelArena {
 
 
 		// Manually set Blink's coordinates for now
-		this.game.blink.groundLevel = 5000;
+		this.game.blink.groundLevel = 950;
 		this.game.blink.y = 100;
 		this.game.blink.x = 2400;
 		this.game.blink.platformY = null;
 		this.game.blink.lastY = 5000;
 		this.game.camera.x = 24000;
-		this.game.camera.y = -100;
+        this.game.camera.y = -100;
+
+        // Add enemies
+        // Add random number of violator up to 2
+        for (var i = 0; i < Randomizer.returnRandomIntBetweenThese(1, 2); i++)
+        {
+            this.game.addEntity(
+                new Violator(
+                    this.game,
+                    Randomizer.returnRandomIntBetweenThese(500, 3000),
+                    this.game.blink.groundLevel,
+                    2.5,
+                    Randomizer.returnRandomDirection()
+                )
+            );
+        }
+        // // Add random number of mummies up to 4
+        for (var i = 0; i < Randomizer.returnRandomIntBetweenThese(3, 8); i++)
+        {
+            this.game.addEntity(
+                new Mummy(
+                    this.game,
+                    Randomizer.returnRandomInt(3000),
+                    this.game.blink.groundLevel + 120,
+                    2.5,
+                    Randomizer.returnRandomDirection()
+                )
+            );
+        }
+        // Add random number of bugs up to 2
+        for (var i = 0; i < Randomizer.returnRandomIntBetweenThese(1, 3); i++)
+        {
+            this.game.addEntity(
+                new Bug(
+                    this.game,
+                    Randomizer.returnRandomInt(3000),
+                    this.game.blink.groundLevel + 115,
+                    2.5,
+                    Randomizer.returnRandomDirection()
+                )
+            );
+        }
+        // Add random number of flies up to 5
+        for (var i = 0; i < Randomizer.returnRandomIntBetweenThese(2, 5); i++)
+        {
+            this.game.addEntity(
+                new FlyMutant(
+                    this.game,
+                    Randomizer.returnRandomInt(this.game.surfaceWidth),
+                    Randomizer.returnRandomInt(3000),
+                    Randomizer.returnRandomFloat(0.4, 1),
+                    Randomizer.returnRandomDirection()
+                )
+            );
+        }
+        // Add random number of metroid up to 3
+         for (var i = 0; i < Randomizer.returnRandomIntBetweenThese(1, 4); i++) {
+           this.game.addEntity(
+             new Metroid(
+               this.game,
+               Randomizer.returnRandomIntBetweenThese(0, 3000),
+                   this.game.blink.groundLevel - 300,
+               Randomizer.returnRandomFloat(2, 4),
+               Randomizer.returnRandomDirection()
+             )
+           );
+         }
+        // Adding Necroman
+        this.game.addEntity(new Necroman(this.game, 2800, this.game.blink.groundLevel - 200, 5.5));
 
 
 	}
