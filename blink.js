@@ -727,9 +727,9 @@ class Blink extends Entity
     {
         // TODO - on finish of camera rework this
         // keep in bounds of canvas until camera class is functional
-        if (this.x > this.game.mapWidth)
+        if (this.x > this.game.camera.mapWidth - 100)
         {
-            this.x = this.game.mapWidth;
+            this.x = this.game.camera.mapWidth - 100;
             this.moving = false;
         } else if (this.x < 0)
         {

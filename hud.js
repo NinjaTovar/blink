@@ -56,11 +56,12 @@ class HealthBar
         // Add update for energy here
 
 
-        if (this.blink.x > 1000)
+        if (this.blink.x > 1000 && this.blink.x < this.camera.mapWidth - 1000)
         {
             this.dx = this.game.canvasWidth / 30 - this.camera.x;
             this.dy = this.game.canvasHeight / 30 - this.camera.y;
-        } else
+        }
+        else if (this.blink.x < 1000)
         {
             this.dx = this.game.canvasWidth / 30;
             this.dy = this.game.canvasHeight / 30 - this.camera.y;
