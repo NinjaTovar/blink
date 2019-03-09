@@ -46,6 +46,8 @@ AM.queueDownload("./img/enemies/soldier/SoldierShooting_FaceLeft.png");
 AM.queueDownload("./img/enemies/soldier/SoldierShooting_FaceRight.png");
 AM.queueDownload("./img/enemies/soldier/SoldierWalking_FaceRight.png");
 AM.queueDownload("./img/enemies/soldier/SoldierWalking_FaceLeft.png");
+AM.queueDownload("./img/enemies/soldier/SoldierHit_FaceRight.png");
+AM.queueDownload("./img/enemies/soldier/SoldierHit_FaceLeft.png");
 AM.queueDownload("./img/enemies/bullets/orangeBullet.png");
 
 // Queue downloading Bug
@@ -90,8 +92,8 @@ AM.queueDownload("./img/messageStill.png");
 AM.queueDownload("./img/message2still.png");
 AM.queueDownload("./img/message2.png");
 
-AM.downloadAll(function () {
-  window.onload = function () {
+AM.downloadAll(function() {
+  window.onload = function() {
     // Load game world. This is the top layer
     var canvas = document.getElementById("gameWorld");
     var gameCtx = canvas.getContext("2d");

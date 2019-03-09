@@ -58,7 +58,7 @@ class Camera
         }
         else 
         {
-            this.ctx.translate(this.endOfLevelX, this.endOfLevelY);
+            this.ctx.translate(this.endOfLevelX, this.y);
         }
     }
     update()

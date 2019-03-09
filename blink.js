@@ -161,7 +161,6 @@ class Blink extends Entity {
      */
     // ************************************   DRAW   *************************************
     draw(ctx) {
-
         // DEBUG TOOL HIT BOX-------------------------------------------------------------
         if (this.drawAroundHitBox) {
             this.attackBox.drawHitBox();
@@ -408,7 +407,6 @@ class Blink extends Entity {
             if (this.currentPlatform != null && this.platformY != null) {
                 this.y = this.platformY;
             } else {
-
                 // bring him down to earth if neccessary
                 this.falling = true;
                 this.y += this.game.blinksClockTick * this.speed * 2.5;
@@ -478,9 +476,21 @@ class Blink extends Entity {
                 other.isDead = true;
             }
 
-            if (Math.random() >= 0.7 && Math.random() > 0.9) {
+            if (
+                Math.random() >= 0.7 &&
+                Math.random() > 0.9 &&
+                !(other instanceof Clock)
+            ) {
+                let add = 0;
+                if (other instanceof Soldier) {
+                    add = 200;
+                }
                 this.game.addEntity(
-                    new Clock(this.game, other.x + Math.floor(Math.random() * 44), other.y)
+                    new Clock(
+                        this.game,
+                        other.x + add + Math.floor(Math.random() * 44),
+                        other.y
+                    )
                 );
             }
         }
@@ -529,7 +539,6 @@ class Blink extends Entity {
                     this.platformY += 45;
                 }
 
-
                 this.y = this.platformY;
                 this.groundLevel = this.platformY;
                 this.falling = false;
@@ -566,11 +575,12 @@ class Blink extends Entity {
         }
 
         if (
-            type === "damage" &&
-            other.health > 0 &&
-            !(other instanceof Platform) &&
-            !this.basicAttack &&
-            !(other instanceof Vegeta || other instanceof Vegeta2)
+            (type === "damage" && other instanceof Bullet) ||
+            (type === "damage" &&
+                other.health > 0 &&
+                !(other instanceof Platform) &&
+                !this.basicAttack &&
+                !(other instanceof Vegeta || other instanceof Vegeta2))
         ) {
             this.gotHit = true;
 
@@ -593,8 +603,8 @@ class Blink extends Entity {
     handleBlinkGettingInjured() {
         if (this.gotHit) {
             if (
-                this.hitFacingLeft.elapsedTime > .34 ||
-                this.hitFacingRight.elapsedTime > .34
+                this.hitFacingLeft.elapsedTime > 0.34 ||
+                this.hitFacingRight.elapsedTime > 0.34
             ) {
                 this.hitFacingLeft.elapsedTime = 0;
                 this.hitFacingRight.elapsedTime = 0;
@@ -678,7 +688,10 @@ class Blink extends Entity {
             // If in the dash part of the attack animation, shift x position to emulate dash
             if (this.facingRight && this.dashSlashFaceRight.currentFrame() === 1) {
                 this.x += 30;
-            } else if (!this.facingRight && this.dashSlashFaceLeft.currentFrame() === 1) {
+            } else if (
+                !this.facingRight &&
+                this.dashSlashFaceLeft.currentFrame() === 1
+            ) {
                 this.x -= 30;
             }
         }
@@ -700,16 +713,12 @@ class Blink extends Entity {
     // HANDLE UPDATE ON MOVING------------------------------------------------------------
     /** Update method helper for what to do when moving. */
     handleWhatToDoWhenMoving() {
-
         if (!this.facingRight && this.isRunning()) {
             this.x -= this.game.blinksClockTick * this.speed;
         }
         if (this.facingRight && this.isRunning()) {
             this.x += this.game.blinksClockTick * this.speed;
         }
-
-
-
     }
 
     // HANDLE UPDATE ON JUMPING-----------------------------------------------------------
@@ -1042,8 +1051,6 @@ class Blink extends Entity {
             self.game.levelManager.level = 4;
             self.game.levelManager.states.loadNextLevel = true;
         };
-
-
     }
 
     /**
@@ -1059,7 +1066,6 @@ class Blink extends Entity {
             !this.unsheathSword &&
             !this.unsheathSwordStandStill &&
             this.energy > 0
-
         );
     }
     isStandingStill() {
