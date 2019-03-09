@@ -28,7 +28,7 @@ class Entity
         this.boundX = this.x;
         this.boundY = this.y;
         this.damage = 5;
-        this.health = 800;
+        this.health = 100;
         this.currentHealth = this.health;
         this.isDead = false;
         this.hitB = new Hitbox(
@@ -170,7 +170,6 @@ class Entity
 
                         this.enemyInjuredSoundEffect.play();
                     }
-
                 }
                 else if (!this.game.blink.facingRight)
                 {
