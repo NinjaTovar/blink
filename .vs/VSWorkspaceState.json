@@ -2,8 +2,8 @@
   "ExpandedNodes": [
     "",
     "\\enemies",
-    "\\levels"
+    "\\img\\blink"
   ],
-  "SelectedNode": "\\enemies\\flymutant.js",
+  "SelectedNode": "\\hud.js",
   "PreviewInSolutionExplorer": false
 }
