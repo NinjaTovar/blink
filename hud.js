@@ -23,12 +23,6 @@ class Hud
         {
             this.components[i].draw(ctx);
         }
-
-        // NOT SURE WHAT THIS IS DOING
-        //ctx.beginPath();
-        //ctx.strokeStyle = 'red';
-        //ctx.rect(this.camera.offsetX, this.camera.offsetY, this.camera.viewWidth, this.camera.viewHeight);
-        //ctx.stroke();
     }
 
 
@@ -55,7 +49,7 @@ class HealthBar
         this.energy = this.blink.energy;
         // Add update for energy here
 
-
+        // Camera bounds...lots of manual touches here to keep it looking nice at level bounds.
         if (this.blink.x > 1000 && this.blink.x < this.camera.mapWidth - 1000)
         {
             this.dx = this.game.canvasWidth / 30 - this.camera.x;
@@ -68,7 +62,7 @@ class HealthBar
         }
         else
         {
-            this.dx = this.camera.mapWidth - 1938;
+            this.dx = this.camera.mapWidth - 1900; // adjust HUD placement at end of level.
             this.dy = this.game.canvasHeight / 30 - this.camera.y;
         }
 

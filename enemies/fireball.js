@@ -23,7 +23,7 @@ class Fireball extends Entity
             this.width,
             this.height,
             3,
-            .4,
+            .06,
             12,
             true,
             this.scale);
