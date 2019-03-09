@@ -72,8 +72,8 @@ class LevelArena {
             this.game.addEntity(
                 new FlyMutant(
                     this.game,
-                    Randomizer.returnRandomInt(this.game.surfaceWidth),
                     Randomizer.returnRandomInt(3000),
+                    Randomizer.returnRandomInt(this.game.blink.groundLevel),
                     Randomizer.returnRandomFloat(0.4, 1),
                     Randomizer.returnRandomDirection()
                 )
