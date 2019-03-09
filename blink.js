@@ -476,11 +476,19 @@ class Blink extends Entity {
         other.isDead = true;
       }
 
-      if (Math.random() >= 0.7 && Math.random() > 0.9) {
+      if (
+        Math.random() >= 0.7 &&
+        Math.random() > 0.9 &&
+        !(other instanceof Clock)
+      ) {
+        let add = 0;
+        if (other instanceof Soldier) {
+          add = 200;
+        }
         this.game.addEntity(
           new Clock(
             this.game,
-            other.x + Math.floor(Math.random() * 44),
+            other.x + add + Math.floor(Math.random() * 44),
             other.y
           )
         );
@@ -567,11 +575,12 @@ class Blink extends Entity {
     }
 
     if (
-      type === "damage" &&
-      other.health > 0 &&
-      !(other instanceof Platform) &&
-      !this.basicAttack &&
-      !(other instanceof Vegeta || other instanceof Vegeta2)
+      (type === "damage" && other instanceof Bullet) ||
+      (type === "damage" &&
+        other.health > 0 &&
+        !(other instanceof Platform) &&
+        !this.basicAttack &&
+        !(other instanceof Vegeta || other instanceof Vegeta2))
     ) {
       this.gotHit = true;
 
