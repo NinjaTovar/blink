@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
+    "\\enemies",
     "\\levels"
   ],
-  "SelectedNode": "\\levels\\levelone.js",
+  "SelectedNode": "\\enemies\\bug.js",
   "PreviewInSolutionExplorer": false
 }

@@ -1,7 +1,4 @@
 /*
- * Mummy object. This class handles loading the necessary assets as well as defines
- * the update and draw function.
- *
  * Single constructor takes in the game context as its parameter. (There is no default)
  */
 class Bullet extends Entity
@@ -45,8 +42,6 @@ class Bullet extends Entity
     this.size = size;
   }
 
-  // Methods
-
   /**
    * Draw takes in the game context and uses that to define what update does.
    *
@@ -57,7 +52,7 @@ class Bullet extends Entity
     // debug tool
     if (this.drawAroundHitBox)
     {
-      // this.drawAroundBox();
+      this.drawAroundBox();
     }
 
     if (!this.willRewind())

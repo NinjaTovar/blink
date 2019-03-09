@@ -688,11 +688,13 @@ class Blink extends Entity {
             // If in the dash part of the attack animation, shift x position to emulate dash
             if (this.facingRight && this.dashSlashFaceRight.currentFrame() === 1) {
                 this.x += 30;
+                this.slashFaceLeft.elapsedTime = 0;
             } else if (
                 !this.facingRight &&
                 this.dashSlashFaceLeft.currentFrame() === 1
             ) {
                 this.x -= 30;
+                this.slashFaceRight.elapsedTime = 0;
             }
         }
         if (!this.basicAttack) {
