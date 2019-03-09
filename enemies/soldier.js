@@ -4,8 +4,7 @@
  *
  * Single constructor takes in the game context as its parameter. (There is no default)
  */
-class Soldier extends Entity
-{
+class Soldier extends Entity {
   /**
    * Single constructor for Soldier. Loads assets and sets intial parameters including
    * the speed, starting x/y position, etc.
@@ -16,8 +15,7 @@ class Soldier extends Entity
    * @param {any} startY Starting x position of the Soldier being constructed.
    * @param {any} size Size of scale for character.
    */
-  constructor(game, startX, startY, size, isHeadingRight)
-  {
+  constructor(game, startX, startY, size, isHeadingRight) {
     super(game, startX, startY);
     this.shootFaceLeftAnimation = new Animation(
       AM.getAsset("./img/enemies/soldier/SoldierShooting_FaceLeft.png"), // load sprite asset
@@ -92,28 +90,22 @@ class Soldier extends Entity
    *
    * @param {any} ctx  A reference to the Game Context.
    */
-  draw(ctx)
-  {
+  draw(ctx) {
     // debug tool
-    if (this.drawAroundHitBox)
-    {
+    if (this.drawAroundHitBox) {
       this.drawAroundBox();
     }
 
-    if (!this.willRewind())
-    {
-      if (this.shouldShoot)
-      {
-        if (this.isHeadingRight)
-        {
+    if (!this.willRewind()) {
+      if (this.shouldShoot) {
+        if (this.isHeadingRight) {
           this.shootFaceRightAnimation.drawFrame(
             this.game.clockTick,
             ctx,
             this.x,
             this.y
           );
-        } else
-        {
+        } else {
           this.shootFaceLeftAnimation.drawFrame(
             this.game.clockTick,
             ctx,
@@ -121,18 +113,15 @@ class Soldier extends Entity
             this.y
           );
         }
-      } else
-      {
-        if (this.isHeadingRight)
-        {
+      } else {
+        if (this.isHeadingRight) {
           this.walkRightAnimation.drawFrame(
             this.game.clockTick,
             ctx,
             this.x,
             this.y
           );
-        } else
-        {
+        } else {
           this.walkLeftAnimation.drawFrame(
             this.game.clockTick,
             ctx,
@@ -141,21 +130,17 @@ class Soldier extends Entity
           );
         }
       }
-    } else
-    {
+    } else {
       this.x = this.x = this.myPath.pop();
-      if (this.shouldShoot)
-      {
-        if (this.isHeadingRight)
-        {
+      if (this.shouldShoot) {
+        if (this.isHeadingRight) {
           this.shootFaceRightAnimation.drawFrame(
             this.game.clockTick,
             ctx,
             this.x,
             this.y
           );
-        } else
-        {
+        } else {
           this.shootFaceLeftAnimation.drawFrame(
             this.game.clockTick,
             ctx,
@@ -163,18 +148,15 @@ class Soldier extends Entity
             this.y
           );
         }
-      } else
-      {
-        if (this.isHeadingRight)
-        {
+      } else {
+        if (this.isHeadingRight) {
           this.walkRightAnimation.drawFrame(
             this.game.clockTick,
             ctx,
             this.x,
             this.y
           );
-        } else
-        {
+        } else {
           this.walkLeftAnimation.drawFrame(
             this.game.clockTick,
             ctx,
@@ -184,67 +166,58 @@ class Soldier extends Entity
         }
       }
     }
-
   }
 
   /** Update handles updating the objects world state. */
-  subClassUpdate()
-  {
+  subClassUpdate() {
     // console.log(this.shootFaceRightAnimation.elapsedTime);
     if (
       (Math.abs(this.x - this.game.blink.x) <= 200 && !this.isHeadingRight) ||
       (Math.abs(this.x - this.game.blink.x) <= 500 && this.isHeadingRight)
-    )
-    {
+    ) {
       this.shouldShoot = true;
-    } else
-    {
+    } else {
       this.shouldShoot = false;
     }
 
-    if (this.shouldShoot)
-    {
+    if (this.shouldShoot) {
       this.handleShooting();
     }
 
-    if (this.game.blink.x - this.frameWidth > this.x + +this.frameWidth + 100)
-    {
+    if (this.game.blink.x - this.frameWidth > this.x + +this.frameWidth + 100) {
       this.isHeadingRight = true;
-    } else
-    {
+    } else {
       this.isHeadingRight = false;
     }
 
-    if (!this.shouldShoot && Math.abs(this.y - this.game.blink.y) < 90)
-    {
-      if (this.isHeadingRight)
-      {
+    if (!this.shouldShoot && Math.abs(this.y - this.game.blink.y) < 90) {
+      if (this.isHeadingRight) {
         this.x += this.game.clockTick * this.speed;
-      } else
-      {
+      } else {
         this.x -= this.game.clockTick * this.speed;
       }
-    } else
-    {
-      if (this.isHeadingRight)
-      {
+    } else {
+      if (this.isHeadingRight) {
         this.walkRightAnimation.elapsedTime = 0;
-      } else
-      {
+      } else {
         this.walkLeftAnimation.elapsedTime = 0.5;
       }
     }
+
+    this.boundX = this.x + 150;
+    if (!this.isHeadingRight) {
+      this.boundX = this.x + 170;
+    }
+    this.boundY = this.y;
+    this.updateMyHitBoxes();
   }
 
-  handleShooting()
-  {
-    if (this.isHeadingRight)
-    {
+  handleShooting() {
+    if (this.isHeadingRight) {
       if (
         this.shootFaceRightAnimation.elapsedTime < 0.48 &&
         this.shootFaceRightAnimation.elapsedTime > 0.45
-      )
-      {
+      ) {
         let b = new Bullet(
           this.game,
           this.x + 215,
@@ -255,13 +228,11 @@ class Soldier extends Entity
         );
         this.game.addEntity(b);
       }
-    } else
-    {
+    } else {
       if (
         this.shootFaceLeftAnimation.elapsedTime < 0.48 &&
         this.shootFaceLeftAnimation.elapsedTime > 0.45
-      )
-      {
+      ) {
         let b = new Bullet(
           this.game,
           this.x + 115,

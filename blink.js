@@ -161,11 +161,10 @@ class Blink extends Entity {
   // ************************************   DRAW   *************************************
   draw(ctx) {
     // DEBUG TOOL HIT BOX-------------------------------------------------------------
-    if (this.drawAroundHitBox) {
-      this.attackBox.drawHitBox();
-      this.hitB.drawHitBox();
-      this.platformBox.drawHitBox();
-    }
+
+    // this.attackBox.drawHitBox();
+    // this.hitB.drawHitBox();
+    // this.platformBox.drawHitBox();
 
     // DEATH--------------------------------------------------------------------------
     if (this.health <= 0) {
@@ -478,7 +477,8 @@ class Blink extends Entity {
       if (
         Math.random() >= 0.7 &&
         Math.random() > 0.9 &&
-        !(other instanceof Coin)
+        !(other instanceof Coin) &&
+        !(other instanceof Bullet)
       ) {
         this.game.addEntity(
           new Coin(this.game, other.x + Math.floor(Math.random() * 44), other.y)
@@ -565,11 +565,12 @@ class Blink extends Entity {
     }
 
     if (
-      type === "damage" &&
-      other.health > 0 &&
-      !(other instanceof Platform) &&
-      !this.basicAttack &&
-      !(other instanceof Vegeta || other instanceof Vegeta2)
+      (type === "damage" && other instanceof Bullet) ||
+      (type === "damage" &&
+        other.health > 0 &&
+        !(other instanceof Platform) &&
+        !this.basicAttack &&
+        !(other instanceof Vegeta || other instanceof Vegeta2))
     ) {
       this.gotHit = true;
 
