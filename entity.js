@@ -48,8 +48,59 @@ class Entity
         this.shouldRewind = false;
         this.resetPath = false;
 
-        // Enemy Sounds
+        // has enemy played dying sound
+        this.playedDeathSound = false;
+
+        // Enemy Injured Sounds
         this.enemyInjuredSoundEffect = document.getElementById("enemyHurt");
+        this.enemyInjuredSoundEffect1 = document.getElementById("enemyHurt1");
+        this.enemyInjuredSoundEffect2 = document.getElementById("enemyHurt2");
+        this.enemyInjuredSoundEffect3 = document.getElementById("enemyHurt3");
+        this.enemyInjuredSoundEffect4 = document.getElementById("enemyHurt4");
+        this.enemyInjuredSoundEffect5 = document.getElementById("enemyHurt5");
+        this.enemyInjuredSoundEffect6 = document.getElementById("enemyHurt6");
+
+        this.enemyInjuredSoundEffect.volume = .5;
+        this.enemyInjuredSoundEffect1.volume = .5;
+        this.enemyInjuredSoundEffect2.volume = .5;
+        this.enemyInjuredSoundEffect3.volume = .5;
+        this.enemyInjuredSoundEffect4.volume = .5;
+        this.enemyInjuredSoundEffect5.volume = .5;
+        this.enemyInjuredSoundEffect6.volume = .5;
+
+        // Make an array of sounds for randomizing what an entity has for injured sound
+        this.injuredSounds = [];
+        this.injuredSounds.push(this.enemyInjuredSoundEffect);
+        this.injuredSounds.push(this.enemyInjuredSoundEffect1);
+        this.injuredSounds.push(this.enemyInjuredSoundEffect2);
+        this.injuredSounds.push(this.enemyInjuredSoundEffect3);
+        this.injuredSounds.push(this.enemyInjuredSoundEffect4);
+        this.injuredSounds.push(this.enemyInjuredSoundEffect5);
+        this.injuredSounds.push(this.enemyInjuredSoundEffect6);
+
+        // Enemy death sounds
+        this.enemyDeathSoundEffect1 = document.getElementById("death1");
+        this.enemyDeathSoundEffect2 = document.getElementById("death2");
+        this.enemyDeathSoundEffect3 = document.getElementById("death3");
+        this.enemyDeathSoundEffect4 = document.getElementById("death4");
+        this.enemyDeathSoundEffect5 = document.getElementById("death5");
+
+        this.enemyDeathSoundEffect1.volume = .5;
+        this.enemyDeathSoundEffect2.volume = .5;
+        this.enemyDeathSoundEffect3.volume = .5;
+        this.enemyDeathSoundEffect4.volume = .5;
+        this.enemyDeathSoundEffect5.volume = .5;
+
+        // Make an array of sounds for randomizing what an entity has for injured sound
+        this.deathSounds = [];
+        this.deathSounds.push(this.enemyDeathSoundEffect1);
+        this.deathSounds.push(this.enemyDeathSoundEffect2);
+        this.deathSounds.push(this.enemyDeathSoundEffect3);
+        this.deathSounds.push(this.enemyDeathSoundEffect4);
+        this.deathSounds.push(this.enemyDeathSoundEffect5);
+
+        this.myInjuredSound = this.injuredSounds[Randomizer.returnRandomInt(this.injuredSounds.length - 1)];
+        this.myDeathSound = this.deathSounds[Randomizer.returnRandomInt(this.deathSounds.length - 1)];
     }
 
     /** Update handles updating the objects world state. */
@@ -145,7 +196,7 @@ class Entity
     // HANDLE COLLISION RECOIL------------------------------------------------------------
     handleGettingHitByBlink()
     {
-        if (this instanceof Bullet)
+        if (this instanceof Bullet || this instanceof Clock)
         {
             return;
         }
@@ -172,7 +223,8 @@ class Entity
                             this.x += 5;
                         }
 
-                        this.enemyInjuredSoundEffect.play();
+                        // Play this entities random injury sound
+                        this.myInjuredSound.play();
                     }
                 } else if (!this.game.blink.facingRight)
                 {
@@ -186,10 +238,16 @@ class Entity
                             this.x -= 5;
                         }
 
-                        this.enemyInjuredSoundEffect.play();
+                        // Play this entities random injury sound
+                        this.myInjuredSound.play();
                     }
                 }
             }
+        }
+        else if (this.health < 5 && !this.playedDeathSound)
+        {
+            this.myDeathSound.play();
+            this.playedDeathSound = true;
         }
     }
 
