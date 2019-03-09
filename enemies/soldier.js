@@ -61,6 +61,28 @@ class Soldier extends Entity {
       size // scale in relation to original image
     );
 
+    this.hitFaceLeftAnimation = new Animation(
+      AM.getAsset("./img/enemies/soldier/SoldierHit_FaceLeft.png"), // load sprite asset
+      390, // frame width
+      70, // frame height
+      1, // sheet width
+      0.8, // frame duration
+      1, // frames in animation
+      true, // to loop or not to loop
+      size // scale in relation to original image
+    );
+
+    this.hitFaceRightAnimation = new Animation(
+      AM.getAsset("./img/enemies/soldier/SoldierHit_FaceRight.png"), // load sprite asset
+      390, // frame width
+      70, // frame height
+      1, // sheet width
+      0.8, // frame duration
+      1, // frames in animation
+      true, // to loop or not to loop
+      size // scale in relation to original image
+    );
+
     // Initial world states
     this.x = startX;
     this.y = startY;
@@ -69,6 +91,7 @@ class Soldier extends Entity {
     this.ctx = game.ctx;
     this.isHeadingRight = isHeadingRight;
     this.shouldShoot = false;
+    this.gettingHit = false;
 
     // this will be used for rewind
     this.myPath = [];
@@ -92,10 +115,28 @@ class Soldier extends Entity {
    */
   draw(ctx) {
     // debug tool
-    if (this.drawAroundHitBox) {
-      this.drawAroundBox();
-    }
 
+    this.drawAroundBox();
+
+    // if (this.gettingHit) {
+    //   if (this.isHeadingRight) {
+    //     this.hitFaceRightAnimation.drawFrame(
+    //       this.game.clockTick,
+    //       ctx,
+    //       this.x,
+    //       this.y
+    //     );
+    //   } else {
+    //     this.hitFaceLeftAnimation.drawFrame(
+    //       this.game.clockTick,
+    //       ctx,
+    //       this.x,
+    //       this.y
+    //     );
+    //   }
+
+    //   return;
+    // }
     if (!this.willRewind()) {
       if (this.shouldShoot) {
         if (this.isHeadingRight) {
@@ -171,6 +212,17 @@ class Soldier extends Entity {
   /** Update handles updating the objects world state. */
   subClassUpdate() {
     // console.log(this.shootFaceRightAnimation.elapsedTime);
+    this.boundX = this.x + 160;
+    if (!this.isHeadingRight) {
+      this.boundX = this.x + 170;
+    }
+    this.boundY = this.y;
+    this.updateMyHitBoxes();
+    if (this.gettingHit) {
+      console.log("Yo");
+      this.gettingHit = false;
+      return;
+    }
     if (
       (Math.abs(this.x - this.game.blink.x) <= 200 && !this.isHeadingRight) ||
       (Math.abs(this.x - this.game.blink.x) <= 500 && this.isHeadingRight)
@@ -203,13 +255,6 @@ class Soldier extends Entity {
         this.walkLeftAnimation.elapsedTime = 0.5;
       }
     }
-
-    this.boundX = this.x + 150;
-    if (!this.isHeadingRight) {
-      this.boundX = this.x + 170;
-    }
-    this.boundY = this.y;
-    this.updateMyHitBoxes();
   }
 
   handleShooting() {

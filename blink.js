@@ -480,8 +480,16 @@ class Blink extends Entity {
         !(other instanceof Coin) &&
         !(other instanceof Bullet)
       ) {
+        let add = 0;
+        if (other instanceof Soldier) {
+          add = 200;
+        }
         this.game.addEntity(
-          new Coin(this.game, other.x + Math.floor(Math.random() * 44), other.y)
+          new Coin(
+            this.game,
+            other.x + add + Math.floor(Math.random() * 44),
+            other.y
+          )
         );
       }
     }
