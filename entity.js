@@ -96,9 +96,6 @@ class Entity
         this.deathSounds.push(this.bugDeathSoundEffect); //3
         this.deathSounds.push(this.mummyDeathSoundEffect); //4
 
-        //this.myInjuredSound = this.injuredSounds[Randomizer.returnRandomInt(this.injuredSounds.length)];
-        //this.myDeathSound = this.deathSounds[Randomizer.returnRandomInt(this.deathSounds.length)];
-
         if (this instanceof Mummy)
         {
             this.myInjuredSound = this.injuredSounds[4];
@@ -107,7 +104,7 @@ class Entity
         else if (this instanceof Soldier)
         {
             this.myInjuredSound = this.injuredSounds[0];
-            this.myDeathSound = this.deathSounds[3];
+            this.myDeathSound = this.injuredSounds[2];
         }
         else if (this instanceof Metroid)
         {
@@ -186,8 +183,6 @@ class Entity
         offscreenCtx.translate(0, 0);
         offscreenCtx.drawImage(image, -(image.width / 2), -(image.height / 2));
         offscreenCtx.restore();
-        //offscreenCtx.strokeStyle = 'red';
-        //offscreenCtx.strokeRect(0,0,size,size);
         return offscreenCanvas;
     }
 
@@ -286,7 +281,7 @@ class Entity
                 }
             }
         }
-        else if (this.health < 5 && !this.playedDeathSound)
+        else if (this.health < 10 && !this.playedDeathSound)
         {
             this.myDeathSound.play();
             this.playedDeathSound = true;

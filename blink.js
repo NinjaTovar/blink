@@ -748,14 +748,16 @@ class Blink extends Entity {
         if (
           this.facingRight &&
           this.dashSlashFaceRight.currentFrame() === 0 &&
-          !this.gotHit
+            !this.gotHit &&
+            !this.falling
         ) {
           this.x += 30;
           this.dashSlashFaceLeft.elapsedTime = 0;
         } else if (
           !this.facingRight &&
           this.dashSlashFaceLeft.currentFrame() === 0 &&
-          !this.gotHit
+            !this.gotHit &&
+            !this.falling
         ) {
           this.x -= 30;
           this.dashSlashFaceRight.elapsedTime = 0;
