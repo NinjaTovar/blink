@@ -40,7 +40,7 @@ class Entity
             "damage"
         );
 
-        // this will be used for rewind
+        // REWIND FIELDS--------------------------------
         this.myPath = [];
         this.myPath.push(this.x);
         this.myVerticalPath = [];
@@ -48,59 +48,92 @@ class Entity
         this.shouldRewind = false;
         this.resetPath = false;
 
-        // has enemy played dying sound
+        // ENEMY SOUND EFFECTS--------------------------
+
+        // Keeps track of playing death sound effect so it doesn't repeat on dying
         this.playedDeathSound = false;
 
         // Enemy Injured Sounds
-        this.enemyInjuredSoundEffect = document.getElementById("enemyHurt");
-        this.enemyInjuredSoundEffect1 = document.getElementById("enemyHurt1");
-        this.enemyInjuredSoundEffect2 = document.getElementById("enemyHurt2");
-        this.enemyInjuredSoundEffect3 = document.getElementById("enemyHurt3");
-        this.enemyInjuredSoundEffect4 = document.getElementById("enemyHurt4");
-        this.enemyInjuredSoundEffect5 = document.getElementById("enemyHurt5");
-        this.enemyInjuredSoundEffect6 = document.getElementById("enemyHurt6");
+        this.guyHurtSoundEffect1 = document.getElementById("guyHurt1");
+        this.guyHurtSoundEffect2 = document.getElementById("guyHurt2");
+        this.flyHurtSoundEffect = document.getElementById("flyHurt");
+        this.mummyHurtSoundEffect = document.getElementById("mummyHurt");
+        this.necromanInjuredSoundEffect = document.getElementById("necromanInjured");
+        this.violatorInjured = document.getElementById("violatorInjured");
+        this.guyHurtSoundEffect1.volume = .5;
+        this.flyHurtSoundEffect.volume = .5;
+        this.guyHurtSoundEffect2.volume = .5;
+        this.mummyHurtSoundEffect.volume = .5;
+        this.necromanInjuredSoundEffect.volume = .5;
+        this.violatorInjured.volume = .5;
 
-        this.enemyInjuredSoundEffect.volume = .5;
-        this.enemyInjuredSoundEffect1.volume = .5;
-        this.enemyInjuredSoundEffect2.volume = .5;
-        this.enemyInjuredSoundEffect3.volume = .5;
-        this.enemyInjuredSoundEffect4.volume = .5;
-        this.enemyInjuredSoundEffect5.volume = .5;
-        this.enemyInjuredSoundEffect6.volume = .5;
+        // Enemy death sounds
+        this.flyDeathSoundEffect = document.getElementById("flyDeath");
+        this.necromanDeathSoundEffect = document.getElementById("necromanDeath");
+        this.violatorDeathSoundEffect = document.getElementById("violatorDeath");
+        this.bugDeathSoundEffect = document.getElementById("bugDeath");
+        this.mummyDeathSoundEffect = document.getElementById("mummyDeath");
+        this.flyDeathSoundEffect.volume = .5;
+        this.necromanDeathSoundEffect.volume = .5;
+        this.violatorDeathSoundEffect.volume = .5;
+        this.bugDeathSoundEffect.volume = .5;
+        this.mummyDeathSoundEffect.volume = .5;
 
         // Make an array of sounds for randomizing what an entity has for injured sound
         this.injuredSounds = [];
-        this.injuredSounds.push(this.enemyInjuredSoundEffect);
-        this.injuredSounds.push(this.enemyInjuredSoundEffect1);
-        this.injuredSounds.push(this.enemyInjuredSoundEffect2);
-        this.injuredSounds.push(this.enemyInjuredSoundEffect3);
-        this.injuredSounds.push(this.enemyInjuredSoundEffect4);
-        this.injuredSounds.push(this.enemyInjuredSoundEffect5);
-        this.injuredSounds.push(this.enemyInjuredSoundEffect6);
-
-        // Enemy death sounds
-        this.enemyDeathSoundEffect1 = document.getElementById("death1");
-        this.enemyDeathSoundEffect2 = document.getElementById("death2");
-        this.enemyDeathSoundEffect3 = document.getElementById("death3");
-        this.enemyDeathSoundEffect4 = document.getElementById("death4");
-        this.enemyDeathSoundEffect5 = document.getElementById("death5");
-
-        this.enemyDeathSoundEffect1.volume = .5;
-        this.enemyDeathSoundEffect2.volume = .5;
-        this.enemyDeathSoundEffect3.volume = .5;
-        this.enemyDeathSoundEffect4.volume = .5;
-        this.enemyDeathSoundEffect5.volume = .5;
-
+        this.injuredSounds.push(this.guyHurtSoundEffect1); //0
+        this.injuredSounds.push(this.flyHurtSoundEffect);  //1
+        this.injuredSounds.push(this.guyHurtSoundEffect2); //2
+        this.injuredSounds.push(this.guyHurtSoundEffect3); //3
+        this.injuredSounds.push(this.mummyHurtSoundEffect); //4
+        this.injuredSounds.push(this.necromanInjuredSoundEffect); //5
+        this.injuredSounds.push(this.violatorInjured);  //6
         // Make an array of sounds for randomizing what an entity has for injured sound
         this.deathSounds = [];
-        this.deathSounds.push(this.enemyDeathSoundEffect1);
-        this.deathSounds.push(this.enemyDeathSoundEffect2);
-        this.deathSounds.push(this.enemyDeathSoundEffect3);
-        this.deathSounds.push(this.enemyDeathSoundEffect4);
-        this.deathSounds.push(this.enemyDeathSoundEffect5);
+        this.deathSounds.push(this.flyDeathSoundEffect); //0
+        this.deathSounds.push(this.necromanDeathSoundEffect); //1
+        this.deathSounds.push(this.violatorDeathSoundEffect); //2
+        this.deathSounds.push(this.bugDeathSoundEffect); //3
+        this.deathSounds.push(this.mummyDeathSoundEffect); //4
 
-        this.myInjuredSound = this.injuredSounds[Randomizer.returnRandomInt(this.injuredSounds.length)];
-        this.myDeathSound = this.deathSounds[Randomizer.returnRandomInt(this.deathSounds.length)];
+        //this.myInjuredSound = this.injuredSounds[Randomizer.returnRandomInt(this.injuredSounds.length)];
+        //this.myDeathSound = this.deathSounds[Randomizer.returnRandomInt(this.deathSounds.length)];
+
+        if (this instanceof Mummy)
+        {
+            this.myInjuredSound = this.injuredSounds[4];
+            this.myDeathSound = this.deathSounds[4];
+        }
+        else if (this instanceof Soldier)
+        {
+            this.myInjuredSound = this.injuredSounds[0];
+            this.myDeathSound = this.deathSounds[3];
+        }
+        else if (this instanceof Metroid)
+        {
+            this.myInjuredSound = this.injuredSounds[1];
+            this.myDeathSound = this.deathSounds[0];
+        }
+        else if (this instanceof Violator)
+        {
+            this.myInjuredSound = this.injuredSounds[6];
+            this.myDeathSound = this.deathSounds[2];
+        }
+        else if (this instanceof Bug)
+        {
+            this.myInjuredSound = this.injuredSounds[1];
+            this.myDeathSound = this.deathSounds[3];
+        }
+        else if (this instanceof FlyMutant)
+        {
+            this.myInjuredSound = this.injuredSounds[1];
+            this.myDeathSound = this.deathSounds[0];
+        }
+        else if (this instanceof Necroman)
+        {
+            this.myInjuredSound = this.injuredSounds[5];
+            this.myDeathSound = this.deathSounds[1];
+        }
     }
 
     /** Update handles updating the objects world state. */

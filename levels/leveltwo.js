@@ -17,10 +17,13 @@ class LevelTwo
         this.game.addEntity(new Background2(this.game));
         this.game.addEntity(this.game.blink);
         this.game.addEntity(this.game.hud);
+
+        // Add enemies
         this.game.addEntity(new Vegeta(this.game, 200, 290, 2));
         this.game.addEntity(new Soldier(this.game, 950, 813, 2, true));
         this.game.addEntity(new Soldier(this.game, 2480, 605, 2, true));
 
+        // Add portal to next level
         this.game.addEntity(new Portal(this.game, 100, 2900, 2, true));
 
         // Manually set Blink's coordinates for now

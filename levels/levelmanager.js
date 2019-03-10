@@ -79,6 +79,9 @@ class LevelManager
 
         }
 
+        // Right now the level numbers are jacked up. This lets blink know what levels
+        // platforms he is loading, and the way the level manager is keeping track right 
+        // now it is one ahead. This will get fixed soon.
         this.game.blink.level = this.level - 1;
     }
     draw(ctx) { }
