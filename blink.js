@@ -476,7 +476,7 @@ class Blink extends Entity {
     if (type === "attack" && this.basicAttack && !this.gotHit) {
       other.health -= 5;
       other.gettingHit = true;
-      if (other.health <= 0 && !(other instanceof Mummy)) {
+      if (other.health <= 0 && !(other instanceof Mummy) && !(other instanceof Portal )) {
         other.isDead = true;
       }
 

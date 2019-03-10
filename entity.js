@@ -226,7 +226,7 @@ class Entity
     {
         // If one of the non-enemy entities, don't play injured sounds
         if (this instanceof Bullet || this instanceof Clock || this instanceof Vegeta ||
-            this instanceof Vegeta2)
+            this instanceof Vegeta2 || this instanceof Portal)
         {
             return;
         }
