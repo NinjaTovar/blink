@@ -41,28 +41,32 @@ class LevelManager
             // Makes it so gameEngine doesnt update while loading new entities
             this.states.loadNextLevel = false;
 
-            if (this.level == 1)
+            if (this.level === 1)
             {
                 console.log("Loading Arena!");
                 let currentLevel = new LevelArena(this.game);
                 currentLevel.loadLevel();
-            } else if (this.level == 2)
+            } else if (this.level === 2)
             {
                 console.log("Loading level One!");
                 let currentLevel = new LevelTwo(this.game);
                 currentLevel.loadLevel();
-            } else if (this.level == 3)
+                this.level = 3;
+            } else if (this.level === 3)
             {
                 console.log("Loading level Two!");
                 let currentLevel = new LevelThree(this.game);
                 currentLevel.loadLevel();
-            } else if (this.level == 4)
+                this.level = 4;
+            } else if (this.level === 4)
             {
                 console.log("Loading level Three!");
                 let currentLevel = new LevelFour(this.game);
                 currentLevel.loadLevel();
+                this.level = 5;
             }
             this.states.levelLoaded = true;
+            this.states.loadNextLevel = false;
 
             // Change Music on level change
             if (this.game.blink !== undefined)
@@ -74,7 +78,8 @@ class LevelManager
         {
 
         }
-        this.game.blink.level = this.level;
+
+        this.game.blink.level = this.level - 1;
     }
     draw(ctx) { }
 }

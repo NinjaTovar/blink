@@ -99,8 +99,8 @@ class Entity
         this.deathSounds.push(this.enemyDeathSoundEffect4);
         this.deathSounds.push(this.enemyDeathSoundEffect5);
 
-        this.myInjuredSound = this.injuredSounds[Randomizer.returnRandomInt(this.injuredSounds.length - 1)];
-        this.myDeathSound = this.deathSounds[Randomizer.returnRandomInt(this.deathSounds.length - 1)];
+        this.myInjuredSound = this.injuredSounds[Randomizer.returnRandomInt(this.injuredSounds.length)];
+        this.myDeathSound = this.deathSounds[Randomizer.returnRandomInt(this.deathSounds.length)];
     }
 
     /** Update handles updating the objects world state. */
@@ -226,7 +226,11 @@ class Entity
                         }
 
                         // Play this entities random injury sound
-                        this.myInjuredSound.play();
+                        if (!(this instanceof Fireball))
+                        {
+                            this.myInjuredSound.play();
+                        }
+
                     }
                 } else if (!this.game.blink.facingRight)
                 {
@@ -241,7 +245,10 @@ class Entity
                         }
 
                         // Play this entities random injury sound
-                        this.myInjuredSound.play();
+                        if (!(this instanceof Fireball))
+                        {
+                            this.myInjuredSound.play();
+                        }
                     }
                 }
             }

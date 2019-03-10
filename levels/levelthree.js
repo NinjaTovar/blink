@@ -14,7 +14,10 @@ class LevelThree {
 		this.game.addEntity(new Background3(this.game));
 		this.game.addEntity(this.game.blink);
 		this.game.addEntity(this.game.hud);
-		this.loadPlatforms();
+        this.loadPlatforms();
+
+        // add end of level portal
+        this.game.addEntity(new Portal(this.game, 175, 200, 2, true));
 
 
 		// Manually set Blink's coordinates for now

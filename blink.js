@@ -45,7 +45,7 @@ class Blink extends Entity
         this.energy = 1000;
         this.falling = false;
         this.myPlatforms = [];
-        this.level = 1;
+        this.level = 2;
 
         // What are these and what do they do?
         this.attackBox = new Hitbox(
@@ -100,6 +100,8 @@ class Blink extends Entity
         this.dashSlashSoundEffect = document.getElementById("dashSlash");
         this.jumpSoundEffect = document.getElementById("jump");
         this.jumpLandingSoundEffect = document.getElementById("jumpLanding");
+        this.teleport1 = document.getElementById("teleport1");
+        this.teleport2 = document.getElementById("teleport2");
         this.damageSoundEffects = [
             document.getElementById("damage1"),
             document.getElementById("damage2"),
@@ -549,6 +551,25 @@ class Blink extends Entity
                     )
                 );
             }
+        }
+
+        // If collision with clock, add to energy bar and play sound effect
+        if (other instanceof Portal && type === "damage")
+        {
+            // Load next level
+            this.game.levelManager.states.loadNextLevel = true;
+
+            // randomize sounds for warping
+            var teleportSounds = [];
+            teleportSounds.push(this.teleport1);
+            teleportSounds.push(this.teleport2);
+            var teleport = teleportSounds[Randomizer.returnRandomInt(teleportSounds.length)];
+            teleport.play();
+
+            // Destroy portal
+            other.health = -1;
+            other.isDead = true;    // disappears when "dead"
+            return;
         }
 
         // If collision with clock, add to energy bar and play sound effect

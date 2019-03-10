@@ -2,8 +2,8 @@
   "ExpandedNodes": [
     "",
     "\\enemies",
-    "\\img\\blink"
+    "\\levels"
   ],
-  "SelectedNode": "\\hud.js",
+  "SelectedNode": "\\enemies\\fireball.js",
   "PreviewInSolutionExplorer": false
 }
