@@ -43,6 +43,9 @@ AM.queueDownload("./img/blink/Crono_Falling.png");
 AM.queueDownload("./img/WaveAttack/WaveAttack_FaceLeft.png");
 AM.queueDownload("./img/WaveAttack/WaveAttack_FaceRight.png");
 
+// Queue downloading effects
+AM.queueDownload("./img/effects/Wormhole.png");
+
 // Queue downlaoding Soldier
 AM.queueDownload("./img/enemies/soldier/SoldierShooting_FaceLeft.png");
 AM.queueDownload("./img/enemies/soldier/SoldierShooting_FaceRight.png");

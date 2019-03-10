@@ -74,8 +74,8 @@ class Camera {
 
         }
 
-        //console.log("X: " + this.blink.x + ", Y: " + this.blink.y);
-        //console.log("camX: " + this.x + ", camY: " + this.y);
+        console.log("x: " + this.blink.x + ", y: " + this.blink.y);
+        console.log("camx: " + this.x + ", camy: " + this.y);
     }
 
     // Not being used for now, hope to used to be able to smooth out the camera

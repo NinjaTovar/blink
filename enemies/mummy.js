@@ -95,7 +95,6 @@ class Mummy extends Entity
         if (this.drawAroundHitBox)
         {
             this.drawAroundBox();
-            //this.ctx.clearRect(this.x, this.y, this.frameWidth * this.size, this.frameHeight * this.size);
         }
 
         if (this.health <= 0)
