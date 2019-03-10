@@ -44,6 +44,8 @@ class Blink extends Entity {
     this.falling = false;
     this.myPlatforms = [];
     this.level = 2;
+    this.waveattack = false;
+    this.waveattackInstance = null;
 
     // What are these and what do they do?
     this.attackBox = new Hitbox(
@@ -309,7 +311,7 @@ class Blink extends Entity {
     }
 
     // ATTACKING----------------------------------------------------------------------
-    if (this.basicAttack && !this.jumping) {
+    if ((this.basicAttack || this.waveattack) && !this.jumping) {
       if (!this.moving) {
         // basic attack left or right depending on direction
         if (!this.facingRight) {
@@ -403,7 +405,6 @@ class Blink extends Entity {
   update() {
     // update all key listeners
     this.updateBlinksStateFromKeyListeners();
-
     // If not jumping, make sure Blink is on the ground level and/or on his platform
     if (!this.jumping) {
       if (this.currentPlatform != null && this.platformY != null) {
@@ -601,6 +602,7 @@ class Blink extends Entity {
       (type === "damage" && other instanceof Bullet) ||
       (type === "damage" &&
         other.health > 0 &&
+        !(other instanceof Waveattack) &&
         !(other instanceof Platform) &&
         !this.basicAttack &&
         !(other instanceof Vegeta || other instanceof Vegeta2))
@@ -688,8 +690,41 @@ class Blink extends Entity {
   // HANDLE UPDATE WHEN ATTACKING-------------------------------------------------------
   /** Update method helper for when attacking. */
   handleWhatToDoWhenAttacking() {
+    if (this.waveattackInstance != null) {
+      this.handleWaveAttack();
+    }
+    if (this.waveattack) {
+      let wAttack = null;
+      if (this.facingRight && this.slashFaceRight.currentFrame() === 2) {
+        wAttack = new Waveattack(
+          this.game,
+          this.x + 55,
+          this.y - 25,
+          0.5,
+          true
+        );
+        this.game.addEntity(wAttack);
+      } else if (!this.facingRight && this.slashFaceLeft.currentFrame() === 2) {
+        wAttack = new Waveattack(
+          this.game,
+          this.x - 55,
+          this.y - 22,
+          0.5,
+          false
+        );
+        this.game.addEntity(wAttack);
+      }
+      this.waveattackInstance = wAttack;
+      if (
+        this.slashFaceRight.currentFrame() === 2 ||
+        this.slashFaceLeft.currentFrame() === 2
+      ) {
+        this.game.waveattack = false;
+      }
+    }
+
     // If attack (but not jump attacking)
-    if (this.basicAttack && !this.isJumpAttacking()) {
+    if ((this.basicAttack || this.waveattack) && !this.isJumpAttacking()) {
       // play slash sounds and reset sword unsheathing animation booleans
       if (
         this.dashSlashFaceRight.currentFrame() === 0 ||
@@ -727,7 +762,7 @@ class Blink extends Entity {
         }
       }
     }
-    if (!this.basicAttack) {
+    if (!this.basicAttack && !this.waveattack) {
       // if not attacking, mak sure to reset the slash sound so it sounds right
       // on next attack
       this.jumpSlashSoundPlayed = false;
@@ -742,6 +777,15 @@ class Blink extends Entity {
       this.dashSlashFaceLeft.elapsedTime = 0;
       this.slashFaceRight.elapsedTime = 0;
       this.slashFaceLeft.elapsedTime = 0;
+    }
+  }
+
+  handleWaveAttack() {
+    for (let j = 0; j < this.game.enemies.length; j++) {
+      let other = this.game.enemies[j];
+      if (this.waveattackInstance.hitB.collision(other.hitB)) {
+        this.waveattackInstance.handleCollison(other);
+      }
     }
   }
 
@@ -1107,6 +1151,7 @@ class Blink extends Entity {
     return (
       !this.moving &&
       !this.basicAttack &&
+      !this.waveattack &&
       !this.jumping &&
       !this.isSpellcasting() &&
       !this.unsheathSword &&
@@ -1119,6 +1164,7 @@ class Blink extends Entity {
       this.moving &&
       !this.jumping &&
       !this.basicAttack &&
+      !this.waveattack &&
       !this.isSpellcasting() &&
       !this.gotHit
     );
@@ -1152,6 +1198,13 @@ class Blink extends Entity {
     }
     if (this.game.basicAttack !== undefined) {
       this.basicAttack = this.game.basicAttack;
+    }
+    if (this.game.waveattack !== undefined) {
+      this.waveattack = this.game.waveattack;
+      if (this.waveattackInstance != null) {
+        this.game.waveattack = false;
+        this.waveattack = false;
+      }
     }
     if (this.game.jumping !== undefined && !this.falling) {
       this.jumping = this.game.jumping;
