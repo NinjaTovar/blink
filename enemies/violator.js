@@ -4,8 +4,7 @@
  *
  * Single constructor takes in the game context as its parameter. (There is no default)
  */
-class Violator extends Entity
-{
+class Violator extends Entity {
     /**
      * Single constructor for Fly. Loads assets and sets intial parameters including
      * the speed, starting x/y position, etc.
@@ -16,8 +15,7 @@ class Violator extends Entity
      * @param {any} startY Starting x position of the fly being constructed.
      * @param {any} size Size of scale for character.
      */
-    constructor(game, startX, startY, size, isHeadingRight)
-    {
+    constructor(game, startX, startY, size, isHeadingRight) {
         super(game, startX, startY);
         this.swingRightAnimation = new Animation(
             AM.getAsset("./img/enemies/violator/ViolatorSwing_FaceRight.png"),
@@ -78,8 +76,7 @@ class Violator extends Entity
         );
 
         // Ensure the enemies boundaries aren't too small
-        while (this.randomMaxBoundary - this.randomMinBoundary < 500)
-        {
+        while (this.randomMaxBoundary - this.randomMinBoundary < 500) {
             this.randomMaxBoundary = Randomizer.returnRandomIntBetweenThese(
                 this.randomMinBoundary,
                 Randomizer.returnRandomInt(this.ctx.canvas.width)
@@ -88,7 +85,7 @@ class Violator extends Entity
 
         // debug tool
         this.drawAroundHitBox = false;
-        this.frameWidth = 122 * size/2;
+        this.frameWidth = 122 * size / 2;
         this.frameHeight = 103 * size / 1.2;
         this.size = size;
     }
@@ -100,25 +97,20 @@ class Violator extends Entity
      *
      * @param {any} ctx  A reference to the Game Context.
      */
-    draw(ctx)
-    {
+    draw(ctx) {
         // debug tool
-        if (this.drawAroundHitBox)
-        {
+        if (this.drawAroundHitBox) {
             this.drawAroundBox();
         }
-        if (this.gettingHit)
-        {
-            if (this.isHeadingRight)
-            {
+        if (this.gettingHit) {
+            if (this.isHeadingRight) {
                 this.hitFaceRightAnimation.drawFrame(
                     this.game.clockTick,
                     ctx,
                     this.x,
                     this.y
                 );
-            } else
-            {
+            } else {
                 this.hitFaceLeftAnimation.drawFrame(
                     this.game.clockTick,
                     ctx,
@@ -130,8 +122,7 @@ class Violator extends Entity
             return;
         }
         // If field "isHeadingRight" is true, play fly right animation
-        if (this.isHeadingRight && !this.willRewind())
-        {
+        if (this.isHeadingRight && !this.willRewind()) {
             this.swingRightAnimation.drawFrame(
                 this.game.clockTick,
                 ctx,
@@ -140,8 +131,7 @@ class Violator extends Entity
             );
         }
         // If field "isHeadingRight" is false, play fly left animation
-        else if (!this.isHeadingRight && !this.willRewind())
-        {
+        else if (!this.isHeadingRight && !this.willRewind()) {
             this.swingLeftAnimation.drawFrame(
                 this.game.clockTick,
                 ctx,
@@ -151,8 +141,7 @@ class Violator extends Entity
         }
 
         // If affected by time spell
-        if (this.isHeadingRight && this.willRewind() && this.myPath.length > 1)
-        {
+        if (this.isHeadingRight && this.willRewind() && this.myPath.length > 1) {
             this.x = this.myPath.pop();
             this.swingRightAnimation.drawFrame(
                 this.game.clockTick,
@@ -161,14 +150,12 @@ class Violator extends Entity
                 this.y
             );
 
-            if (this.myPath.length == 1)
-            {
+            if (this.myPath.length == 1) {
                 this.x = this.myPath.pop();
                 this.shouldRewind = false;
             }
         }
-        if (!this.isHeadingRight && this.willRewind() && this.myPath.length > 1)
-        {
+        if (!this.isHeadingRight && this.willRewind() && this.myPath.length > 1) {
             this.x = this.myPath.pop();
             this.swingLeftAnimation.drawFrame(
                 this.game.clockTick,
@@ -177,8 +164,7 @@ class Violator extends Entity
                 this.y
             );
 
-            if (this.myPath.length == 1)
-            {
+            if (this.myPath.length == 1) {
                 this.shouldRewind = false;
                 this.game.shouldRewind = false;
             }
@@ -186,15 +172,13 @@ class Violator extends Entity
     }
 
     /** Update handles updating the objects world state. */
-    subClassUpdate() 
-    {
+    subClassUpdate() {
         this.updateMyHitBoxes();
 
         this.boundX = this.x + 70;
         this.boundY = this.y + 135;
 
-        if (this.gettingHit)
-        {
+        if (this.gettingHit) {
             this.gettingHit = false;
 
             return;
@@ -204,16 +188,13 @@ class Violator extends Entity
         this.boundY = this.y;
     }
 
-    updateMyHitBoxes()
-    {
-        if (this.isHeadingRight)
-        {
+    updateMyHitBoxes() {
+        if (this.isHeadingRight) {
             this.hitB.width = this.frameWidth;
             this.hitB.height = this.frameHeight;
             this.hitB.boundX = this.boundX + 40;
             this.hitB.boundY = this.boundY;
-        } else
-        {
+        } else {
             this.hitB.width = this.frameWidth;
             this.hitB.height = this.frameHeight;
             this.hitB.boundX = this.boundX + 24;
