@@ -50,7 +50,7 @@ class Camera {
         else if (this.blink.x < 1000) {
             this.ctx.translate(0, this.y);
         } else {
-            this.ctx.translate(this.endOfLevelX, this.y);
+            this.ctx.translate(this.mapWidth - 400, this.y);
         }
     }
     update() {
