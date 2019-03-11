@@ -40,14 +40,19 @@ AM.queueDownload("./img/blink/energy.png");
 AM.queueDownload("./img/blink/blinkface.png");
 AM.queueDownload("./img/blink/Crono_Falling.png");
 AM.queueDownload("./img/blink/Crono_Falling.png");
+AM.queueDownload("./img/WaveAttack/WaveAttack_FaceLeft.png");
+AM.queueDownload("./img/WaveAttack/WaveAttack_FaceRight.png");
+
+// Queue downloading effects
+AM.queueDownload("./img/effects/Wormhole.png");
 
 // Queue downlaoding Soldier
 AM.queueDownload("./img/enemies/soldier/SoldierShooting_FaceLeft.png");
 AM.queueDownload("./img/enemies/soldier/SoldierShooting_FaceRight.png");
 AM.queueDownload("./img/enemies/soldier/SoldierWalking_FaceRight.png");
 AM.queueDownload("./img/enemies/soldier/SoldierWalking_FaceLeft.png");
-AM.queueDownload("./img/enemies/soldier/SoldierHit_FaceRight.png");
-AM.queueDownload("./img/enemies/soldier/SoldierHit_FaceLeft.png");
+// AM.queueDownload("./img/enemies/soldier/SoldierHit_FaceRight.png");
+// AM.queueDownload("./img/enemies/soldier/SoldierHit_FaceLeft.png");
 AM.queueDownload("./img/enemies/bullets/orangeBullet.png");
 
 // Queue downloading Bug

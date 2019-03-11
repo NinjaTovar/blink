@@ -17,6 +17,7 @@
     <script type="text/javascript" src="./main.js"></script>
     <script type="text/javascript" src="./animation.js"></script>
     <script type="text/javascript" src="./blink.js"></script>
+    <script type="text/javascript" src="./waveattack.js"></script>
     <script type="text/javascript" src="./vegeta.js"></script>
     <script type="text/javascript" src="./vegeta2.js"></script>
     <script type="text/javascript" src="./hitbox.js"></script>
@@ -44,8 +45,7 @@
     <script type="text/javascript" src="./enemies/fireball.js"></script>
     <script type="text/javascript" src="./enemies/soldier.js"></script>
     <script type="text/javascript" src="./enemies/bullet.js"></script>
-
-
+    <script type="text/javascript" src="./portal.js"></script>
 
 </head>
 
@@ -57,183 +57,180 @@
     <canvas id="gameWorld" tabindex="1" width="1900" height="600" style="position:absolute;left:0;top:0;"></canvas>
 
     <!-- Formatting for text instructions on-screen. Audio tags are below this.-->
-    <p>
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
 
-        <div class="row">
+    <div class="row">
 
-            <!-- Meet Blink -->
+        <!-- Meet Blink -->
+        <div class="column" align="right">
             <div class="column">
-
-                <center>
-                    <br />
-                    <img src="./html_images/crono.png" width="160" height="200">
-                    <br />
-                </center>
-
-                <Font color="white" />
-                <tt>
-                    Meet
-                    <Font color='3498DB' />Blink
-                    <Font color='white' />. Who is he and where does he come from? No one knows, not even him.
-                    <br />
-                </tt>
                 <br />
-                <tt>
-                    <Font color='3498DB' />Blink
-                    <Font color='white' /> has no memory of his past. But he does know one thing... time bends
-                    to
-                    his will. He sets out to find answers. And he will. Because time is his.
-                    <br />
-                </tt>
                 <br />
-
-                <Font color='DeepPink' />
-                <tt>
-                    <center>
-                        PROTIPS:
-                        <br />
-                        Use time powers to manipulate the enemies.
-                        <br />
-                        Collecting clocks will refill Blink's special meter.
-                    </center>
-                </tt>
+                <img src="./html_images/crono.png" width="170" height="300">
+                <br />
             </div>
 
-            <!-- Change Music -->
-            <div class="column">
-                <center>
-                    <br />
-                    <br />
-                    <img src="./html_images/music.png" width="100" height="100">
-                    <br />
-                    <br />
-                    <button class="buttonPlay" id="changeMusic" type="button"> Switch Tracks!</button>
-                    <button class="buttonStop" id="stopMusic" type="button"> Stop Music! </button>
-                    <h5>
-                        <Font color='White' />Track One:
-                        <Font color='3498DB' />Adventure
-                    </h5>
-                    <h5>
-                        <Font color='White' />Track Two:
-                        <Font color='3498DB' />The Sands of Time
-                    </h5>
-                    <h5>
-                        <Font color='White' />Track Three:
-                        <Font color='3498DB' />The Hero of Time
-                    </h5>
-                    <h5>
-                        <Font color='White' />Track Four:
-                        <Font color='3498DB' />Mysterious...
-                    </h5>
-                    <h5>
-                        <Font color='White' />Track Five:
-                        <Font color='3498DB' />Questions
-                    </h5>
-
-                </center>
-            </div>
-
-
-            <div class="column">
-                <center>
-                    <!-- Level Manager-->
-                    <br />
-                    <tt>
-                        <img src="./html_images/blink2.png" width="125" height="50">&nbsp;&nbsp;&nbsp;&nbsp;Level Manager (In-Work)
-                    </tt>
-                    <br />
-                    <br />
-                    <button class="buttonLevelOne" id="levelOne" type="button">Battle Arena</button>
-                    <button class="buttonLevelTwo" id="levelTwo" type="button">Level One</button>
-                    <br />
-                    <br />
-                    <button class="buttonLevelThree" id="levelThree" type="button">Level Two</button>
-                    <button class="buttonLevelFour" id="levelFour" type="button">Level Three</button>
-
-                    <!-- Developer Toolset -->
-                    <br />
-                    <br />
-                    <img src="./html_images/tools.png" width="75" height="75">
-                    <br />
-                    <button class="buttonGodMode" id="godMode" type="button">Unlimited Health/Energy</button>
-                    <button class="buttonSpeedUp" id="speedUp" type="button">Speed Up Blink</button>
-                    <br />
-                    <br />
-                    <button class="buttonHitBox" id="outlineHitBox" type="button">Hit Boxes</button>
-                    <button class="buttonStopEnemies" id="stopEnemies" type="button">Stop All Enemies</button>
-                </center>
-            </div>
-
-            <!-- Control Scheme -->
-            <div class="column">
-                <center>
-                    <br />
-                    <br />
-                    <img src="./html_images/controller.png" width="110" height="45">
-                    <h5>
-                        <Font color='White' />W (Hold):
-                        <Font color='3498DB' />Slow Time!
-                    </h5>
-                    <h5>
-                        <Font color='White' />F (Hold):
-                        <Font color='3498DB' />Speed Time!
-                    </h5>
-                    <h5>
-                        <Font color='White' />S (Hold):
-                        <Font color='3498DB' />Stop Time!
-                    </h5>
-                    <h5>
-                        <Font color='White' />D (Hold):
-                        <Font color='3498DB' />Rewind Time!
-                    </h5>
-                    <h5>
-                        <Font color='White' />A (Hold):
-                        <Font color='3498DB' />Attack or Dash Cut!
-                    </h5>
-                    <h5>
-                        <Font color='White' />Spacebar:
-                        <Font color='3498DB' />Jump
-                    </h5>
-                    <h5>
-                        <Font color='White' />Left/Right Arrows:
-                        <Font color='3498DB' />Movement
-                    </h5>
-                </center>
-            </div>
-
+            <br />
+            <Font color="white" />
+            <tt>
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                Meet
+                <Font color='3498DB' />Blink
+                <Font color='white' />. Who is he and where does he come from? No one knows, not even him.
+                <br />
+            </tt>
+            <br />
+            <tt>
+                <Font color='3498DB' />Blink
+                <Font color='white' /> has no memory of his past. But he does know one thing... time bends
+                to
+                his will. He sets out to find answers. And he will. Because time is his.
+                <br />
+            </tt>
+            <br />
         </div>
-    </p>
+
+        <!-- Change Music -->
+        <div class="column">
+            <center>
+                <br />
+                <br />
+                <img src="./html_images/music2.png" width="100" height="100">
+                <br />
+                <br />
+                <button class="buttonPlay" id="changeMusic" type="button"> Switch Tracks</button>
+                <button class="buttonStop" id="stopMusic" type="button"> Stop Music </button>
+                <h5>
+                    <Font color='White' />Track One:
+                    <Font color='3498DB' />Adventure
+                </h5>
+                <h5>
+                    <Font color='White' />Track Two:
+                    <Font color='3498DB' />The Sands of Time
+                </h5>
+                <h5>
+                    <Font color='White' />Track Three:
+                    <Font color='3498DB' />The Hero of Time
+                </h5>
+                <h5>
+                    <Font color='White' />Track Four:
+                    <Font color='3498DB' />Mysterious...
+                </h5>
+                <h5>
+                    <Font color='White' />Track Five:
+                    <Font color='3498DB' />Questions
+                </h5>
+
+            </center>
+        </div>
+
+
+        <div class="column">
+            <center>
+                <!-- Level Manager-->
+                <br />
+                <br />
+                <tt>
+                    <img src="./html_images/blink2.png" width="125" height="50">&nbsp;&nbsp;&nbsp;&nbsp;Level Manager (In-Work)
+                </tt>
+                <br />
+                <br />
+                <button class="buttonLevelOne" id="levelOne" type="button">Battle Arena</button>
+                <button class="buttonLevelTwo" id="levelTwo" type="button">Level One</button>
+                <br />
+                <br />
+                <button class="buttonLevelThree" id="levelThree" type="button">Level Two</button>
+                <button class="buttonLevelFour" id="levelFour" type="button">Level Three</button>
+
+                <!-- Developer Toolset -->
+                <br />
+                <br />
+                <img src="./html_images/tools.png" width="75" height="75">
+                <br />
+                <br />
+                <button class="buttonGodMode" id="godMode" type="button">Unlimited Health/Energy</button>
+                <button class="buttonSpeedUp" id="speedUp" type="button">Speed Up Blink</button>
+                <br />
+                <br />
+                <button class="buttonHitBox" id="outlineHitBox" type="button">Hit Boxes</button>
+                <button class="buttonStopEnemies" id="stopEnemies" type="button">Freeze Enemies</button>
+            </center>
+        </div>
+
+        <!-- Control Scheme -->
+        <div class="column">
+            <center>
+                <br />
+                <br />
+                <img src="./html_images/controller.png" width="110" height="45">
+                <h5>
+                    <Font color='White' />W (Hold):
+                    <Font color='3498DB' />Slow Time!
+                </h5>
+                <h5>
+                    <Font color='White' />F (Hold):
+                    <Font color='3498DB' />Speed Time!
+                </h5>
+                <h5>
+                    <Font color='White' />S (Hold):
+                    <Font color='3498DB' />Stop Time!
+                </h5>
+                <h5>
+                    <Font color='White' />D (Hold):
+                    <Font color='3498DB' />Rewind Time!
+                </h5>
+                <h5>
+                    <Font color='White' />A (Hold):
+                    <Font color='3498DB' />Attack or Dash Cut!
+                </h5>
+                <h5>
+                    <Font color='White' />Spacebar:
+                    <Font color='3498DB' />Jump
+                </h5>
+                <h5>
+                    <Font color='White' />Left/Right Arrows:
+                    <Font color='3498DB' />Movement
+                </h5>
+            </center>
+        </div>
+
+    </div>
 
     <!-- Handle audio here -->
     <audio id="adventureTimeTrack" controls loop hidden preload="auto" src="./audio/levels/AdventureTimeTrack.mp3" />
@@ -270,7 +267,31 @@
 
     <audio id="damage3" controls hidden preload="metadata" src="./audio/effects/Damage3.wav" />
 
-    <audio id="enemyHurt" controls hidden preload="metadata" src="./audio/effects/EnemyHurt.wav" />
+    <audio id="guyHurt1" controls hidden preload="metadata" src="./audio/effects/enemies/GuyHurt1.m4a" />
+
+    <audio id="guyHurt2" controls hidden preload="metadata" src="./audio/effects/enemies/GuyHurt2.m4a" />
+
+    <audio id="flyHurt" controls hidden preload="metadata" src="./audio/effects/enemies/FlyHurt.m4a" />
+
+    <audio id="mummyHurt" controls hidden preload="metadata" src="./audio/effects/enemies/MummyHurt.m4a" />
+
+    <audio id="necromanInjured" controls hidden preload="metadata" src="./audio/effects/enemies/NecromanInjured.m4a" />
+
+    <audio id="violatorInjured" controls hidden preload="metadata" src="./audio/effects/enemies/ViolatorInjured.m4a" />
+
+    <audio id="flyDeath" controls hidden preload="metadata" src="./audio/effects/enemies/FlyDeath.m4a" />
+
+    <audio id="necromanDeath" controls hidden preload="metadata" src="./audio/effects/enemies/NecromanDeath.m4a" />
+
+    <audio id="violatorDeath" controls hidden preload="metadata" src="./audio/effects/enemies/ViolatorDeath.m4a" />
+
+    <audio id="bugDeath" controls hidden preload="metadata" src="./audio/effects/enemies/BugDeath.m4a" />
+
+    <audio id="mummyDeath" controls hidden preload="metadata" src="./audio/effects/enemies/MummyDeath.m4a" />
+
+    <audio id="teleport1" controls hidden preload="metadata" src="./audio/effects/teleport1.wav" />
+
+    <audio id="teleport2" controls hidden preload="metadata" src="./audio/effects/teleport2.wav" />
 
 </body>
 

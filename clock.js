@@ -5,8 +5,8 @@ class Clock extends Entity
         super(game, startX, startY);
         this.x = startX;
         this.y = startY;
-        this.frameWidth = 10;
-        this.frameHeight = 20;
+        this.frameWidth = 400;
+        this.frameHeight = 400;
         this.speed = 45;
         this.game = game;
         this.ctx = game.ctx;
@@ -17,8 +17,8 @@ class Clock extends Entity
 
         this.coinAnimation = new Animation(
             AM.getAsset("./img/blink/clock.png"), // load sprite asset
-            256, // frame width
-            256, // frameheight
+            400, // frame width
+            400, // frameheight
             1, // sheet width
             0.2, // frame duration
             1, // frames in animation
@@ -32,7 +32,7 @@ class Clock extends Entity
         this.coinAnimation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
     }
 
-    update()
+    subClassUpdate()
     {
         this.updateMyHitBoxes();
         this.boundX = this.x;

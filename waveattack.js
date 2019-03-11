@@ -1,8 +1,7 @@
 /*
  * Single constructor takes in the game context as its parameter. (There is no default)
  */
-class Bullet extends Entity
-{
+class Waveattack extends Entity {
   /**
    * Single constructor for Bullet. Loads assets and sets intial parameters including
    * the speed, starting x/y position, etc.
@@ -13,15 +12,25 @@ class Bullet extends Entity
    * @param {any} startY Starting x position of the Bullet being constructed.
    * @param {any} size Size of scale for character.
    */
-  constructor(game, startX, startY, size, isHeadingRight, type)
-  {
+  constructor(game, startX, startY, size, isHeadingRight) {
     super(game, startX, startY);
-    this.orangeBulletAnimation = new Animation(
-      AM.getAsset("./img/enemies/bullets/orangeBullet.png"), // load sprite asset
-      55, // frame width
-      50, // frame height
+    this.waveAttackFaceRight = new Animation(
+      AM.getAsset("./img/WaveAttack/WaveAttack_FaceRight.png"), // load sprite asset
+      136, // frame width
+      220, // frame height
       1, // sheet width
-      0.2, // frame duration
+      0.5, // frame duration
+      1, // frames in animation
+      true, // to loop or not to loop
+      size // scale in relation to original image
+    );
+
+    this.waveAttackFaceLeft = new Animation(
+      AM.getAsset("./img/WaveAttack/WaveAttack_FaceLeft.png"), // load sprite asset
+      136, // frame width
+      220, // frame height
+      1, // sheet width
+      0.5, // frame duration
       1, // frames in animation
       true, // to loop or not to loop
       size // scale in relation to original image
@@ -34,11 +43,12 @@ class Bullet extends Entity
     this.game = game;
     this.ctx = game.ctx;
     this.isHeadingRight = isHeadingRight;
+    this.kills = [];
 
     // debug tool
     this.drawAroundHitBox = false;
-    this.frameWidth = 18;
-    this.frameHeight = 18;
+    this.frameWidth = 20;
+    this.frameHeight = 95;
     this.size = size;
   }
 
@@ -47,27 +57,21 @@ class Bullet extends Entity
    *
    * @param {any} ctx  A reference to the Game Context.
    */
-  draw(ctx)
-  {
+  draw(ctx) {
     // debug tool
-    if (this.drawAroundHitBox)
-    {
+    if (this.drawAroundHitBox) {
       this.drawAroundBox();
     }
 
-    if (!this.willRewind())
-    {
-      this.orangeBulletAnimation.drawFrame(
+    if (this.isHeadingRight) {
+      this.waveAttackFaceRight.drawFrame(
         this.game.clockTick,
         ctx,
         this.x,
         this.y
       );
-    }
-    else
-    {
-      this.x = this.x = this.myPath.pop();
-      this.orangeBulletAnimation.drawFrame(
+    } else {
+      this.waveAttackFaceLeft.drawFrame(
         this.game.clockTick,
         ctx,
         this.x,
@@ -77,32 +81,29 @@ class Bullet extends Entity
   }
 
   /** Update handles updating the objects world state. */
-  subClassUpdate()
-  {
-    if (Math.abs(this.x - this.startX) > 300)
-    {
+  subClassUpdate() {
+    if (Math.abs(this.startX - this.x) > 1800 || this.kills.length > 1) {
       this.isDead = true;
+      this.game.blink.waveattackInstance = null;
     }
-    if (this.isHeadingRight)
-    {
+    if (this.isHeadingRight) {
       this.x += this.game.clockTick * this.speed;
-    } else
-    {
+    } else {
       this.x -= this.game.clockTick * this.speed;
     }
 
     this.boundX = this.x + 19;
-    this.boundY = this.y + 21;
-    if (this.isHeadingRight)
-    {
-      this.boundX = this.x + 17.5;
-      this.boundY = this.y + 20;
+    this.boundY = this.y + 20;
+    if (!this.isHeadingRight) {
+      this.boundX = this.x + 25;
     }
     this.updateMyHitBoxes();
   }
 
-  handleCollison(other, type)
-  {
-    this.isDead = true;
+  handleCollison(other, type) {
+    if (!this.kills.includes(other)) {
+      this.kills.push(other);
+    }
+    other.isDead = true;
   }
 }

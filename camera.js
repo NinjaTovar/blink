@@ -38,6 +38,7 @@ class Camera {
     follow(him) {
         this.blink = him;
     }
+
     draw() {
         // If blink is just barely into the start of the level or
         // right before the end, translate the canvas to emulate a camera
@@ -70,12 +71,11 @@ class Camera {
                     this.y += 4;
                 }
             }
-
-
         }
 
-        //console.log("X: " + this.blink.x + ", Y: " + this.blink.y);
-        //console.log("camX: " + this.x + ", camY: " + this.y);
+
+        // console.log("x: " + this.blink.x + ", y: " + this.blink.y);
+        // console.log("camx: " + this.x + ", camy: " + this.y);
     }
 
     // Not being used for now, hope to used to be able to smooth out the camera
@@ -83,17 +83,25 @@ class Camera {
         if (!(this.offsetX === this.canvasWidth / this.offsetwidth)) {
             if (this.offsetX + 10 < Math.floor(this.canvasWidth / this.offsetwidth)) {
                 this.offsetX += this.camSpeedX;
-            } else if (this.offsetX - 10 > Math.floor(this.canvasWidth / this.offsetwidth)) {
+            } else if (
+                this.offsetX - 10 >
+                Math.floor(this.canvasWidth / this.offsetwidth)
+            ) {
                 this.offsetX -= this.camSpeedX;
-            } else(this.offsetX = this.canvasWidth / this.offsetwidth);
+            } else this.offsetX = this.canvasWidth / this.offsetwidth;
         }
         if (!(this.offsetY === this.canvasHeight / this.offsetheight)) {
-            if (this.offsetY + 10 < Math.floor(this.canvasHeight / this.offsetheight)) {
+            if (
+                this.offsetY + 10 <
+                Math.floor(this.canvasHeight / this.offsetheight)
+            ) {
                 this.offsetY += this.camSpeedY;
-            } else if (this.offsetY - 10 > Math.floor(this.canvasHeight / this.offsetheight)) {
+            } else if (
+                this.offsetY - 10 >
+                Math.floor(this.canvasHeight / this.offsetheight)
+            ) {
                 this.offsetY -= this.camSpeedY;
-            } else(this.offsetY = this.canvasHeight / this.offsetheight);
+            } else this.offsetY = this.canvasHeight / this.offsetheight;
         }
     }
-
 }
