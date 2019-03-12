@@ -144,28 +144,37 @@ class GameEngine {
 
   /** Handles updating the entities world state. */
   update() {
-    let entitiesCount = this.entities.length;
+    // Only update if blink is alive
+    if (this.blink.health > 0) {
+      let entitiesCount = this.entities.length;
 
-    for (let i = 0; i < entitiesCount; i++) {
-      let entity = this.entities[i];
-      if (entity) {
-        if (entity.isDead) {
-          this.entities.splice(i, 1);
-        } else if (this.levelManager.states.levelLoaded) {
-          entity.update();
+      for (let i = 0; i < entitiesCount; i++) {
+        let entity = this.entities[i];
+        if (entity) {
+          if (entity.isDead) {
+            this.entities.splice(i, 1);
+          } else if (this.levelManager.states.levelLoaded) {
+            entity.update();
+          }
         }
       }
-    }
 
-    for (let i = 0; i < this.enemies.length; i++) {
-      let entity = this.enemies[i];
-      if (entity) {
-        if (entity.isDead) {
-          this.enemies.splice(i, 1);
+      for (let i = 0; i < this.enemies.length; i++) {
+        let entity = this.enemies[i];
+        if (entity) {
+          if (entity.isDead) {
+            this.enemies.splice(i, 1);
+          }
         }
       }
+      this.checkBlinksCollisons();
+
+    } else {
+      this.blink.health = 1000;
+
+      this.levelManager.level = this.levelManager.currentLevel;
+      this.levelManager.states.loadNextLevel = true;
     }
-    this.checkBlinksCollisons();
   }
 
   /** Keeps the world ticking. */
@@ -444,14 +453,14 @@ class GameEngine {
 }
 
 // This helps discover what type of browser it will be communicating with
-window.requestAnimFrame = (function() {
+window.requestAnimFrame = (function () {
   return (
     window.requestAnimationFrame ||
     window.webkitRequestAnimationFrame ||
     window.mozRequestAnimationFrame ||
     window.oRequestAnimationFrame ||
     window.msRequestAnimationFrame ||
-    function(callback, element) {
+    function (callback, element) {
       window.setTimeout(callback, 1000 / 60);
     }
   );

@@ -13,12 +13,19 @@ class LevelThree {
 		this.game.addEntity(this.game.camera);
 		this.game.addEntity(new Background3(this.game));
 		this.game.addEntity(this.game.blink);
+		this.loadPlatforms();
+
+		//Load the Hud after platforms
 		this.game.addEntity(this.game.hud);
-        this.loadPlatforms();
 
-        // add end of level portal
-        this.game.addEntity(new Portal(this.game, 175, 200, 2, true));
+		// add end of level portal
+		this.game.addEntity(new Portal(this.game, 175, 200, 2, true));
 
+		// Turrets
+		this.game.addEntity(new Turret(this.game, 3800, 2260, "left", 180));
+		this.game.addEntity(new Turret(this.game, 580, 1693, "right", 0));
+		this.game.addEntity(new Turret(this.game, 3745, 730, "left", 180));
+		this.game.addEntity(new Turret(this.game, 465, 280, "right", 0));
 
 		// Manually set Blink's coordinates for now
 		this.game.blink.groundLevel = 5000;

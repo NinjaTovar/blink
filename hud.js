@@ -41,14 +41,14 @@ class HealthBar {
         // Add update for energy here
 
         // Camera bounds...lots of manual touches here to keep it looking nice at level bounds.
-        if (this.blink.x > 1000 && this.blink.x < this.camera.mapWidth - 1000) {
+        if (this.blink.x > 720 && this.blink.x < this.camera.mapWidth - 720) {
             this.dx = this.game.canvasWidth / 30 - this.camera.x;
             this.dy = this.game.canvasHeight / 30 - this.camera.y;
-        } else if (this.blink.x < 1000) {
+        } else if (this.blink.x < 720) {
             this.dx = this.game.canvasWidth / 30;
             this.dy = this.game.canvasHeight / 30 - this.camera.y;
         } else {
-            this.dx = this.camera.mapWidth - 1900; // adjust HUD placement at end of level.
+            this.dx = this.camera.mapWidth - 1400; // adjust HUD placement at end of level.
             this.dy = this.game.canvasHeight / 30 - this.camera.y;
         }
 

@@ -13,9 +13,8 @@ class LevelArena {
 		this.game.addEntity(this.game.camera);
 		this.game.addEntity(new Background5(this.game));
 		this.game.addEntity(this.game.blink);
-		this.game.addEntity(this.game.hud);
 		this.loadPlatforms();
-
+		this.game.addEntity(this.game.hud);
 
 		// Manually set Blink's coordinates for now
 		this.game.blink.groundLevel = 950;

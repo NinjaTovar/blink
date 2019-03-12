@@ -42,13 +42,13 @@ class Camera {
     draw() {
         // If blink is just barely into the start of the level or
         // right before the end, translate the canvas to emulate a camera
-        if (this.blink.x > 1000 && this.blink.x < this.mapWidth - 1000) {
+        if (this.blink.x > 720 && this.blink.x < this.mapWidth - 720) {
             this.endOfLevelX = this.x;
             this.endOfLevelY = this.y;
             this.ctx.translate(this.x, this.y);
         }
         // otherwise stay stationary
-        else if (this.blink.x < 1000) {
+        else if (this.blink.x < 720) {
             this.ctx.translate(0, this.y);
         } else {
             this.ctx.translate(this.endOfLevelX, this.y);

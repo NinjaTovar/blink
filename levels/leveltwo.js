@@ -13,6 +13,8 @@ class LevelTwo {
         this.game.addEntity(this.game.camera);
         this.game.addEntity(new Background2(this.game));
         this.game.addEntity(this.game.blink);
+        this.loadPlatforms();
+
         this.game.addEntity(this.game.hud);
 
         // Add enemies
@@ -78,7 +80,6 @@ class LevelTwo {
             )
         );
 
-        this.loadPlatforms();
 
 
         // Manually set Blink's coordinates for now
