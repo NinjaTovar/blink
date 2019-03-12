@@ -403,7 +403,6 @@ class Blink extends Entity {
      *  as it could potentially be a hard bug to find. */
     // **********************************   UPDATE  **************************************
     update() {
-        console.log(this.x + "  " + this.y);
         // update all key listeners
         this.updateBlinksStateFromKeyListeners();
         // If not jumping, make sure Blink is on the ground level and/or on his platform
