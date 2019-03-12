@@ -1,8 +1,6 @@
 // A container class for all the UI elements we will display on canvas
-class Hud
-{
-    constructor(game)
-    {
+class Hud {
+    constructor(game) {
         this.game = game;
         this.camera = game.camera;
         this.healthbar = new HealthBar(game);
@@ -10,17 +8,13 @@ class Hud
 
 
     }
-    update()
-    {
-        for (var i = 0; i < this.components.length; i++)
-        {
+    update() {
+        for (var i = 0; i < this.components.length; i++) {
             this.components[i].update();
         }
     }
-    draw(ctx)
-    {
-        for (var i = 0; i < this.components.length; i++)
-        {
+    draw(ctx) {
+        for (var i = 0; i < this.components.length; i++) {
             this.components[i].draw(ctx);
         }
     }
@@ -28,10 +22,8 @@ class Hud
 
 }
 // The class is named health bar but also does the energy bar
-class HealthBar
-{
-    constructor(game)
-    {
+class HealthBar {
+    constructor(game) {
         this.game = game;
         this.camera = this.game.camera;
         this.blink = this.game.blink;
@@ -43,25 +35,19 @@ class HealthBar
         this.offsetX = 20;
 
     }
-    update()
-    {
+    update() {
         this.health = this.blink.health;
         this.energy = this.blink.energy;
         // Add update for energy here
 
         // Camera bounds...lots of manual touches here to keep it looking nice at level bounds.
-        if (this.blink.x > 1000 && this.blink.x < this.camera.mapWidth - 1000)
-        {
+        if (this.blink.x > 1000 && this.blink.x < this.camera.mapWidth - 1000) {
             this.dx = this.game.canvasWidth / 30 - this.camera.x;
             this.dy = this.game.canvasHeight / 30 - this.camera.y;
-        }
-        else if (this.blink.x < 1000)
-        {
+        } else if (this.blink.x < 1000) {
             this.dx = this.game.canvasWidth / 30;
             this.dy = this.game.canvasHeight / 30 - this.camera.y;
-        }
-        else
-        {
+        } else {
             this.dx = this.camera.mapWidth - 1900; // adjust HUD placement at end of level.
             this.dy = this.game.canvasHeight / 30 - this.camera.y;
         }
@@ -69,8 +55,7 @@ class HealthBar
 
     }
     // need to flip the images
-    draw(ctx)
-    {
+    draw(ctx) {
         let health = AM.getAsset('./img/blink/healthbar.png');
         let energy = AM.getAsset('./img/blink/energy.png');
         let blinkImage = AM.getAsset('./img/blink/blinkface.png');

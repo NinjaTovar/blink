@@ -57,17 +57,18 @@ class Lava extends Entity {
 		//Animation for the lava
 		this.animation = new Animation(AM.getAsset("./img/tiles/lavagif.png"), 64, 64, 2, 0.20, 6, true, 1);
 
+		this.health = 10000;
 	}
 
 	draw(ctx) {
 		this.animation.drawFrame(this.game.clockTick, ctx, this.dx, this.dy);
-		//this.hitB.drawHitBox();
+		// this.hitB.drawHitBox();
 	}
 
 	update() {
 		this.updateMyHitBoxes();
 		this.boundX = this.x;
-		this.boundY = this.y;
+		this.boundY = this.y + 15;
 
 		// check to see if any entites are off the platform
 		for (let i = 0; i < this.myEntites.length; i++) {

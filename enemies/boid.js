@@ -1,7 +1,5 @@
-class Boid extends Actor
-{
-	constructor(game, x, y)
-	{
+class Boid extends Actor {
+	constructor(game, x, y) {
 		super(game, x, y);
 		this.scale = 4;
 		this.width = 42;
@@ -26,8 +24,7 @@ class Boid extends Actor
 
 
 
-	update()
-	{
+	update() {
 		super.update();
 		this.updateAim();
 		this.performAttack();
@@ -38,11 +35,9 @@ class Boid extends Actor
 		this.updateMyHitBoxes();
 	}
 
-	draw(ctx)
-	{
+	draw(ctx) {
 		// debug tool
-		if (this.drawAroundHitBox)
-		{
+		if (this.drawAroundHitBox) {
 			this.drawAroundBox();
 		}
 		this.floatAnimation.drawFrame(
@@ -54,16 +49,14 @@ class Boid extends Actor
 
 	}
 
-	updateAim()
-	{
+	updateAim() {
 		var diffX = this.game.blink.x - this.x;
 		var diffY = this.game.blink.y - this.y;
 
 		this.aimAngle = Math.atan2(diffY, diffX) / Math.PI * 180
 	}
 
-	updatePosition()
-	{
+	updatePosition() {
 		var diffX = this.game.blink.x - this.x;
 		var diffY = this.game.blink.y - this.y;
 
