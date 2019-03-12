@@ -7,7 +7,7 @@ class Turret extends Actor {
 		this.direction = direction;
 		this.frameWidth = (this.width - 10) * this.scale; //-12 since the hitbox was too big
 		this.frameHeight = (this.height - 10) * this.scale;;
-		this.damage = 1; // Attack Damage of the skull
+		this.damage = 5; // Attack Damage of the skull
 		this.atkSpd = .20; // Bullet generation speed of skull
 		this.health = 500;
 		this.aimAngle = angle;

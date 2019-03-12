@@ -520,7 +520,6 @@ class Blink extends Entity {
         // If collision with lava, blink instantly dies
         if (other instanceof Lava && type === "damage") {
             this.health = -1;
-            this.isDead = true; // disappears when "dead"
             return;
         }
         // If collision with clock, add to energy bar and play sound effect
