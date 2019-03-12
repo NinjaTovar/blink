@@ -13,10 +13,9 @@ class LevelFour {
 		this.game.addEntity(this.game.camera);
 		this.game.addEntity(new Background4(this.game));
 		this.game.addEntity(this.game.blink);
+		this.loadPlatforms();
 		this.game.addEntity(this.game.hud);
 		this.game.addEntity(new Vegeta2(this.game, 400, 2240, 2));
-		this.loadPlatforms();
-
 
 		// Manually set Blink's coordinates for now
 		this.game.blink.groundLevel = 100;

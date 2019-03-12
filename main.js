@@ -97,8 +97,13 @@ AM.queueDownload("./img/messageStill.png");
 AM.queueDownload("./img/message2still.png");
 AM.queueDownload("./img/message2.png");
 
-AM.downloadAll(function() {
-  window.onload = function() {
+//Queue downloading turret
+AM.queueDownload("./img/enemies/turret/turrentfiring.png");
+AM.queueDownload("./img/enemies/turret/turrentright.png");
+
+
+AM.downloadAll(function () {
+  window.onload = function () {
     // Load game world. This is the top layer
     var canvas = document.getElementById("gameWorld");
     var gameCtx = canvas.getContext("2d");
