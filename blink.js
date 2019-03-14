@@ -502,6 +502,10 @@ class Blink extends Entity {
         // If collision with clock, add to energy bar and play sound effect
         if (other instanceof Portal && type === "damage") {
             // Load next level
+            if (this.game.levelManager.level === 5)
+            {
+                this.game.levelManager.level = 1;
+            }
             this.game.levelManager.states.loadNextLevel = true;
 
             // randomize sounds for warping

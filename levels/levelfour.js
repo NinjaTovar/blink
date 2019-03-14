@@ -17,6 +17,9 @@ class LevelFour {
 		this.game.addEntity(this.game.hud);
 		this.game.addEntity(new Vegeta2(this.game, 400, 2240, 2));
 
+        // add end of level portal
+        this.game.addEntity(new Portal(this.game, 2850, 80, 2, true));
+
 		// Manually set Blink's coordinates for now
 		this.game.blink.groundLevel = 100;
 		this.game.blink.y = 2000;
@@ -24,7 +27,8 @@ class LevelFour {
 		this.game.blink.platformY = null;
 		this.game.blink.lastY = 100;
 		this.game.camera.x = 100;
-		this.game.camera.y = -1700;
+        this.game.camera.y = -1700;
+
 
 		let skullList = [];
 		let upgradeList = {};

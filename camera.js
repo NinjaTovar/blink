@@ -75,7 +75,7 @@ class Camera {
             }
         }
 
-        // console.log("x: " + this.blink.x + ", y: " + this.blink.y);
+         //console.log("x: " + this.blink.x + ", y: " + this.blink.y);
         // console.log("camx: " + this.x + ", camy: " + this.y);
     }
 
